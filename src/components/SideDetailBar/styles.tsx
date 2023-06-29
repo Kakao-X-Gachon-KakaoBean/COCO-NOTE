@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 
 export const Bar = styled.div`
-  background-color: wheat;
-  width: 8%;
+  background-color: skyblue;
+  width: 20%;
   height: 100%;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 7%;
+  left: 8%;
   z-index: 11;
 `;

@@ -1,15 +1,11 @@
-import {Bar} from "@components/SideBar/styles.tsx";
-import {Wrapper} from "@pages/MyPage/styles.tsx";
+import { Bar } from "@components/SideBar/styles.tsx";
 
 const SideBar = () => {
-    return (
-        <>
-            <Wrapper>
-                <Bar>asdasd</Bar>
-            </Wrapper>
-
-        </>
-    );
+  return (
+    <>
+      <Bar>asdasd</Bar>
+    </>
+  );
 };
 
 export default SideBar;

@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import {BarDiv} from "@pages/MyPage/styles.tsx";
+import {BarDiv} from "@components/HeaderBar/styles.tsx";
 
 const HeaderBar = () => {
     return (
