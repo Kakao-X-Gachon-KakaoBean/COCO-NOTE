@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/babel-plugin": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@loadable/component": "^5.15.3",
     "@types/loadable__component": "^5.13.4",
