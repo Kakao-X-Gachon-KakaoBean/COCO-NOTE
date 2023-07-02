@@ -25,7 +25,6 @@ dist-ssr
 
 ### yarn ###
 # used Zero-Install
-yarn.lock
 .yarn/*
 !.yarn/cache
 !.yarn/patches
