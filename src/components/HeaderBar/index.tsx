@@ -1,12 +1,19 @@
 import {Link} from "react-router-dom";
-import {BarDiv} from "@components/HeaderBar/styles.tsx";
+import {BarDiv, LogoDiv, OthersDiv} from "@components/HeaderBar/styles.tsx";
+import Notification from "@components/HeaderBar/Notification";
+import MyInfo from "@components/HeaderBar/MyInfo";
 
 const HeaderBar = () => {
     return (
         <>
             <BarDiv>
-                <Link to = "/main" style={{ textDecoration: "none" }}>코코노트</Link>
-                <Link to="/mypage" style={{ textDecoration: "none" }}>내 정보</Link>
+                <LogoDiv>
+                    <Link to = "/main" style={{ textDecoration: "none", color: "black" }}>코코노트</Link>
+                </LogoDiv>
+                <OthersDiv>
+                    <Notification/>
+                    <MyInfo/>
+                </OthersDiv>
             </BarDiv>
         </>
     );
