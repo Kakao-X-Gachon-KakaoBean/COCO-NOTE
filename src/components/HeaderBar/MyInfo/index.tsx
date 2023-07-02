@@ -3,20 +3,27 @@ import { Card, Dropdown, Space } from "antd";
 import { Link } from "react-router-dom";
 import { UserIcon } from "@components/HeaderBar/MyInfo/styles.tsx";
 import AvatarCrop from "@components/AvatarCrop";
-import { SettingFilled } from "@ant-design/icons";
+import { EditOutlined, UserOutlined } from "@ant-design/icons";
 
 const Notification: React.FC = () => {
   // dropdown
   const [visible, setVisible] = useState(false);
 
-  const handleDropdownVisibleChange = (flag: boolean) => {
-    setVisible(flag);
+  // avatar crop modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
-  // <Link
-  //     to="/mypage"
-  //     style={{ textDecoration: "none", color: "black" }}
-  // >
+  // profile 수정 modal이 활성화되어있는 동안에는 dropdown도 닫히지 않음.
+  const handleDropdownVisibleChange = (flag: boolean) => {
+    if (flag === false && modalVisible === true) {
+      setVisible(true);
+    } else {
+      setVisible(flag);
+    }
+  };
+
   return (
     <Dropdown
       overlay={
@@ -30,12 +37,27 @@ const Notification: React.FC = () => {
                 justifyContent: "center",
                 alignItems: "center",
               }}
+              onClick={() => {
+                setVisible(false);
+              }}
             >
-              <SettingFilled style={{ fontSize: 15 }} />
+              <UserOutlined style={{ fontSize: 15 }} /> &nbsp; 내 정보
             </Link>,
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onClick={() => {
+                setModalVisible(true);
+              }}
+            >
+              <EditOutlined style={{ fontSize: 15 }} /> &nbsp; 프로필 사진 변경
+            </div>,
           ]}
         >
-          <AvatarCrop />
+          <AvatarCrop modalVisible={modalVisible} closeModal={closeModal} />
         </Card>
       }
       trigger={["click"]}
