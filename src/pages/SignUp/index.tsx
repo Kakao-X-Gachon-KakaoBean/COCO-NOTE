@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useCallback, useState } from "react";
-import { Wrapper, Label } from "@pages/LogIn/styles";
+import { Wrapper, Label } from "@pages/Login/styles.tsx";
 import {
   Header,
   SubHeader,
@@ -26,20 +26,18 @@ import { Button, Modal } from "antd";
 import useInput from "../../hooks/useInput.ts";
 
 const SignUp = () => {
-  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const baseUrl = 1234;
 
-  const [name, onChangeName, setName] = useInput("");
-  const [email, onChangeEmail, setEmail] = useInput("");
-  const [birth, onchangeBirth, setBirthDay] = useInput("");
-  const [age, onChangeAge, setAge] = useInput(0);
-  const [gender, onChangeGender, setGender] = useInput("");
+  const [name, onChangeName] = useInput("");
+  const [email, onChangeEmail] = useInput("");
+  const [birth, onchangeBirth] = useInput("");
+  const [gender, onChangeGender] = useInput("");
   const [password, , setPassword] = useInput("");
   const [checkPassword, , setCheckPassword] = useInput("");
-  const [emailAuthKey, onChangeEmailAuthKey, seyAuthKey] = useInput("");
+  const [emailAuthKey, onChangeEmailAuthKey] = useInput("");
 
   const [failUseEmail, setFailUseEmail] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
-  const [signUpError, setSignUpError] = useState("");
 
   const [mismatchError, setMismatchError] = useState(false);
 
@@ -63,14 +61,12 @@ const SignUp = () => {
       axios.post(`${baseUrl}/members`, data).then((response) => response.data),
     {
       onMutate() {
-        setSignUpError("");
         setSignUpSuccess(false);
       },
       onSuccess() {
         setSignUpSuccess(true);
       },
-      onError(error) {
-        setSignUpError(error.response?.data);
+      onError() {
         alert("양식을 알맞게 작성해주세요");
       },
     }
@@ -144,7 +140,7 @@ const SignUp = () => {
 
       axios
         .post(`${baseUrl}/emails`, { email }, { withCredentials: true })
-        .then((response) => {
+        .then(() => {
           setFailUseEmail(true);
           toast(message("메일로 인증번호가 발송되었습니다."), {
             type: "success",
@@ -158,12 +154,6 @@ const SignUp = () => {
     },
     [email]
   );
-
-  const redirectToMain = () => {
-    if (signUpSuccess) {
-      return <Link to="/login"></Link>;
-    }
-  };
 
   return (
     <>

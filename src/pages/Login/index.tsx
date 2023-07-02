@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import GoogleImg from "../../image/google-logo.png";
 import KakaoImg from "../../image/kakao-logo.png";
 
-import useInput from "@hooks/useInput";
 import {
   Form,
   GoogleBtn,
@@ -18,29 +17,27 @@ import {
   SocialLogin,
   Vertical,
   Wrapper,
-} from "@pages/LogIn/styles";
+} from "@pages/Login/styles.tsx";
 import { Link } from "react-router-dom";
 
 import axios, { AxiosError } from "axios";
 import { useMutation } from "react-query";
 
-import { IUser, UserState } from "../../States/UserState";
-import { useRecoilState } from "recoil";
+import { IUser } from "../../States/UserState";
 
-import { Redirect } from "react-router";
 import Menu from "@components/Menu";
 import SearchEmail from "@components/SearchEmail";
 import SearchPassword from "@components/PasswordModal";
+import useInput from "../../hooks/useInput.ts";
 
 const LogIn = () => {
-  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const baseUrl = "123";
 
-  const [email, onChangeEmail, setEmail] = useInput("");
-  const [password, onChangePassword, setPassword] = useInput("");
+  const [email, onChangeEmail] = useInput("");
+  const [password, onChangePassword] = useInput("");
 
-  const [name, onChangeName, setName] = useInput("");
-  const [birth, onChangeBirth, setBirthDay] = useInput("");
-  const [user, setUser] = useRecoilState<IUser>(UserState);
+  const [name, onChangeName] = useInput("");
+  const [birth, onChangeBirth] = useInput("");
   const [checkEmailModal, setCheckEmailModal] = useState(false);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
   const [isLogin, setIsLogin] = useState(
@@ -93,9 +90,9 @@ const LogIn = () => {
   );
 
   //로그인 정보 있을 시 메인으로 리다이렉트
-  if (isLogin) {
-    return <Redirect to={"/main"} />;
-  }
+  // if (isLogin) {
+  //   return <Redirect to={"/main"} />;
+  // }
 
   return (
     <>
