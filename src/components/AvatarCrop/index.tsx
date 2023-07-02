@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Avatar from "react-avatar-edit";
 import { Modal, Typography } from "antd";
 
@@ -11,14 +11,21 @@ import {
 } from "@components/AvatarCrop/styles.tsx";
 
 const { Text, Title } = Typography;
-const AvatarCrop = () => {
+
+interface ModalVisibleProps {
+  modalVisible: boolean;
+  closeModal: () => void;
+}
+const AvatarCrop: React.FC<ModalVisibleProps> = ({
+  modalVisible,
+  closeModal,
+}) => {
   // 초기의 프로필 사진을 저장해서 Avatar Crop 시 표시되도록 해야한다.
   // 초기의 프로필 사진을 저장해서 Avatar Crop 취소 시 원상복귀해야한다.
   const [notConfirmedPreview, setNotConfirmedPreview] = useState<string | null>(
     null
   );
   const [preview, setPreview] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const onClose = (): void => {
     setPreview(null);
@@ -28,17 +35,22 @@ const AvatarCrop = () => {
     setNotConfirmedPreview(preview);
   };
 
+  const closeModalHandler = () => {
+    closeModal();
+  };
+
   return (
     <div>
       <Modal
         title="프로필 이미지 설정"
         centered
-        open={modalOpen}
+        open={modalVisible}
         onOk={() => {
           setPreview(notConfirmedPreview);
-          setModalOpen(false);
+          closeModalHandler();
+          console.log(modalVisible);
         }}
-        onCancel={() => setModalOpen(false)}
+        onCancel={() => closeModalHandler()}
       >
         <Avatar
           width={480}
@@ -49,11 +61,7 @@ const AvatarCrop = () => {
         />
       </Modal>
       <MetaDiv>
-        <PreviewAvatarDiv
-          onClick={() => {
-            setModalOpen(true);
-          }}
-        >
+        <PreviewAvatarDiv>
           <PreviewAvatar preview={preview ?? defaultImage} />
         </PreviewAvatarDiv>
         <ProfileTextDiv>

@@ -8,6 +8,8 @@ export const Wrapper = styled.div`
   top: 0;
   left: 0;
   z-index: 11;
+  flex-wrap: wrap;
+  align-items: flex-start;
 `;
 
 export const Circle = styled.div`
@@ -18,5 +20,13 @@ export const Circle = styled.div`
   line-height: 5rem;
   font-weight: bold;
   clip-path: circle(2.5rem);
-  padding: 15px;
+  padding: 1rem;
+`;
+
+export const HorizontalLine = styled.div`
+  border-bottom: 1px solid #aaa;
+  line-height: 1rem;
+  margin-top: 0.5rem;
+  width: 5rem;
+  margin-left: 1rem;
 `;
