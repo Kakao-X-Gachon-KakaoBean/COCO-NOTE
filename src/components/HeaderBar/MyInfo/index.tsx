@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {UserOutlined} from '@ant-design/icons';
 import { Card, Dropdown, Space } from 'antd';
 import {Link} from "react-router-dom";
+import {UserIcon} from "@components/HeaderBar/MyInfo/styles.tsx";
 
 const Notification : React.FC = () => {
     const [visible, setVisible] = useState(false);
@@ -30,7 +30,7 @@ const Notification : React.FC = () => {
         >
             <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                    <UserOutlined style={{ fontSize: '20px' }}/>
+                    <UserIcon/>
                 </Space>
             </a>
         </Dropdown>

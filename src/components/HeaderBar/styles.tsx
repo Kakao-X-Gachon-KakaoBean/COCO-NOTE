@@ -6,13 +6,14 @@ export const BarDiv = styled.div`
   align-items: center;
   background-color: white;
   box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-  width: 91%;
+  width: 88%;
   height: 7vh;
   position: fixed;
   top: 0;
   z-index: 10;
   left: 8%;
-  padding: 0 5% 0 1%;
+  padding-left: 2%;
+  padding-right: 2%;
 `;
 
 export const LogoDiv = styled.div`
