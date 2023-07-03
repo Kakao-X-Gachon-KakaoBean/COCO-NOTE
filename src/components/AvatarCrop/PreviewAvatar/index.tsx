@@ -1,10 +1,8 @@
 import React from "react";
 import defaultImage from "../../../images/defaultAvatar.png";
 import { ProfileImagePreview } from "@components/AvatarCrop/PreviewAvatar/styles.tsx";
+import { PreviewProps } from "@components/HeaderBar/type.ts";
 
-interface PreviewProps {
-  preview: string;
-}
 const PreviewAvatar: React.FC<PreviewProps> = ({ preview }) => {
   return (
     <div>

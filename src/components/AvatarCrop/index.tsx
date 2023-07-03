@@ -9,13 +9,9 @@ import {
   PreviewAvatarDiv,
   ProfileTextDiv,
 } from "@components/AvatarCrop/styles.tsx";
+import { ModalVisibleProps } from "@components/AvatarCrop/type.ts";
 
 const { Text, Title } = Typography;
-
-interface ModalVisibleProps {
-  modalVisible: boolean;
-  closeModal: () => void;
-}
 const AvatarCrop: React.FC<ModalVisibleProps> = ({
   modalVisible,
   closeModal,

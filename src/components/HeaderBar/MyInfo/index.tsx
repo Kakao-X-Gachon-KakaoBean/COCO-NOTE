@@ -16,11 +16,11 @@ const Notification: React.FC = () => {
   };
 
   // profile 수정 modal이 활성화되어있는 동안에는 dropdown도 닫히지 않음.
-  const [count, setCount] = useState(0);
+  const [isProfileOpened, setIsProfileOpened] = useState(false);
   const handleDropdownVisibleChange = (flag: boolean) => {
     if (flag === false && modalVisible === true) {
       setVisible(true);
-    } else if (flag === false && modalVisible === false && count > 0) {
+    } else if (flag === false && modalVisible === false && isProfileOpened) {
       setVisible(true);
     } else {
       setVisible(flag);
@@ -29,9 +29,9 @@ const Notification: React.FC = () => {
 
   useEffect(() => {
     if (modalVisible) {
-      setCount(1);
+      setIsProfileOpened(true);
     } else {
-      setCount(0);
+      setIsProfileOpened(false);
     }
   }, [modalVisible]);
 
