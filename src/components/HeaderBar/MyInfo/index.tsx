@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Dropdown, Space } from "antd";
 import { Link } from "react-router-dom";
-import { UserIcon } from "@components/HeaderBar/MyInfo/styles.tsx";
 import AvatarCrop from "@components/AvatarCrop";
 import { EditOutlined, UserOutlined } from "@ant-design/icons";
 
@@ -77,7 +76,13 @@ const Notification: React.FC = () => {
     >
       <a onClick={(e) => e.preventDefault()}>
         <Space>
-          <UserIcon />
+          <UserOutlined
+            style={{
+              fontSize: "25px",
+              cursor: "pointer",
+              color: visible ? "green" : "black",
+            }}
+          />
         </Space>
       </a>
     </Dropdown>
