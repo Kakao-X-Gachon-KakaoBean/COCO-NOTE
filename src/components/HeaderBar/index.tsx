@@ -14,14 +14,6 @@ const HeaderBar = () => {
         <LogoDiv>
           <TitleLink to="/main">COCO:NOTE</TitleLink>
         </LogoDiv>
-        <LogoDiv>
-          <Link
-            to="/firstpage"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            로그인 안됐을때 창
-          </Link>
-        </LogoDiv>
         <OthersDiv>
           <Notification />
           <MyInfo />
