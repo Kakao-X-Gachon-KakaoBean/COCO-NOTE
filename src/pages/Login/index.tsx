@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import GoogleImg from "../../image/google-logo.png";
-import KakaoImg from "../../image/kakao-logo.png";
+import GoogleImg from "../../images/google-logo.png";
+import KakaoImg from "../../images/kakao-logo.png";
 
 import {
   Form,
