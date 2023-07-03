@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "@layouts/App.tsx";
+import App from "@layouts/App/App.tsx";
 import "./index.css";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
