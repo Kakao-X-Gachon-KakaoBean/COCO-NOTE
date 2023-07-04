@@ -1,31 +1,27 @@
 import {Circle, HorizontalLine, Wrapper} from "@components/SideBar/styles.tsx";
 import {useState} from "react";
-import {useRecoilState} from "recoil";
-import {projectListState} from "../../states/ProjectState.ts";
-import {IProjectList} from "@components/SideBar/type.ts";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {AddProjectClickState, projectValueState} from "@states/ProjectState.ts";
+import {Tooltip} from "antd";
 
 const SideBar = () => {
-    const [projectList , setProjectList] = useRecoilState(projectListState);
-
-
-    const addCircle = () => {
-        const newProject: IProjectList = { title: "새로운 프로젝트" };
-        setProjectList((prevProjectList) => [...prevProjectList, newProject]);
-    };
-
+    const projectList = useRecoilValue(projectValueState);
+    const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);
 
     return (
       <Wrapper>
           <Circle>
-              <text>이미지</text>
+              <text>메인으로</text>
           </Circle>
         <HorizontalLine/>
           {projectList.map((project) => (
-              <Circle>
-                  <text>{project.title}</text>
-              </Circle>
+              <Tooltip placement={"right"} title={project.projectTitle}>
+                  <Circle>
+                      <text>{project.projectTitle}</text>
+                  </Circle>
+              </Tooltip>
           ))}
-          <Circle onClick={addCircle}>
+          <Circle onClick={() => setIsAddProject(true)}>
               <text style={{fontSize:"2rem"}}>+</text>
           </Circle>
       </Wrapper>

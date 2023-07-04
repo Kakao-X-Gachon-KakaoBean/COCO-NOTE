@@ -32,15 +32,6 @@ const SideDetailBar = () => {
                 </Link>
             ),
         },
-        {
-            key: '3',
-            danger: true,
-            label: (
-                <Link to="/mypage">
-                    프로젝트 나가기
-                </Link>
-            ),
-        },
     ];
     return (
       <Wrapper>
