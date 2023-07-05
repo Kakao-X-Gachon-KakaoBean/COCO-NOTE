@@ -10,8 +10,8 @@ const PreviewAvatar: React.FC<PreviewProps> = ({ preview }) => {
       <Image
         src={preview ?? defaultImage}
         alt="Preview"
-        width={"150px"}
-        height={"150px"}
+        width={"80%"}
+        height={"130%"}
       />
     </ProfileViewDiv>
   );

@@ -22,7 +22,7 @@ const Notification: React.FC = () => {
     <Dropdown
       overlay={
         <Card
-          style={{ width: "20vw" }}
+          style={{ width: "22vw" }}
           actions={[
             <Link
               to="/mypage"

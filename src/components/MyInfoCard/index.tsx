@@ -28,7 +28,7 @@ const MyInfoCard = () => {
           closeModal={closeModal}
         />
         <EditProfileBtn onClick={() => setModalVisible(true)}>
-          프로필 사진 변경
+          프로필 변경
         </EditProfileBtn>
       </ProfileDiv>
       <UserInfoDiv>
