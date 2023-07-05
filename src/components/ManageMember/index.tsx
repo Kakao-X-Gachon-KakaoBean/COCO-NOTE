@@ -126,8 +126,8 @@ const ManageMember = () => {
   const handleChange = (value: { value: string; label: React.ReactNode }) => {
     console.log(value);
   };
-  function createData(name: string, calories: number, fat: string) {
-    return { name, calories, fat };
+  function createData(name: string, email: number, position: string) {
+    return { name, email, position };
   }
   const rows = [
     createData("추성준", 1, "관리자"),
@@ -140,7 +140,7 @@ const ManageMember = () => {
     createData("Jelly Bean", 375, "멤버"),
     createData("KitKat", 518, "멤버"),
     createData("Lollipop", 392, "멤버"),
-  ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+  ].sort((a, b) => (a.email < b.email ? -1 : 1));
 
   const SelectOption = [
     {
@@ -253,12 +253,15 @@ const ManageMember = () => {
                         {row.name}
                       </TableCell>
                       <TableCell style={{ width: 300 }} align="center">
-                        {row.calories}
+                        {row.email}
                       </TableCell>
                       <TableCell style={{ width: 160 }} align="center">
                         <Select
                           labelInValue
-                          defaultValue={{ value: row.fat, label: row.fat }}
+                          defaultValue={{
+                            value: row.position,
+                            label: row.position,
+                          }}
                           style={{ width: 120 }}
                           onChange={handleChange}
                           options={SelectOption}
