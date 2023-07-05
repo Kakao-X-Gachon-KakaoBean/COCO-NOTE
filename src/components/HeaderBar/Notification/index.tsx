@@ -32,8 +32,8 @@ const Notification: React.FC = () => {
           </Menu>
         }
         trigger={["click"]}
-        visible={visible}
-        onVisibleChange={handleDropdownVisibleChange}
+        open={visible}
+        onOpenChange={handleDropdownVisibleChange}
       >
         <a onClick={(e) => e.preventDefault()}>
           <Space>
