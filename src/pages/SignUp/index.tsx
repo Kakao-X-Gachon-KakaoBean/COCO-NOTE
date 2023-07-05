@@ -145,7 +145,7 @@ const SignUp = () => {
           <div>
             이미{" "}
             <Link to={"/main"} style={{ color: "#039ba1", fontWeight: "bold" }}>
-              Cocoa
+              COCO:NOTE
             </Link>{" "}
             회원이신가요?
           </div>
