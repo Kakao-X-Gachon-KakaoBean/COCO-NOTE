@@ -6,15 +6,11 @@ import {
   Input,
   CheckBtn,
   Form,
-  InputGender,
   LoginBtn,
-  Label2,
-  CheckLabel,
   EmailLabel,
   EmailInput,
   Error,
   Correct,
-  GenderSpan,
 } from "@pages/SignUp/styles";
 import { Link } from "react-router-dom";
 import { useMutation } from "react-query";
@@ -30,8 +26,6 @@ const SignUp = () => {
 
   const [name, onChangeName] = useInput("");
   const [email, onChangeEmail] = useInput("");
-  const [birth, onchangeBirth] = useInput("");
-  const [gender, onChangeGender] = useInput("");
   const [password, , setPassword] = useInput("");
   const [checkPassword, , setCheckPassword] = useInput("");
   const [emailAuthKey, onChangeEmailAuthKey] = useInput("");
@@ -41,18 +35,14 @@ const SignUp = () => {
 
   const [mismatchError, setMismatchError] = useState(false);
 
-  const today = new Date();
   const mutation = useMutation<
     IUser,
     AxiosError,
     {
       name: string;
-      age: number;
-      gender: string;
       email: string;
       password: string;
       checkPassword: string;
-      birth: string;
       emailAuthKey: string;
     }
   >(
@@ -71,16 +61,6 @@ const SignUp = () => {
       },
     }
   );
-  const birthYear = Number(birth.slice(0, 4));
-
-  function formatBirthday(birthday: string): string {
-    const year = birthday.slice(0, 4);
-    const month = birthday.slice(4, 6);
-    const day = birthday.slice(6, 8);
-    return `${year}-${month}-${day}`;
-  }
-
-  const formattedBirthday = formatBirthday(birth);
 
   const onChangePassword = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -101,27 +81,17 @@ const SignUp = () => {
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (
-        name &&
-        email &&
-        gender &&
-        password &&
-        checkPassword &&
-        emailAuthKey
-      ) {
+      if (name && email && password && checkPassword && emailAuthKey) {
         mutation.mutate({
           name,
-          age: today.getFullYear() - birthYear + 1,
-          gender,
           email,
           password,
           checkPassword,
-          birth: formattedBirthday,
           emailAuthKey,
         });
       }
     },
-    [email, name, password, checkPassword, birth, emailAuthKey, mutation]
+    [email, name, password, checkPassword, emailAuthKey, mutation]
   );
 
   // if (isLoading) {
@@ -175,7 +145,7 @@ const SignUp = () => {
           <div>
             이미{" "}
             <Link to={"/main"} style={{ color: "#039ba1", fontWeight: "bold" }}>
-              Cocoa
+              COCO:NOTE
             </Link>{" "}
             회원이신가요?
           </div>
@@ -184,6 +154,16 @@ const SignUp = () => {
           </div>
         </SubHeader>
         <Form onSubmit={onSubmit}>
+          <Label>
+            <Input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={onChangeName}
+              placeholder="이름"
+            />
+          </Label>
           <EmailLabel>
             <EmailInput
               type="email"
@@ -241,46 +221,6 @@ const SignUp = () => {
               <Correct>비밀번호가 일치합니다!</Correct>
             )}
           </Label>
-          <Label>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              value={name}
-              onChange={onChangeName}
-              placeholder="이름"
-            />
-          </Label>
-          <Label>
-            <Input
-              type="text"
-              id="birth"
-              name="birth"
-              value={birth}
-              onChange={onchangeBirth}
-              placeholder="생년월일 8자리"
-            />
-          </Label>
-          <CheckLabel>
-            <Label2>
-              <InputGender
-                type="radio"
-                name="성별"
-                value="MALE"
-                onChange={onChangeGender}
-              />
-              <GenderSpan>남자</GenderSpan>
-            </Label2>
-            <Label2>
-              <InputGender
-                type="radio"
-                name="성별"
-                value="FEMALE"
-                onChange={onChangeGender}
-              />
-              <GenderSpan>여자</GenderSpan>
-            </Label2>
-          </CheckLabel>
           <LoginBtn type="submit">가입하기</LoginBtn>
         </Form>
       </Wrapper>

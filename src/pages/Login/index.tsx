@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
-import GoogleImg from "../../image/google-logo.png";
-import KakaoImg from "../../image/kakao-logo.png";
+import GoogleImg from "../../images/google-logo.png";
+import KakaoImg from "../../images/kakao-logo.png";
 
 import {
   Form,
@@ -20,15 +20,11 @@ import {
 } from "@pages/Login/styles.tsx";
 import { Link } from "react-router-dom";
 
-import axios, { AxiosError } from "axios";
-import { useMutation } from "react-query";
-
-import { IUser } from "../../states/UserState";
-
 import Menu from "@components/Menu";
 import SearchEmail from "@components/SearchEmail";
 import SearchPassword from "@components/PasswordModal";
 import useInput from "../../hooks/useInput.ts";
+import { LoginMutation } from "../../Api/User.ts";
 
 const LogIn = () => {
   const baseUrl = "123";
@@ -40,10 +36,6 @@ const LogIn = () => {
   const [birth, onChangeBirth] = useInput("");
   const [checkEmailModal, setCheckEmailModal] = useState(false);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(
-    localStorage.getItem("accessToken") !== null
-  );
-  const [logInError, setLogInError] = useState(false);
 
   const onCloseEmailModal = useCallback(() => {
     setCheckEmailModal((prev) => !prev);
@@ -53,40 +45,13 @@ const LogIn = () => {
     setCheckPasswordModal((prev) => !prev);
   }, []);
 
-  const mutation = useMutation<
-    IUser,
-    AxiosError,
-    { email: string; password: string }
-  >(
-    "user",
-    (data) =>
-      axios
-        .post(`${baseUrl}/local/login`, data, {
-          withCredentials: true,
-        })
-        .then((response) => response.data),
-    {
-      onMutate() {
-        setLogInError(false);
-      },
-      onSuccess(data) {
-        localStorage.setItem("accessToken", data?.accessToken);
-        setIsLogin(true);
-      },
-      onError(error) {
-        setLogInError(error.response?.data?.code === 401);
-        alert("로그인에 실패하였습니다.");
-      },
-    }
-  );
-
   //로컬 로그인
   const onSubmit = useCallback(
     (e: any) => {
       e.preventDefault();
-      mutation.mutate({ email, password });
+      LoginMutation.mutate({ email, password });
     },
-    [email, password, mutation]
+    [email, password, LoginMutation]
   );
 
   //로그인 정보 있을 시 메인으로 리다이렉트
@@ -98,7 +63,7 @@ const LogIn = () => {
     <>
       <Wrapper>
         <Header>
-          <Link to="/main">Cocoa</Link>
+          <Link to="/main">COCO:NOTE</Link>
         </Header>
         <Form onSubmit={onSubmit}>
           <Label>
