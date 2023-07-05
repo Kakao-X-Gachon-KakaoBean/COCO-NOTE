@@ -124,7 +124,7 @@ const ManageMember = () => {
   const [email, onChangeEmail, setEmail] = useInput("");
 
   const handleChange = (value: { value: string; label: React.ReactNode }) => {
-    console.log(value); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    console.log(value);
   };
   function createData(name: string, calories: number, fat: string) {
     return { name, calories, fat };
@@ -142,6 +142,20 @@ const ManageMember = () => {
     createData("Lollipop", 392, "멤버"),
   ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
+  const SelectOption = [
+    {
+      value: "관리자",
+      label: "관리자",
+    },
+    {
+      value: "멤버",
+      label: "멤버",
+    },
+    {
+      value: "구경",
+      label: "구경",
+    },
+  ];
   const mutation = useMutation<IUser, AxiosError, { email: string }>(
     "SubmitEmail",
     (data) =>
@@ -244,19 +258,10 @@ const ManageMember = () => {
                       <TableCell style={{ width: 160 }} align="center">
                         <Select
                           labelInValue
-                          defaultValue={{ value: "lucy", label: "Lucy (101)" }}
+                          defaultValue={{ value: row.fat, label: row.fat }}
                           style={{ width: 120 }}
                           onChange={handleChange}
-                          options={[
-                            {
-                              value: "jack",
-                              label: "Jack (100)",
-                            },
-                            {
-                              value: "lucy",
-                              label: "Lucy (101)",
-                            },
-                          ]}
+                          options={SelectOption}
                         />
                       </TableCell>
                     </TableRow>
