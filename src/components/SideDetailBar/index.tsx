@@ -3,18 +3,14 @@ import {
     DropdownDiv,
     HorizontalLine,
     ScrollWrapper,
-    ScrollDiv
+    Text,
+    ViewAll, HorizonText,
 } from "@components/SideDetailBar/styles.tsx";
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import {Link} from "react-router-dom";
-import {useRef} from "react";
-///https://ant.design/components/list
-
-
 const SideDetailBar = () => {
-    const boxRef = useRef(null);
     const items: MenuProps['items'] = [
         {
             key: '1',
@@ -47,22 +43,25 @@ const SideDetailBar = () => {
           </DropdownDiv>
 
           <ScrollWrapper>
-              <text>릴리즈 노트</text>
+              <HorizonText>
+                  <Text>릴리즈 노트</Text>
+                  <ViewAll>전체보기</ViewAll>
+              </HorizonText>
               <HorizontalLine />
-              <ScrollDiv ref={boxRef}>
-              </ScrollDiv>
           </ScrollWrapper>
           <ScrollWrapper>
-              <text>작업 관리</text>
+              <HorizonText>
+                  <Text>릴리즈 노트</Text>
+                  <ViewAll>전체보기</ViewAll>
+              </HorizonText>
               <HorizontalLine />
-              <ScrollDiv ref={boxRef}>
-              </ScrollDiv>
           </ScrollWrapper>
           <ScrollWrapper>
-              <text>이슈</text>
+              <HorizonText>
+                  <Text>릴리즈 노트</Text>
+                  <ViewAll>전체보기</ViewAll>
+              </HorizonText>
               <HorizontalLine />
-              <ScrollDiv ref={boxRef}>
-              </ScrollDiv>
           </ScrollWrapper>
       </Wrapper>
 

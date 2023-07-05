@@ -22,6 +22,11 @@ export const Circle = styled.div`
   clip-path: circle(2.5vw);
   padding: 1vw;
   margin-top: 2vh;
+
+  &.selected {
+    background-color: gray;
+    color: #ffffff;
+  }
 `;
 
 export const HorizontalLine = styled.div`

@@ -2,7 +2,7 @@ import HeaderBar from "@components/HeaderBar";
 import { Wrapper } from "@styles/DetailSide/styles.tsx";
 import SideBar from "@components/SideBar";
 import SideDetailBar from "@components/SideDetailBar";
-import { AddProjectClickState, projectValueState } from "@states/ProjectState.ts";
+import {AddProjectClickState, projectValueState, SelectedProjectState} from "@states/ProjectState.ts";
 import { useRecoilState } from "recoil";
 import { Input, Modal } from "antd";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Main = () => {
     const [projectList, setProjectList] = useRecoilState(projectValueState);
     const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);
+    const [, setSelectedProject] = useRecoilState(SelectedProjectState);
     const [title, setTitle] = useState("");
     const [contents, setContents] = useState("");
     const { TextArea } = Input;
@@ -38,6 +39,7 @@ const Main = () => {
             projectContent: contents,
         };
         setProjectList((prevProjectList) => [...prevProjectList, newProject]);
+        setSelectedProject(newProject.projectId);
     };
 
     return (
@@ -62,6 +64,7 @@ const Main = () => {
                         style={{ marginBottom: "2rem" }}
                     />
                 </Modal>
+                <text>프로젝트를 선택해주세요!</text>
             </Wrapper>
             <ToastContainer
                 position="top-right"

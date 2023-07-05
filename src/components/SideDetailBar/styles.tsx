@@ -22,12 +22,26 @@ export const HorizontalLine = styled.div`
   margin-top: 0.5rem;
 `;
 
+
 export const ScrollWrapper = styled.div`
   margin-top: 3rem;
   padding: 5%;
 `;
 
-export const ScrollDiv = styled.div`
-  margin-top: 0.5rem;
-  background-color: yellow;
+export const HorizonText = styled.div`
+  display: flex;
+  align-items: flex-end;
 `;
+
+export const Text = styled.div`
+  flex-grow: 1;
+  white-space: nowrap;
+`;
+
+export const ViewAll = styled.div`
+  white-space: nowrap;
+  margin-left: 1rem; /* "전체보기"와 "릴리즈 노트" 사이의 여백을 추가합니다 */
+  font-size: x-small;
+`;
+
+

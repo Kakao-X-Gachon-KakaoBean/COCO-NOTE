@@ -1,10 +1,11 @@
 import {atom, RecoilState} from "recoil";
 
-export interface IProjectValue {
+interface IProjectValue {
     projectId : number,
     projectTitle : string,
     projectContent: string
 }
+
 
 const initialProjectValue :IProjectValue[] = [{
     "projectId" : 1,
@@ -25,3 +26,9 @@ export const AddProjectClickState = atom({
     key: "AddProject",
     default: false,
 })
+
+export const SelectedProjectState: RecoilState<number> = atom({
+    key: "SelectedProject",
+    default: 0,
+})
+
