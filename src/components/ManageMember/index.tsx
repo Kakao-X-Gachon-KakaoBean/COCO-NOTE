@@ -33,9 +33,9 @@ import { CloseOutlined } from "@ant-design/icons";
 import { Button, Input, Modal } from "antd";
 import { TableHead } from "@mui/material";
 import useInput from "../../hooks/useInput.ts";
-import { IUser } from "../../States/UserState.ts";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "react-query";
+import { Memeber } from "../../States/MemberState.ts";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -156,7 +156,7 @@ const ManageMember = () => {
       label: "구경",
     },
   ];
-  const mutation = useMutation<IUser, AxiosError, { email: string }>(
+  const mutation = useMutation<Memeber, AxiosError, { email: string }>(
     "SubmitEmail",
     (data) =>
       axios
