@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import Avatar from "react-avatar-edit";
 import { Modal, Typography } from "antd";
 
@@ -9,33 +9,52 @@ import {
   PreviewAvatarDiv,
   ProfileTextDiv,
 } from "@components/AvatarCrop/styles.tsx";
+import { ModalVisibleProps } from "@components/AvatarCrop/type.ts";
+import { MypageUser, MyPageUserState } from "../../States/UserState.ts";
+import { useRecoilState } from "recoil";
 
 const { Text, Title } = Typography;
-
-interface ModalVisibleProps {
-  modalVisible: boolean;
-  closeModal: () => void;
-}
 const AvatarCrop: React.FC<ModalVisibleProps> = ({
+  showProfileText,
   modalVisible,
   closeModal,
 }) => {
-  // 초기의 프로필 사진을 저장해서 Avatar Crop 시 표시되도록 해야한다.
-  // 초기의 프로필 사진을 저장해서 Avatar Crop 취소 시 원상복귀해야한다.
-  const [notConfirmedPreview, setNotConfirmedPreview] = useState<string | null>(
-    null
-  );
-  const [preview, setPreview] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useRecoilState<MypageUser>(MyPageUserState);
+  const [preview, setPreview] = useState<string | null>(userInfo.profileImage);
 
-  const onClose = (): void => {
-    setPreview(null);
+  useEffect(() => {
+    setPreview(userInfo.profileImage);
+  }, [userInfo.profileImage, userInfo.originalImage]);
+
+  const onCrop = (crop: string): void => {
+    setPreview(crop);
   };
 
-  const onCrop = (preview: string): void => {
-    setNotConfirmedPreview(preview);
+  const onBeforeFileLoad = (event: ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.files && event.target.files[0].size) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function () {
+        if (typeof reader.result === "string") {
+          console.log("원본", reader.result);
+          setUserInfo({
+            ...userInfo,
+            originalImage: reader.result,
+          });
+        }
+      };
+      reader.readAsDataURL(file);
+      reader.onerror = function (error) {
+        console.log(
+          "이미지를 base64로 변환하는데 문제가 발생하였습니다: ",
+          error
+        );
+      };
+    }
   };
 
   const closeModalHandler = () => {
+    setPreview(userInfo.profileImage);
     closeModal();
   };
 
@@ -46,9 +65,11 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
         centered
         open={modalVisible}
         onOk={() => {
-          setPreview(notConfirmedPreview);
+          setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            profileImage: preview === null ? defaultImage : preview,
+          }));
           closeModalHandler();
-          console.log(modalVisible);
         }}
         onCancel={() => closeModalHandler()}
       >
@@ -56,7 +77,10 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
           width={480}
           height={295}
           onCrop={onCrop}
-          onClose={onClose}
+          onClose={() => {
+            setPreview(userInfo.profileImage);
+          }}
+          onBeforeFileLoad={onBeforeFileLoad}
           label="클릭하여 이미지를 업로드하세요"
         />
       </Modal>
@@ -64,11 +88,12 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
         <PreviewAvatarDiv>
           <PreviewAvatar preview={preview ?? defaultImage} />
         </PreviewAvatarDiv>
-        <ProfileTextDiv>
-          <Title level={4}>김윤호</Title>
-          <Text>프론트엔드 개발자</Text>
-          <Text type={"secondary"}>hkj9909@gmail.com</Text>
-        </ProfileTextDiv>
+        {showProfileText && (
+          <ProfileTextDiv>
+            <Title level={4}>{userInfo.name}</Title>
+            <Text type={"secondary"}>{userInfo.email}</Text>
+          </ProfileTextDiv>
+        )}
       </MetaDiv>
     </div>
   );

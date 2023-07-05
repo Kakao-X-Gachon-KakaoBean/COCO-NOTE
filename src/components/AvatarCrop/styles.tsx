@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const PreviewAvatarDiv = styled.div`
-  width: 45%;
+  width: 49%;
   background-color: white;
 `;
 
@@ -12,5 +12,6 @@ export const MetaDiv = styled.div`
 `;
 
 export const ProfileTextDiv = styled.div`
+  margin-top: 5%;
   margin-left: 7%;
 `;

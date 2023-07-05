@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate replace to="/main" />} />
+        <Route path="/" element={<Navigate replace to="/firstpage" />} />
         <Route path="/main" element={<Main />} />
         <Route path="/firstpage" element={<FirstPage />} />
         <Route path="/mypage" element={<MyPage />} />

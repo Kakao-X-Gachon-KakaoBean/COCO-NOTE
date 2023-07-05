@@ -1,5 +1,9 @@
-import { Link } from "react-router-dom";
-import { BarDiv, LogoDiv, OthersDiv } from "@components/HeaderBar/styles.tsx";
+import {
+  BarDiv,
+  LogoDiv,
+  OthersDiv,
+  TitleLink,
+} from "@components/HeaderBar/styles.tsx";
 import Notification from "@components/HeaderBar/Notification";
 import MyInfo from "@components/HeaderBar/MyInfo";
 
@@ -8,17 +12,7 @@ const HeaderBar = () => {
     <>
       <BarDiv>
         <LogoDiv>
-          <Link to="/main" style={{ textDecoration: "none", color: "black" }}>
-            코코노트
-          </Link>
-        </LogoDiv>
-        <LogoDiv>
-          <Link
-            to="/firstpage"
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            로그인 안됐을때 창
-          </Link>
+          <TitleLink to="/main">COCO:NOTE</TitleLink>
         </LogoDiv>
         <OthersDiv>
           <Notification />
