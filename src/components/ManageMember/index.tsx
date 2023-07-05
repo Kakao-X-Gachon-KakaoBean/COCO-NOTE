@@ -131,12 +131,12 @@ const ManageMember = () => {
   }
   const rows = [
     createData("추성준", 1, "관리자"),
-    createData("조연겸", 2, "구경꾼"),
-    createData("김윤호", 3, "구경꾼"),
+    createData("조연겸", 2, "방문자"),
+    createData("김윤호", 3, "방문자"),
     createData("안수빈", 4, "멤버"),
     createData("김희찬", 5, "멤버"),
-    createData("인범시치", 6, "구경꾼"),
-    createData("Ice cream sandwich", 237, "구경꾼"),
+    createData("인범시치", 6, "방문자"),
+    createData("Ice cream sandwich", 237, "방문자"),
     createData("Jelly Bean", 375, "멤버"),
     createData("KitKat", 518, "멤버"),
     createData("Lollipop", 392, "멤버"),
