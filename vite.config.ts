@@ -17,6 +17,8 @@ export default defineConfig({
       { find: "@layouts", replacement: path.resolve(__dirname, "src/layouts") },
       { find: "@utils", replacement: path.resolve(__dirname, "src/utils") },
       { find: "@styles", replacement: path.resolve(__dirname, "src/styles") },
+      { find: "@states", replacement: path.resolve(__dirname, "src/states") },
+
     ],
   },
 });

@@ -27,6 +27,7 @@
       "@utils/*": ["src/utils/*"],
       "@layouts/*": ["src/layouts/*"],
       "@styles/*": ["src/styles/*"],
+      "@states/*": ["src/states/*"],
     }
   },
   "include": ["src"],
