@@ -6,6 +6,12 @@ import {
   MemberSection,
   MemberSubmit,
   MemberSave,
+  ProjectSection,
+  ProjectBody,
+  ProjectHeader,
+  ProjectSubMit,
+  ProjectBodyTitle,
+  ProjectBodyExplain,
 } from "@components/ManageMember/styles.tsx";
 
 import { Select } from "antd";
@@ -120,8 +126,12 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 const ManageMember = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [email, onChangeEmail, setEmail] = useInput("");
+  const [invitationModalOpen, SetInvitationModalOpen] = useState(false);
+  const [projectModalOpen, SetProjectModalOpen] = useState(false);
+  const [email, onChangeEmail, setEmail] = useInput<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [contents, setContents] = useState<string>("");
+  const { TextArea } = Input;
 
   const [rows, setRows] = useState([
     { name: "추성준", email: "j949854@gmail.com", position: "관리자" },
@@ -171,6 +181,14 @@ const ManageMember = () => {
     setRows(newRows);
   };
 
+  const handleInvitation = () => {
+    SetInvitationModalOpen(false);
+  };
+
+  const handleProject = () => {
+    SetProjectModalOpen(false);
+  };
+
   const mutation = useMutation<MemberState, AxiosError, { email: string }>(
     "SubmitEmail",
     (data) =>
@@ -200,10 +218,6 @@ const ManageMember = () => {
     [email, mutation]
   );
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -226,6 +240,22 @@ const ManageMember = () => {
       <HeaderBar />
       <SideBar />
       <Wrapper>
+        <ProjectSection>
+          <ProjectHeader>프로젝트 정보</ProjectHeader>
+          <ProjectBody>
+            <ProjectBodyTitle>{title}</ProjectBodyTitle>
+            <ProjectBodyExplain>{contents}</ProjectBodyExplain>
+          </ProjectBody>
+          <ProjectSubMit>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => SetProjectModalOpen(true)}
+            >
+              프로젝트 정보 수정
+            </Button>
+          </ProjectSubMit>
+        </ProjectSection>
         <MemberSection>
           <MemberHeader>
             <MemberHeaderLeft>멤버 관리</MemberHeaderLeft>
@@ -237,7 +267,7 @@ const ManageMember = () => {
             <Button
               type="primary"
               size="large"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => SetInvitationModalOpen(true)}
             >
               추가
             </Button>
@@ -327,12 +357,15 @@ const ManageMember = () => {
               멤버 정보 저장
             </Button>
           </MemberSave>
+          <Button type="primary" danger size={"large"}>
+            프로젝트 삭제
+          </Button>
         </MemberSection>
         <Modal
           title="인원 추가히기"
-          open={isModalOpen}
-          onCancel={handleOk}
-          // footer={[<div>이메일 입력</div>]}
+          open={invitationModalOpen}
+          onCancel={handleInvitation}
+          footer={null}
           centered
         >
           <p>이메일 입력</p>
@@ -351,6 +384,33 @@ const ManageMember = () => {
               전송
             </Button>
           </div>
+        </Modal>
+        <Modal
+          title="프로젝트 정보 변경"
+          open={projectModalOpen}
+          onCancel={handleProject}
+          footer={
+            <div>
+              <Button key="submit" type="primary">
+                OK
+              </Button>
+            </div>
+          }
+        >
+          <TextArea
+            value={title}
+            autoSize={{ minRows: 1, maxRows: 10 }}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="프로젝트 명"
+            style={{ marginBottom: "2rem", marginTop: "3rem" }}
+          />
+          <TextArea
+            value={contents}
+            autoSize={{ minRows: 3, maxRows: 10 }}
+            onChange={(e) => setContents(e.target.value)}
+            placeholder="프로젝트 설명"
+            style={{ marginBottom: "2rem" }}
+          />
         </Modal>
       </Wrapper>
     </>
