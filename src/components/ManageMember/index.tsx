@@ -128,7 +128,8 @@ const ManageMember = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [invitationModalOpen, SetInvitationModalOpen] = useState(false);
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
-  const [email, onChangeEmail, setEmail] = useInput<string>("");
+  const [email, onChangeEmail, setEmail] = useInput("");
+  const [emails, setEmails] = useState<string[]>([]);
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
   const { TextArea } = Input;
@@ -209,10 +210,23 @@ const ManageMember = () => {
     }
   );
 
+  const addEmail = () => {
+    const newEmail = [...emails, email];
+    const checkEmail = Array.from(new Set(newEmail));
+    setEmails(checkEmail);
+    setEmail("");
+  };
+  const deleteEmails = (index: number) => {
+    const newEmails = [...emails];
+    newEmails.splice(index, 1);
+    setEmails(newEmails);
+  };
+
   //이메일로 초대 보내기
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
+      console.log(emails);
       mutation.mutate({ email });
     },
     [email, mutation]
@@ -365,23 +379,47 @@ const ManageMember = () => {
           title="인원 추가히기"
           open={invitationModalOpen}
           onCancel={handleInvitation}
-          footer={null}
-          centered
-        >
-          <p>이메일 입력</p>
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <Input
-              type="text"
-              value={email}
-              onChange={onChangeEmail}
-              placeholder="이메일"
-            />
+          footer={
             <Button
               type="primary"
               style={{ width: "5rem" }}
               onClick={onSubmitEmail}
             >
               전송
+            </Button>
+          }
+          centered
+        >
+          <p>이메일 입력</p>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            <Input
+              type="text"
+              value={email}
+              onChange={onChangeEmail}
+              placeholder="이메일"
+            />
+            <div>
+              {emails.map((email, index) => (
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ marginRight: "1rem" }}>{email}</div>
+                  <Button type="text" onClick={() => deleteEmails(index)}>
+                    삭제
+                  </Button>
+                </div>
+              ))}
+            </div>
+
+            <Button type="primary" onClick={addEmail}>
+              추가
             </Button>
           </div>
         </Modal>
