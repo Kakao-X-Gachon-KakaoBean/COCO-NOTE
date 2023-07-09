@@ -14,7 +14,7 @@ import {
 } from "@pages/SignUp/styles";
 import { Link } from "react-router-dom";
 import { useMutation } from "react-query";
-import { IUser } from "../../states/UserState";
+import { IUser } from "@states/UserState.ts";
 import axios, { AxiosError } from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -93,10 +93,6 @@ const SignUp = () => {
     },
     [email, name, password, checkPassword, emailAuthKey, mutation]
   );
-
-  // if (isLoading) {
-  //   return <div>로딩중...</div>;
-  // }
 
   //입력한 이메일로 인증번호 보내기
   const onSubmitEmail = useCallback(

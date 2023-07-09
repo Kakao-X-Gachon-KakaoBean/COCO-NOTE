@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useState } from "react";
 import GoogleImg from "../../images/google-logo.png";
 import KakaoImg from "../../images/kakao-logo.png";
 
@@ -24,7 +24,9 @@ import Menu from "@components/Menu";
 import SearchEmail from "@components/SearchEmail";
 import SearchPassword from "@components/PasswordModal";
 import useInput from "../../hooks/useInput.ts";
-import { LoginMutation } from "../../Api/User.ts";
+import { IUser } from "@states/UserState.ts";
+import { useMutation } from "react-query";
+import axios, { AxiosError } from "axios";
 
 const LogIn = () => {
   const baseUrl = "123";
@@ -45,9 +47,33 @@ const LogIn = () => {
     setCheckPasswordModal((prev) => !prev);
   }, []);
 
+  const LoginMutation = useMutation<
+    IUser,
+    AxiosError,
+    { email: string; password: string }
+  >(
+    "user",
+    (data) =>
+      axios
+        .post("123", data, {
+          withCredentials: true,
+        })
+        .then((response) => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        localStorage.setItem("accessToken", data?.accessToken);
+      },
+      onError(error) {
+        // setLogInError(error.response?.data?.code === 401);
+        alert("로그인에 실패하였습니다.");
+      },
+    }
+  );
+
   //로컬 로그인
   const onSubmit = useCallback(
-    (e: any) => {
+    (e: ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
       LoginMutation.mutate({ email, password });
     },

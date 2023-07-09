@@ -6,6 +6,12 @@ import {
   MemberSection,
   MemberSubmit,
   MemberSave,
+  ProjectSection,
+  ProjectBody,
+  ProjectHeader,
+  ProjectSubMit,
+  ProjectBodyTitle,
+  ProjectBodyExplain,
 } from "@components/ManageMember/styles.tsx";
 
 import { Select } from "antd";
@@ -35,7 +41,7 @@ import { TableHead } from "@mui/material";
 import useInput from "../../hooks/useInput.ts";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "react-query";
-import { Memeber } from "../../States/MemberState.ts";
+import { MemberState } from "@states/MemberState.ts";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -120,27 +126,29 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 const ManageMember = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [email, onChangeEmail, setEmail] = useInput("");
+  const [invitationModalOpen, SetInvitationModalOpen] = useState(false);
+  const [projectModalOpen, SetProjectModalOpen] = useState(false);
+  const [email, onChangeEmail, setEmail] = useInput<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [contents, setContents] = useState<string>("");
+  const { TextArea } = Input;
 
-  const handleChange = (value: { value: string; label: React.ReactNode }) => {
-    console.log(value);
-  };
-  function createData(name: string, calories: number, fat: string) {
-    return { name, calories, fat };
-  }
-  const rows = [
-    createData("추성준", 1, "관리자"),
-    createData("조연겸", 2, "방문자"),
-    createData("김윤호", 3, "방문자"),
-    createData("안수빈", 4, "멤버"),
-    createData("김희찬", 5, "멤버"),
-    createData("인범시치", 6, "방문자"),
-    createData("Ice cream sandwich", 237, "방문자"),
-    createData("Jelly Bean", 375, "멤버"),
-    createData("KitKat", 518, "멤버"),
-    createData("Lollipop", 392, "멤버"),
-  ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+  const [rows, setRows] = useState([
+    { name: "추성준", email: "j949854@gmail.com", position: "관리자" },
+    { name: "조연겸", email: "j949854@gmail.com", position: "방문자" },
+    { name: "김윤호", email: "j949854@gmail.com", position: "방문자" },
+    { name: "안수빈", email: "j949854@gmail.com", position: "멤버" },
+    { name: "김희찬", email: "j949854@gmail.com", position: "멤버" },
+    { name: "인범시치", email: "j949854@gmail.com", position: "방문자" },
+    {
+      name: "Ice cream sandwich",
+      email: "j949854@gmail.com",
+      position: "방문자",
+    },
+    { name: "Jelly Bean", email: "j949854@gmail.com", position: "멤버" },
+    { name: "KitKat", email: "j949854@gmail.com", position: "멤버" },
+    { name: "Lollipop", email: "j949854@gmail.com", position: "멤버" },
+  ]);
 
   const SelectOption = [
     {
@@ -156,7 +164,32 @@ const ManageMember = () => {
       label: "구경",
     },
   ];
-  const mutation = useMutation<Memeber, AxiosError, { email: string }>(
+
+  const handleChange = (
+    value: { value: string; label: React.ReactNode },
+    i: number
+  ) => {
+    const newRows = [...rows];
+    newRows[i].position = value.value;
+    setRows(newRows);
+    console.log(rows);
+  };
+
+  const handleDelete = (i: number) => {
+    const newRows = [...rows];
+    newRows.splice(i, 1);
+    setRows(newRows);
+  };
+
+  const handleInvitation = () => {
+    SetInvitationModalOpen(false);
+  };
+
+  const handleProject = () => {
+    SetProjectModalOpen(false);
+  };
+
+  const mutation = useMutation<MemberState, AxiosError, { email: string }>(
     "SubmitEmail",
     (data) =>
       axios
@@ -185,10 +218,6 @@ const ManageMember = () => {
     [email, mutation]
   );
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -211,6 +240,22 @@ const ManageMember = () => {
       <HeaderBar />
       <SideBar />
       <Wrapper>
+        <ProjectSection>
+          <ProjectHeader>프로젝트 정보</ProjectHeader>
+          <ProjectBody>
+            <ProjectBodyTitle>{title}</ProjectBodyTitle>
+            <ProjectBodyExplain>{contents}</ProjectBodyExplain>
+          </ProjectBody>
+          <ProjectSubMit>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => SetProjectModalOpen(true)}
+            >
+              프로젝트 정보 수정
+            </Button>
+          </ProjectSubMit>
+        </ProjectSection>
         <MemberSection>
           <MemberHeader>
             <MemberHeaderLeft>멤버 관리</MemberHeaderLeft>
@@ -222,7 +267,7 @@ const ManageMember = () => {
             <Button
               type="primary"
               size="large"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => SetInvitationModalOpen(true)}
             >
               추가
             </Button>
@@ -247,22 +292,29 @@ const ManageMember = () => {
                         page * rowsPerPage + rowsPerPage
                       )
                     : rows
-                  ).map((row) => (
+                  ).map((row, i) => (
                     <TableRow key={row.name}>
                       <TableCell component="th" scope="row">
                         {row.name}
                       </TableCell>
                       <TableCell style={{ width: 300 }} align="center">
-                        {row.calories}
+                        {row.email}
                       </TableCell>
-                      <TableCell style={{ width: 160 }} align="center">
+                      <TableCell
+                        style={{ width: 160, paddingRight: 16 }}
+                        align="center"
+                      >
                         <Select
                           labelInValue
-                          defaultValue={{ value: row.fat, label: row.fat }}
-                          style={{ width: 120 }}
-                          onChange={handleChange}
+                          defaultValue={{
+                            value: row.position,
+                            label: row.position,
+                          }}
+                          style={{ width: 80, marginRight: 10 }}
+                          onChange={(value) => handleChange(value, i)}
                           options={SelectOption}
                         />
+                        <CloseOutlined onClick={() => handleDelete(i)} />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -302,15 +354,18 @@ const ManageMember = () => {
           </MemberList>
           <MemberSave>
             <Button type="primary" size={"large"}>
-              저장
+              멤버 정보 저장
             </Button>
           </MemberSave>
+          <Button type="primary" danger size={"large"}>
+            프로젝트 삭제
+          </Button>
         </MemberSection>
         <Modal
           title="인원 추가히기"
-          open={isModalOpen}
-          onCancel={handleOk}
-          // footer={[<div>이메일 입력</div>]}
+          open={invitationModalOpen}
+          onCancel={handleInvitation}
+          footer={null}
           centered
         >
           <p>이메일 입력</p>
@@ -329,6 +384,33 @@ const ManageMember = () => {
               전송
             </Button>
           </div>
+        </Modal>
+        <Modal
+          title="프로젝트 정보 변경"
+          open={projectModalOpen}
+          onCancel={handleProject}
+          footer={
+            <div>
+              <Button key="submit" type="primary">
+                OK
+              </Button>
+            </div>
+          }
+        >
+          <TextArea
+            value={title}
+            autoSize={{ minRows: 1, maxRows: 10 }}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="프로젝트 명"
+            style={{ marginBottom: "2rem", marginTop: "3rem" }}
+          />
+          <TextArea
+            value={contents}
+            autoSize={{ minRows: 3, maxRows: 10 }}
+            onChange={(e) => setContents(e.target.value)}
+            placeholder="프로젝트 설명"
+            style={{ marginBottom: "2rem" }}
+          />
         </Modal>
       </Wrapper>
     </>
