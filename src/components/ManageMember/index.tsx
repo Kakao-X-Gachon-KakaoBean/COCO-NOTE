@@ -411,9 +411,7 @@ const ManageMember = () => {
                   }}
                 >
                   <div style={{ marginRight: "1rem" }}>{email}</div>
-                  <Button type="text" onClick={() => deleteEmails(index)}>
-                    삭제
-                  </Button>
+                  <CloseOutlined onClick={() => deleteEmails(index)} />
                 </div>
               ))}
             </div>
