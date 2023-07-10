@@ -14,7 +14,6 @@ const SideBar = () => {
       {projectList.map((project, projectIndex) => (
         <div key={project.projectId}>
           {projectIndex === 0 ? (
-            <>
               <Tooltip placement={'right'} title={'메인으로'}>
                 <Circle
                   className={selectedProject.projectId === 0 ? 'selected' : 'notSelected'}
@@ -25,7 +24,6 @@ const SideBar = () => {
                   <InnerText>메인으로</InnerText>
                 </Circle>
               </Tooltip>
-            </>
           ) : (
             <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
               <Circle
