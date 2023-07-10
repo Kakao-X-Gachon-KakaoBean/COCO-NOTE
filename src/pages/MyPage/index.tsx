@@ -1,15 +1,11 @@
-import HeaderBar from "@components/HeaderBar";
-import { Wrapper } from "@styles/DefaultSide/styles.tsx";
-import SideBar from "@components/SideBar";
-import MyInfoCard from "@components/MyInfoCard";
-import {
-  CenterDiv,
-  MyInfoCardDiv,
-  MyPageDiv,
-  MyPageTextDiv,
-} from "@pages/MyPage/styles.tsx";
-import ChangeInfoBtn from "@components/MyInfoCard/ChangeInfoBtn";
-import { Divider } from "antd";
+import HeaderBar from '@components/HeaderBar';
+import { Wrapper } from '@styles/DefaultSide/styles.tsx';
+import SideBar from '@components/SideBar';
+import MyInfoCard from '@components/MyInfoCard';
+import { CenterDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } from '@pages/MyPage/styles.tsx';
+import ChangeInfoBtn from '@components/MyInfoCard/ChangeInfoBtn';
+import { Divider } from 'antd';
+
 const MyPage = () => {
   return (
     <>

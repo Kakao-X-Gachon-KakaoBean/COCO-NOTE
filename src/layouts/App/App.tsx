@@ -1,11 +1,12 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import "@layouts/App/App.css";
-import loadable from "@loadable/component";
-const Main = loadable(() => import("@layouts/Main"));
-const FirstPage = loadable(() => import("@pages/FirstPage"));
-const MyPage = loadable(() => import("@pages/MyPage"));
-const Login = loadable(() => import("@pages/Login"));
-const SignUp = loadable(() => import("@pages/SignUp"));
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import '@layouts/App/App.css';
+import loadable from '@loadable/component';
+
+const Main = loadable(() => import('@layouts/Main'));
+const FirstPage = loadable(() => import('@pages/FirstPage'));
+const MyPage = loadable(() => import('@pages/MyPage'));
+const Login = loadable(() => import('@pages/Login'));
+const SignUp = loadable(() => import('@pages/SignUp'));
 
 function App() {
   return (

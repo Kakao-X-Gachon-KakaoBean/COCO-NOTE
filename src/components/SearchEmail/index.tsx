@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from 'react';
 
 import {
   Button,
@@ -8,34 +8,27 @@ import {
   Form,
   Header,
   InputInfo,
-} from "@components/SearchEmail/styles";
+  InputKey,
+  Wrapper,
+} from '@components/SearchEmail/styles';
 
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError } from 'axios';
 
-import { Wrapper } from "@components/SearchEmail/styles";
-import { InputKey } from "@components/SearchEmail/styles";
-import { EmailModal, Search } from "@components/SearchEmail/type";
-import { useMutation } from "react-query";
+import { EmailModal, Search } from '@components/SearchEmail/type';
+import { useMutation } from 'react-query';
 
-const SearchEmail: FC<EmailModal> = ({
-  name,
-  onChangeName,
-  onCloseEmailModal,
-  birth,
-  onChangeBirth,
-}) => {
+const SearchEmail: FC<EmailModal> = ({ name, onChangeName, onCloseEmailModal, birth, onChangeBirth }) => {
   const baseUrl = 1234;
 
-  const [email, setEmail] = useState("");
-  const [submitOrClose, setSubmitOrClose] = useState("인증 하기");
-  const stopPropagation = useCallback(
-    (e: React.SyntheticEvent<EventTarget>) => {
-      e.stopPropagation();
-    },
-    []
-  );
+  const [email, setEmail] = useState('');
+  const [submitOrClose, setSubmitOrClose] = useState('인증 하기');
+  const stopPropagation = useCallback((e: React.SyntheticEvent<EventTarget>) => {
+    e.stopPropagation();
+  }, []);
   useEffect(() => {
-    if (email) setSubmitOrClose("닫기");
+    if (email) {
+      setSubmitOrClose('닫기');
+    }
   }, [email]);
   // const queryClient = useQueryClient();
 
@@ -48,18 +41,14 @@ const SearchEmail: FC<EmailModal> = ({
 
   const formattedBirthday = formatBirthday(birth);
 
-  const mutation = useMutation<
-    Search,
-    AxiosError,
-    { name: string; birth: string }
-  >(
-    "searchEmail",
-    (data) =>
+  const mutation = useMutation<Search, AxiosError, { name: string; birth: string }>(
+    'searchEmail',
+    data =>
       axios
         .post(`${baseUrl}/members/find-email`, data, {
           withCredentials: true,
         })
-        .then((response) => response.data),
+        .then(response => response.data),
     {
       onMutate() {
         // setLogInError(false);
@@ -68,7 +57,7 @@ const SearchEmail: FC<EmailModal> = ({
         setEmail(data?.email);
       },
       onError() {
-        alert("정보를 잘못 입력하셨습니다.");
+        alert('정보를 잘못 입력하셨습니다.');
       },
     }
   );
@@ -77,7 +66,7 @@ const SearchEmail: FC<EmailModal> = ({
       e.preventDefault();
       mutation.mutate({ name, birth: formattedBirthday });
     },
-    [name, birth, mutation]
+    [mutation, name, formattedBirthday]
   );
 
   return (

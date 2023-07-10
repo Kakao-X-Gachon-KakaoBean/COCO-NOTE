@@ -1,7 +1,4 @@
-import { MainSection, Wrapper } from "./styles.tsx";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
-import ManageMember from "@components/ManageMember";
+import ManageMember from '@components/ManageMember';
 
 const FirstPage = () => {
   return (
