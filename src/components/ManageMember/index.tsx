@@ -12,112 +12,84 @@ import {
   ProjectSubMit,
   ProjectBodyTitle,
   ProjectBodyExplain,
-} from "@components/ManageMember/styles.tsx";
+} from '@components/ManageMember/styles.tsx';
 
-import { Select } from "antd";
+import { Select, Button, Input, Modal } from 'antd';
 
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableFooter from "@mui/material/TableFooter";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import LastPageIcon from "@mui/icons-material/LastPage";
-import React, { useCallback, useState } from "react";
-import { Wrapper } from "@styles/DefaultSide/styles.tsx";
-import HeaderBar from "@components/HeaderBar";
-import SideBar from "@components/SideBar";
-import { CloseOutlined } from "@ant-design/icons";
-import { Button, Input, Modal } from "antd";
-import { TableHead } from "@mui/material";
-import useInput from "../../hooks/useInput.ts";
-import axios, { AxiosError } from "axios";
-import { useMutation } from "react-query";
-import { MemberState } from "@states/MemberState.ts";
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import React, { useCallback, useState } from 'react';
+import { Wrapper } from '@styles/DefaultSide/styles.tsx';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import { CloseOutlined } from '@ant-design/icons';
+import { TableHead } from '@mui/material';
+import useInput from '../../hooks/useInput.ts';
+import axios, { AxiosError } from 'axios';
+import { useMutation } from 'react-query';
+import { MemberState } from '@states/MemberState.ts';
 
 interface TablePaginationActionsProps {
   count: number;
   page: number;
   rowsPerPage: number;
-  onPageChange: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    newPage: number
-  ) => void;
+  onPageChange: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
 }
 
 function TablePaginationActions(props: TablePaginationActionsProps) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
 
-  const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleFirstPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, 0);
   };
 
-  const handleBackButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, page - 1);
   };
 
-  const handleNextButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, page + 1);
   };
 
-  const handleLastPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
   return (
     <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+      <IconButton onClick={handleFirstPageButtonClick} disabled={page === 0} aria-label="first page">
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowRight />
-        ) : (
-          <KeyboardArrowLeft />
-        )}
+      <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="previous page">
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === "rtl" ? (
-          <KeyboardArrowLeft />
-        ) : (
-          <KeyboardArrowRight />
-        )}
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </Box>
   );
@@ -128,48 +100,45 @@ const ManageMember = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [invitationModalOpen, SetInvitationModalOpen] = useState(false);
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
-  const [email, onChangeEmail, setEmail] = useInput("");
+  const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const [title, setTitle] = useState<string>("");
-  const [contents, setContents] = useState<string>("");
+  const [title, setTitle] = useState<string>('');
+  const [contents, setContents] = useState<string>('');
   const { TextArea } = Input;
 
   const [rows, setRows] = useState([
-    { name: "추성준", email: "j949854@gmail.com", position: "관리자" },
-    { name: "조연겸", email: "j949854@gmail.com", position: "방문자" },
-    { name: "김윤호", email: "j949854@gmail.com", position: "방문자" },
-    { name: "안수빈", email: "j949854@gmail.com", position: "멤버" },
-    { name: "김희찬", email: "j949854@gmail.com", position: "멤버" },
-    { name: "인범시치", email: "j949854@gmail.com", position: "방문자" },
+    { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
+    { name: '조연겸', email: 'j949854@gmail.com', position: '방문자' },
+    { name: '김윤호', email: 'j949854@gmail.com', position: '방문자' },
+    { name: '안수빈', email: 'j949854@gmail.com', position: '멤버' },
+    { name: '김희찬', email: 'j949854@gmail.com', position: '멤버' },
+    { name: '인범시치', email: 'j949854@gmail.com', position: '방문자' },
     {
-      name: "Ice cream sandwich",
-      email: "j949854@gmail.com",
-      position: "방문자",
+      name: 'Ice cream sandwich',
+      email: 'j949854@gmail.com',
+      position: '방문자',
     },
-    { name: "Jelly Bean", email: "j949854@gmail.com", position: "멤버" },
-    { name: "KitKat", email: "j949854@gmail.com", position: "멤버" },
-    { name: "Lollipop", email: "j949854@gmail.com", position: "멤버" },
+    { name: 'Jelly Bean', email: 'j949854@gmail.com', position: '멤버' },
+    { name: 'KitKat', email: 'j949854@gmail.com', position: '멤버' },
+    { name: 'Lollipop', email: 'j949854@gmail.com', position: '멤버' },
   ]);
 
   const SelectOption = [
     {
-      value: "관리자",
-      label: "관리자",
+      value: '관리자',
+      label: '관리자',
     },
     {
-      value: "멤버",
-      label: "멤버",
+      value: '멤버',
+      label: '멤버',
     },
     {
-      value: "구경",
-      label: "구경",
+      value: '구경',
+      label: '구경',
     },
   ];
 
-  const handleChange = (
-    value: { value: string; label: React.ReactNode },
-    i: number
-  ) => {
+  const handleChange = (value: { value: string; label: React.ReactNode }, i: number) => {
     const newRows = [...rows];
     newRows[i].position = value.value;
     setRows(newRows);
@@ -191,21 +160,21 @@ const ManageMember = () => {
   };
 
   const mutation = useMutation<MemberState, AxiosError, { email: string }>(
-    "SubmitEmail",
-    (data) =>
+    'SubmitEmail',
+    data =>
       axios
         .post(`localhost:3000/local/login`, data, {
           withCredentials: true,
         })
-        .then((response) => response.data),
+        .then(response => response.data),
     {
       onMutate() {},
       onSuccess(data) {
-        setEmail("");
+        setEmail('');
       },
       onError(error) {
         console.log(error);
-        alert("전송에 실패하였습니다.");
+        alert('전송에 실패하였습니다.');
       },
     }
   );
@@ -214,7 +183,7 @@ const ManageMember = () => {
     const newEmail = [...emails, email];
     const checkEmail = Array.from(new Set(newEmail));
     setEmails(checkEmail);
-    setEmail("");
+    setEmail('');
   };
   const deleteEmails = (index: number) => {
     const newEmails = [...emails];
@@ -226,25 +195,18 @@ const ManageMember = () => {
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
-      console.log(emails);
       mutation.mutate({ email });
     },
     [email, mutation]
   );
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -261,11 +223,7 @@ const ManageMember = () => {
             <ProjectBodyExplain>{contents}</ProjectBodyExplain>
           </ProjectBody>
           <ProjectSubMit>
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => SetProjectModalOpen(true)}
-            >
+            <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
               프로젝트 정보 수정
             </Button>
           </ProjectSubMit>
@@ -278,60 +236,46 @@ const ManageMember = () => {
             </MemberHeaderRight>
           </MemberHeader>
           <MemberSubmit>
-            <Button
-              type="primary"
-              size="large"
-              onClick={() => SetInvitationModalOpen(true)}
-            >
+            <Button type="primary" size="large" onClick={() => SetInvitationModalOpen(true)}>
               추가
             </Button>
           </MemberSubmit>
           <MemberList>
             <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 500 }}
-                aria-label="custom pagination table"
-              >
+              <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                 <TableHead>
-                  <TableRow sx={{ background: "gray" }}>
+                  <TableRow sx={{ background: 'gray' }}>
                     <TableCell align="left">이름</TableCell>
                     <TableCell align="center">이메일</TableCell>
                     <TableCell align="center">직위</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {(rowsPerPage > 0
-                    ? rows.slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      )
-                    : rows
-                  ).map((row, i) => (
-                    <TableRow key={row.name}>
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell style={{ width: 300 }} align="center">
-                        {row.email}
-                      </TableCell>
-                      <TableCell
-                        style={{ width: 160, paddingRight: 16 }}
-                        align="center"
-                      >
-                        <Select
-                          labelInValue
-                          defaultValue={{
-                            value: row.position,
-                            label: row.position,
-                          }}
-                          style={{ width: 80, marginRight: 10 }}
-                          onChange={(value) => handleChange(value, i)}
-                          options={SelectOption}
-                        />
-                        <CloseOutlined onClick={() => handleDelete(i)} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
+                    (row, i) => (
+                      <TableRow key={row.name}>
+                        <TableCell component="th" scope="row">
+                          {row.name}
+                        </TableCell>
+                        <TableCell style={{ width: 300 }} align="center">
+                          {row.email}
+                        </TableCell>
+                        <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
+                          <Select
+                            labelInValue
+                            defaultValue={{
+                              value: row.position,
+                              label: row.position,
+                            }}
+                            style={{ width: 80, marginRight: 10 }}
+                            onChange={value => handleChange(value, i)}
+                            options={SelectOption}
+                          />
+                          <CloseOutlined onClick={() => handleDelete(i)} />
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />
@@ -341,19 +285,14 @@ const ManageMember = () => {
                 <TableFooter>
                   <TableRow>
                     <TablePagination
-                      rowsPerPageOptions={[
-                        5,
-                        10,
-                        25,
-                        { label: "All", value: -1 },
-                      ]}
+                      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                       colSpan={3}
                       count={rows.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       SelectProps={{
                         inputProps: {
-                          "aria-label": "rows per page",
+                          'aria-label': 'rows per page',
                         },
                         native: true,
                       }}
@@ -367,11 +306,11 @@ const ManageMember = () => {
             </TableContainer>
           </MemberList>
           <MemberSave>
-            <Button type="primary" size={"large"}>
+            <Button type="primary" size={'large'}>
               멤버 정보 저장
             </Button>
           </MemberSave>
-          <Button type="primary" danger size={"large"}>
+          <Button type="primary" danger size={'large'}>
             프로젝트 삭제
           </Button>
         </MemberSection>
@@ -380,37 +319,26 @@ const ManageMember = () => {
           open={invitationModalOpen}
           onCancel={handleInvitation}
           footer={
-            <Button
-              type="primary"
-              style={{ width: "5rem" }}
-              onClick={onSubmitEmail}
-            >
+            <Button type="primary" style={{ width: '5rem' }} onClick={onSubmitEmail}>
               전송
             </Button>
           }
           centered
         >
           <p>이메일 입력</p>
-          <div
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-          >
-            <Input
-              type="text"
-              value={email}
-              onChange={onChangeEmail}
-              placeholder="이메일"
-            />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <Input type="text" value={email} onChange={onChangeEmail} placeholder="이메일" />
             <div>
               {emails.map((email, index) => (
                 <div
                   key={index}
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
                   }}
                 >
-                  <div style={{ marginRight: "1rem" }}>{email}</div>
+                  <div style={{ marginRight: '1rem' }}>{email}</div>
                   <CloseOutlined onClick={() => deleteEmails(index)} />
                 </div>
               ))}
@@ -436,16 +364,16 @@ const ManageMember = () => {
           <TextArea
             value={title}
             autoSize={{ minRows: 1, maxRows: 10 }}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             placeholder="프로젝트 명"
-            style={{ marginBottom: "2rem", marginTop: "3rem" }}
+            style={{ marginBottom: '2rem', marginTop: '3rem' }}
           />
           <TextArea
             value={contents}
             autoSize={{ minRows: 3, maxRows: 10 }}
-            onChange={(e) => setContents(e.target.value)}
+            onChange={e => setContents(e.target.value)}
             placeholder="프로젝트 설명"
-            style={{ marginBottom: "2rem" }}
+            style={{ marginBottom: '2rem' }}
           />
         </Modal>
       </Wrapper>
