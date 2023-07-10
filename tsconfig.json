@@ -28,7 +28,10 @@
       "@layouts/*": ["src/layouts/*"],
       "@styles/*": ["src/styles/*"],
       "@states/*": ["src/states/*"],
-    }
+    },
+
+    /* Add esModuleInterop option */
+    "esModuleInterop": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
