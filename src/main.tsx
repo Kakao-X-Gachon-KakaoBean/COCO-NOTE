@@ -1,12 +1,13 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "@layouts/App.tsx";
-import "./index.css";
-import { RecoilRoot } from "recoil";
-import { QueryClient, QueryClientProvider } from "react-query";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from '@layouts/App/App.tsx';
+import './index.css';
+import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 const queryClient = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
