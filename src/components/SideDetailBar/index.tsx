@@ -20,7 +20,7 @@ const SideDetailBar = () => {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to="/mypage">프로젝트 정보</Link>,
+      label: <Link to="/projectinfo">프로젝트 정보</Link>,
     },
     {
       key: '2',
