@@ -23,6 +23,8 @@ const Main = () => {
     if (title && contents) {
       addProject();
       setIsAddProject(false);
+      setTitle('');
+      setContents('');
       toast.success('프로젝트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
     } else {
       toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요'); // toast.error로 실패 메시지 표시
@@ -30,6 +32,8 @@ const Main = () => {
   };
 
   const handleCancel = () => {
+    setTitle('');
+    setContents('');
     setIsAddProject(false);
   };
 
@@ -40,7 +44,7 @@ const Main = () => {
       projectContent: contents,
     };
     setProjectList(prevProjectList => [...prevProjectList, newProject]);
-    setSelectedProject(newProject.projectId);
+    setSelectedProject(newProject);
   };
 
   return (

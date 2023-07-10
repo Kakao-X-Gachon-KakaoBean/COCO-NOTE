@@ -1,5 +1,5 @@
-import { Circle, HorizontalLine, Wrapper } from '@components/SideBar/styles.tsx';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Circle, HorizontalLine, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { AddProjectClickState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
 import { Tooltip } from 'antd';
 
@@ -7,32 +7,42 @@ const SideBar = () => {
   const projectList = useRecoilValue(projectValueState);
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
+  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
 
   return (
     <Wrapper>
-      <Circle
-        className={selectedProject === 0 ? 'selected' : 'notSelected'}
-        onClick={() => {
-          setSelectedProject(0);
-        }}
-      >
-        <text>메인으로</text>
-      </Circle>
-      <HorizontalLine />
-      {projectList.map(project => (
-        <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
-          <Circle
-            className={selectedProject === project.projectId ? 'selected' : 'notSelected'}
-            onClick={() => {
-              setSelectedProject(project.projectId);
-            }}
-          >
-            <text>{project.projectTitle}</text>
-          </Circle>
-        </Tooltip>
+      {projectList.map((project, projectIndex) => (
+        <div key={project.projectId}>
+          {projectIndex === 0 ? (
+            <>
+              <Tooltip placement={'right'} title={'메인으로'}>
+                <Circle
+                  className={selectedProject.projectId === 0 ? 'selected' : 'notSelected'}
+                  onClick={() => {
+                    initialSelectedProject();
+                  }}
+                >
+                  <InnerText>메인으로</InnerText>
+                </Circle>
+              </Tooltip>
+            </>
+          ) : (
+            <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
+              <Circle
+                className={selectedProject === project ? 'selected' : 'notSelected'}
+                onClick={() => {
+                  setSelectedProject(project);
+                }}
+              >
+                <InnerText>{project.projectTitle}</InnerText>
+              </Circle>
+            </Tooltip>
+          )}
+          {projectIndex === 0 && <HorizontalLine />}
+        </div>
       ))}
       <Circle onClick={() => setIsAddProject(true)}>
-        <text style={{ fontSize: '2rem' }}>+</text>
+        <InnerText style={{ fontSize: '2rem' }}>+</InnerText>
       </Circle>
     </Wrapper>
   );

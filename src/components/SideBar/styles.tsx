@@ -22,6 +22,7 @@ export const Circle = styled.div`
   clip-path: circle(2.5vw);
   padding: 1vw;
   margin-top: 2vh;
+  cursor: pointer;
 
   &.selected {
     background-color: gray;
@@ -35,4 +36,8 @@ export const HorizontalLine = styled.div`
   margin-top: 1vh;
   width: 6vw;
   margin-left: 1vw;
+`;
+
+export const InnerText = styled.text`
+  font-size: 2vh;
 `;
