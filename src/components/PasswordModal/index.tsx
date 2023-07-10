@@ -23,7 +23,7 @@ import { PaswwordModal } from '@components/PasswordModal/type';
 import { useMutation } from 'react-query';
 import useInput from '../../hooks/useInput';
 
-const SearchPassword: FC<PaswwordModal> = ({ name, onChangeName, onClosePasswordModal, birth, onChangeBirth }) => {
+const SearchPassword: FC<PaswwordModal> = ({ onClosePasswordModal }) => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const [email, onChangeEmail] = useInput('');
