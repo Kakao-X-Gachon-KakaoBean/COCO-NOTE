@@ -1,24 +1,16 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import Avatar from "react-avatar-edit";
-import { Modal, Typography } from "antd";
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import Avatar from 'react-avatar-edit';
+import { Modal, Typography } from 'antd';
 
-import defaultImage from "../../images/defaultAvatar.png";
-import PreviewAvatar from "@components/AvatarCrop/PreviewAvatar";
-import {
-  MetaDiv,
-  PreviewAvatarDiv,
-  ProfileTextDiv,
-} from "@components/AvatarCrop/styles.tsx";
-import { ModalVisibleProps } from "@components/AvatarCrop/type.ts";
-import { MypageUser, MyPageUserState } from "../../States/UserState.ts";
-import { useRecoilState } from "recoil";
+import defaultImage from '../../images/defaultAvatar.png';
+import PreviewAvatar from '@components/AvatarCrop/PreviewAvatar';
+import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@components/AvatarCrop/styles.tsx';
+import { ModalVisibleProps } from '@components/AvatarCrop/type.ts';
+import { MypageUser, MyPageUserState } from '../../States/UserState.ts';
+import { useRecoilState } from 'recoil';
 
 const { Text, Title } = Typography;
-const AvatarCrop: React.FC<ModalVisibleProps> = ({
-  showProfileText,
-  modalVisible,
-  closeModal,
-}) => {
+const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {
   const [userInfo, setUserInfo] = useRecoilState<MypageUser>(MyPageUserState);
   const [preview, setPreview] = useState<string | null>(userInfo.profileImage);
 
@@ -35,8 +27,8 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onload = function () {
-        if (typeof reader.result === "string") {
-          console.log("원본", reader.result);
+        if (typeof reader.result === 'string') {
+          console.log('원본', reader.result);
           setUserInfo({
             ...userInfo,
             originalImage: reader.result,
@@ -45,10 +37,7 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
       };
       reader.readAsDataURL(file);
       reader.onerror = function (error) {
-        console.log(
-          "이미지를 base64로 변환하는데 문제가 발생하였습니다: ",
-          error
-        );
+        console.log('이미지를 base64로 변환하는데 문제가 발생하였습니다: ', error);
       };
     }
   };
@@ -65,7 +54,7 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
         centered
         open={modalVisible}
         onOk={() => {
-          setUserInfo((prevUserInfo) => ({
+          setUserInfo(prevUserInfo => ({
             ...prevUserInfo,
             profileImage: preview === null ? defaultImage : preview,
           }));
@@ -91,7 +80,7 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({
         {showProfileText && (
           <ProfileTextDiv>
             <Title level={4}>{userInfo.name}</Title>
-            <Text type={"secondary"}>{userInfo.email}</Text>
+            <Text type={'secondary'}>{userInfo.email}</Text>
           </ProfileTextDiv>
         )}
       </MetaDiv>

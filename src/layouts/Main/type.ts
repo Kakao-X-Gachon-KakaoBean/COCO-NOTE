@@ -1,5 +1,5 @@
 export interface IProjectValue {
-    projectId : number,
-    projectTitle : string,
-    projectContent: string
+  projectId: number;
+  projectTitle: string;
+  projectContent: string;
 }

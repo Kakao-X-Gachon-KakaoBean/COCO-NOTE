@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { Input } from "antd";
-import { keyframes } from "@emotion/react";
+import styled from '@emotion/styled';
+import { Input } from 'antd';
+import { keyframes } from '@emotion/react';
 
 export const Wrapper = styled.div`
   background-color: white;
@@ -22,7 +22,7 @@ export const Wrapper = styled.div`
 
   transform: translate(-50%, -50%);
   animation-duration: 0.3s;
-  animation-name: "fadeIn";
+  animation-name: 'fadeIn';
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -60,30 +60,6 @@ export const InputKey = styled.div`
   margin-top: 1rem;
   display: flex;
   justify-content: center;
-`;
-
-export const EmailInput = styled.input`
-  color: #969696;
-  background-color: #ffffff;
-  position: relative;
-  box-sizing: border-box;
-  box-shadow: 0 4px 4px 0 #00000040;
-  border: 1px solid #969696;
-  border-radius: 12px;
-  width: 20rem;
-  height: 3rem;
-  outline: none;
-  font-size: 1.3rem;
-  padding: 10px 15px 12px;
-  margin-bottom: 0.5rem;
-  :focus {
-    border: 1px solid gray;
-  }
-  ::placeholder {
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: #969696;
-  }
 `;
 
 export const Form = styled.form`

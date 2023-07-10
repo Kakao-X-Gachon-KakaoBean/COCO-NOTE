@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ export const Header = styled.div`
   line-height: 77px;
   letter-spacing: 0.1em;
   text-align: center;
-  font-family: "Pretendard-Regular";
+  font-family: 'Pretendard-Regular';
 
   & a {
     text-decoration: none;
@@ -115,7 +115,7 @@ export const Line = styled.div`
   margin: 8px 0;
 
   ::before {
-    content: "";
+    content: '';
     flex-grow: 1;
     margin: 0 1rem;
     background: #e6e8eb;
@@ -125,7 +125,7 @@ export const Line = styled.div`
   }
 
   ::after {
-    content: "";
+    content: '';
     flex-grow: 1;
     margin: 0 1rem;
     background: #e6e8eb;

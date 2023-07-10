@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 
 export const Header = styled.div`
   font-size: 2.5rem;
@@ -8,7 +8,7 @@ export const Header = styled.div`
   line-height: 77px;
   letter-spacing: 0.1em;
   text-align: center;
-  font-family: "Pretendard-Regular";
+  font-family: 'Pretendard-Regular';
 `;
 
 const submitButtonAnimation = keyframes`
@@ -152,68 +152,6 @@ export const Input = styled.input`
     font-size: 1rem;
     font-weight: 200;
     color: #969696;
-  }
-`;
-
-export const CheckLabel = styled.div`
-  display: flex;
-  gap: 2rem;
-`;
-
-const genderLabelAnimation = keyframes`
-  to{
-    background-color: black;
-    color: white;
-  }
-`;
-
-export const Label2 = styled.label`
-  color: #969696;
-  background-color: #e6e8eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-sizing: border-box;
-  border-radius: 8px;
-  width: 13.6rem;
-  height: 3rem;
-  font-weight: 600;
-  outline: none;
-  font-size: 1.3rem;
-  margin-top: 0.9rem;
-  margin-bottom: 0.3rem;
-
-  &:hover {
-    animation: ${genderLabelAnimation} 0.2s ease-in-out forwards;
-  }
-
-  & input[type="radio"]:checked + span {
-    color: white;
-    background-color: black;
-  }
-`;
-
-export const GenderSpan = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  width: 13.6rem;
-  height: 3rem;
-`;
-
-export const InputGender = styled.input`
-  :focus {
-    border: 1px solid gray;
-  }
-  ::placeholder {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #6c747a;
-  }
-  &[type="radio"] {
-    display: none;
   }
 `;
 

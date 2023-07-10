@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import { Button } from "antd";
+import styled from '@emotion/styled';
+import { Button } from 'antd';
 
 export const InfoCardDiv = styled.div`
   display: flex;

@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
   background-color: skyblue;
@@ -22,7 +22,6 @@ export const HorizontalLine = styled.div`
   margin-top: 0.5rem;
 `;
 
-
 export const ScrollWrapper = styled.div`
   margin-top: 3rem;
   padding: 5%;
@@ -43,5 +42,3 @@ export const ViewAll = styled.div`
   margin-left: 1rem; /* "전체보기"와 "릴리즈 노트" 사이의 여백을 추가합니다 */
   font-size: x-small;
 `;
-
-
