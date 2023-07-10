@@ -1,11 +1,6 @@
-import {
-  BarDiv,
-  LogoDiv,
-  OthersDiv,
-  TitleLink,
-} from "@components/HeaderBar/styles.tsx";
-import Notification from "@components/HeaderBar/Notification";
-import MyInfo from "@components/HeaderBar/MyInfo";
+import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@components/HeaderBar/styles.tsx';
+import Notification from '@components/HeaderBar/Notification';
+import MyInfo from '@components/HeaderBar/MyInfo';
 
 const HeaderBar = () => {
   return (

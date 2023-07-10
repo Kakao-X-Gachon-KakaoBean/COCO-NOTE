@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Menu, Dropdown, Space } from "antd";
-import { items } from "@components/HeaderBar/Notification/dummy.tsx";
-import { BellOutlined } from "@ant-design/icons";
+import React, { useState } from 'react';
+import { Dropdown, Menu, Space } from 'antd';
+import { items } from '@components/HeaderBar/Notification/dummy.tsx';
+import { BellOutlined } from '@ant-design/icons';
 
 const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -19,29 +19,25 @@ const Notification: React.FC = () => {
       <Dropdown
         overlay={
           <Menu onClick={handleClick}>
-            {items.map((item) => (
-              <Menu.Item
-                key={item.key}
-                danger={item.danger}
-                disabled={item.disabled}
-              >
+            {items.map(item => (
+              <Menu.Item key={item.key} danger={item.danger} disabled={item.disabled}>
                 {item.icon}
                 {item.label}
               </Menu.Item>
             ))}
           </Menu>
         }
-        trigger={["click"]}
+        trigger={['click']}
         open={visible}
         onOpenChange={handleDropdownVisibleChange}
       >
-        <a onClick={(e) => e.preventDefault()}>
+        <a onClick={e => e.preventDefault()}>
           <Space>
             <BellOutlined
               style={{
-                fontSize: "25px",
-                cursor: "pointer",
-                color: visible ? "green" : "black",
+                fontSize: '25px',
+                cursor: 'pointer',
+                color: visible ? 'green' : 'black',
               }}
             />
           </Space>

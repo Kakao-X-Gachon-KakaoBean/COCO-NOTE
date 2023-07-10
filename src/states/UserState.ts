@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom } from 'recoil';
 
 export interface IUser {
   isLoggingIn: boolean;
@@ -13,17 +13,17 @@ export interface IUser {
 
 const initialState: IUser = {
   isLoggingIn: false,
-  name: "",
-  email: "",
-  password: "",
-  emailAuthKey: "",
-  checkPassword: "",
-  accessToken: "",
-  error: "",
+  name: '',
+  email: '',
+  password: '',
+  emailAuthKey: '',
+  checkPassword: '',
+  accessToken: '',
+  error: '',
 };
 
-export const UserState = atom({
-  key: "UserState",
+atom({
+  key: 'UserState',
   default: initialState,
 });
 
@@ -36,10 +36,10 @@ export interface MypageUser {
 const myPageInitialState: MypageUser = {
   originalImage: undefined,
   profileImage: null,
-  name: "김윤호",
-  email: "hkj9909@gmail.com",
+  name: '김윤호',
+  email: 'hkj9909@gmail.com',
 };
 export const MyPageUserState = atom({
-  key: "MyPageUserState",
+  key: 'MyPageUserState',
   default: myPageInitialState,
 });

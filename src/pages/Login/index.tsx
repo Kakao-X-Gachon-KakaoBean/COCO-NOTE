@@ -1,6 +1,6 @@
-import { ChangeEvent, useCallback, useState } from "react";
-import GoogleImg from "../../images/google-logo.png";
-import KakaoImg from "../../images/kakao-logo.png";
+import { ChangeEvent, useCallback, useState } from 'react';
+import GoogleImg from '../../images/google-logo.png';
+import KakaoImg from '../../images/kakao-logo.png';
 
 import {
   Form,
@@ -17,56 +17,52 @@ import {
   SocialLogin,
   Vertical,
   Wrapper,
-} from "@pages/Login/styles.tsx";
-import { Link } from "react-router-dom";
+} from '@pages/Login/styles.tsx';
+import { Link } from 'react-router-dom';
 
-import Menu from "@components/Menu";
-import SearchEmail from "@components/SearchEmail";
-import SearchPassword from "@components/PasswordModal";
-import useInput from "../../hooks/useInput.ts";
-import { IUser } from "@states/UserState.ts";
-import { useMutation } from "react-query";
-import axios, { AxiosError } from "axios";
+import Menu from '@components/Menu';
+import SearchEmail from '@components/SearchEmail';
+import SearchPassword from '@components/PasswordModal';
+import useInput from '../../hooks/useInput.ts';
+import { IUser } from '@states/UserState.ts';
+import { useMutation } from 'react-query';
+import axios, { AxiosError } from 'axios';
 
 const LogIn = () => {
-  const baseUrl = "123";
+  const baseUrl = '123';
 
-  const [email, onChangeEmail] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const [email, onChangeEmail] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
-  const [name, onChangeName] = useInput("");
-  const [birth, onChangeBirth] = useInput("");
+  const [name, onChangeName] = useInput('');
+  const [birth, onChangeBirth] = useInput('');
   const [checkEmailModal, setCheckEmailModal] = useState(false);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
 
   const onCloseEmailModal = useCallback(() => {
-    setCheckEmailModal((prev) => !prev);
+    setCheckEmailModal(prev => !prev);
   }, []);
 
   const onClosePasswordModal = useCallback(() => {
-    setCheckPasswordModal((prev) => !prev);
+    setCheckPasswordModal(prev => !prev);
   }, []);
 
-  const LoginMutation = useMutation<
-    IUser,
-    AxiosError,
-    { email: string; password: string }
-  >(
-    "user",
-    (data) =>
+  const LoginMutation = useMutation<IUser, AxiosError, { email: string; password: string }>(
+    'user',
+    data =>
       axios
-        .post("123", data, {
+        .post('123', data, {
           withCredentials: true,
         })
-        .then((response) => response.data),
+        .then(response => response.data),
     {
       onMutate() {},
       onSuccess(data) {
-        localStorage.setItem("accessToken", data?.accessToken);
+        localStorage.setItem('accessToken', data?.accessToken);
       },
       onError(error) {
         // setLogInError(error.response?.data?.code === 401);
-        alert("로그인에 실패하였습니다.");
+        alert('로그인에 실패하였습니다.');
       },
     }
   );
@@ -93,14 +89,7 @@ const LogIn = () => {
         </Header>
         <Form onSubmit={onSubmit}>
           <Label>
-            <Input
-              type="text"
-              id="id"
-              name="id"
-              value={email}
-              onChange={onChangeEmail}
-              placeholder="이메일"
-            />
+            <Input type="text" id="id" name="id" value={email} onChange={onChangeEmail} placeholder="이메일" />
           </Label>
           <Label>
             <Input
@@ -116,7 +105,7 @@ const LogIn = () => {
           <SearchBox>
             <span
               style={{
-                display: "flex",
+                display: 'flex',
               }}
             >
               <SearchBtn type="button" onClick={onCloseEmailModal}>
@@ -129,7 +118,7 @@ const LogIn = () => {
             </span>
             <Vertical></Vertical>
             <span>
-              <Link style={{ fontWeight: "bold" }} to="/signup">
+              <Link style={{ fontWeight: 'bold' }} to="/signup">
                 회원 가입
               </Link>
             </span>
@@ -137,15 +126,11 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn
-            href={`${baseUrl}/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}
-          >
+          <GoogleBtn href={`${baseUrl}/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn
-            href={`${baseUrl}/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}
-          >
+          <KakaoBtn href={`${baseUrl}/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>
