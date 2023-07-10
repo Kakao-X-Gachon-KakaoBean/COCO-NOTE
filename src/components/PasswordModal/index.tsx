@@ -24,8 +24,6 @@ import { useMutation } from 'react-query';
 import useInput from '../../hooks/useInput';
 
 const SearchPassword: FC<PaswwordModal> = ({ onClosePasswordModal }) => {
-  const baseUrl = process.env.REACT_APP_BASE_URL;
-
   const [email, onChangeEmail] = useInput('');
   const [passwordToChange, , setPasswordToChange] = useInput('');
   const [checkPasswordToChange, , setCheckPasswordToChange] = useInput('');
@@ -44,7 +42,7 @@ const SearchPassword: FC<PaswwordModal> = ({ onClosePasswordModal }) => {
       }
 
       axios
-        .post(`${baseUrl}/emails`, { email }, { withCredentials: true })
+        .post('123', { email }, { withCredentials: true })
         .then(() => {
           setFailUseEmail(true);
           toast(message('메일로 인증번호가 발송되었습니다.'), {
@@ -57,7 +55,7 @@ const SearchPassword: FC<PaswwordModal> = ({ onClosePasswordModal }) => {
           console.log(error.response);
         });
     },
-    [baseUrl, email]
+    [email]
   );
 
   const onChangePassword = useCallback(
@@ -89,7 +87,7 @@ const SearchPassword: FC<PaswwordModal> = ({ onClosePasswordModal }) => {
       passwordToChange: string;
       checkPasswordToChange: string;
     }
-  >('modifyPassword', data => axios.patch(`${baseUrl}/members/password`, data).then(response => response.data), {
+  >('modifyPassword', data => axios.patch('2/members/password', data).then(response => response.data), {
     onMutate() {
       // setLogInError(false);
     },
