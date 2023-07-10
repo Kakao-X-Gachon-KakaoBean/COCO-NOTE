@@ -11,7 +11,12 @@ const WithdrawAccountModal = () => {
   };
   return (
     <div>
-      <Button type={'primary'} danger onClick={() => setOpen(true)}>
+      <Button
+        type={'primary'}
+        danger
+        onClick={() => setOpen(true)}
+        style={{ fontFamily: 'SCDream4', fontSize: '12px' }}
+      >
         계정 탈퇴
       </Button>
       <Modal centered open={open} title={'비밀번호 변경'} onOk={handleOk} onCancel={handleCancel}>

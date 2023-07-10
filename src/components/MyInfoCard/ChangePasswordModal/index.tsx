@@ -13,7 +13,7 @@ const ChangePasswordModal = () => {
   };
   return (
     <div>
-      <Button type={'primary'} onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)} style={{ fontFamily: 'SCDream4', fontSize: '12px' }}>
         비밀번호 변경
       </Button>
       <Modal
