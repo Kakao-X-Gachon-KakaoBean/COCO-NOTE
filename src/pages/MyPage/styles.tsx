@@ -16,9 +16,9 @@ export const MyPageDiv = styled.div`
   margin-top: 2%;
 `;
 export const MyPageTextDiv = styled.div`
-  font-size: 1.1vw;
-  font-weight: 500;
+  font-size: 1.2vw;
   margin-top: 6%;
+  font-family: SCDream5;
 `;
 export const MyInfoCardDiv = styled.div`
   display: flex;
@@ -31,4 +31,11 @@ export const MyInfoCardDiv = styled.div`
   padding: 5%;
   border-radius: 10px;
   box-shadow: 0.3em 0.3em 0.7em #00000015;
+`;
+
+export const ChangeInfoDiv = styled.div`
+  width: 30%;
+  margin-top: 3%;
+  display: flex;
+  flex-direction: column;
 `;
