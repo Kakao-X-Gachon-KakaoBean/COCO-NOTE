@@ -11,8 +11,12 @@ import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { Link } from 'react-router-dom';
+import { SelectedProjectState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 
 const SideDetailBar = () => {
+  const selectedProject = useRecoilValue(SelectedProjectState);
+
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -29,7 +33,7 @@ const SideDetailBar = () => {
         <Dropdown menu={{ items }} trigger={['click']}>
           <a onClick={e => e.preventDefault()}>
             <Space>
-              프로젝트 명
+              {selectedProject.projectTitle}
               <DownOutlined />
             </Space>
           </a>
