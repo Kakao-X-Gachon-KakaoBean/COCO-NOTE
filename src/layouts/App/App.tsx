@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
 
+const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
 const ManagePage = loadable(() => import('@pages/ManagePage'));
 const MyPage = loadable(() => import('@pages/MyPage'));
@@ -13,8 +14,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate replace to="/firstpage" />} />
+        <Route path="/" element={<Navigate replace to="/initial" />} />
         <Route path="/main" element={<Main />} />
+        <Route path="/initial" element={<InitialPage />} />
         <Route path="/manage" element={<ManagePage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
