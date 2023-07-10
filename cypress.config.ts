@@ -1,13 +1,8 @@
-import { defineConfig } from 'cypress';
-import customViteConfig from './vite.config';
+const { defineConfig } = require('cypress');
 
-export default defineConfig({
-  component: {
-    devServer: {
-      framework: 'react',
-      bundler: 'vite',
-      // pass in vite config
-      viteConfig: customViteConfig,
-    },
+module.exports = defineConfig({
+  e2e: {
+    supportFile: false,
+    baseUrl: 'http://localhost:3000',
   },
 });
