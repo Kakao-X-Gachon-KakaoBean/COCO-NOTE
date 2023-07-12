@@ -50,14 +50,14 @@ const SideDetailBar = () => {
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
-          <Text>릴리즈 노트</Text>
+          <Text>작업 관리</Text>
           <ViewAll>전체보기</ViewAll>
         </HorizonText>
         <HorizontalLine />
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
-          <Text>릴리즈 노트</Text>
+          <Text>이슈</Text>
           <ViewAll>전체보기</ViewAll>
         </HorizonText>
         <HorizontalLine />
