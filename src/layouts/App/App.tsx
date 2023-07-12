@@ -8,6 +8,8 @@ const ManagePage = loadable(() => import('@pages/ManagePage'));
 const MyPage = loadable(() => import('@pages/MyPage'));
 const Login = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
+const IssuePage = loadable(() => import('@pages/IssuePage'));
+const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/issue/*" element={<IssuePage />} />
+        <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path="/projectinfo" element={<ProjectInfo />} />
       </Routes>
     </BrowserRouter>
