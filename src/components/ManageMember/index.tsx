@@ -4,8 +4,6 @@ import {
   MemberHeaderRight,
   MemberList,
   MemberSection,
-  MemberSubmit,
-  MemberSave,
   ProjectSection,
   ProjectBody,
   ProjectHeader,
@@ -14,7 +12,7 @@ import {
   ProjectBodyExplain,
 } from '@components/ManageMember/styles.tsx';
 
-import { Select, Button, Input, Modal } from 'antd';
+import { Select, Button, Input, Modal, Divider } from 'antd';
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -32,7 +30,7 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useCallback, useState } from 'react';
-import { Wrapper } from '@styles/DefaultSide/styles.tsx';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import { CloseOutlined } from '@ant-design/icons';
@@ -41,6 +39,7 @@ import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
+import SideDetailBar from '@components/SideDetailBar';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -102,8 +101,8 @@ const ManageMember = () => {
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
   const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const [title, setTitle] = useState<string>('');
-  const [contents, setContents] = useState<string>('');
+  const [title, setTitle] = useState<string>('코코노트');
+  const [contents, setContents] = useState<string>('효과적 으아아아');
   const { TextArea } = Input;
 
   const [rows, setRows] = useState([
@@ -213,38 +212,55 @@ const ManageMember = () => {
 
   return (
     <>
-      <HeaderBar />
-      <SideBar />
+      {/*<HeaderBar />*/}
+      {/*<SideBar />*/}
+      {/*<SideDetailBar />*/}
       <Wrapper>
         <ProjectSection>
-          <ProjectHeader>프로젝트 정보</ProjectHeader>
+          <Button type="primary" shape="circle" icon={<CloseOutlined />} />
+          <ProjectHeader>
+            <div>프로젝트 정보</div>
+            <div>
+              <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
+                프로젝트 정보 수정
+              </Button>
+            </div>
+          </ProjectHeader>
           <ProjectBody>
-            <ProjectBodyTitle>{title}</ProjectBodyTitle>
-            <ProjectBodyExplain>{contents}</ProjectBodyExplain>
+            <ProjectBodyTitle>
+              <div>프로젝트 이름</div>
+              <div>{title}</div>
+            </ProjectBodyTitle>
+            <ProjectBodyExplain>
+              <div>프로젝트 설명</div>
+              <div>{contents}</div>
+            </ProjectBodyExplain>
           </ProjectBody>
-          <ProjectSubMit>
-            <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
-              프로젝트 정보 수정
-            </Button>
-          </ProjectSubMit>
+          <ProjectSubMit></ProjectSubMit>
         </ProjectSection>
+        <Divider />
         <MemberSection>
           <MemberHeader>
-            <MemberHeaderLeft>멤버 관리</MemberHeaderLeft>
+            <MemberHeaderLeft>구성원 관리</MemberHeaderLeft>
             <MemberHeaderRight>
-              <Button type="primary" shape="circle" icon={<CloseOutlined />} />
+              <Button
+                type="primary"
+                size="large"
+                style={{ color: 'black', backgroundColor: 'white', border: '1px' }}
+                onClick={() => SetInvitationModalOpen(true)}
+              >
+                멤버 추가
+              </Button>
+              <Button type="primary" style={{ color: 'white' }} size={'large'}>
+                멤버 권한 저장
+              </Button>
             </MemberHeaderRight>
           </MemberHeader>
-          <MemberSubmit>
-            <Button type="primary" size="large" onClick={() => SetInvitationModalOpen(true)}>
-              추가
-            </Button>
-          </MemberSubmit>
           <MemberList>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                 <TableHead>
-                  <TableRow sx={{ background: 'gray' }}>
+                  <TableRow sx={{ background: '#f5f5f8' }}>
                     <TableCell align="left">이름</TableCell>
                     <TableCell align="center">이메일</TableCell>
                     <TableCell align="center">직위</TableCell>
@@ -305,11 +321,6 @@ const ManageMember = () => {
               </Table>
             </TableContainer>
           </MemberList>
-          <MemberSave>
-            <Button type="primary" size={'large'}>
-              멤버 정보 저장
-            </Button>
-          </MemberSave>
           <Button type="primary" danger size={'large'}>
             프로젝트 삭제
           </Button>
