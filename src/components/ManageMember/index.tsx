@@ -31,15 +31,12 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useCallback, useState } from 'react';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
 import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
-import SideDetailBar from '@components/SideDetailBar';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -321,9 +318,18 @@ const ManageMember = () => {
               </Table>
             </TableContainer>
           </MemberList>
-          <Button type="primary" danger size={'large'}>
-            프로젝트 삭제
-          </Button>
+          <Divider />
+          <ProjectHeader>
+            <div>프로젝트 삭제</div>
+          </ProjectHeader>
+          <ProjectBody>
+            <ProjectBodyTitle>
+              <div>삭제 으아아</div>
+            </ProjectBodyTitle>
+            <Button type="primary" danger size={'large'}>
+              프로젝트 삭제
+            </Button>
+          </ProjectBody>
         </MemberSection>
         <Modal
           title="인원 추가히기"
