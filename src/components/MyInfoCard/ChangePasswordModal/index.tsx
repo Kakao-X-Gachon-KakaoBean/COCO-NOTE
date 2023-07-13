@@ -78,6 +78,7 @@ const ChangePasswordModal = () => {
   };
 
   const handleCancel = () => {
+    refreshInput();
     setOpen(false);
   };
 
