@@ -2,9 +2,10 @@ import HeaderBar from '@components/HeaderBar';
 import { Wrapper } from '@styles/DefaultSide/styles.tsx';
 import SideBar from '@components/SideBar';
 import MyInfoCard from '@components/MyInfoCard';
-import { CenterDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } from '@pages/MyPage/styles.tsx';
-import ChangeInfoBtn from '@components/MyInfoCard/ChangeInfoBtn';
+import { CenterDiv, ChangeInfoDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } from '@pages/MyPage/styles.tsx';
 import { Divider } from 'antd';
+import ChangePasswordModal from '@components/MyInfoCard/ChangePasswordModal';
+import WithdrawAccountModal from '@components/MyInfoCard/WithdrawAccountModal';
 
 const MyPage = () => {
   return (
@@ -19,11 +20,15 @@ const MyPage = () => {
               <MyInfoCard />
             </MyInfoCardDiv>
             <Divider />
-            <MyPageTextDiv>비밀번호와 계정</MyPageTextDiv>
-            <ChangeInfoBtn />
+            <MyPageTextDiv>비밀번호 변경</MyPageTextDiv>
+            <ChangeInfoDiv>
+              <ChangePasswordModal />
+            </ChangeInfoDiv>
             <Divider />
-            <MyPageTextDiv>내 작업항목</MyPageTextDiv>
-            <Divider />
+            <MyPageTextDiv>계정 탈퇴</MyPageTextDiv>
+            <ChangeInfoDiv>
+              <WithdrawAccountModal />
+            </ChangeInfoDiv>
           </MyPageDiv>
         </CenterDiv>
       </Wrapper>

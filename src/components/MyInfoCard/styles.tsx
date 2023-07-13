@@ -14,6 +14,8 @@ export const UserInfoDiv = styled.div`
   width: 40%;
 `;
 export const EditProfileBtn = styled(Button)`
-  width: 150px;
+  width: 35%;
   margin-top: 3%;
+  font-family: SCDream4;
+  font-size: 12px;
 `;
