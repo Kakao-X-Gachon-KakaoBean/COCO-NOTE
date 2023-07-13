@@ -1,8 +1,9 @@
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { ColumnsType } from 'antd/es/table';
 import React, { useState } from 'react';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
+import { IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/styles.tsx';
 
 interface DataType {
   key: React.Key;
@@ -29,7 +30,7 @@ const Issue = () => {
   const navigate = useNavigate();
 
   const data: DataType[] = [];
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     data.push({
       key: i,
       name: `이름입니다 ${i}`,
@@ -60,13 +61,22 @@ const Issue = () => {
   return (
     <>
       <Wrapper>
-        <div>
-          <Link to="createissue">새 이슈 생성</Link>
-        </div>
-        <div>이슈 필터 검색</div>
-        <div>이슈 댓글 작성</div>
-        <div>
-          <Table rowSelection={rowSelection} columns={columns} dataSource={data} onRow={onRow} />
+        <div style={{ padding: '1rem' }}>
+          <IssueHeader>이슈</IssueHeader>
+          <IssueTable>
+            <Table
+              rowSelection={rowSelection}
+              columns={columns}
+              dataSource={data}
+              onRow={onRow}
+              pagination={{ pageSize: 8 }}
+            />
+          </IssueTable>
+          <IssueCreateBtn>
+            <Button type="primary">
+              <Link to="createissue">새 이슈 생성</Link>
+            </Button>
+          </IssueCreateBtn>
         </div>
       </Wrapper>
     </>
