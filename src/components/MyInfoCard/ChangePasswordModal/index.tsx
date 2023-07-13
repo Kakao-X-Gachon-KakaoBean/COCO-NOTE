@@ -40,7 +40,6 @@ const ChangePasswordModal = () => {
     });
   }
   const handleOk = () => {
-    console.log('clicked Ok');
     let isValid = true;
 
     if (passwordInput.existingPassword === UserPassword) {
@@ -57,21 +56,26 @@ const ChangePasswordModal = () => {
       isValid = false;
     }
 
-    if (passwordInput.newPassword === passwordInput.confirmNewPassword) {
+    if (
+      passwordInput.newPassword &&
+      passwordInput.confirmNewPassword &&
+      passwordInput.newPassword === passwordInput.confirmNewPassword
+    ) {
       setPasswordStatus(prevState => ({
         ...prevState,
         confirmNewPassword: '',
       }));
     } else {
-      toast.error('새로운 비밀번호가 일치하지 않습니다.');
+      toast.error('새로운 비밀번호를 다시 확인해주세요');
       setPasswordStatus(prevState => ({
         ...prevState,
         confirmNewPassword: 'error',
       }));
       isValid = false;
     }
+
     if (isValid) {
-      toast.success('비밀번호가 변경되었습니다.');
+      toast.success('비밀번호가 변경되었습니다');
       setOpen(false);
       refreshInput();
     }
