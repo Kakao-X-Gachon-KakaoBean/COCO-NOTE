@@ -69,7 +69,7 @@ const Main = () => {
             style={{ marginBottom: '2rem' }}
           />
         </Modal>
-        <text>프로젝트를 선택해주세요!</text>
+        <div>프로젝트를 선택해주세요!</div>
       </Wrapper>
       <ToastContainer position="top-right" autoClose={3000} closeOnClick pauseOnFocusLoss theme="light" />
     </div>
