@@ -3,7 +3,11 @@ import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
-import { FooterContainer } from '@components/MyInfoCard/WithdrawAccountModal/styles.tsx';
+import {
+  FooterContainer,
+  WithdrawAccountAgreeText,
+  WithdrawAccountExplainText,
+} from '@components/MyInfoCard/WithdrawAccountModal/styles.tsx';
 
 const WithdrawAccountModal = () => {
   const [open, setOpen] = useState(false);
@@ -43,7 +47,7 @@ const WithdrawAccountModal = () => {
         footer={[
           <FooterContainer key={'checkAgreeBox'}>
             <Checkbox onChange={checkAgree} checked={isAgree}>
-              <div>계정삭제에 동의합니다.</div>
+              <WithdrawAccountAgreeText>계정삭제에 동의합니다.</WithdrawAccountAgreeText>
             </Checkbox>
             <Button key={'footer'} onClick={() => handleOk()}>
               확인
@@ -51,8 +55,10 @@ const WithdrawAccountModal = () => {
           </FooterContainer>,
         ]}
       >
-        <div>정말 계정을 삭제하시겠습니까?</div>
-        <div>코코노트의 모든 사용자 정보가 삭제됩니다.</div>
+        <WithdrawAccountExplainText>
+          <div>정말 계정을 삭제하시겠습니까?</div>
+          <div>코코노트의 모든 사용자 정보가 삭제됩니다.</div>
+        </WithdrawAccountExplainText>
       </Modal>
       <ToastContainer position="top-center" autoClose={1500} closeOnClick pauseOnFocusLoss theme="light" />
     </div>
