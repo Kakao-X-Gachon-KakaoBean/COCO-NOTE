@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
@@ -17,10 +17,17 @@ const IssueDetail = () => {
   const pageId = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { TextArea } = Input;
 
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
+  const [issueTitle, setIssueTitle] = useState('');
+  const [issueContent, setIssueContent] = useState('');
+  const [issueModalOpen, SetProjectModalOpen] = useState(false);
 
+  const cancleModal = () => {
+    SetProjectModalOpen(false);
+  };
   const addComment = () => {
     const comment: Comment = { content: newComment };
 
@@ -39,9 +46,8 @@ const IssueDetail = () => {
     console.log('delete');
   };
 
-  //이슈 수정
-  const edit = () => {
-    console.log('edit');
+  const editIssue = () => {
+    SetProjectModalOpen(true);
   };
 
   // const {
@@ -93,7 +99,7 @@ const IssueDetail = () => {
           <div>{pageId.issueId}번째 페이지</div>
           <Button onClick={on}>뒤로 가기</Button>
           <Button onClick={DeleteIssue}>삭제</Button>
-          <Button onClick={edit}>수정</Button>
+          <Button onClick={editIssue}>수정</Button>
           <div>
             <input type="text" value={newComment} onChange={e => setNewComment(e.target.value)} />
             <button onClick={addComment}>Submit</button>
@@ -104,6 +110,33 @@ const IssueDetail = () => {
             </ul>
           </div>
         </div>
+        <Modal
+          title="이슈 변경"
+          open={issueModalOpen}
+          onCancel={cancleModal}
+          footer={
+            <div>
+              <Button key="submit" type="primary">
+                OK
+              </Button>
+            </div>
+          }
+        >
+          <TextArea
+            value={issueTitle}
+            autoSize={{ minRows: 1, maxRows: 10 }}
+            onChange={e => setIssueTitle(e.target.value)}
+            placeholder="이슈 제목"
+            style={{ marginBottom: '2rem', marginTop: '3rem' }}
+          />
+          <TextArea
+            value={issueContent}
+            autoSize={{ minRows: 3, maxRows: 10 }}
+            onChange={e => setIssueContent(e.target.value)}
+            placeholder="이슈 내용"
+            style={{ marginBottom: '2rem' }}
+          />
+        </Modal>
       </Wrapper>
     </>
   );
