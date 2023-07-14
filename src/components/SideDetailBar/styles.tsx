@@ -1,13 +1,14 @@
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
-  background-color: skyblue;
+  background-color: white;
   width: 20%;
   height: 100%;
   position: fixed;
   top: 7%;
   left: 8%;
   z-index: 11;
+  border: 1pt solid #f2f2f2;
 `;
 
 export const DropdownDiv = styled.div`
