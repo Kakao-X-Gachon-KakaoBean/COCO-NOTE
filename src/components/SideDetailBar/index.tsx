@@ -13,6 +13,7 @@ import { Dropdown, Space } from 'antd';
 import { Link } from 'react-router-dom';
 import { SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
+import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
@@ -44,21 +45,22 @@ const SideDetailBar = () => {
       <ScrollWrapper>
         <HorizonText>
           <Text>릴리즈 노트</Text>
-          <ViewAll>전체보기</ViewAll>
+          <ViewAll to="/releasenote">전체보기</ViewAll>
         </HorizonText>
         <HorizontalLine />
+        <ReleaseNoteTree />
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
           <Text>작업 관리</Text>
-          <ViewAll>전체보기</ViewAll>
+          <ViewAll to="/releasenote">전체보기</ViewAll>
         </HorizonText>
         <HorizontalLine />
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
           <Text>이슈</Text>
-          <ViewAll>전체보기</ViewAll>
+          <ViewAll to="/releasenote">전체보기</ViewAll>
         </HorizonText>
         <HorizontalLine />
       </ScrollWrapper>
