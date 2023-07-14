@@ -9,6 +9,12 @@ import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
+import {
+  CommentBox,
+  EachCommentBox,
+  EachCommentBoxBody,
+  EachCommentBoxHeader,
+} from '@components/IssueDetail/styles.tsx';
 
 interface Comment {
   content: string;
@@ -103,11 +109,17 @@ const IssueDetail = () => {
           <div>
             <input type="text" value={newComment} onChange={e => setNewComment(e.target.value)} />
             <button onClick={addComment}>Submit</button>
-            <ul>
+            <CommentBox>
               {comments.map((comment, index) => (
-                <li key={index}>{comment.content}</li>
+                <EachCommentBox key={index}>
+                  <EachCommentBoxHeader>
+                    <div>작성자 이름</div>
+                    <div>작성 일자</div>
+                  </EachCommentBoxHeader>
+                  <EachCommentBoxBody>{comment.content}</EachCommentBoxBody>
+                </EachCommentBox>
               ))}
-            </ul>
+            </CommentBox>
           </div>
         </div>
         <Modal
