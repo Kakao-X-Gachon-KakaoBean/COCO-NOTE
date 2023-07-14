@@ -8,19 +8,10 @@ import { treeData } from '@components/ReleaseNote/ReleaseNoteTree/mock.tsx';
 const ReleaseNoteTree: React.FC = () => {
   const navigate = useNavigate();
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
     navigate(`/releasenote/${selectedKeys}`);
   };
 
-  return (
-    <Tree
-      showLine
-      switcherIcon={<DownOutlined />}
-      defaultExpandedKeys={['0.0']}
-      onSelect={onSelect}
-      treeData={treeData}
-    />
-  );
+  return <Tree showLine switcherIcon={<DownOutlined />} defaultExpandAll onSelect={onSelect} treeData={treeData} />;
 };
 
 export default ReleaseNoteTree;
