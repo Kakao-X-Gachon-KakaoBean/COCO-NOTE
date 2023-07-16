@@ -11,7 +11,16 @@ const ReleaseNoteTree: React.FC = () => {
     navigate(`/releasenote/${selectedKeys}`);
   };
 
-  return <Tree showLine switcherIcon={<DownOutlined />} defaultExpandAll onSelect={onSelect} treeData={treeData} />;
+  return (
+    <Tree
+      showLine
+      switcherIcon={<DownOutlined />}
+      defaultExpandAll
+      onSelect={onSelect}
+      treeData={treeData}
+      rootStyle={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
+    />
+  );
 };
 
 export default ReleaseNoteTree;
