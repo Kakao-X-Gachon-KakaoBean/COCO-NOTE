@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
-    "test": "jest",
-    "test:coverage": "jest --coverage --watchAll",
+    "test": "react-scripts test --watchAll",
+    "test:coverage": "yarn test --coverage --watchAll",
     "cypress": "cypress open",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -41,6 +41,7 @@
     "react-query": "^3.39.3",
     "react-router": "^6.14.0",
     "react-router-dom": "^6.14.0",
+    "react-scripts": "^5.0.1",
     "react-toastify": "^9.1.3",
     "recoil": "^0.7.7",
     "rehype-prism-plus": "^1.6.1"
