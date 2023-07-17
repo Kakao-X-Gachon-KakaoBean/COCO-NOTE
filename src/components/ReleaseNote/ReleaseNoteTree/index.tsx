@@ -8,8 +8,10 @@ import { DataNode } from 'antd/es/tree';
 
 const ReleaseNoteTree: React.FC = () => {
   const navigate = useNavigate();
-  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-    navigate(`/releasenote/${selectedKeys}`);
+  const onSelect: TreeProps['onSelect'] = selectedKeys => {
+    if (!(selectedKeys.includes('edit') || selectedKeys.includes('released'))) {
+      navigate(`/releasenote/${selectedKeys}`);
+    }
   };
   const treeData: DataNode[] = [
     {
