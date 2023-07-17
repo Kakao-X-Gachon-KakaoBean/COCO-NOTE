@@ -7,7 +7,6 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 
 const ReleaseNoteDetail = () => {
   const Id = useParams();
-  console.log(Id.releaseId);
   return (
     <>
       <HeaderBar />
@@ -16,7 +15,12 @@ const ReleaseNoteDetail = () => {
       <Wrapper>
         {TestReleasedNote.map((note, index) => {
           if (note.key === Id.releaseId) {
-            return <div key={index}>{note.title}</div>;
+            return (
+              <div key={index}>
+                <div>Version {note.key}</div>
+                {note.title}
+              </div>
+            );
           }
         })}
       </Wrapper>
