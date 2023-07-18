@@ -1,5 +1,5 @@
-# COCONOTE
-
+# COCONOTE Web Page v1.0
+> **카카오 소프트웨어 아케데미 실무 프로젝트** <br/> **개발기간: 2023.07 ~ **
 <div align="center">
 <img width="329" alt="image" src="https://user-images.githubusercontent.com/50205887/207568862-cdc9e2c0-b03c-43ff-bf46-3ba79a110d0c.png">
 
@@ -7,16 +7,13 @@
 
 </div>
 
-# COCONOTE Web Page v1.0
-> **카카오 소프트웨어 아케데미 실무 프로젝트** <br/> **개발기간: 2023.07 ~ **
-
 
 ## 웹개발팀 소개
 
 |      추성준       |          김윤호         |       조연겸         |                                                                                                               
 | :------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | 
-|   <img width="160px" src="https://user-images.githubusercontent.com/50205887/205326013-af001243-a77d-4601-8bfc-aa713931cf95.png" />    |                      <img width="160px" src="https://user-images.githubusercontent.com/50205887/207570536-f5a82e48-99a1-4399-91d3-75fc5f8f3349.png" />    |                   <img width="160px" src="https://user-images.githubusercontent.com/50205887/207570634-247c3715-a54e-4f63-8c08-9b266f8a35f7.png"/>   |
-|   [@parkjiye](https://github.com/parkjiye)   |    [@ChaeyeonSeo](https://github.com/ChaeyeonSeo)  | [@hyunjeong408](https://github.com/hyunjeong408)  |
+|   <img width="160px" src="https://github.com/Kakao-X-Gachon-KakaoBean/COCO-NOTE/assets/31121701/5a1c5a6d-986b-4829-8313-f872fd369667.jpeg" />    |                      <img width="160px" src="https://github.com/Kakao-X-Gachon-KakaoBean/COCO-NOTE/assets/31121701/6c751352-db8a-4258-b65b-76ce0e030411.png" />    |                   <img width="160px" src="https://github.com/Kakao-X-Gachon-KakaoBean/COCO-NOTE/assets/31121701/52937331-9ba0-4098-a2de-02f94e20d48b.png"/>   |
+|   [@ChuSeongJun](https://github.com/ChuSeongJun)   |    [@ua1it](https://github.com/ua1it)  | [@jomo34](https://github.com/jomo34)  |
 | 가천대학교 컴퓨터공학과 4학년 | 가천대학교 소프트웨어학과 4학년 | 가천대학교 소프트웨어학과 4학년 |
 
 ## 프로젝트 소개
@@ -55,17 +52,13 @@ $ yarn run dev
 ![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)        
 
 ### Development
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=Javascript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Strapi](https://img.shields.io/badge/Strapi-2F2E8B?style=for-the-badge&logo=Strapi&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=Next.js&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=Bootstrap&logoColor=white)
 ![Material UI](https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=MUI&logoColor=white)
 
 ### Communication
 ![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white)
-![GoogleMeet](https://img.shields.io/badge/GoogleMeet-00897B?style=for-the-badge&logo=Google%20Meet&logoColor=white)
 
 ---
 ## 화면 구성 📺
