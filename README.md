@@ -1,12 +1,13 @@
 # COCONOTE Web Page v1.0
 > **카카오 소프트웨어 아케데미 실무 프로젝트** <br/> **개발기간: 2023.07 ~ **
+</br>
 
-# 문서화
+## 문서화
 
-[KakaoBean FrontEnd Notion](https://guiltless-sneezeweed-385.notion.site/3fbb79e6a1d04c138a83504194aed8b0?pvs=4) </br>
-[KakaoBean Jira](https://kakaobean.atlassian.net/jira/software/projects/DXGX/boards/3/timeline)
+[카카오빈 프론트엔드 노션](https://guiltless-sneezeweed-385.notion.site/3fbb79e6a1d04c138a83504194aed8b0?pvs=4) </br>
+[카카오빈 지라](https://kakaobean.atlassian.net/jira/software/projects/DXGX/boards/3/timeline)
 
-
+</br>
 
 
 ## 웹개발팀 소개
