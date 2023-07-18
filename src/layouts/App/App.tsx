@@ -9,6 +9,9 @@ const ManagePage = loadable(() => import('@pages/ManagePage'));
 const MyPage = loadable(() => import('@pages/MyPage'));
 const Login = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
+const IssuePage = loadable(() => import('@pages/IssuePage'));
+const IssueDetail = loadable(() => import('@components/IssueDetail'));
+const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
 
@@ -23,6 +26,11 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="issue/*">
+          <Route path="" element={<IssuePage />} />
+          <Route path=":issueId" element={<IssueDetail />} />
+        </Route>
+        <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path="/projectinfo" element={<ProjectInfo />} />
         <Route path="releasenote/*">
           <Route path="" element={<ReleaseNotePage />} />

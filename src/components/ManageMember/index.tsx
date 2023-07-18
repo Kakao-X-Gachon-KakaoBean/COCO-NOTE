@@ -31,15 +31,12 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useCallback, useState } from 'react';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
 import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
-import SideDetailBar from '@components/SideDetailBar';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -212,9 +209,6 @@ const ManageMember = () => {
 
   return (
     <>
-      {/*<HeaderBar />*/}
-      {/*<SideBar />*/}
-      {/*<SideDetailBar />*/}
       <Wrapper>
         <ProjectSection>
           <Button type="primary" shape="circle" icon={<CloseOutlined />} />
