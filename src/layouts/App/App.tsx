@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
+import ReleaseNoteDetail from '@components/ReleaseNote/ReleaseNoteDetail';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -12,6 +13,7 @@ const IssuePage = loadable(() => import('@pages/IssuePage'));
 const IssueDetail = loadable(() => import('@components/IssueDetail'));
 const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
+const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
         </Route>
         <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path="/projectinfo" element={<ProjectInfo />} />
+        <Route path="releasenote/*">
+          <Route path="" element={<ReleaseNotePage />} />
+          <Route path=":releaseId" element={<ReleaseNoteDetail />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
