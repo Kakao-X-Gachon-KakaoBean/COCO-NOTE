@@ -25,13 +25,8 @@
 For building and running the application you need:
 
 - [Node.js 16.16.0](https://nodejs.org/ca/blog/release/v16.16.0/)
-- [Yarn 3.6.0](https://www.npmjs.com/package/npm/v/9.2.0)
+- [Yarn 3.6.0](https://yarnpkg.com/package/yarn)
 
-### Installation
-``` bash
-$ git clone https://github.com/Voluntain-SKKU/Voluntain-2nd.git
-$ cd Voluntain-2nd
-```
 
 #### Frontend
 ```
@@ -44,7 +39,6 @@ $ yarn run dev
 ## Stacks 🐈
 
 ### Environment
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?style=for-the-badge&logo=Visual%20Studio%20Code&logoColor=white)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white)
 ![Github](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white)             
 
