@@ -10,7 +10,7 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
   {
     key: '1.1',
     title: '1.1 로그인 시 사용자 개인 정보 보호',
-    contents: '사용자 개인정보 관련하여 치명적인 버그가 발견되어 수정하였습니다.',
+    contents: '**사용자 개인정보 관련하여 치명적인 버그가 발견되어 수정하였습니다.**',
     editState: false,
   },
   {

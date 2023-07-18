@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Divider, Typography } from 'antd';
+import { Typography } from 'antd';
 const { Title, Paragraph, Text } = Typography;
 export const ReleasedNoteDiv = styled.div`
   display: flex;
