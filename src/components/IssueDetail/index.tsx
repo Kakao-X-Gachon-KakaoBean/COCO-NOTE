@@ -9,6 +9,7 @@ import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
+
 import {
   CommentBox,
   EachCommentBox,
@@ -20,7 +21,7 @@ interface Comment {
   content: string;
 }
 const IssueDetail = () => {
-  const pageId = useParams();
+  const pageId: string | undefined = useParams().issueId;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { TextArea } = Input;
@@ -29,10 +30,10 @@ const IssueDetail = () => {
   const [newComment, setNewComment] = useState('');
   const [issueTitle, setIssueTitle] = useState('');
   const [issueContent, setIssueContent] = useState('');
-  const [issueModalOpen, SetProjectModalOpen] = useState(false);
+  const [issueModalOpen, setProjectModalOpen] = useState(false);
 
-  const cancleModal = () => {
-    SetProjectModalOpen(false);
+  const cancelModal = () => {
+    setProjectModalOpen(false);
   };
   const addComment = () => {
     const comment: Comment = { content: newComment };
@@ -42,18 +43,16 @@ const IssueDetail = () => {
     setNewComment('');
   };
 
-  //이슈 페이지로 돌아가기
-  const on = () => {
-    navigate('/issue');
+  const getBack = () => {
+    navigate(-1);
   };
 
-  //이슈 삭제
   const dee = () => {
     console.log('delete');
   };
 
   const editIssue = () => {
-    SetProjectModalOpen(true);
+    navigate(`editIssue`);
   };
 
   // const {
@@ -102,8 +101,8 @@ const IssueDetail = () => {
       <SideDetailBar />
       <Wrapper>
         <div style={{ padding: '1rem' }}>
-          <div>{pageId.issueId}번째 페이지</div>
-          <Button onClick={on}>뒤로 가기</Button>
+          <div>{pageId}번째 페이지</div>
+          <Button onClick={getBack}>뒤로 가기</Button>
           <Button onClick={DeleteIssue}>삭제</Button>
           <Button onClick={editIssue}>수정</Button>
           <div>
@@ -125,7 +124,7 @@ const IssueDetail = () => {
         <Modal
           title="이슈 변경"
           open={issueModalOpen}
-          onCancel={cancleModal}
+          onCancel={cancelModal}
           footer={
             <div>
               <Button key="submit" type="primary">
