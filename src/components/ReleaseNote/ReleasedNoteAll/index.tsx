@@ -7,6 +7,7 @@ import {
   ReleasedNoteText,
   ReleasedNoteTitle,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+import MDEditor from '@uiw/react-md-editor';
 const ReleasedNoteAll: React.FC = () => {
   return (
     <ReleasedNoteDiv>
@@ -20,7 +21,7 @@ const ReleasedNoteAll: React.FC = () => {
         <Typography key={note.key}>
           <ReleasedNoteParagraph>
             <ReleasedNoteText strong>{note.title}</ReleasedNoteText>
-            <p>{note.contents}</p>
+            <MDEditor.Markdown source={note.contents} />
           </ReleasedNoteParagraph>
         </Typography>
       ))}
