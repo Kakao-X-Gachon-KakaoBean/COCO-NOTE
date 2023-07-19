@@ -14,6 +14,7 @@ const IssueDetail = loadable(() => import('@components/IssueDetail'));
 const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
+const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 
 function App() {
   return (
@@ -32,9 +33,10 @@ function App() {
         </Route>
         <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path="/projectinfo" element={<ProjectInfo />} />
-        <Route path="releasenote/*">
-          <Route path="" element={<ReleaseNotePage />} />
+        <Route path="releasenote">
+          <Route index element={<ReleaseNotePage />} />
           <Route path=":releaseId" element={<ReleaseNoteDetail />} />
+          <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
         </Route>
       </Routes>
     </BrowserRouter>
