@@ -13,6 +13,7 @@ import {
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
+import { ReleaseNoteHeaderDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 const ReleasedNoteAll: React.FC = () => {
   return (
     <ReleasedNoteDiv>
@@ -27,13 +28,14 @@ const ReleasedNoteAll: React.FC = () => {
       {TestReleasedNote.map(note => (
         <Typography key={note.version}>
           <ReleasedNoteParagraph>
-            <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
-            <br />
-            <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
-            <br />
-            <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+            <ReleaseNoteHeaderDiv>
+              <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
+              <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
+              <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+            </ReleaseNoteHeaderDiv>
             <MarkdownParagraph>
               <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
+              <Divider />
             </MarkdownParagraph>
           </ReleasedNoteParagraph>
         </Typography>

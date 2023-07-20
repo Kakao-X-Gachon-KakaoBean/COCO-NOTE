@@ -12,7 +12,7 @@ export const ReleasedNoteParagraph = styled(Paragraph)`
 `;
 
 export const MarkdownParagraph = styled(Paragraph)`
-  margin-top: 0.5%;
+  margin-top: 3%;
   font-family: SCDream4;
 `;
 

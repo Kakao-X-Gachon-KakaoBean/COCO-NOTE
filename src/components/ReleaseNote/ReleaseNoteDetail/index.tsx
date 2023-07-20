@@ -1,34 +1,23 @@
+import { useParams } from 'react-router-dom';
 import { TestReleasedNote } from '@components/ReleaseNote/ReleasedNoteAll/mock.tsx';
-import { useParams } from 'react-router';
-import SideDetailBar from '@components/SideDetailBar';
-import SideBar from '@components/SideBar';
+import ReadOnlyReleaseNoteDetail from './ReadOnlyReleaseNoteDetail';
+import BulletinReleaseNoteDetail from './BulletinReleaseNoteDetail';
 import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import { Button, Typography } from 'antd';
-import {
-  ReleasedNoteDiv,
-  ReleasedNoteParagraph,
-  ReleasedNoteDate,
-  ReleasedNoteTitle,
-  MarkdownParagraph,
-  ReleasedNoteText,
-} from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
-import MDEditor from '@uiw/react-md-editor';
-import ConvertDate from '@components/ReleaseNote/ConvertDate';
-import { useNavigate } from 'react-router-dom';
-import {
-  BulletinDiv,
-  EditButtonDiv,
-  ReleaseNoteHeaderDiv,
-  ReleaseNoteHeaderTop,
-} from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+import { ReleasedNoteDiv } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+import { ReleasedNoteAll } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
 
 const ReleaseNoteDetail = () => {
-  const Id = useParams();
-  const navigate = useNavigate();
-  const editReleaseNote = () => {
-    navigate('edit');
-  };
+  const { releaseId } = useParams();
+
+  const note: ReleasedNoteAll | undefined = TestReleasedNote.find(note => note.version === releaseId);
+
+  if (!note) {
+    return <div>Release note not found.</div>;
+  }
+
   return (
     <>
       <HeaderBar />
@@ -36,45 +25,7 @@ const ReleaseNoteDetail = () => {
       <SideDetailBar />
       <Wrapper>
         <ReleasedNoteDiv>
-          {TestReleasedNote.map((note, index) => {
-            if (note.version === Id.releaseId) {
-              return (
-                <Typography key={index}>
-                  <ReleasedNoteParagraph>
-                    <ReleaseNoteHeaderDiv>
-                      <ReleaseNoteHeaderTop>
-                        <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
-                        {note.editState ? <Button danger>삭제</Button> : <></>}
-                      </ReleaseNoteHeaderTop>
-                      <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
-                      <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
-                    </ReleaseNoteHeaderDiv>
-                    {note.editState ? (
-                      <MarkdownParagraph>
-                        <div>작성 중입니다.</div>
-                        <BulletinDiv>
-                          <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
-                        </BulletinDiv>
-                      </MarkdownParagraph>
-                    ) : (
-                      <MarkdownParagraph>
-                        <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
-                      </MarkdownParagraph>
-                    )}
-                    {note.editState ? (
-                      <EditButtonDiv>
-                        <Button type={'primary'} onClick={() => editReleaseNote()}>
-                          수정하기
-                        </Button>
-                      </EditButtonDiv>
-                    ) : (
-                      <></>
-                    )}
-                  </ReleasedNoteParagraph>
-                </Typography>
-              );
-            }
-          })}
+          {note.editState ? <BulletinReleaseNoteDetail note={note} /> : <ReadOnlyReleaseNoteDetail note={note} />}
         </ReleasedNoteDiv>
       </Wrapper>
     </>
