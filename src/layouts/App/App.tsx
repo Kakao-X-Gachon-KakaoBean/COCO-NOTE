@@ -9,6 +9,7 @@ const MyPage = loadable(() => import('@pages/MyPage'));
 const Login = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
+const TimeLine = loadable(() => import('@pages/TimeLine'));
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/projectinfo" element={<ProjectInfo />} />
+        <Route path="/Timeline" element={<TimeLine />} />
       </Routes>
     </BrowserRouter>
   );

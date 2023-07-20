@@ -35,10 +35,12 @@ export const HorizonText = styled.div`
 export const Text = styled.div`
   flex-grow: 1;
   white-space: nowrap;
+  color: black;
 `;
 
 export const ViewAll = styled.div`
   white-space: nowrap;
   margin-left: 1rem; /* "전체보기"와 "릴리즈 노트" 사이의 여백을 추가합니다 */
   font-size: x-small;
+  color: black;
 `;

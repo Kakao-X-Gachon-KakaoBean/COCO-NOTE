@@ -49,10 +49,12 @@ const SideDetailBar = () => {
         <HorizontalLine />
       </ScrollWrapper>
       <ScrollWrapper>
-        <HorizonText>
-          <Text>작업 관리</Text>
-          <ViewAll>전체보기</ViewAll>
-        </HorizonText>
+        <Link to="/timeline" style={{ textDecoration: 'none' }}>
+          <HorizonText>
+            <Text>작업 관리</Text>
+            <ViewAll>전체보기</ViewAll>{' '}
+          </HorizonText>
+        </Link>
         <HorizontalLine />
       </ScrollWrapper>
       <ScrollWrapper>
