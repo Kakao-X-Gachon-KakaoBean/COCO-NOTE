@@ -16,6 +16,12 @@ import {
 import MDEditor from '@uiw/react-md-editor';
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { useNavigate } from 'react-router-dom';
+import {
+  BulletinDiv,
+  EditButtonDiv,
+  ReleaseNoteHeaderDiv,
+  ReleaseNoteHeaderTop,
+} from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 
 const ReleaseNoteDetail = () => {
   const Id = useParams();
@@ -35,18 +41,32 @@ const ReleaseNoteDetail = () => {
               return (
                 <Typography key={index}>
                   <ReleasedNoteParagraph>
-                    <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
-                    <br />
-                    <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
-                    <br />
-                    <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
-                    <MarkdownParagraph>
-                      <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
-                    </MarkdownParagraph>
+                    <ReleaseNoteHeaderDiv>
+                      <ReleaseNoteHeaderTop>
+                        <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
+                        {note.editState ? <Button danger>삭제</Button> : <></>}
+                      </ReleaseNoteHeaderTop>
+                      <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
+                      <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+                    </ReleaseNoteHeaderDiv>
                     {note.editState ? (
-                      <Button type={'primary'} onClick={() => editReleaseNote()}>
-                        수정하기
-                      </Button>
+                      <MarkdownParagraph>
+                        <div>작성 중입니다.</div>
+                        <BulletinDiv>
+                          <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
+                        </BulletinDiv>
+                      </MarkdownParagraph>
+                    ) : (
+                      <MarkdownParagraph>
+                        <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
+                      </MarkdownParagraph>
+                    )}
+                    {note.editState ? (
+                      <EditButtonDiv>
+                        <Button type={'primary'} onClick={() => editReleaseNote()}>
+                          수정하기
+                        </Button>
+                      </EditButtonDiv>
                     ) : (
                       <></>
                     )}

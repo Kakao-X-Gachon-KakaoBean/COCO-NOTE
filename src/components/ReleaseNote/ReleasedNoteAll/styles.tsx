@@ -4,7 +4,7 @@ const { Paragraph, Text } = Typography;
 export const ReleasedNoteDiv = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2% 5% 5% 4%;
+  padding: 2% 5% 5% 10%;
 `;
 
 export const ReleasedNoteParagraph = styled(Paragraph)`
@@ -12,7 +12,7 @@ export const ReleasedNoteParagraph = styled(Paragraph)`
 `;
 
 export const MarkdownParagraph = styled(Paragraph)`
-  margin-top: 2%;
+  margin-top: 0.5%;
   font-family: SCDream4;
 `;
 

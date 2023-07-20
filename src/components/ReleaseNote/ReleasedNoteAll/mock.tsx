@@ -271,8 +271,8 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
   {
     version: '4.21.2',
     title: '이슈 보안 설정',
-    date: '23. 7. 19. 오후 1:11',
-    contents: '## 4.21.2\n',
+    date: '',
+    contents: '',
     editState: true,
   },
 ];
