@@ -1,4 +1,4 @@
-import { Circle, HorizontalLine, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
+import { Circle, HorizontalLine, InnerText, Projects, Wrapper } from '@components/SideBar/styles.tsx';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { AddProjectClickState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
 import { Tooltip } from 'antd';
@@ -26,14 +26,15 @@ const SideBar = () => {
             </Tooltip>
           ) : (
             <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
-              <Circle
+              <Projects
+                to={`/project/${project.projectId}/releasenote`}
                 className={selectedProject === project ? 'selected' : 'notSelected'}
                 onClick={() => {
                   setSelectedProject(project);
                 }}
               >
                 <InnerText>{project.projectTitle}</InnerText>
-              </Circle>
+              </Projects>
             </Tooltip>
           )}
           {projectIndex === 0 && <HorizontalLine />}

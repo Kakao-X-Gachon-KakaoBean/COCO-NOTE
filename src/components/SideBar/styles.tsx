@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
   background-color: wheat;
@@ -23,11 +24,27 @@ export const Circle = styled.div`
   padding: 1vw;
   margin-top: 2vh;
   cursor: pointer;
-
+  display: flex;
+  justify-content: center;
   &.selected {
     background-color: gray;
     color: #ffffff;
   }
+`;
+
+export const Projects = styled(Link)`
+  background-color: white;
+  text-align: center;
+  width: 6vw;
+  height: 6vh;
+  line-height: 6vh;
+  font-weight: bold;
+  clip-path: circle(2.5vw);
+  padding: 1vw;
+  margin-top: 2vh;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
 `;
 
 export const HorizontalLine = styled.div`
@@ -38,6 +55,6 @@ export const HorizontalLine = styled.div`
   margin-left: 1vw;
 `;
 
-export const InnerText = styled.text`
+export const InnerText = styled.div`
   font-size: 2vh;
 `;
