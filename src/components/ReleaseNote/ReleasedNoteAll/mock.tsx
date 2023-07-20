@@ -2,11 +2,10 @@ import { ReleasedNoteAll } from '@components/ReleaseNote/ReleasedNoteAll/type.ts
 
 export const TestReleasedNote: ReleasedNoteAll[] = [
   {
-    key: '4.18.0',
+    version: '4.18.0',
     title: '사용자 개인정보 관련 버그 수정',
+    date: '23. 7. 19. 오후 1:11',
     contents:
-      '## 4.18.0\n' +
-      '\n' +
       '### New\n' +
       '\n' +
       '- Initial beta release of `docker init` as per [the roadmap](https://github.com/docker/roadmap/issues/453).\n' +
@@ -69,11 +68,10 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
     editState: false,
   },
   {
-    key: '4.19.0',
+    version: '4.19.0',
     title: '로그인 시 사용자 개인 정보 보호',
+    date: '23. 7. 19. 오후 1:11',
     contents:
-      '## 4.19.0\n' +
-      '\n' +
       '### New\n' +
       '\n' +
       '- Docker Engine and CLI updated to [Moby 23.0](https://github.com/moby/moby/releases/tag/v23.0.0).\n' +
@@ -143,11 +141,10 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
     editState: false,
   },
   {
-    key: '4.20.0',
+    version: '4.20.0',
     title: '회원가입 시 개인 정보 요청 방식 수정',
+    date: '23. 7. 19. 오후 1:11',
     contents:
-      '## 4.20.0\n' +
-      '\n' +
       '### Upgrades\n' +
       '\n' +
       '- [Buildx v0.10.5](https://github.com/docker/buildx/releases/tag/v0.10.5)\n' +
@@ -185,11 +182,10 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
     editState: false,
   },
   {
-    key: '4.20.1',
+    version: '4.20.1',
     title: '사용자 찾기 버그 수정',
+    date: '23. 7. 19. 오후 1:11',
     contents:
-      '## 4.20.1\n' +
-      '\n' +
       '### Bug fixes and enhancements\n' +
       '\n' +
       '#### For all platforms\n' +
@@ -203,11 +199,10 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
     editState: false,
   },
   {
-    key: '4.21.0',
+    version: '4.21.0',
     title: '헤더바 시각화',
+    date: '23. 7. 19. 오후 1:11',
     contents:
-      '## 4.21.0\n' +
-      '\n' +
       '### New\n' +
       '\n' +
       '- Added support for new Wasm runtimes: slight, spin, and wasmtime.  Users can download Wasm runtimes on demand when the containerd image store is enabled.\n' +
@@ -255,11 +250,10 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
     editState: false,
   },
   {
-    key: '4.21.1',
+    version: '4.21.1',
     title: '헤더바 반응형 디자인 수정',
+    date: '23. 7. 19. 오후 1:11',
     contents:
-      '## 4.21.1\n' +
-      '\n' +
       '### Upgrades\n' +
       '- [Compose v2.19.1](https://github.com/docker/compose/releases/tag/v2.19.1)\n' +
       '\n' +
@@ -275,8 +269,9 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
     editState: false,
   },
   {
-    key: '4.21.2',
+    version: '4.21.2',
     title: '이슈 보안 설정',
+    date: '23. 7. 19. 오후 1:11',
     contents: '## 4.21.2\n',
     editState: true,
   },

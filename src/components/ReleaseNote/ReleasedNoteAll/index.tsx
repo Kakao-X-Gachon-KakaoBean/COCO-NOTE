@@ -4,10 +4,12 @@ import { Divider, Typography } from 'antd';
 import {
   ReleasedNoteDiv,
   ReleasedNoteParagraph,
-  ReleasedNoteText,
+  ReleasedNoteDate,
   ReleasedNoteTitle,
+  MarkdownParagraph,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
+import ConvertDate from '@components/ReleaseNote/ConvertDate';
 const ReleasedNoteAll: React.FC = () => {
   return (
     <ReleasedNoteDiv>
@@ -17,11 +19,14 @@ const ReleasedNoteAll: React.FC = () => {
         있습니다.
       </ReleasedNoteParagraph>
       <Divider />
-      {TestReleasedNote.map((note, index) => (
-        <Typography key={note.key}>
+      {TestReleasedNote.map(note => (
+        <Typography key={note.version}>
           <ReleasedNoteParagraph>
-            <ReleasedNoteText strong>{note.title}</ReleasedNoteText>
-            <MDEditor.Markdown source={note.contents} />
+            <ReleasedNoteTitle level={3}>{note.version + ' ' + note.title}</ReleasedNoteTitle>
+            <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+            <MarkdownParagraph>
+              <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
+            </MarkdownParagraph>
           </ReleasedNoteParagraph>
         </Typography>
       ))}

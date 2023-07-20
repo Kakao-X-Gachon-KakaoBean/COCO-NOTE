@@ -17,7 +17,7 @@ const ReleaseNoteTree: React.FC = () => {
       key: 'edit',
       children: TestReleasedNote.filter(note => note.editState).map(note => ({
         title: note.title,
-        key: note.key,
+        key: note.version,
         contents: note.contents,
       })),
     },
@@ -26,7 +26,7 @@ const ReleaseNoteTree: React.FC = () => {
       key: 'released',
       children: TestReleasedNote.filter(note => !note.editState).map(note => ({
         title: note.title,
-        key: note.key,
+        key: note.version,
         contents: note.contents,
       })),
     },

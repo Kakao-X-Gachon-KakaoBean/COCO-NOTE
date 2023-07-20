@@ -11,10 +11,16 @@ export const ReleasedNoteParagraph = styled(Paragraph)`
   font-family: SCDream4;
 `;
 
+export const MarkdownParagraph = styled(Paragraph)`
+  margin-top: 2%;
+  font-family: SCDream4;
+`;
+
 export const ReleasedNoteTitle = styled(Title)`
   font-family: SCDream5;
 `;
 
-export const ReleasedNoteText = styled(Text)`
+export const ReleasedNoteDate = styled(Text)`
   font-family: SCDream4;
+  color: #afabab;
 `;

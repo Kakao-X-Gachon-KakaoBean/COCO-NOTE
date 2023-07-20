@@ -8,10 +8,12 @@ import { Button, Typography } from 'antd';
 import {
   ReleasedNoteDiv,
   ReleasedNoteParagraph,
-  ReleasedNoteText,
+  ReleasedNoteDate,
   ReleasedNoteTitle,
+  MarkdownParagraph,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
+import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { useNavigate } from 'react-router-dom';
 
 const ReleaseNoteDetail = () => {
@@ -28,13 +30,15 @@ const ReleaseNoteDetail = () => {
       <Wrapper>
         <ReleasedNoteDiv>
           {TestReleasedNote.map((note, index) => {
-            if (note.key === Id.releaseId) {
+            if (note.version === Id.releaseId) {
               return (
                 <Typography key={index}>
                   <ReleasedNoteParagraph>
-                    <ReleasedNoteText>Version {note.key}</ReleasedNoteText>
-                    <ReleasedNoteTitle level={3}>{note.title}</ReleasedNoteTitle>
-                    <MDEditor.Markdown source={note.contents} />
+                    <ReleasedNoteTitle level={3}>{note.version + ' ' + note.title}</ReleasedNoteTitle>
+                    <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+                    <MarkdownParagraph>
+                      <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
+                    </MarkdownParagraph>
                     {note.editState ? (
                       <Button type={'primary'} onClick={() => editReleaseNote()}>
                         수정하기
