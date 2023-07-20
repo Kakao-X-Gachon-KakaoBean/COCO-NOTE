@@ -27,7 +27,7 @@ const SideBar = () => {
           ) : (
             <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
               <Projects
-                to={`/project/${project.projectId}/releasenote`}
+                to={`/project/${project.projectId}/projectinfo`}
                 className={selectedProject === project ? 'selected' : 'notSelected'}
                 onClick={() => {
                   setSelectedProject(project);
