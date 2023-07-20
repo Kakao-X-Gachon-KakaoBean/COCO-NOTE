@@ -11,6 +11,7 @@ import {
   ReleasedNoteDate,
   ReleasedNoteTitle,
   MarkdownParagraph,
+  ReleasedNoteText,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
@@ -34,7 +35,10 @@ const ReleaseNoteDetail = () => {
               return (
                 <Typography key={index}>
                   <ReleasedNoteParagraph>
-                    <ReleasedNoteTitle level={3}>{note.version + ' ' + note.title}</ReleasedNoteTitle>
+                    <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
+                    <br />
+                    <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
+                    <br />
                     <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
                     <MarkdownParagraph>
                       <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
