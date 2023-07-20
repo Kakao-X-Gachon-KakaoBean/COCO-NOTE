@@ -34,6 +34,7 @@ export const Circle = styled.div`
 
 export const Projects = styled(Link)`
   background-color: white;
+  color: black;
   text-align: center;
   width: 6vw;
   height: 6vh;
@@ -45,6 +46,7 @@ export const Projects = styled(Link)`
   cursor: pointer;
   display: flex;
   justify-content: center;
+  text-decoration: none;
 `;
 
 export const HorizontalLine = styled.div`
