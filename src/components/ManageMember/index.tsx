@@ -209,9 +209,6 @@ const ManageMember = () => {
 
   return (
     <>
-      {/*<HeaderBar />*/}
-      {/*<SideBar />*/}
-      {/*<SideDetailBar />*/}
       <Wrapper>
         <ProjectSection>
           <Button type="primary" shape="circle" icon={<CloseOutlined />} />

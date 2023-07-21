@@ -23,7 +23,8 @@ export const Circle = styled.div`
   padding: 1vw;
   margin-top: 2vh;
   cursor: pointer;
-
+  display: flex;
+  justify-content: center;
   &.selected {
     background-color: gray;
     color: #ffffff;
@@ -38,6 +39,6 @@ export const HorizontalLine = styled.div`
   margin-left: 1vw;
 `;
 
-export const InnerText = styled.text`
+export const InnerText = styled.div`
   font-size: 2vh;
 `;
