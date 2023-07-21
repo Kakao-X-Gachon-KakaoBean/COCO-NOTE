@@ -19,6 +19,7 @@ import {
   Wrapper,
 } from '@pages/Login/styles.tsx';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 import Menu from '@components/Menu';
 import SearchEmail from '@components/SearchEmail';
@@ -68,7 +69,7 @@ const LogIn = () => {
   );
 
   //로컬 로그인
-  const onSubmit = useCallback(
+  const onSubmit2 = useCallback(
     (e: ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
       LoginMutation.mutate({ email, password });
@@ -81,33 +82,47 @@ const LogIn = () => {
   //   return <Redirect to={"/main"} />;
   // }
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    setValue,
+  } = useForm();
+
+  const onSubmit = (data: any, e: any) => {
+    // 폼 제출 처리를 여기에서 수행합니다
+    e.preventDefault();
+    LoginMutation.mutate({ email, password });
+    console.log(data);
+  };
   return (
     <>
       <Wrapper>
         <Header>
           <Link to="/main">COCO:NOTE</Link>
         </Header>
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Label>
-            <Input type="text" id="id" name="id" value={email} onChange={onChangeEmail} placeholder="이메일" />
+            <Input
+              type="text"
+              {...register('email', {
+                required: '이메일을 입력해주세요',
+              })}
+              placeholder="이메일"
+            />
           </Label>
           <Label>
             <Input
               type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
+              {...register('password', {
+                required: '비밀번호를 입력해주세요',
+              })}
               placeholder="비밀번호"
             />
           </Label>
           <LoginBtn type="submit">로그인</LoginBtn>
           <SearchBox>
-            <span
-              style={{
-                display: 'flex',
-              }}
-            >
+            <span style={{ display: 'flex' }}>
               <SearchBtn type="button" onClick={onCloseEmailModal}>
                 이메일 찾기
               </SearchBtn>
