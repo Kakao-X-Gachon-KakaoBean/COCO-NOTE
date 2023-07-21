@@ -1,10 +1,10 @@
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
-import { ComponentWrapper, Text, Wrapper } from '@pages/ProjectInfo/styles.tsx';
 import SideDetailBar from '@components/SideDetailBar';
 import GanttChart from '@components/GanttChart';
+import { ComponentWrapper, HeaderText, Wrapper } from '@pages/WorkSpacePage/styles.tsx';
 
-const ProjectInfo = () => {
+const WorkSpacePage = () => {
   return (
     <>
       <HeaderBar />
@@ -12,7 +12,7 @@ const ProjectInfo = () => {
       <SideDetailBar />
       <Wrapper>
         <ComponentWrapper>
-          <Text>작업 관리</Text>
+          <HeaderText>작업 관리</HeaderText>
           <GanttChart />
         </ComponentWrapper>
       </Wrapper>
@@ -20,4 +20,4 @@ const ProjectInfo = () => {
   );
 };
 
-export default ProjectInfo;
+export default WorkSpacePage;

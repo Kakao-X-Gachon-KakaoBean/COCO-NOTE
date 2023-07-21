@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
   background-color: wheat;
@@ -32,7 +31,7 @@ export const Circle = styled.div`
   }
 `;
 
-export const Projects = styled(Link)`
+export const Projects = styled.div`
   background-color: white;
   color: black;
   text-align: center;

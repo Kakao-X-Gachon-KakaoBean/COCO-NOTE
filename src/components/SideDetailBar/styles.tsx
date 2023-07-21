@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 
 export const Wrapper = styled.div`
   background-color: white;
@@ -42,7 +41,7 @@ export const Text = styled.div`
   font-family: SCDream4;
 `;
 
-export const ViewAll = styled(Link)`
+export const ViewAll = styled.div`
   white-space: nowrap;
   margin-left: 1rem; /* "전체보기"와 "릴리즈 노트" 사이의 여백을 추가합니다 */
   font-size: x-small;
