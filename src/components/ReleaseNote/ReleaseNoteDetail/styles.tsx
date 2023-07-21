@@ -1,11 +1,5 @@
 import styled from '@emotion/styled';
 
-export const EditorDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-
 export const DeleteModalBtnDiv = styled.div`
   display: flex;
   flex-direction: row;

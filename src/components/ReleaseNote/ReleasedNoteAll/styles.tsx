@@ -4,7 +4,7 @@ const { Paragraph, Text } = Typography;
 export const ReleasedNoteDiv = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2% 5% 5% 10%;
+  padding: 2% 15% 5% 10%;
 `;
 
 export const ReleasedNoteParagraph = styled(Paragraph)`
