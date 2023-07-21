@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
-import { Typography, Button } from 'antd';
+import { Typography, Button, Modal } from 'antd';
 import {
   BulletinDiv,
+  DeleteModalBtnDiv,
   EditingText,
   ReleaseNoteHeaderBottom,
   ReleaseNoteHeaderDiv,
@@ -29,12 +30,33 @@ interface Props {
 }
 const BulletinReleaseNoteDetail: React.FC<Props> = ({ note }) => {
   const navigate = useNavigate();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const editReleaseNote = () => {
     navigate('edit');
+  };
+  const deleteReleaseNote = () => {
+    // 릴리즈 노트 삭제 검증 후 모달 종료
+    setDeleteModalOpen(false);
   };
 
   return (
     <Typography>
+      <Modal
+        centered
+        title={'릴리즈 노트 삭제'}
+        open={deleteModalOpen}
+        onCancel={() => setDeleteModalOpen(false)}
+        onOk={() => setDeleteModalOpen(false)}
+        footer={
+          <DeleteModalBtnDiv>
+            <Button type={'primary'} danger onClick={() => deleteReleaseNote}>
+              삭제하기
+            </Button>
+          </DeleteModalBtnDiv>
+        }
+      >
+        <div>정말 이 릴리즈 노트를 삭제하시겠습니까?</div>
+      </Modal>
       <ReleasedNoteParagraph>
         <ReleaseNoteHeaderDiv>
           <ReleaseNoteHeaderTop>
@@ -46,7 +68,9 @@ const BulletinReleaseNoteDetail: React.FC<Props> = ({ note }) => {
               </EditingText>
             </ReleaseNoteHeaderTopLeft>
             <ReleaseNoteHeaderTopRight>
-              <Button danger>삭제</Button>
+              <Button danger onClick={() => setDeleteModalOpen(true)}>
+                삭제
+              </Button>
               <Button onClick={() => editReleaseNote()}>수정하기</Button>
             </ReleaseNoteHeaderTopRight>
           </ReleaseNoteHeaderTop>

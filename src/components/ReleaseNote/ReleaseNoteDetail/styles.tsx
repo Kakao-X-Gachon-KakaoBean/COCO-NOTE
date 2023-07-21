@@ -6,6 +6,13 @@ export const EditorDiv = styled.div`
   justify-content: center;
 `;
 
+export const DeleteModalBtnDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 export const ReleaseNoteHeaderDiv = styled.div`
   display: flex;
   flex-direction: column;
