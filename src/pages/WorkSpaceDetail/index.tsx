@@ -1,6 +1,6 @@
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
-import { ComponentWrapper, HeaderText, Wrapper } from '@pages/ProjectInfo/styles.tsx';
+import { ComponentText, ComponentWrapper, Wrapper } from '@pages/ProjectInfo/styles.tsx';
 import SideDetailBar from '@components/SideDetailBar';
 
 const WorkSpaceDetail = () => {
@@ -11,7 +11,7 @@ const WorkSpaceDetail = () => {
       <SideDetailBar />
       <Wrapper>
         <ComponentWrapper>
-          <HeaderText>Test</HeaderText>
+          <ComponentText>Test</ComponentText>
         </ComponentWrapper>
       </Wrapper>
     </>

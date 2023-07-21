@@ -34,8 +34,8 @@ const currentDate = new Date();
 const currentMonth = currentDate.getMonth() + 1;
 const currentYear = currentDate.getFullYear();
 
-for (let i = -12; i <= 12; i++) {
-  const date = new Date(currentYear, currentMonth - 1 + i, 1);
+for (let i = 0; i <= 24; i++) {
+  const date = new Date(currentYear, currentMonth + i - 13, 1);
   const month = date.toLocaleString('default', { month: 'long' });
   const year = date.getFullYear();
   const title = `${year} ${month}`;
