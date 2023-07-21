@@ -20,7 +20,7 @@ const ReleasedNoteAll: React.FC = () => {
       <ReleaseNoteTotalText>릴리즈 노트</ReleaseNoteTotalText>
       <ReleasedNoteParagraph>
         <ReleaseNoteTotalDetail>
-          이 페이지는 '프로젝트 이름' 릴리즈의 <br />
+          이 페이지는 &apos;프로젝트 이름&apos; 릴리즈의 <br />
           새로운 기능, 개선 사항, 알려진 문제 및 버그 수정에 대한 정보가 포함되어 있습니다.
         </ReleaseNoteTotalDetail>
       </ReleasedNoteParagraph>

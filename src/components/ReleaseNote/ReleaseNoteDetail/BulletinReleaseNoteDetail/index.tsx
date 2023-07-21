@@ -3,9 +3,13 @@ import MDEditor from '@uiw/react-md-editor';
 import { Typography, Button } from 'antd';
 import {
   BulletinDiv,
-  EditButtonDiv,
+  EditingText,
+  ReleaseNoteHeaderBottom,
   ReleaseNoteHeaderDiv,
+  ReleaseNoteHeaderMiddle,
   ReleaseNoteHeaderTop,
+  ReleaseNoteHeaderTopLeft,
+  ReleaseNoteHeaderTopRight,
 } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import {
   MarkdownParagraph,
@@ -17,6 +21,8 @@ import {
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { useNavigate } from 'react-router-dom';
 import { ReleasedNoteAll } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   note: ReleasedNoteAll;
@@ -32,23 +38,30 @@ const BulletinReleaseNoteDetail: React.FC<Props> = ({ note }) => {
       <ReleasedNoteParagraph>
         <ReleaseNoteHeaderDiv>
           <ReleaseNoteHeaderTop>
-            <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
-            <Button danger>삭제</Button>
+            <ReleaseNoteHeaderTopLeft>
+              <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
+              <EditingText>
+                <FontAwesomeIcon icon={faCircle} size={'xs'} />
+                &nbsp;현재 작성 중입니다
+              </EditingText>
+            </ReleaseNoteHeaderTopLeft>
+            <ReleaseNoteHeaderTopRight>
+              <Button danger>삭제</Button>
+              <Button onClick={() => editReleaseNote()}>수정하기</Button>
+            </ReleaseNoteHeaderTopRight>
           </ReleaseNoteHeaderTop>
-          <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
-          <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+          <ReleaseNoteHeaderMiddle>
+            <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
+          </ReleaseNoteHeaderMiddle>
+          <ReleaseNoteHeaderBottom>
+            <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+          </ReleaseNoteHeaderBottom>
         </ReleaseNoteHeaderDiv>
         <MarkdownParagraph>
-          <div>작성 중입니다.</div>
           <BulletinDiv>
             <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
           </BulletinDiv>
         </MarkdownParagraph>
-        <EditButtonDiv>
-          <Button type={'primary'} onClick={() => editReleaseNote()}>
-            수정하기
-          </Button>
-        </EditButtonDiv>
       </ReleasedNoteParagraph>
     </Typography>
   );

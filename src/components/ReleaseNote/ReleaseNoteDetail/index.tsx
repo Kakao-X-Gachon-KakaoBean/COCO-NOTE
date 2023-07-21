@@ -15,7 +15,7 @@ const ReleaseNoteDetail = () => {
   const note: ReleasedNoteAll | undefined = TestReleasedNote.find(note => note.version === releaseId);
 
   if (!note) {
-    return <div>Release note not found.</div>;
+    return <div>릴리즈 노트가 존재하지 않습니다.</div>;
   }
 
   return (

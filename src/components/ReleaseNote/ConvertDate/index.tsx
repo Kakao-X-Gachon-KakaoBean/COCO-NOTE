@@ -4,6 +4,7 @@ const ConvertDate = (input: string): string => {
   } else {
     const [datePart, timePart] = input.split('. 오후 ');
     const [year, month, day] = datePart.split('. ').map(part => parseInt(part));
+    // eslint-disable-next-line prefer-const
     let [hour, minute] = timePart.split(':').map(part => parseInt(part));
 
     const isPM = input.includes('오후');

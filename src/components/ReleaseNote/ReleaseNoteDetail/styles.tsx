@@ -17,6 +17,25 @@ export const ReleaseNoteHeaderTop = styled.div`
   width: 80%;
   justify-content: space-between;
 `;
+export const ReleaseNoteHeaderTopLeft = styled.div`
+  display: flex;
+  gap: 0.6vw;
+`;
+export const ReleaseNoteHeaderTopRight = styled.div`
+  display: flex;
+  gap: 0.4vw;
+`;
+export const ReleaseNoteHeaderMiddle = styled.div`
+  display: flex;
+  width: 80%;
+  align-items: center;
+`;
+
+export const ReleaseNoteHeaderBottom = styled.div`
+  display: flex;
+  width: 80%;
+  align-items: center;
+`;
 export const BulletinDiv = styled.div`
   width: 80%;
   height: 50vh;
@@ -24,8 +43,6 @@ export const BulletinDiv = styled.div`
   border: #dadada solid;
 `;
 
-export const EditButtonDiv = styled.div`
-  display: flex;
-  width: 80%;
-  justify-content: flex-end;
+export const EditingText = styled.div`
+  color: #00b050;
 `;

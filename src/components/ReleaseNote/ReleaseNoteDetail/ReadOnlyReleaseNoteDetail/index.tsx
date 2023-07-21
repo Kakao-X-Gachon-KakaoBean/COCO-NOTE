@@ -9,7 +9,12 @@ import {
   ReleasedNoteText,
   ReleasedNoteDate,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
-import { ReleaseNoteHeaderDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+import {
+  ReleaseNoteHeaderBottom,
+  ReleaseNoteHeaderDiv,
+  ReleaseNoteHeaderMiddle,
+  ReleaseNoteHeaderTop,
+} from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { ReleasedNoteAll } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
 
 interface Props {
@@ -20,9 +25,15 @@ const ReadOnlyReleaseNoteDetail: React.FC<Props> = ({ note }) => {
     <Typography>
       <ReleasedNoteParagraph>
         <ReleaseNoteHeaderDiv>
-          <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
-          <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
-          <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+          <ReleaseNoteHeaderTop>
+            <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
+          </ReleaseNoteHeaderTop>
+          <ReleaseNoteHeaderMiddle>
+            <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
+          </ReleaseNoteHeaderMiddle>
+          <ReleaseNoteHeaderBottom>
+            <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
+          </ReleaseNoteHeaderBottom>
         </ReleaseNoteHeaderDiv>
         <MarkdownParagraph>
           <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
