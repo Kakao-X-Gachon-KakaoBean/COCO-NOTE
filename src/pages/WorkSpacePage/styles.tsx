@@ -8,27 +8,16 @@ export const Wrapper = styled.div`
 `;
 
 export const ComponentWrapper = styled.div`
-  margin: 10vh 10vw 5vh 10vw;
+  margin: 10vh 5vw 5vh 5vw;
   display: flex;
   flex-direction: column;
 `;
 
 export const HeaderText = styled.text`
   font-size: larger;
-  color: gray;
+  color: Black;
   margin-top: 3vh;
-
-  &.title {
-    font-size: xx-large;
-    color: black;
-    margin-bottom: 5vh;
-  }
-
-  &.contents {
-    font-size: x-large;
-    color: black;
-    margin-bottom: 5vh;
-  }
+  margin-bottom: 5vh;
 `;
 
 export const HorizontalLine = styled.div`
