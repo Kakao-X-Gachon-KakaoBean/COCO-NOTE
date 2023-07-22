@@ -123,10 +123,10 @@ const LogIn = () => {
           <LoginBtn type="submit">로그인</LoginBtn>
           <SearchBox>
             <span style={{ display: 'flex' }}>
-              <SearchBtn type="button" onClick={onCloseEmailModal}>
-                이메일 찾기
-              </SearchBtn>
-              <div>/</div>
+              {/*<SearchBtn type="button" onClick={onCloseEmailModal}>*/}
+              {/*  이메일 찾기*/}
+              {/*</SearchBtn>*/}
+              {/*<div>/</div>*/}
               <SearchBtn type="button" onClick={onClosePasswordModal}>
                 비밀번호 변경
               </SearchBtn>
