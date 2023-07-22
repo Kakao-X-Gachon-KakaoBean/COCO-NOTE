@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Modal } from 'antd';
+import { Button } from 'antd';
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
@@ -8,32 +8,31 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import fetcher from '@utils/fetcher.ts';
+
 import {
   CommentBox,
   EachCommentBox,
   EachCommentBoxBody,
   EachCommentBoxHeader,
+  IssueDetailBody,
+  IssueDetailBox,
+  IssueDetailComment,
+  IssueDetailHeader,
+  IssueDetailHeaderButtonSection,
+  IssueDetailTop,
 } from '@components/IssueDetail/styles.tsx';
 
 interface Comment {
   content: string;
 }
 const IssueDetail = () => {
-  const pageId = useParams();
+  const pageId: string | undefined = useParams().issueId;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { TextArea } = Input;
 
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
-  const [issueTitle, setIssueTitle] = useState('');
-  const [issueContent, setIssueContent] = useState('');
-  const [issueModalOpen, SetProjectModalOpen] = useState(false);
 
-  const cancleModal = () => {
-    SetProjectModalOpen(false);
-  };
   const addComment = () => {
     const comment: Comment = { content: newComment };
 
@@ -42,18 +41,16 @@ const IssueDetail = () => {
     setNewComment('');
   };
 
-  //이슈 페이지로 돌아가기
-  const on = () => {
-    navigate('/issue');
+  const getBack = () => {
+    navigate(-1);
   };
 
-  //이슈 삭제
   const dee = () => {
     console.log('delete');
   };
 
   const editIssue = () => {
-    SetProjectModalOpen(true);
+    navigate(`editIssue`);
   };
 
   // const {
@@ -101,12 +98,21 @@ const IssueDetail = () => {
       <SideBar />
       <SideDetailBar />
       <Wrapper>
-        <div style={{ padding: '1rem' }}>
-          <div>{pageId.issueId}번째 페이지</div>
-          <Button onClick={on}>뒤로 가기</Button>
-          <Button onClick={DeleteIssue}>삭제</Button>
-          <Button onClick={editIssue}>수정</Button>
-          <div>
+        <IssueDetailBox>
+          <IssueDetailTop>
+            <Button onClick={getBack}>뒤로 가기</Button>
+          </IssueDetailTop>
+          <IssueDetailHeader>
+            <div>{pageId}번째 이슈</div>
+            <IssueDetailHeaderButtonSection>
+              <Button onClick={DeleteIssue}>삭제</Button>
+              <Button onClick={editIssue}>수정</Button>
+            </IssueDetailHeaderButtonSection>
+          </IssueDetailHeader>
+          <IssueDetailBody>
+            <div>여기가 본문 자리</div>
+          </IssueDetailBody>
+          <IssueDetailComment>
             <input type="text" value={newComment} onChange={e => setNewComment(e.target.value)} />
             <button onClick={addComment}>Submit</button>
             <CommentBox>
@@ -120,35 +126,8 @@ const IssueDetail = () => {
                 </EachCommentBox>
               ))}
             </CommentBox>
-          </div>
-        </div>
-        <Modal
-          title="이슈 변경"
-          open={issueModalOpen}
-          onCancel={cancleModal}
-          footer={
-            <div>
-              <Button key="submit" type="primary">
-                OK
-              </Button>
-            </div>
-          }
-        >
-          <TextArea
-            value={issueTitle}
-            autoSize={{ minRows: 1, maxRows: 10 }}
-            onChange={e => setIssueTitle(e.target.value)}
-            placeholder="이슈 제목"
-            style={{ marginBottom: '2rem', marginTop: '3rem' }}
-          />
-          <TextArea
-            value={issueContent}
-            autoSize={{ minRows: 3, maxRows: 10 }}
-            onChange={e => setIssueContent(e.target.value)}
-            placeholder="이슈 내용"
-            style={{ marginBottom: '2rem' }}
-          />
-        </Modal>
+          </IssueDetailComment>
+        </IssueDetailBox>
       </Wrapper>
     </>
   );
