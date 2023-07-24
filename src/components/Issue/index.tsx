@@ -60,7 +60,7 @@ const Issue = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper open={true}>
         <div style={{ padding: '1rem' }}>
           <IssueHeader>이슈</IssueHeader>
           <IssueTable>

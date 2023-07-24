@@ -15,11 +15,15 @@ import {
   EachCommentBoxBody,
   EachCommentBoxHeader,
 } from '@components/IssueDetail/styles.tsx';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 
 interface Comment {
   content: string;
 }
 const IssueDetail = () => {
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
+
   const pageId = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -100,7 +104,7 @@ const IssueDetail = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
+      <Wrapper open={projectInfoMenuOpen}>
         <div style={{ padding: '1rem' }}>
           <div>{pageId.issueId}번째 페이지</div>
           <Button onClick={on}>뒤로 가기</Button>

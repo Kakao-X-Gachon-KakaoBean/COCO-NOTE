@@ -2,8 +2,13 @@ import HeaderBar from '@components/HeaderBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
-import { AddProjectClickState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useRecoilState } from 'recoil';
+import {
+  AddProjectClickState,
+  projectInfoMenuOpenState,
+  projectValueState,
+  SelectedProjectState,
+} from '@states/ProjectState.ts';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Input, Modal } from 'antd';
 
 import { useState } from 'react';
@@ -15,6 +20,7 @@ const Main = () => {
   const [projectList, setProjectList] = useRecoilState(projectValueState);
   const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [, setSelectedProject] = useRecoilState(SelectedProjectState);
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const { TextArea } = Input;
@@ -52,7 +58,7 @@ const Main = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
+      <Wrapper open={projectInfoMenuOpen}>
         <Modal title="새 프로젝트 생성" open={isAddProject} onOk={handleOk} onCancel={handleCancel}>
           <TextArea
             value={title}

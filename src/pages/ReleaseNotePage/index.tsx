@@ -9,8 +9,8 @@ const ReleaseNotePage = () => {
     <div>
       <HeaderBar />
       <SideBar />
-      <SideDetailBar />
-      <Wrapper>
+      <SideDetailBar open={true} />
+      <Wrapper open={true}>
         <ReleasedNoteAll />
       </Wrapper>
     </div>

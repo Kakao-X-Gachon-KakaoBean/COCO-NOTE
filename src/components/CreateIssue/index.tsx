@@ -17,8 +17,8 @@ const CreateIssue = () => {
     <>
       <HeaderBar />
       <SideBar />
-      <SideDetailBar />
-      <Wrapper>
+      <SideDetailBar open={true} />
+      <Wrapper open={true}>
         <div style={{ padding: '1rem' }}>
           <Header>
             <div>이슈 생성 페이지</div>

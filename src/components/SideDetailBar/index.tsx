@@ -11,12 +11,13 @@ import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { Link } from 'react-router-dom';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
 
   const items: MenuProps['items'] = [
     {
@@ -29,7 +30,7 @@ const SideDetailBar = () => {
     },
   ];
   return (
-    <Wrapper>
+    <Wrapper open={projectInfoMenuOpen}>
       <DropdownDiv>
         <Dropdown menu={{ items }} trigger={['click']}>
           <a onClick={e => e.preventDefault()}>
