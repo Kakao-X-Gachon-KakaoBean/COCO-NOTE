@@ -14,7 +14,7 @@ import {
 } from '@pages/SignUp/styles';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { IUser } from '@states/UserState.ts';
+import { IUser } from '@states/userState.ts';
 import axios, { AxiosError } from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
