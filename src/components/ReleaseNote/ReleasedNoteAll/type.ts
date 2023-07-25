@@ -1,5 +1,7 @@
 export interface ReleasedNoteAll {
-  key: string | number;
+  version: string | number;
   title: string;
+  date: string;
   contents: string | undefined;
+  editState: boolean;
 }

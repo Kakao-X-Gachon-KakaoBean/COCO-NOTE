@@ -7,7 +7,6 @@ export const BarDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   width: 86%;
   height: 7vh;
   position: fixed;
@@ -21,8 +20,9 @@ export const BarDiv = styled.div`
 export const TitleLink = styled(Link)`
   font-weight: 700;
   font-size: 1.8vw;
+  font-family: SCDream6;
   text-decoration: none;
-  color: #008f42;
+  color: #00b050;
 `;
 
 export const LogoDiv = styled.div`

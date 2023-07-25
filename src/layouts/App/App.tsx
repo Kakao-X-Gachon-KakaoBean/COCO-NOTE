@@ -17,6 +17,7 @@ const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
 const WorkSpacePage = loadable(() => import('@pages/WorkSpacePage'));
 const WorkSpaceDetail = loadable(() => import('@pages/WorkSpaceDetail'));
+const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 
 function App() {
   return (
@@ -37,8 +38,9 @@ function App() {
         <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path={'/project/:projectId/projectinfo'} element={<ProjectInfo />} />
         <Route path={'/project/:projectId/releasenote/*'}>
-          <Route path="" element={<ReleaseNotePage />} />
+          <Route path="" index element={<ReleaseNotePage />} />
           <Route path=":releaseId" element={<ReleaseNoteDetail />} />
+          <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
         </Route>
         <Route path={'/project/:projectId/workspace/*'}>
           <Route path="" element={<WorkSpacePage />} />

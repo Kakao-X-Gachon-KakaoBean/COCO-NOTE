@@ -7,7 +7,7 @@ const HeaderBar = () => {
     <>
       <BarDiv>
         <LogoDiv>
-          <TitleLink to="/main">COCO:NOTE</TitleLink>
+          <TitleLink to="/main">COCONOTE</TitleLink>
         </LogoDiv>
         <OthersDiv>
           <Notification />
