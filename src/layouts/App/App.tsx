@@ -27,21 +27,21 @@ function App() {
         <Route path="/" element={<Navigate replace to="/initial" />} />
         <Route path="/main" element={<Main />} />
         <Route path="/initial" element={<InitialPage />} />
-        <Route path={`/project/${selectedProject.projectId}/manage`} element={<ManagePage />} />
+        <Route path={'/project/:projectId/manage'} element={<ManagePage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path={`/project/${selectedProject.projectId}/issue/*`}>
+        <Route path={'/project/:projectId/issue/*'}>
           <Route path="" element={<IssuePage />} />
           <Route path=":issueId" element={<IssueDetail />} />
         </Route>
         <Route path="/issue/createissue" element={<CreateIssue />} />
-        <Route path={`/project/${selectedProject.projectId}/projectinfo`} element={<ProjectInfo />} />
-        <Route path={`/project/${selectedProject.projectId}/releasenote/*`}>
+        <Route path={'/project/:projectId/projectinfo'} element={<ProjectInfo />} />
+        <Route path={'/project/:projectId/releasenote/*'}>
           <Route path="" element={<ReleaseNotePage />} />
           <Route path=":releaseId" element={<ReleaseNoteDetail />} />
         </Route>
-        <Route path={`/project/${selectedProject.projectId}/workspace/*`}>
+        <Route path={'/project/:projectId/workspace/*'}>
           <Route path="" element={<WorkSpacePage />} />
           <Route path=":workspaceId" element={<WorkSpaceDetail />} />
         </Route>
