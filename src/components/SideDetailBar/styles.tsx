@@ -6,10 +6,11 @@ export const Wrapper = styled.div<{ open: boolean }>`
   width: 20%;
   height: 100%;
   position: fixed;
-  top: 7%;
-  left: 8%;
+  top: 10.3%;
+  left: 8.3%;
   z-index: 11;
   border: 1pt solid #f2f2f2;
+  border-top: 0pt;
   transform: translateX(${({ open }) => (open ? '0' : '-100%')});
   transition: transform 0.3s ease-out;
 `;

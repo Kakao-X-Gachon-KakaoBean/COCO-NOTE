@@ -19,6 +19,7 @@ export const Circle = styled.div`
   height: 6vh;
   line-height: 6vh;
   font-weight: 500;
+  border: 1pt solid #f2f2f2;
   clip-path: circle(2.5vw);
   padding: 1vw;
   margin-top: 2vh;
@@ -26,14 +27,13 @@ export const Circle = styled.div`
   display: flex;
   justify-content: center;
   &.selected {
-    background-color: gray;
+    background-color: #23c483;
     color: #ffffff;
   }
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
   color: #000;
-  border: none;
   border-radius: 45px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;

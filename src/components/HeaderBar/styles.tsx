@@ -8,13 +8,14 @@ export const BarDiv = styled.div`
   align-items: center;
   background-color: white;
   width: 86%;
-  height: 7vh;
+  height: 10%;
   position: fixed;
   top: 0;
   z-index: 10;
-  left: 8%;
+  left: 8.3%;
   padding-left: 2%;
   padding-right: 4%;
+  border: 1pt solid #f2f2f2;
 `;
 
 export const TitleLink = styled(Link)`
