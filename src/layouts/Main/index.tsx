@@ -10,11 +10,12 @@ import {
 } from '@states/ProjectState.ts';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Input, Modal } from 'antd';
-
+import MDEditor from '@uiw/react-md-editor';
 import { useState } from 'react';
 import { IProjectValue } from '@layouts/Main/type.ts';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { manual } from '@layouts/Main/manual.tsx';
 
 const Main = () => {
   const [projectList, setProjectList] = useRecoilState(projectValueState);
@@ -75,7 +76,7 @@ const Main = () => {
             style={{ marginBottom: '2rem' }}
           />
         </Modal>
-        <div>프로젝트를 선택해주세요!</div>
+        <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
       </Wrapper>
       <ToastContainer position="top-right" autoClose={3000} closeOnClick pauseOnFocusLoss theme="light" />
     </div>

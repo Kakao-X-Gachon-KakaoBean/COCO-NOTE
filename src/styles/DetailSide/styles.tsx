@@ -5,6 +5,7 @@ export const Wrapper = styled.div<{ open: boolean }>`
   height: 93vh;
   margin-top: 7%;
   margin-left: 28%;
+  font-family: SCDream4;
   background-color: white;
   transform: translateX(${({ open }) => (open ? '0' : '-25%')});
   transition: transform 0.3s ease-out;
