@@ -2,8 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
 import ReleaseNoteDetail from '@components/ReleaseNote/ReleaseNoteDetail';
-import { useRecoilValue } from 'recoil';
-import { SelectedProjectState } from '@states/ProjectState.ts';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -13,6 +11,7 @@ const Login = loadable(() => import('@pages/Login'));
 const SignUp = loadable(() => import('@pages/SignUp'));
 const IssuePage = loadable(() => import('@pages/IssuePage'));
 const IssueDetail = loadable(() => import('@components/IssueDetail'));
+const EditIssue = loadable(() => import('@components/EditIssue'));
 const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
@@ -20,7 +19,6 @@ const WorkSpacePage = loadable(() => import('@pages/WorkSpacePage'));
 const WorkSpaceDetail = loadable(() => import('@pages/WorkSpaceDetail'));
 
 function App() {
-  const selectedProject = useRecoilValue(SelectedProjectState);
   return (
     <BrowserRouter>
       <Routes>
@@ -34,6 +32,7 @@ function App() {
         <Route path={'/project/:projectId/issue/*'}>
           <Route path="" element={<IssuePage />} />
           <Route path=":issueId" element={<IssueDetail />} />
+          <Route path=":issueId/editIssue" element={<EditIssue />} />
         </Route>
         <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path={'/project/:projectId/projectinfo'} element={<ProjectInfo />} />
