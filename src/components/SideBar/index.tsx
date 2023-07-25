@@ -1,4 +1,4 @@
-import { Circle, HorizontalLine, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
+import { Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   AddProjectClickState,
@@ -50,7 +50,6 @@ const SideBar = () => {
               </Circle>
             </Tooltip>
           )}
-          {projectIndex === 0 && <HorizontalLine />}
         </div>
       ))}
       <Circle onClick={() => setIsAddProject(true)}>

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
+  box-sizing: border-box;
   background-color: white;
   width: 8%;
   height: 100%;
@@ -19,10 +20,9 @@ export const Circle = styled.div`
   height: 6vh;
   line-height: 6vh;
   font-weight: 500;
-  border: 1pt solid #f2f2f2;
   clip-path: circle(2.5vw);
   padding: 1vw;
-  margin-top: 2vh;
+  margin-top: 0.9vh;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -49,14 +49,6 @@ export const Circle = styled.div`
   &:active {
     transform: translateY(-1px);
   }
-`;
-
-export const HorizontalLine = styled.div`
-  border-bottom: 1px solid #aaa;
-  line-height: 1vh;
-  margin-top: 1vh;
-  width: 6vw;
-  margin-left: 1vw;
 `;
 
 export const InnerText = styled.div`
