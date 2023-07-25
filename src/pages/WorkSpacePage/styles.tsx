@@ -13,23 +13,11 @@ export const ComponentWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const ComponentText = styled.text`
+export const HeaderText = styled.text`
   font-size: larger;
-  color: gray;
+  color: Black;
   margin-top: 3vh;
-  margin-bottom: 3vh;
-
-  &.title {
-    font-size: xx-large;
-    color: black;
-    margin-bottom: 5vh;
-  }
-
-  &.contents {
-    font-size: x-large;
-    color: black;
-    margin-bottom: 5vh;
-  }
+  margin-bottom: 5vh;
 `;
 
 export const HorizontalLine = styled.div`

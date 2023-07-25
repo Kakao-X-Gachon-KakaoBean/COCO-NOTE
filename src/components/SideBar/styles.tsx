@@ -31,6 +31,23 @@ export const Circle = styled.div`
   }
 `;
 
+export const Projects = styled.div`
+  background-color: white;
+  color: black;
+  text-align: center;
+  width: 6vw;
+  height: 6vh;
+  line-height: 6vh;
+  font-weight: bold;
+  clip-path: circle(2.5vw);
+  padding: 1vw;
+  margin-top: 2vh;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+`;
+
 export const HorizontalLine = styled.div`
   border-bottom: 1px solid #aaa;
   line-height: 1vh;

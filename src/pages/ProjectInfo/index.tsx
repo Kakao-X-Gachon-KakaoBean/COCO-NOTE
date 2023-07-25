@@ -1,6 +1,6 @@
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
-import { ComponentWrapper, HorizontalLine, MemberList, Text, Wrapper } from '@pages/ProjectInfo/styles.tsx';
+import { ComponentText, ComponentWrapper, HorizontalLine, MemberList, Wrapper } from '@pages/ProjectInfo/styles.tsx';
 import SideDetailBar from '@components/SideDetailBar';
 import { SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
@@ -115,12 +115,12 @@ const ProjectInfo = () => {
       <SideDetailBar />
       <Wrapper>
         <ComponentWrapper>
-          <Text>프로젝트 이름</Text>
-          <Text className={'title'}>{selectedProject.projectTitle}</Text>
-          <Text>프로젝트 설명</Text>
-          <Text className={'contents'}>{selectedProject.projectContent}</Text>
+          <ComponentText>프로젝트 이름</ComponentText>
+          <ComponentText className={'title'}>{selectedProject.projectTitle}</ComponentText>
+          <ComponentText>프로젝트 설명</ComponentText>
+          <ComponentText className={'contents'}>{selectedProject.projectContent}</ComponentText>
           <HorizontalLine />
-          <Text>프로젝트 멤버 리스트</Text>
+          <ComponentText>프로젝트 멤버 리스트</ComponentText>
           <MemberList>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">

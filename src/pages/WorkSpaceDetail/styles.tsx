@@ -8,16 +8,15 @@ export const Wrapper = styled.div`
 `;
 
 export const ComponentWrapper = styled.div`
-  margin: 10vh 5vw 5vh 5vw;
+  margin: 10vh 10vw 5vh 10vw;
   display: flex;
   flex-direction: column;
 `;
 
-export const ComponentText = styled.text`
+export const Text = styled.text`
   font-size: larger;
   color: gray;
   margin-top: 3vh;
-  margin-bottom: 3vh;
 
   &.title {
     font-size: xx-large;
