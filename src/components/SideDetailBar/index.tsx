@@ -10,7 +10,7 @@ import {
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
@@ -18,6 +18,7 @@ import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
+  const navigate = useNavigate();
 
   const items: MenuProps['items'] = [
     {
@@ -46,7 +47,13 @@ const SideDetailBar = () => {
       <ScrollWrapper>
         <HorizonText>
           <Text>릴리즈 노트</Text>
-          <ViewAll to="/releasenote">전체보기</ViewAll>
+          <ViewAll
+            onClick={() => {
+              navigate(`/project/${selectedProject.projectId}/releasenote`);
+            }}
+          >
+            전체보기
+          </ViewAll>
         </HorizonText>
         <HorizontalLine />
         <ReleaseNoteTree />
@@ -54,14 +61,26 @@ const SideDetailBar = () => {
       <ScrollWrapper>
         <HorizonText>
           <Text>작업 관리</Text>
-          <ViewAll to="/releasenote">전체보기</ViewAll>
+          <ViewAll
+            onClick={() => {
+              navigate(`/project/${selectedProject.projectId}/workspace`);
+            }}
+          >
+            전체보기
+          </ViewAll>{' '}
         </HorizonText>
         <HorizontalLine />
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
           <Text>이슈</Text>
-          <ViewAll to="/releasenote">전체보기</ViewAll>
+          <ViewAll
+            onClick={() => {
+              navigate(`/project/${selectedProject.projectId}/issue`);
+            }}
+          >
+            전체보기
+          </ViewAll>
         </HorizonText>
         <HorizontalLine />
       </ScrollWrapper>

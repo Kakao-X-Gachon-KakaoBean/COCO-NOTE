@@ -2,27 +2,30 @@ import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
 import { Header, InputArea, InputAreaBody, InputAreaTitle } from '@components/CreateIssue/styles.tsx';
+import { Button } from 'antd';
 
 const CreateIssue = () => {
+  const navigate = useNavigate();
   const [title, onChangeTitle] = useInput('');
   const [value, setValue] = useState<string | undefined>('**내용을 입력해주세요.**');
 
-  console.log(`${title}, ${value}`);
+  const getBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       <HeaderBar />
       <SideBar />
-      <SideDetailBar open={true} />
+      <SideDetailBar />
       <Wrapper open={true}>
         <div style={{ padding: '1rem' }}>
           <Header>
-            <div>이슈 생성 페이지</div>
-            <Link to="/issue">뒤로 가기</Link>
+            <Button onClick={getBack}>뒤로 가기</Button>
           </Header>
           <InputArea>
             <InputAreaTitle>

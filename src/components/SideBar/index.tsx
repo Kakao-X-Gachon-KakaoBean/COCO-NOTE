@@ -41,9 +41,11 @@ const SideBar = () => {
             <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
               <Circle
                 className={selectedProject === project ? 'selected' : 'notSelected'}
-                onClick={() => {
+                onClick={async () => {
                   setSelectedProject(project);
                   setProjectInfoMenuOpen(true);
+                  await waitForAnimation();
+                  navigate(`/project/${project.projectId}/projectinfo`);
                 }}
               >
                 <InnerText>{project.projectTitle}</InnerText>
