@@ -2,7 +2,7 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { ColumnsType } from 'antd/es/table';
 import React, { useState } from 'react';
 import { Button, Table } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/styles.tsx';
 
 interface DataType {
@@ -53,9 +53,13 @@ const Issue = () => {
   const onRow = (record: DataType) => {
     return {
       onClick: (): void => {
-        navigate(`/issue/${record.key}`);
+        navigate(`${record.key}`);
       },
     };
+  };
+
+  const goCreateIssue = () => {
+    navigate('createIssue');
   };
 
   return (
@@ -73,8 +77,8 @@ const Issue = () => {
             />
           </IssueTable>
           <IssueCreateBtn>
-            <Button type="primary">
-              <Link to="createissue">새 이슈 생성</Link>
+            <Button type="primary" onClick={goCreateIssue}>
+              새 이슈 생성
             </Button>
           </IssueCreateBtn>
         </div>
