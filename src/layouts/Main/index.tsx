@@ -29,9 +29,6 @@ const Main = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
-        <div>프로젝트를 선택해주세요!</div>
-      </Wrapper>
       {isVisible ? (
         <Wrapper>
           <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
