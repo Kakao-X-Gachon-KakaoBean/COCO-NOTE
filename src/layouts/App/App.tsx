@@ -30,20 +30,21 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path={'/project/:projectId/issue/*'}>
-          <Route path="" element={<IssuePage />} />
+        <Route path="/project/:projectId/issue/*">
+          <Route index element={<IssuePage />} />
           <Route path=":issueId" element={<IssueDetail />} />
           <Route path=":issueId/editIssue" element={<EditIssue />} />
         </Route>
         <Route path="/issue/createissue" element={<CreateIssue />} />
-        <Route path={'/project/:projectId/projectinfo'} element={<ProjectInfo />} />
-        <Route path={'/project/:projectId/releasenote/*'}>
-          <Route path="" index element={<ReleaseNotePage />} />
+        <Route path="/issue/createissue" element={<CreateIssue />} />
+        <Route path="/project/:projectId/projectinfo" element={<ProjectInfo />} />
+        <Route path="/project/:projectId/releasenote/*">
+          <Route index element={<ReleaseNotePage />} />
           <Route path=":releaseId" element={<ReleaseNoteDetail />} />
           <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
         </Route>
-        <Route path={'/project/:projectId/workspace/*'}>
-          <Route path="" element={<WorkSpacePage />} />
+        <Route path="/project/:projectId/workspace/*">
+          <Route index element={<WorkSpacePage />} />
           <Route path=":workspaceId" element={<WorkSpaceDetail />} />
         </Route>
       </Routes>
