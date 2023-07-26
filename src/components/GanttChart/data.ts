@@ -20,7 +20,7 @@ export const columns: ColumnsType<TableData> = [
 ];
 
 export const data: TableData[] = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 15; i++) {
   data.push({
     key: i,
     sprint: `스프린트 ${i}`,
