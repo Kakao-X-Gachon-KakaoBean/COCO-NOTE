@@ -4,7 +4,7 @@ import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
 import {
   CreateIssueBox,
@@ -14,12 +14,25 @@ import {
   CreateIssueTitle,
 } from '@components/CreateIssue/styles.tsx';
 import { Button } from 'antd';
+import { useRecoilValue } from 'recoil';
+import { ActivityIndicator } from '@components/ActivityIndicator';
 import { Input } from '@components/EditIssue/styles.tsx';
 
 const CreateIssue = () => {
   const navigate = useNavigate();
   const [title, onChangeTitle] = useInput('');
   const [value, setValue] = useState<string | undefined>('**내용을 입력해주세요.**');
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (!projectInfoMenuOpen) {
+      setIsVisible(false);
+      setTimeout(() => {
+        setIsVisible(true);
+      }, 550);
+    }
+  }, [projectInfoMenuOpen]);
 
   const getBack = () => {
     navigate(-1);
@@ -33,7 +46,8 @@ const CreateIssue = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
+      {isVisible ? (
+        <Wrapper>
         <CreateIssueBox>
           <CreateIssueHeader>
             <Button onClick={getBack}>뒤로 가기</Button>
@@ -55,6 +69,11 @@ const CreateIssue = () => {
           </CreateIssueSubmit>
         </CreateIssueBox>
       </Wrapper>
+      ) : (
+        <Wrapper>
+          <ActivityIndicator />
+        </Wrapper>
+      )}
     </>
   );
 };

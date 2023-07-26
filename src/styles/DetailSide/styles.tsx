@@ -5,7 +5,7 @@ import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 const projectINfoMenuOpen = () => {
   const state = useRecoilValue(projectInfoMenuOpenState);
   return state;
-}
+};
 
 export const Wrapper = styled.div`
   width: 72%;
