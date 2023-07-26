@@ -8,9 +8,12 @@ import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { ReleasedNoteDiv } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import { ReleasedNoteAll } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 
 const ReleaseNoteDetail = () => {
   const { releaseId } = useParams();
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
 
   const note: ReleasedNoteAll | undefined = TestReleasedNote.find(note => note.version === releaseId);
 
@@ -23,7 +26,7 @@ const ReleaseNoteDetail = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
+      <Wrapper open={projectInfoMenuOpen}>
         <ReleasedNoteDiv>
           {note.editState ? <BulletinReleaseNoteDetail note={note} /> : <ReadOnlyReleaseNoteDetail note={note} />}
         </ReleasedNoteDiv>

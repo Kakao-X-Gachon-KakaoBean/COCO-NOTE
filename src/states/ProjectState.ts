@@ -29,6 +29,11 @@ export const AddProjectClickState: RecoilState<boolean> = atom({
   default: false,
 });
 
+export const projectInfoMenuOpenState: RecoilState<boolean> = atom({
+  key: 'projectInfoMenuOpen',
+  default: false,
+});
+
 export const SelectedProjectState: RecoilState<IProjectValue> = atom({
   key: 'SelectedProject',
   default: { ...initialProjectValue[0] },

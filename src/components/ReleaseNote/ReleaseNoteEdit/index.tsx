@@ -7,6 +7,8 @@ import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { ReleasedNoteDiv } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import { Editor, TemporarySave, TitleVersionInput } from '@components/ReleaseNote/ReleaseNoteEdit/styles.tsx';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 
 interface FormValues {
   version: string;
@@ -14,6 +16,7 @@ interface FormValues {
 }
 const ReleaseNoteEdit = () => {
   const [value, setValue] = useState<string | undefined>('**내용을 입력해주세요.**');
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const [form] = Form.useForm();
 
   const handleSubmit = (values: FormValues) => {
@@ -29,7 +32,7 @@ const ReleaseNoteEdit = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
+      <Wrapper open={projectInfoMenuOpen}>
         <ReleasedNoteDiv>
           <TitleVersionInput>
             <Form initialValues={initialValues} form={form} onFinish={handleSubmit}>

@@ -37,6 +37,8 @@ import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -92,6 +94,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 }
 
 const ManageMember = () => {
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [invitationModalOpen, SetInvitationModalOpen] = useState(false);
@@ -209,7 +212,7 @@ const ManageMember = () => {
 
   return (
     <>
-      <Wrapper>
+      <Wrapper open={projectInfoMenuOpen}>
         <ProjectSection>
           <Button type="primary" shape="circle" icon={<CloseOutlined />} />
           <ProjectHeader>
