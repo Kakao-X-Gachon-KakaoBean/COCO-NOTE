@@ -97,7 +97,7 @@ const IssueDetail = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper open={true}>
+      <Wrapper>
         <IssueDetailBox>
           <IssueDetailTop>
             <Button onClick={getBack}>뒤로 가기</Button>

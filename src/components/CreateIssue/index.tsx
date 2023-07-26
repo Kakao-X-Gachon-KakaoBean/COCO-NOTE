@@ -22,7 +22,7 @@ const CreateIssue = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper open={true}>
+      <Wrapper>
         <div style={{ padding: '1rem' }}>
           <Header>
             <Button onClick={getBack}>뒤로 가기</Button>
