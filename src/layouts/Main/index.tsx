@@ -11,11 +11,13 @@ import {
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Input, Modal } from 'antd';
 import MDEditor from '@uiw/react-md-editor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IProjectValue } from '@layouts/Main/type.ts';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { manual } from '@layouts/Main/manual.tsx';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import projectInfo from '@pages/ProjectInfo';
 
 const Main = () => {
   const [projectList, setProjectList] = useRecoilState(projectValueState);
@@ -25,6 +27,16 @@ const Main = () => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const { TextArea } = Input;
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (projectInfoMenuOpen) {
+      setIsVisible(false);
+      setTimeout(() => {
+        setIsVisible(true);
+      }, 550);
+    }
+  }, [projectInfoMenuOpen]);
 
   const handleOk = () => {
     if (title && contents) {
@@ -59,25 +71,31 @@ const Main = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper open={projectInfoMenuOpen}>
-        <Modal title="새 프로젝트 생성" open={isAddProject} onOk={handleOk} onCancel={handleCancel}>
-          <TextArea
-            value={title}
-            autoSize={{ minRows: 1, maxRows: 10 }}
-            onChange={e => setTitle(e.target.value)}
-            placeholder="프로젝트 명"
-            style={{ marginBottom: '2rem', marginTop: '3rem' }}
-          />
-          <TextArea
-            value={contents}
-            autoSize={{ minRows: 3, maxRows: 10 }}
-            onChange={e => setContents(e.target.value)}
-            placeholder="프로젝트 설명"
-            style={{ marginBottom: '2rem' }}
-          />
-        </Modal>
-        <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
-      </Wrapper>
+      {isVisible ? (
+        <Wrapper>
+          <Modal title="새 프로젝트 생성" open={isAddProject} onOk={handleOk} onCancel={handleCancel}>
+            <TextArea
+              value={title}
+              autoSize={{ minRows: 1, maxRows: 10 }}
+              onChange={e => setTitle(e.target.value)}
+              placeholder="프로젝트 명"
+              style={{ marginBottom: '2rem', marginTop: '3rem' }}
+            />
+            <TextArea
+              value={contents}
+              autoSize={{ minRows: 3, maxRows: 10 }}
+              onChange={e => setContents(e.target.value)}
+              placeholder="프로젝트 설명"
+              style={{ marginBottom: '2rem' }}
+            />
+          </Modal>
+          <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
+        </Wrapper>
+      ) : (
+        <Wrapper>
+          <ActivityIndicator />
+        </Wrapper>
+      )}
       <ToastContainer position="top-right" autoClose={3000} closeOnClick pauseOnFocusLoss theme="light" />
     </div>
   );
