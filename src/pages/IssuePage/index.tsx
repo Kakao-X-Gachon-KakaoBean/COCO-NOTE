@@ -1,7 +1,7 @@
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
 import Issue from '@components/Issue';
+import SideDetailBar from '@components/SideDetailBar';
 
 const IssuePage = () => {
   return (

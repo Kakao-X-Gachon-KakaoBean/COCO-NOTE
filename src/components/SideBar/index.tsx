@@ -1,16 +1,24 @@
-import { Circle, HorizontalLine, InnerText, Projects, Wrapper } from '@components/SideBar/styles.tsx';
+import { Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { AddProjectClickState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
-import { Tooltip } from 'antd';
+import {
+  AddProjectClickState,
+  projectInfoMenuOpenState,
+  projectValueState,
+  SelectedProjectState,
+} from '@states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from 'antd';
 
 const SideBar = () => {
+  const navigate = useNavigate();
   const projectList = useRecoilValue(projectValueState);
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
-  const navigate = useNavigate();
-
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  function waitForAnimation() {
+    return new Promise(resolve => setTimeout(resolve, 550)); // 300ms는 애니메이션 시간에 따라 조정하세요.
+  }
   return (
     <Wrapper>
       {projectList.map((project, projectIndex) => (
@@ -19,9 +27,11 @@ const SideBar = () => {
             <Tooltip placement={'right'} title={'메인으로'}>
               <Circle
                 className={selectedProject.projectId === 0 ? 'selected' : 'notSelected'}
-                onClick={() => {
-                  navigate('/main');
+                onClick={async () => {
                   initialSelectedProject();
+                  setProjectInfoMenuOpen(false);
+                  await waitForAnimation();
+                  navigate('/main');
                 }}
               >
                 <InnerText>메인으로</InnerText>
@@ -29,18 +39,19 @@ const SideBar = () => {
             </Tooltip>
           ) : (
             <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
-              <Projects
+              <Circle
                 className={selectedProject === project ? 'selected' : 'notSelected'}
-                onClick={() => {
-                  navigate(`/project/${project.projectId}/projectinfo`);
+                onClick={async () => {
                   setSelectedProject(project);
+                  setProjectInfoMenuOpen(true);
+                  await waitForAnimation();
+                  navigate(`/project/${project.projectId}/projectinfo`);
                 }}
               >
                 <InnerText>{project.projectTitle}</InnerText>
-              </Projects>
+              </Circle>
             </Tooltip>
           )}
-          {projectIndex === 0 && <HorizontalLine />}
         </div>
       ))}
       <Circle onClick={() => setIsAddProject(true)}>
