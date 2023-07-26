@@ -112,7 +112,7 @@ const ProjectInfo = () => {
     <>
       <HeaderBar />
       <SideBar />
-      <SideDetailBar />
+      <SideDetailBar open={true} />
       <Wrapper>
         <ComponentWrapper>
           <ComponentText>프로젝트 이름</ComponentText>
