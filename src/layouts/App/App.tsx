@@ -32,11 +32,10 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/project/:projectId/issue/*">
           <Route index element={<IssuePage />} />
+          <Route path="createIssue" element={<CreateIssue />} />
           <Route path=":issueId" element={<IssueDetail />} />
           <Route path=":issueId/editIssue" element={<EditIssue />} />
         </Route>
-        <Route path="/issue/createissue" element={<CreateIssue />} />
-        <Route path="/issue/createissue" element={<CreateIssue />} />
         <Route path="/project/:projectId/projectinfo" element={<ProjectInfo />} />
         <Route path="/project/:projectId/releasenote/*">
           <Route index element={<ReleaseNotePage />} />
