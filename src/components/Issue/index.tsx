@@ -53,7 +53,7 @@ const Issue = () => {
   const onRow = (record: DataType) => {
     return {
       onClick: (): void => {
-        navigate(`/issue/${record.key}`);
+        navigate(`${record.key}`);
       },
     };
   };
