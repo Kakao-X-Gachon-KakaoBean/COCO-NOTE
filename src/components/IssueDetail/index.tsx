@@ -17,10 +17,12 @@ import {
   IssueDetailBody,
   IssueDetailBox,
   IssueDetailComment,
+  IssueDetailCommentInput,
   IssueDetailHeader,
   IssueDetailHeaderButtonSection,
   IssueDetailTop,
 } from '@components/IssueDetail/styles.tsx';
+import { Input } from '@components/EditIssue/styles.tsx';
 
 interface Comment {
   content: string;
@@ -113,8 +115,15 @@ const IssueDetail = () => {
             <div>여기가 본문 자리</div>
           </IssueDetailBody>
           <IssueDetailComment>
-            <input type="text" value={newComment} onChange={e => setNewComment(e.target.value)} />
-            <button onClick={addComment}>Submit</button>
+            <IssueDetailCommentInput>
+              <Input
+                type="text"
+                value={newComment}
+                onChange={e => setNewComment(e.target.value)}
+                placeholder="댓글을 달아주세요"
+              />
+              <Button onClick={addComment}>Submit</Button>
+            </IssueDetailCommentInput>
             <CommentBox>
               {comments.map((comment, index) => (
                 <EachCommentBox key={index}>

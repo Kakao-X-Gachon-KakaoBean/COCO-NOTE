@@ -31,7 +31,16 @@ export const IssueDetailHeaderButtonSection = styled.div`
 export const IssueDetailBody = styled.div`
   border: 1px black solid;
 `;
-export const IssueDetailComment = styled.div``;
+export const IssueDetailComment = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const IssueDetailCommentInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
 export const CommentBox = styled.div`
   display: flex;
   flex-direction: column;
