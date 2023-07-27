@@ -17,14 +17,15 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    title: '이슈 제목',
-    dataIndex: 'issue',
-    width: '50%',
+    title: '번호',
+    dataIndex: 'version',
+    width: '10%',
+    align: 'center',
   },
   {
-    title: '버전',
-    dataIndex: 'version',
-    width: '20%',
+    title: '이슈 제목',
+    dataIndex: 'issue',
+    width: '60%',
   },
   {
     title: '작성자',
