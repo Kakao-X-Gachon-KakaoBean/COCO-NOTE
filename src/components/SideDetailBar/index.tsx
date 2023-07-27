@@ -11,26 +11,28 @@ import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
+import ReleaseNoteExam from '@components/ReleaseNote/ReleaseNoteExam';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const navigate = useNavigate();
 
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to={`/project/${selectedProject.projectId}/projectinfo`}>프로젝트 정보</Link>,
+      label: <Link to="/projectinfo">프로젝트 정보</Link>,
     },
     {
       key: '2',
-      label: <Link to={`/project/${selectedProject.projectId}/manage`}>관리자 페이지</Link>,
+      label: <Link to="/mypage">멤버 관리</Link>,
     },
   ];
   return (
-    <Wrapper>
+    <Wrapper open={projectInfoMenuOpen}>
       <DropdownDiv>
         <Dropdown menu={{ items }} trigger={['click']}>
           <a onClick={e => e.preventDefault()}>
@@ -55,7 +57,8 @@ const SideDetailBar = () => {
           </ViewAll>
         </HorizonText>
         <HorizontalLine />
-        <ReleaseNoteTree />
+        {selectedProject.projectTitle === '테스트 프로젝트' ? <ReleaseNoteTree /> : <ReleaseNoteExam />}
+        {/*<ReleaseNoteTree />*/}
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>

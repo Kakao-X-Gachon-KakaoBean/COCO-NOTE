@@ -13,7 +13,7 @@ export const ComponentWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const HeaderText = styled.text`
+export const HeaderText = styled.div`
   font-size: larger;
   color: Black;
   margin-top: 3vh;

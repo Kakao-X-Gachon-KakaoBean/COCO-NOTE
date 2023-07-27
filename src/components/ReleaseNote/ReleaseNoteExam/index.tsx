@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { TestReleasedNote } from '@components/ReleaseNote/ReleasedNoteAll/mock.tsx';
 import { DataNode } from 'antd/es/tree';
 import { SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
+import { Test } from '@components/ReleaseNote/ReleasedNoteAll/mockExam.tsx';
 
-const ReleaseNoteTree: React.FC = () => {
+const ReleaseNoteExam: React.FC = () => {
   const navigate = useNavigate();
   const selectedProject = useRecoilValue(SelectedProjectState);
   const [selectedNodeKey, setSelectedNodeKey] = useState<string | null>(null);
@@ -18,7 +18,7 @@ const ReleaseNoteTree: React.FC = () => {
     {
       title: '수정 중인 릴리즈 노트',
       key: 'edit',
-      children: TestReleasedNote.filter(note => note.editState).map(note => ({
+      children: Test.filter(note => note.editState).map(note => ({
         title: note.title,
         key: note.version,
         contents: note.contents,
@@ -27,7 +27,7 @@ const ReleaseNoteTree: React.FC = () => {
     {
       title: '릴리즈 노트 목록',
       key: 'released',
-      children: TestReleasedNote.filter(note => !note.editState).map(note => ({
+      children: Test.filter(note => !note.editState).map(note => ({
         title: note.title,
         key: note.version,
         contents: note.contents,
@@ -69,4 +69,4 @@ const ReleaseNoteTree: React.FC = () => {
   );
 };
 
-export default ReleaseNoteTree;
+export default ReleaseNoteExam;

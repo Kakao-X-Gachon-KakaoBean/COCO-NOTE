@@ -1,8 +1,8 @@
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
-import { ComponentText, ComponentWrapper, HorizontalLine, MemberList, Wrapper } from '@pages/ProjectInfo/styles.tsx';
+import { ComponentText, ComponentWrapper, HorizontalLine, MemberList } from '@pages/ProjectInfo/styles.tsx';
 import SideDetailBar from '@components/SideDetailBar';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
@@ -13,7 +13,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import { TableHead } from '@mui/material';
@@ -21,6 +21,8 @@ import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
 import TableFooter from '@mui/material/TableFooter';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { ActivityIndicator } from '@components/ActivityIndicator';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -77,8 +79,19 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 
 const ProjectInfo = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (!projectInfoMenuOpen) {
+      setIsVisible(false);
+      setTimeout(() => {
+        setIsVisible(true);
+      }, 550);
+    }
+  }, [projectInfoMenuOpen]);
 
   const [rows] = useState([
     { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
@@ -113,72 +126,78 @@ const ProjectInfo = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
-        <ComponentWrapper>
-          <ComponentText>프로젝트 이름</ComponentText>
-          <ComponentText className={'title'}>{selectedProject.projectTitle}</ComponentText>
-          <ComponentText>프로젝트 설명</ComponentText>
-          <ComponentText className={'contents'}>{selectedProject.projectContent}</ComponentText>
-          <HorizontalLine />
-          <ComponentText>프로젝트 멤버 리스트</ComponentText>
-          <MemberList>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-                <TableHead>
-                  <TableRow sx={{ background: 'gray' }}>
-                    <TableCell align="left">이름</TableCell>
-                    <TableCell align="center">이메일</TableCell>
-                    <TableCell align="center">직위</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
-                    row => (
-                      <TableRow key={row.name}>
-                        <TableCell component="th" scope="row">
-                          {row.name}
-                        </TableCell>
-                        <TableCell style={{ width: 300 }} align="center">
-                          {row.email}
-                        </TableCell>
-                        <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
-                          {row.position}
-                        </TableCell>
-                      </TableRow>
-                    )
-                  )}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
+      {isVisible ? (
+        <Wrapper>
+          <ComponentWrapper>
+            <ComponentText>프로젝트 이름</ComponentText>
+            <ComponentText className={'title'}>{selectedProject.projectTitle}</ComponentText>
+            <ComponentText>프로젝트 설명</ComponentText>
+            <ComponentText className={'contents'}>{selectedProject.projectContent}</ComponentText>
+            <HorizontalLine />
+            <ComponentText>프로젝트 멤버 리스트</ComponentText>
+            <MemberList>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+                  <TableHead>
+                    <TableRow sx={{ background: 'gray' }}>
+                      <TableCell align="left">이름</TableCell>
+                      <TableCell align="center">이메일</TableCell>
+                      <TableCell align="center">직위</TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-                <TableFooter>
-                  <TableRow>
-                    {/* eslint-disable-next-line react/jsx-no-undef */}
-                    <TablePagination
-                      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                      colSpan={3}
-                      count={rows.length}
-                      rowsPerPage={rowsPerPage}
-                      page={page}
-                      SelectProps={{
-                        inputProps: {
-                          'aria-label': 'rows per page',
-                        },
-                        native: true,
-                      }}
-                      onRowsPerPageChange={handleChangeRowsPerPage}
-                      ActionsComponent={TablePaginationActions}
-                      onPageChange={handleChangePage}
-                    />
-                  </TableRow>
-                </TableFooter>
-              </Table>
-            </TableContainer>
-          </MemberList>
-        </ComponentWrapper>
-      </Wrapper>
+                  </TableHead>
+                  <TableBody>
+                    {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
+                      row => (
+                        <TableRow key={row.name}>
+                          <TableCell component="th" scope="row">
+                            {row.name}
+                          </TableCell>
+                          <TableCell style={{ width: 300 }} align="center">
+                            {row.email}
+                          </TableCell>
+                          <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
+                            {row.position}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    )}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      {/* eslint-disable-next-line react/jsx-no-undef */}
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                        colSpan={3}
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        SelectProps={{
+                          inputProps: {
+                            'aria-label': 'rows per page',
+                          },
+                          native: true,
+                        }}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                        onPageChange={handleChangePage}
+                      />
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </MemberList>
+          </ComponentWrapper>
+        </Wrapper>
+      ) : (
+        <Wrapper>
+          <ActivityIndicator />
+        </Wrapper>
+      )}
     </>
   );
 };
