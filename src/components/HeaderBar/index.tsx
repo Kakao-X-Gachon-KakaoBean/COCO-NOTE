@@ -6,7 +6,7 @@ import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 
 const HeaderBar = () => {
-  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const [projectInfoMenuOpen, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const navigate = useNavigate();
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
@@ -18,8 +18,9 @@ const HeaderBar = () => {
           <TitleLink
             onClick={async () => {
               setProjectInfoMenuOpen(false);
-              setProjectInfoMenuOpen(false);
-              await waitForAnimation();
+              if (projectInfoMenuOpen) {
+                await waitForAnimation();
+              }
               navigate('/main');
             }}
           >
