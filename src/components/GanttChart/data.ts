@@ -20,7 +20,7 @@ export const columns: ColumnsType<TableData> = [
 ];
 
 export const data: TableData[] = [];
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 15; i++) {
   data.push({
     key: i,
     sprint: `스프린트 ${i}`,
@@ -34,8 +34,8 @@ const currentDate = new Date();
 const currentMonth = currentDate.getMonth() + 1;
 const currentYear = currentDate.getFullYear();
 
-for (let i = 0; i <= 24; i++) {
-  const date = new Date(currentYear, currentMonth + i - 13, 1);
+for (let i = 0; i <= 10; i++) {
+  const date = new Date(currentYear, currentMonth + i - 4, 1);
   const month = date.toLocaleString('default', { month: 'long' });
   const year = date.getFullYear();
   const title = `${year} ${month}`;
