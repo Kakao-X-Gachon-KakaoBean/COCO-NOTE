@@ -7,7 +7,7 @@ import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import MDEditor from '@uiw/react-md-editor';
 
 import {
@@ -37,7 +37,7 @@ const IssueDetail = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const [value, setValue] = useState<string | undefined>(IssueDetailtext);
+  const [value] = useState<string | undefined>(IssueDetailtext);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
 
@@ -65,9 +65,9 @@ const IssueDetail = () => {
     navigate(-1);
   };
 
-  const dee = () => {
-    console.log('delete');
-  };
+  // const dee = () => {
+  //   console.log('delete');
+  // };
 
   const editIssue = () => {
     navigate(`editIssue`);
@@ -96,11 +96,13 @@ const IssueDetail = () => {
         .then(response => response.data),
     {
       onMutate() {},
-      onSuccess(data) {
+      onSuccess(data: string) {
         queryClient.invalidateQueries('MySurvey');
+        console.log(data);
       },
       onError(error) {
         alert('실패');
+        console.log(error);
       },
     }
   );
