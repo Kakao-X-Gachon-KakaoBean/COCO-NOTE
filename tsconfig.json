@@ -3,11 +3,20 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "types": [
+      "cypress",
+      "node",
+      "@testing-library/cypress",
+      "jest",
+      "@jest/types",
+      "@testing-library/jest-dom"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
 
+
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -21,6 +30,7 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
+      "@/*": ["src/*"],
       "@hooks/*": ["hooks/*"],
       "@pages/*": ["src/pages/*"],
       "@components/*": ["src/components/*"],
@@ -28,7 +38,10 @@
       "@layouts/*": ["src/layouts/*"],
       "@styles/*": ["src/styles/*"],
       "@states/*": ["src/states/*"],
-    }
+    },
+
+    /* Add esModuleInterop option */
+    "esModuleInterop": true
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

@@ -22,10 +22,9 @@ const Notification: React.FC = () => {
     <Dropdown
       overlay={
         <Card
-          style={{ width: '20vw' }}
+          style={{ width: '22vw' }}
           actions={[
             <Link
-              key={'mypage'}
               to="/mypage"
               style={{
                 display: 'flex',
@@ -51,9 +50,9 @@ const Notification: React.FC = () => {
         <Space>
           <UserOutlined
             style={{
-              fontSize: '25px',
+              fontSize: '27px',
               cursor: 'pointer',
-              color: visible ? 'green' : 'black',
+              color: '#00b050',
             }}
           />
         </Space>
