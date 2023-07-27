@@ -17,6 +17,7 @@ import { Button } from 'antd';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { Input } from '@components/EditIssue/styles.tsx';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 
 const CreateIssue = () => {
   const navigate = useNavigate();
@@ -48,27 +49,27 @@ const CreateIssue = () => {
       <SideDetailBar />
       {isVisible ? (
         <Wrapper>
-        <CreateIssueBox>
-          <CreateIssueHeader>
-            <Button onClick={getBack}>뒤로 가기</Button>
-          </CreateIssueHeader>
-          <CreateIssueTitle>
-            <Input type="text" id="title" name="title" value={title} onChange={onChangeTitle} placeholder="제목" />
-          </CreateIssueTitle>
-          <CreateIssueInput>
-            <div data-color-mode="light">
-              <MDEditor height={500} value={value} onChange={setValue} />
-            </div>
-            {/*미리 보기*/}
-            {/*<div data-color-mode="light" style={{ padding: 15 }}>*/}
-            {/*  <MDEditor.Markdown style={{ padding: 10 }} source={value} />*/}
-            {/*</div>*/}
-          </CreateIssueInput>
-          <CreateIssueSubmit>
-            <Button onClick={submitNewIssue}>제출</Button>
-          </CreateIssueSubmit>
-        </CreateIssueBox>
-      </Wrapper>
+          <CreateIssueBox>
+            <CreateIssueHeader>
+              <Button onClick={getBack}>뒤로 가기</Button>
+            </CreateIssueHeader>
+            <CreateIssueTitle>
+              <Input type="text" id="title" name="title" value={title} onChange={onChangeTitle} placeholder="제목" />
+            </CreateIssueTitle>
+            <CreateIssueInput>
+              <div data-color-mode="light">
+                <MDEditor height={500} value={value} onChange={setValue} />
+              </div>
+              {/*미리 보기*/}
+              {/*<div data-color-mode="light" style={{ padding: 15 }}>*/}
+              {/*  <MDEditor.Markdown style={{ padding: 10 }} source={value} />*/}
+              {/*</div>*/}
+            </CreateIssueInput>
+            <CreateIssueSubmit>
+              <Button onClick={submitNewIssue}>제출</Button>
+            </CreateIssueSubmit>
+          </CreateIssueBox>
+        </Wrapper>
       ) : (
         <Wrapper>
           <ActivityIndicator />

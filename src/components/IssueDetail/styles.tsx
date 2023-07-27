@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const IssueDetailBox = styled.div`
   padding: 1rem;
   display: grid;
-  grid-template-rows: 1fr 3fr 10fr auto;
+  grid-template-rows: 30px 70px auto auto;
   grid-gap: 1rem;
   align-self: center;
 `;
