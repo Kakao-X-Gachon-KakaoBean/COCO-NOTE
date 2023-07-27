@@ -1,10 +1,10 @@
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { ColumnsType } from 'antd/es/table';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/styles.tsx';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 
@@ -48,17 +48,7 @@ const Issue = () => {
   }
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    if (!projectInfoMenuOpen) {
-      setIsVisible(false);
-      setTimeout(() => {
-        setIsVisible(true);
-      }, 550);
-    }
-  }, [projectInfoMenuOpen]);
+  const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
@@ -81,33 +71,55 @@ const Issue = () => {
     navigate('createIssue');
   };
 
+  let contents = null;
+
+  switch (projectInfoMenuOpen.state) {
+    case 'hasValue':
+      contents = () => {
+        if (projectInfoMenuOpen.contents) {
+          return (
+            <div style={{ padding: '1rem' }}>
+              <IssueHeader>이슈</IssueHeader>
+              <IssueTable>
+                <Table
+                  rowSelection={rowSelection}
+                  columns={columns}
+                  dataSource={data}
+                  onRow={onRow}
+                  pagination={{ pageSize: 8 }}
+                />
+              </IssueTable>
+              <IssueCreateBtn>
+                <Button type="primary" onClick={goCreateIssue}>
+                  새 이슈 생성
+                </Button>
+              </IssueCreateBtn>
+            </div>
+          );
+        } else {
+          return <ActivityIndicator />;
+        }
+      };
+      break;
+    case 'hasError':
+      contents = () => {
+        return <div>데이터를 서버에서 불러올 수 없습니다.</div>;
+      };
+      break;
+    case 'loading':
+      contents = () => {
+        return <ActivityIndicator />;
+      };
+      break;
+    default:
+      contents = () => {
+        return <div>에러가 발생했습니다. 페이지를 새로고침해주세요.</div>;
+      };
+  }
+
   return (
     <>
-      {isVisible ? (
-        <Wrapper>
-          <div style={{ padding: '1rem' }}>
-            <IssueHeader>이슈</IssueHeader>
-            <IssueTable>
-              <Table
-                rowSelection={rowSelection}
-                columns={columns}
-                dataSource={data}
-                onRow={onRow}
-                pagination={{ pageSize: 8 }}
-              />
-            </IssueTable>
-            <IssueCreateBtn>
-              <Button type="primary" onClick={goCreateIssue}>
-                새 이슈 생성
-              </Button>
-            </IssueCreateBtn>
-          </div>
-        </Wrapper>
-      ) : (
-        <Wrapper>
-          <ActivityIndicator />
-        </Wrapper>
-      )}
+      <Wrapper>{contents()}</Wrapper>
     </>
   );
 };

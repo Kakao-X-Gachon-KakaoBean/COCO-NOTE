@@ -35,7 +35,7 @@ const ReadOnlyReleaseNoteDetail: React.FC<Props> = ({ note }) => {
             <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
           </ReleaseNoteHeaderBottom>
         </ReleaseNoteHeaderDiv>
-        <MarkdownParagraph>
+        <MarkdownParagraph data-color-mode="light">
           <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
         </MarkdownParagraph>
       </ReleasedNoteParagraph>

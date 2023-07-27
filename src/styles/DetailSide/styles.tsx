@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 
 const projectINfoMenuOpen = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const state = useRecoilValue(projectInfoMenuOpenState);
   return state;
 };

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 
 export const BarDiv = styled.div`
   display: flex;
@@ -18,12 +17,13 @@ export const BarDiv = styled.div`
   border: 1pt solid #f2f2f2;
 `;
 
-export const TitleLink = styled(Link)`
+export const TitleLink = styled.div`
   font-weight: 700;
   font-size: 1.8vw;
   font-family: SCDream6;
   text-decoration: none;
   color: #00b050;
+  cursor: pointer;
 `;
 
 export const LogoDiv = styled.div`
