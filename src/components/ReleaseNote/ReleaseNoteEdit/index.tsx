@@ -56,7 +56,7 @@ const ReleaseNoteEdit = () => {
                 </Form.Item>
               </Form>
             </TitleVersionInput>
-            <Editor>
+            <Editor data-color-mode="light">
               <MDEditor height={'60vh'} value={value} onChange={setValue} />
             </Editor>
             <TemporarySave>

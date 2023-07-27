@@ -23,11 +23,11 @@ const Main = () => {
   const [projectList, setProjectList] = useRecoilState(projectValueState);
   const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [, setSelectedProject] = useRecoilState(SelectedProjectState);
-  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const { TextArea } = Input;
   const [isVisible, setIsVisible] = useState(true);
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
 
   useEffect(() => {
     if (projectInfoMenuOpen) {
@@ -72,7 +72,7 @@ const Main = () => {
       <SideBar />
       <SideDetailBar />
       {isVisible ? (
-        <Wrapper>
+        <Wrapper data-color-mode="light">
           <Modal title="새 프로젝트 생성" open={isAddProject} onOk={handleOk} onCancel={handleCancel}>
             <TextArea
               value={title}
