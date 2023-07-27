@@ -1,4 +1,5 @@
 import { atom, RecoilState } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
 interface IProjectValue {
   projectId: number;
@@ -19,6 +20,11 @@ const initialProjectValue: IProjectValue[] = [
   },
 ];
 
+const { persistAtom } = recoilPersist({
+  key: 'recoil-persist',
+  storage: localStorage,
+});
+
 export const projectValueState: RecoilState<IProjectValue[]> = atom({
   key: 'ProjectValueState',
   default: initialProjectValue,
@@ -29,9 +35,10 @@ export const AddProjectClickState: RecoilState<boolean> = atom({
   default: false,
 });
 
-export const projectInfoMenuOpenState: RecoilState<boolean> = atom({
+export const projectInfoMenuOpenState = atom({
   key: 'projectInfoMenuOpen',
   default: false,
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const SelectedProjectState: RecoilState<IProjectValue> = atom({

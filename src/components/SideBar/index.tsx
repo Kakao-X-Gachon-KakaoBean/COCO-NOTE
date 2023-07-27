@@ -1,4 +1,4 @@
-import { Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
+import { AddCircle, Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   AddProjectClickState,
@@ -54,9 +54,9 @@ const SideBar = () => {
           )}
         </div>
       ))}
-      <Circle onClick={() => setIsAddProject(true)}>
+      <AddCircle onClick={() => setIsAddProject(true)}>
         <InnerText style={{ fontSize: '2rem' }}>+</InnerText>
-      </Circle>
+      </AddCircle>
     </Wrapper>
   );
 };
