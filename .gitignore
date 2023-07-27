@@ -43,6 +43,7 @@ dist-ssr
 .pnp.*
 
 coverage
+coverage/**
 .env
 
 cypress/e2e/1-getting-started
