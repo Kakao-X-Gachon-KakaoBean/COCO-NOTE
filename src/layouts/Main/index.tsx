@@ -10,6 +10,8 @@ import { ActivityIndicator } from '@components/ActivityIndicator';
 import { useRecoilValue } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useEffect, useState } from 'react';
+import { Img } from '@layouts/Main/styles.tsx';
+import logoImg from '../../images/logoImage.png';
 
 const Main = () => {
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
@@ -31,7 +33,10 @@ const Main = () => {
       <SideDetailBar />
       {isVisible ? (
         <Wrapper>
-          <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
+          <Img src={logoImg} alt="Google" />
+          <div data-color-mode="light">
+            <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
+          </div>
         </Wrapper>
       ) : (
         <Wrapper>
