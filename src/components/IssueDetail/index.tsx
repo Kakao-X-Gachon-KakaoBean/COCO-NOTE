@@ -5,9 +5,9 @@ import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import {
   CommentBox,
@@ -22,7 +22,7 @@ import {
   IssueDetailHeaderButtonSection,
   IssueDetailTop,
 } from '@components/IssueDetail/styles.tsx';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { Input } from '@components/EditIssue/styles.tsx';
@@ -38,18 +38,7 @@ const IssueDetail = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
 
-  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    if (!projectInfoMenuOpen) {
-      setIsVisible(false);
-      setTimeout(() => {
-        setIsVisible(true);
-      }, 550);
-    }
-  }, [projectInfoMenuOpen]);
-
+  const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
   const addComment = () => {
     const comment: Comment = { content: newComment };
 
@@ -109,56 +98,78 @@ const IssueDetail = () => {
     [DeleteAPI]
   );
 
+  let contents = null;
+
+  switch (projectInfoMenuOpen.state) {
+    case 'hasValue':
+      contents = () => {
+        if (projectInfoMenuOpen.contents) {
+          return (
+            <IssueDetailBox>
+              <IssueDetailTop>
+                <Button onClick={getBack}>뒤로 가기</Button>
+              </IssueDetailTop>
+              <IssueDetailHeader>
+                <div>{pageId}번째 이슈</div>
+                <IssueDetailHeaderButtonSection>
+                  <Button onClick={DeleteIssue}>삭제</Button>
+                  <Button onClick={editIssue}>수정</Button>
+                </IssueDetailHeaderButtonSection>
+              </IssueDetailHeader>
+              <IssueDetailBody>
+                <div>여기가 본문 자리</div>
+              </IssueDetailBody>
+              <IssueDetailComment>
+                <IssueDetailCommentInput>
+                  <Input
+                    type="text"
+                    value={newComment}
+                    onChange={e => setNewComment(e.target.value)}
+                    placeholder="댓글을 달아주세요"
+                  />
+                  <Button onClick={addComment}>Submit</Button>
+                </IssueDetailCommentInput>
+                <CommentBox>
+                  {comments.map((comment, index) => (
+                    <EachCommentBox key={index}>
+                      <EachCommentBoxHeader>
+                        <div>작성자 이름</div>
+                        <div>작성 일자</div>
+                      </EachCommentBoxHeader>
+                      <EachCommentBoxBody>{comment.content}</EachCommentBoxBody>
+                    </EachCommentBox>
+                  ))}
+                </CommentBox>
+              </IssueDetailComment>
+            </IssueDetailBox>
+          );
+        } else {
+          return <ActivityIndicator />;
+        }
+      };
+      break;
+    case 'hasError':
+      contents = () => {
+        return <div>데이터를 서버에서 불러올 수 없습니다.</div>;
+      };
+      break;
+    case 'loading':
+      contents = () => {
+        return <ActivityIndicator />;
+      };
+      break;
+    default:
+      contents = () => {
+        return <div>에러가 발생했습니다. 페이지를 새로고침해주세요.</div>;
+      };
+  }
+
   return (
     <>
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      {isVisible ? (
-        <Wrapper>
-          <IssueDetailBox>
-            <IssueDetailTop>
-              <Button onClick={getBack}>뒤로 가기</Button>
-            </IssueDetailTop>
-            <IssueDetailHeader>
-              <div>{pageId}번째 이슈</div>
-              <IssueDetailHeaderButtonSection>
-                <Button onClick={DeleteIssue}>삭제</Button>
-                <Button onClick={editIssue}>수정</Button>
-              </IssueDetailHeaderButtonSection>
-            </IssueDetailHeader>
-            <IssueDetailBody>
-              <div>여기가 본문 자리</div>
-            </IssueDetailBody>
-            <IssueDetailComment>
-              <IssueDetailCommentInput>
-                <Input
-                  type="text"
-                  value={newComment}
-                  onChange={e => setNewComment(e.target.value)}
-                  placeholder="댓글을 달아주세요"
-                />
-                <Button onClick={addComment}>Submit</Button>
-              </IssueDetailCommentInput>
-              <CommentBox>
-                {comments.map((comment, index) => (
-                  <EachCommentBox key={index}>
-                    <EachCommentBoxHeader>
-                      <div>작성자 이름</div>
-                      <div>작성 일자</div>
-                    </EachCommentBoxHeader>
-                    <EachCommentBoxBody>{comment.content}</EachCommentBoxBody>
-                  </EachCommentBox>
-                ))}
-              </CommentBox>
-            </IssueDetailComment>
-          </IssueDetailBox>
-        </Wrapper>
-      ) : (
-        <Wrapper>
-          <ActivityIndicator />
-        </Wrapper>
-      )}
+      <Wrapper>{contents()}</Wrapper>
     </>
   );
 };

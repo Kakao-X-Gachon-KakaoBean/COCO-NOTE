@@ -82,7 +82,7 @@ const BulletinReleaseNoteDetail: React.FC<Props> = ({ note }) => {
           </ReleaseNoteHeaderBottom>
         </ReleaseNoteHeaderDiv>
         <MarkdownParagraph>
-          <BulletinDiv>
+          <BulletinDiv data-color-mode="light">
             <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
           </BulletinDiv>
         </MarkdownParagraph>
