@@ -19,14 +19,18 @@ const columns: ColumnsType<DataType> = [
   {
     title: '이슈 제목',
     dataIndex: 'issue',
+    width: '50%',
   },
   {
     title: '버전',
     dataIndex: 'version',
+    width: '20%',
   },
   {
     title: '작성자',
     dataIndex: 'name',
+    width: '30%',
+    align: 'center',
   },
 ];
 const Issue = () => {
