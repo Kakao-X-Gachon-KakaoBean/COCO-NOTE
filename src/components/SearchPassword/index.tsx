@@ -18,12 +18,12 @@ import {
   InputKeyWithText,
   Label,
   Wrapper,
-} from '@components/PasswordModal/styles';
-import { PaswwordModal } from '@components/PasswordModal/type';
+} from '@components/SearchPassword/styles';
+import { PasswordModal } from '@components/SearchPassword/type';
 import { useMutation } from 'react-query';
 import useInput from '../../hooks/useInput';
 
-const SearchPassword: FC<PaswwordModal> = ({ onClosePasswordModal }) => {
+const SearchPassword: FC<PasswordModal> = ({ name, onChangeName, onClosePasswordModal }) => {
   const [email, onChangeEmail] = useInput('');
   const [passwordToChange, , setPasswordToChange] = useInput('');
   const [checkPasswordToChange, , setCheckPasswordToChange] = useInput('');
