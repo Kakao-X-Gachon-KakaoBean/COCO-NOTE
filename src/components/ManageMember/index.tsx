@@ -37,9 +37,11 @@ import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useRecoilValue } from 'recoil';
+import { projectInfoMenuOpenState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import { IProjectValue } from '@layouts/Main/type.ts';
+import { toast } from 'react-toastify';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -101,7 +103,8 @@ const ManageMember = () => {
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
   const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const selectedProject = useRecoilValue(SelectedProjectState);
+  const [projectList, setProjectList] = useRecoilState(projectValueState);
+  const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const { TextArea } = Input;
   const [title, setTitle] = useState(selectedProject.projectTitle);
   const [content, setContent] = useState(selectedProject.projectContent);
@@ -237,8 +240,6 @@ const ManageMember = () => {
     // Update the entire projectValueState with the new array
     setProjectList(updatedProjectList);
     setSelectedProject(newProject);
-    console.log(selectedIndex);
-    console.log(updatedProjectList);
   };
 
   const handleOk = () => {
@@ -399,7 +400,7 @@ const ManageMember = () => {
               </Button>
             </div>
           </Modal>
-          <Modal title="새 프로젝트 생성" open={projectModalOpen} onOk={handleOk} onCancel={handleProject}>
+          <Modal title="프로젝트 정보 변경" open={projectModalOpen} onOk={handleOk} onCancel={handleProject}>
             <TextArea
               value={title}
               autoSize={{ minRows: 1, maxRows: 10 }}
