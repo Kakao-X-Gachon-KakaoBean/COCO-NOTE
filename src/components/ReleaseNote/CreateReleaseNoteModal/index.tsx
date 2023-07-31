@@ -5,7 +5,6 @@ import { ModalDiv } from '@components/ReleaseNote/CreateReleaseNoteModal/styles.
 const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => {
   const [form] = Form.useForm();
   const createReleaseNote = (values: CreateModalInput) => {
-    console.log(values);
     form.resetFields();
     // 정상적으로 실행되었을 시에 handleOk
     handleOk({ title: values.title, key: values.key, contents: '', status: 'success' });

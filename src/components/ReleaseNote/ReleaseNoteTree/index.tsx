@@ -67,7 +67,6 @@ const ReleaseNoteTree: React.FC = () => {
   const handleOk = (input: CreateModalInput) => {
     // 여기서 input 값을 보고 navigate 및 editReleaseNoteTreeData에 추가하면 된다.
     if (input.status === 'success') {
-      console.log('검증 확인', input);
       const newEditRelease = {
         title: input.title,
         key: input.key,
@@ -75,8 +74,6 @@ const ReleaseNoteTree: React.FC = () => {
       };
       editReleaseNoteTreeData[0].children.push(newEditRelease);
       navigate(`/project/${selectedProject.projectId}/releasenote/${newEditRelease.key}`);
-    } else {
-      console.log('취소');
     }
     setCreateModalVisible(false);
   };
