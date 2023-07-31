@@ -4,15 +4,15 @@ import {
   MemberHeaderRight,
   MemberList,
   MemberSection,
-  ProjectSection,
   ProjectBody,
-  ProjectHeader,
-  ProjectSubMit,
-  ProjectBodyTitle,
   ProjectBodyExplain,
+  ProjectBodyTitle,
+  ProjectHeader,
+  ProjectSection,
+  ProjectSubMit,
 } from '@components/ManageMember/styles.tsx';
 
-import { Select, Button, Input, Modal, Divider } from 'antd';
+import { Button, Divider, Input, Modal, Select } from 'antd';
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -37,7 +37,7 @@ import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 
@@ -101,8 +101,7 @@ const ManageMember = () => {
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
   const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const [title, setTitle] = useState<string>('코코노트');
-  const [contents, setContents] = useState<string>('효과적 으아아아');
+  const selectedProject = useRecoilValue(SelectedProjectState);
   const { TextArea } = Input;
 
   const [rows, setRows] = useState([
@@ -238,11 +237,11 @@ const ManageMember = () => {
             <ProjectBody>
               <ProjectBodyTitle>
                 <div>프로젝트 이름</div>
-                <div>{title}</div>
+                <div>{selectedProject.projectTitle}</div>
               </ProjectBodyTitle>
               <ProjectBodyExplain>
                 <div>프로젝트 설명</div>
-                <div>{contents}</div>
+                <div>{selectedProject.projectContent}</div>
               </ProjectBodyExplain>
             </ProjectBody>
             <ProjectSubMit></ProjectSubMit>
@@ -382,16 +381,16 @@ const ManageMember = () => {
             }
           >
             <TextArea
-              value={title}
+              value={selectedProject.projectTitle}
               autoSize={{ minRows: 1, maxRows: 10 }}
-              onChange={e => setTitle(e.target.value)}
+              onChange={e => (selectedProject.projectTitle = e.target.value)}
               placeholder="프로젝트 명"
               style={{ marginBottom: '2rem', marginTop: '3rem' }}
             />
             <TextArea
-              value={contents}
+              value={selectedProject.projectContent}
               autoSize={{ minRows: 3, maxRows: 10 }}
-              onChange={e => setContents(e.target.value)}
+              onChange={e => (selectedProject.projectContent = e.target.value)}
               placeholder="프로젝트 설명"
               style={{ marginBottom: '2rem' }}
             />

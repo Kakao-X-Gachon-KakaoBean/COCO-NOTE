@@ -8,6 +8,7 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
+import MDEditor from '@uiw/react-md-editor';
 
 import {
   CommentBox,
@@ -26,6 +27,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { Input } from '@components/EditIssue/styles.tsx';
+import { IssueDetailtext } from '@components/IssueDetail/mock.tsx';
 
 interface Comment {
   content: string;
@@ -35,6 +37,7 @@ const IssueDetail = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const [value] = useState<string | undefined>(IssueDetailtext);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
 
@@ -51,9 +54,9 @@ const IssueDetail = () => {
     navigate(-1);
   };
 
-  const dee = () => {
-    console.log('delete');
-  };
+  // const dee = () => {
+  //   console.log('delete');
+  // };
 
   const editIssue = () => {
     navigate(`editIssue`);
@@ -72,7 +75,7 @@ const IssueDetail = () => {
     'DeleteIssue',
     ({ IssueId }) =>
       axios
-        .delete(`localhost:3000/Issue/${IssueId}`, {
+        .delete(`localhost:3000/Issues/${IssueId}`, {
           withCredentials: true,
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
@@ -82,11 +85,13 @@ const IssueDetail = () => {
         .then(response => response.data),
     {
       onMutate() {},
-      onSuccess(data) {
+      onSuccess(data: string) {
         queryClient.invalidateQueries('MySurvey');
+        console.log(data);
       },
       onError(error) {
         alert('실패');
+        console.log(error);
       },
     }
   );
@@ -117,7 +122,9 @@ const IssueDetail = () => {
                 </IssueDetailHeaderButtonSection>
               </IssueDetailHeader>
               <IssueDetailBody>
-                <div>여기가 본문 자리</div>
+                <div data-color-mode="light" style={{ padding: 15 }}>
+                  <MDEditor.Markdown source={value} style={{ fontFamily: 'SCDream4' }} />
+                </div>
               </IssueDetailBody>
               <IssueDetailComment>
                 <IssueDetailCommentInput>

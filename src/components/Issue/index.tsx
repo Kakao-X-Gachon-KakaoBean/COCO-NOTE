@@ -17,16 +17,21 @@ interface DataType {
 
 const columns: ColumnsType<DataType> = [
   {
-    title: '이슈 제목',
-    dataIndex: 'issue',
+    title: '번호',
+    dataIndex: 'version',
+    width: '10%',
+    align: 'center',
   },
   {
-    title: '버전',
-    dataIndex: 'version',
+    title: '이슈 제목',
+    dataIndex: 'issue',
+    width: '60%',
   },
   {
     title: '작성자',
     dataIndex: 'name',
+    width: '30%',
+    align: 'center',
   },
 ];
 const Issue = () => {

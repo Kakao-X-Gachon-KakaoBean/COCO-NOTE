@@ -35,19 +35,28 @@ export const Circle = styled.div`
   letter-spacing: 2.5px;
   color: #000;
   border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
   outline: none;
 
   &:hover {
     background-color: #23c483;
-    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    box-shadow: 0 15px 20px rgba(46, 229, 157, 0.4);
     color: #fff;
     transform: translateY(-7px);
   }
 
   &:active {
     transform: translateY(-1px);
+  }
+`;
+
+export const AddCircle = styled(Circle)`
+  &:hover {
+    background-color: #188e5d;
+    box-shadow: 0 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
   }
 `;
 
