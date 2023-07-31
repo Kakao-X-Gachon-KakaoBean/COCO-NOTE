@@ -33,7 +33,7 @@ const ReleasedNoteAll: React.FC = () => {
               <ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>
               <ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>
             </ReleaseNoteHeaderDiv>
-            <MarkdownParagraph>
+            <MarkdownParagraph data-color-mode="light">
               <MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />
               <Divider />
             </MarkdownParagraph>

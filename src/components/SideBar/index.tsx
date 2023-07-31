@@ -1,4 +1,4 @@
-import { Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
+import { AddCircle, Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   AddProjectClickState,
@@ -17,7 +17,7 @@ const SideBar = () => {
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   function waitForAnimation() {
-    return new Promise(resolve => setTimeout(resolve, 550)); // 300ms는 애니메이션 시간에 따라 조정하세요.
+    return new Promise(resolve => setTimeout(resolve, 550));
   }
   return (
     <Wrapper>
@@ -54,9 +54,9 @@ const SideBar = () => {
           )}
         </div>
       ))}
-      <Circle onClick={() => setIsAddProject(true)}>
+      <AddCircle onClick={() => setIsAddProject(true)}>
         <InnerText style={{ fontSize: '2rem' }}>+</InnerText>
-      </Circle>
+      </AddCircle>
     </Wrapper>
   );
 };

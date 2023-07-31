@@ -14,6 +14,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
+import ReleaseNoteExam from '@components/ReleaseNote/ReleaseNoteExam';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
@@ -23,11 +24,11 @@ const SideDetailBar = () => {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to="/projectinfo">프로젝트 정보</Link>,
+      label: <Link to={`/project/${selectedProject.projectId}/projectinfo`}>프로젝트 정보</Link>,
     },
     {
       key: '2',
-      label: <Link to="/mypage">멤버 관리</Link>,
+      label: <Link to={`/project/${selectedProject.projectId}/manage`}>멤버 관리</Link>,
     },
   ];
   return (
@@ -56,7 +57,8 @@ const SideDetailBar = () => {
           </ViewAll>
         </HorizonText>
         <HorizontalLine />
-        <ReleaseNoteTree />
+        {selectedProject.projectTitle === '테스트 프로젝트' ? <ReleaseNoteTree /> : <ReleaseNoteExam />}
+        {/*<ReleaseNoteTree />*/}
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
