@@ -15,7 +15,7 @@ import { ActivityIndicator } from '@components/ActivityIndicator';
 const ReleaseNoteDetail = () => {
   const { releaseId } = useParams();
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
-
+  window.scrollTo(0, 0);
   const note: ReleasedNoteAll | undefined = TestReleasedNote.find(note => note.version === releaseId);
 
   if (!note) {
