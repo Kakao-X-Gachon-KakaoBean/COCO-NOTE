@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Space, Typography } from 'antd';
 import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@components/MyInfoCard/styles.tsx';
 import { useRecoilState } from 'recoil';
-import { MypageUser, MyPageUserState } from '../../States/UserState.ts';
+import { MypageUser, MyPageUserState } from '@states/userState.ts';
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {
   // avatar crop modal

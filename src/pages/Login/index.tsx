@@ -21,27 +21,18 @@ import {
 import { Link } from 'react-router-dom';
 
 import Menu from '@components/Menu';
-import SearchEmail from '@components/SearchEmail';
-import SearchPassword from '@components/PasswordModal';
 import useInput from '../../hooks/useInput.ts';
-import { IUser } from '@states/UserState.ts';
+import { IUser } from '@states/userState.ts';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
+import SearchPassword from '@components/SearchPassword';
 
 const LogIn = () => {
   const baseUrl = '123';
 
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-
-  const [name, onChangeName] = useInput('');
-  const [birth, onChangeBirth] = useInput('');
-  const [checkEmailModal, setCheckEmailModal] = useState(false);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-
-  const onCloseEmailModal = useCallback(() => {
-    setCheckEmailModal(prev => !prev);
-  }, []);
 
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
@@ -62,6 +53,7 @@ const LogIn = () => {
       },
       onError(error) {
         // setLogInError(error.response?.data?.code === 401);
+        console.log(error);
         alert('로그인에 실패하였습니다.');
       },
     }
@@ -108,10 +100,6 @@ const LogIn = () => {
                 display: 'flex',
               }}
             >
-              <SearchBtn type="button" onClick={onCloseEmailModal}>
-                이메일 찾기
-              </SearchBtn>
-              <div>/</div>
               <SearchBtn type="button" onClick={onClosePasswordModal}>
                 비밀번호 변경
               </SearchBtn>
@@ -135,30 +123,9 @@ const LogIn = () => {
             <div>KaKao로 계속</div>
           </KakaoBtn>
         </SocialLogin>
-        {checkEmailModal && (
-          <Menu show={checkEmailModal} onCloseModal={onCloseEmailModal}>
-            {
-              <SearchEmail
-                name={name}
-                onChangeName={onChangeName}
-                onCloseEmailModal={onCloseEmailModal}
-                birth={birth}
-                onChangeBirth={onChangeBirth}
-              />
-            }
-          </Menu>
-        )}
         {checkPasswordModal && (
           <Menu show={checkPasswordModal} onCloseModal={onClosePasswordModal}>
-            {
-              <SearchPassword
-                name={email}
-                onChangeName={onChangeName}
-                onClosePasswordModal={onClosePasswordModal}
-                birth={birth}
-                onChangeBirth={onChangeBirth}
-              />
-            }
+            <SearchPassword onClosePasswordModal={onClosePasswordModal} />
           </Menu>
         )}
       </Wrapper>
