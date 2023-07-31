@@ -1,17 +1,18 @@
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ open: boolean }>`
   background-color: white;
   width: 20%;
   height: 100%;
   position: fixed;
-  top: 7%;
-  left: 8%;
+  top: 10.3%;
+  left: 8.3%;
   z-index: 11;
   border: 1pt solid #f2f2f2;
+  border-top: 0pt;
+  transform: translateX(${({ open }) => (open ? '0' : '-100%')});
+  transition: transform 0.3s ease-out;
 `;
-
 export const DropdownDiv = styled.div`
   height: 1rem;
   align-items: center;
@@ -42,11 +43,12 @@ export const Text = styled.div`
   font-family: SCDream4;
 `;
 
-export const ViewAll = styled(Link)`
+export const ViewAll = styled.div`
   white-space: nowrap;
   margin-left: 1rem; /* "전체보기"와 "릴리즈 노트" 사이의 여백을 추가합니다 */
   font-size: x-small;
   text-decoration: none;
   color: black;
   font-family: SCDream2;
+  cursor: pointer;
 `;

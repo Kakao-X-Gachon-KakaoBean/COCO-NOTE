@@ -98,7 +98,7 @@ export const SearchBtn = styled.button`
   align-items: center;
   vertical-align: middle;
   text-align: center;
-  width: 8rem;
+  width: 7.5rem;
   height: 1.6rem;
   background-color: white;
   border: none;

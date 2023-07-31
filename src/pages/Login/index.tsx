@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import GoogleImg from '../../images/google-logo.png';
 import KakaoImg from '../../images/kakao-logo.png';
 
@@ -13,36 +13,30 @@ import {
   Line,
   LoginBtn,
   SearchBox,
-  // SearchBtn,
+  SearchBtn,
   SocialLogin,
   Vertical,
   Wrapper,
 } from '@pages/Login/styles.tsx';
 import { Link } from 'react-router-dom';
 
+import Menu from '@components/Menu';
 import useInput from '../../hooks/useInput.ts';
+import { IUser } from '@states/userState.ts';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import { IUser } from '@states/userState.ts';
+import SearchPassword from '@components/SearchPassword';
 
 const LogIn = () => {
   const baseUrl = '123';
 
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const [checkPasswordModal, setCheckPasswordModal] = useState(false);
 
-  // const [name, onChangeName] = useInput('');
-  // const [birth, onChangeBirth] = useInput('');
-  // const [checkEmailModal, setCheckEmailModal] = useState(false);
-  // const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-
-  // const onCloseEmailModal = useCallback(() => {
-  //   setCheckEmailModal(prev => !prev);
-  // }, []);
-
-  // const onClosePasswordModal = useCallback(() => {
-  //   setCheckPasswordModal(prev => !prev);
-  // }, []);
+  const onClosePasswordModal = useCallback(() => {
+    setCheckPasswordModal(prev => !prev);
+  }, []);
 
   const LoginMutation = useMutation<IUser, AxiosError, { email: string; password: string }>(
     'user',
@@ -57,8 +51,9 @@ const LogIn = () => {
       onSuccess(data) {
         localStorage.setItem('accessToken', data?.accessToken);
       },
-      onError() {
+      onError(error) {
         // setLogInError(error.response?.data?.code === 401);
+        console.log(error);
         alert('로그인에 실패하였습니다.');
       },
     }
@@ -105,13 +100,9 @@ const LogIn = () => {
                 display: 'flex',
               }}
             >
-              {/*<SearchBtn type="button" onClick={onCloseEmailModal}>*/}
-              {/*  이메일 찾기*/}
-              {/*</SearchBtn>*/}
-              {/*<div>/</div>*/}
-              {/*<SearchBtn type="button" onClick={onClosePasswordModal}>*/}
-              {/*  비밀번호 변경*/}
-              {/*</SearchBtn>*/}
+              <SearchBtn type="button" onClick={onClosePasswordModal}>
+                비밀번호 변경
+              </SearchBtn>
             </span>
             <Vertical></Vertical>
             <span>
@@ -132,34 +123,14 @@ const LogIn = () => {
             <div>KaKao로 계속</div>
           </KakaoBtn>
         </SocialLogin>
-        {/*{checkEmailModal && (*/}
-        {/*  <Menu show={checkEmailModal} onCloseModal={onCloseEmailModal}>*/}
-        {/*    {*/}
-        {/*      <SearchEmail*/}
-        {/*        name={name}*/}
-        {/*        onChangeName={onChangeName}*/}
-        {/*        onCloseEmailModal={onCloseEmailModal}*/}
-        {/*        birth={birth}*/}
-        {/*        onChangeBirth={onChangeBirth}*/}
-        {/*      />*/}
-        {/*    }*/}
-        {/*  </Menu>*/}
-        {/*)}*/}
-        {/*{checkPasswordModal && (*/}
-        {/*  <Menu show={checkPasswordModal} onCloseModal={onClosePasswordModal}>*/}
-        {/*    {*/}
-        {/*      <SearchPassword*/}
-        {/*        name={email}*/}
-        {/*        onChangeName={onChangeName}*/}
-        {/*        onClosePasswordModal={onClosePasswordModal}*/}
-        {/*        birth={birth}*/}
-        {/*        onChangeBirth={onChangeBirth}*/}
-        {/*      />*/}
-        {/*    }*/}
-        {/*  </Menu>*/}
-        {/*)}*/}
+        {checkPasswordModal && (
+          <Menu show={checkPasswordModal} onCloseModal={onClosePasswordModal}>
+            <SearchPassword onClosePasswordModal={onClosePasswordModal} />
+          </Menu>
+        )}
       </Wrapper>
     </>
   );
 };
+
 export default LogIn;

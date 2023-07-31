@@ -35,9 +35,9 @@ const Notification: React.FC = () => {
           <Space>
             <BellOutlined
               style={{
-                fontSize: '25px',
+                fontSize: '27px',
                 cursor: 'pointer',
-                color: visible ? 'green' : 'black',
+                color: '#00b050',
               }}
             />
           </Space>
