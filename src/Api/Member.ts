@@ -1,4 +1,4 @@
-// import { IUser } from "../States/UserState.ts";
+// import { IUser } from "../States/userState.ts";
 // import { useMutation } from "react-query";
 // import axios, { AxiosError } from "axios";
 //

@@ -58,6 +58,9 @@ export const MemberHeader = styled.div`
   padding-top: 2rem;
 `;
 export const MemberHeaderLeft = styled.div``;
-export const MemberHeaderRight = styled.div``;
+export const MemberHeaderRight = styled.div`
+  display: flex;
+  gap: 2rem;
+`;
 
 export const MemberList = styled.div``;

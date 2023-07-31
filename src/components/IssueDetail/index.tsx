@@ -75,7 +75,7 @@ const IssueDetail = () => {
     'DeleteIssue',
     ({ IssueId }) =>
       axios
-        .delete(`localhost:3000/Issue/${IssueId}`, {
+        .delete(`localhost:3000/Issues/${IssueId}`, {
           withCredentials: true,
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
