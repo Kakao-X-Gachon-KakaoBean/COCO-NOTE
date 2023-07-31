@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { TestReleasedNote } from '@components/ReleaseNote/ReleasedNoteAll/mock.tsx';
 import { DataNode } from 'antd/es/tree';
+import { TestReleasedNote } from '@components/ReleaseNote/ReleasedNoteAll/mock.tsx';
 import { SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 
@@ -39,16 +39,16 @@ const ReleaseNoteTree: React.FC = () => {
     const selectedKey = selectedKeys[0].toString();
 
     if (selectedKey === previousNodeKey) {
-      navigate(`/project/${selectedProject.projectId}/releasenote/${String(previousNodeKey)}`);
+      navigate(`/projects/${selectedProject.projectId}/releasenotes/${String(previousNodeKey)}`);
     } else {
       setPreviousNodeKey(selectedNodeKey);
       setSelectedNodeKey(selectedKey);
 
       const selectedNode = treeData.find(node => node.key === selectedKey);
       if (selectedNode && selectedNode.children && selectedNode.children.length > 0) {
-        navigate(`/project/${selectedProject.projectId}/releasenote/${String(selectedNode.children[0].key)}`);
+        navigate(`/projects/${selectedProject.projectId}/releasenotes/${String(selectedNode.children[0].key)}`);
       } else {
-        navigate(`/project/${selectedProject.projectId}/releasenote/${selectedKey}`);
+        navigate(`/projects/${selectedProject.projectId}/releasenotes/${selectedKey}`);
       }
     }
   };
