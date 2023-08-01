@@ -50,7 +50,7 @@ const CreateIssue = () => {
                   <MDEditor height={500} value={value} onChange={setValue} />
                 </div>
                 {/*미리 보기*/}
-                {/*<div data-color-mode="light" style={{ padding: 15 }}>*/}
+                {/*<div index-color-mode="light" style={{ padding: 15 }}>*/}
                 {/*  <MDEditor.Markdown style={{ padding: 10 }} source={value} />*/}
                 {/*</div>*/}
               </CreateIssueInput>

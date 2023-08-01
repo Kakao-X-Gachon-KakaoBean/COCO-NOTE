@@ -65,7 +65,7 @@ const SideDetailBar = () => {
           <Text>작업 관리</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/projects/${selectedProject.projectId}/workspace`);
+              navigate(`/projects/${selectedProject.projectId}/sprints`);
             }}
           >
             전체보기

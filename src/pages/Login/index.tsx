@@ -52,7 +52,7 @@ const LogIn = () => {
         localStorage.setItem('accessToken', data?.accessToken);
       },
       onError(error) {
-        // setLogInError(error.response?.data?.code === 401);
+        // setLogInError(error.response?.index?.code === 401);
         console.log(error);
         alert('로그인에 실패하였습니다.');
       },

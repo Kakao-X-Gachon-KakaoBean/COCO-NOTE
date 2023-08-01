@@ -98,7 +98,7 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
       console.log('요청 성공');
     },
     onError(error) {
-      // setLogInError(error.response?.data?.code === 401);
+      // setLogInError(error.response?.index?.code === 401);
       toast(message('정보를 잘못 입력하셨습니다.'), { type: 'error' });
       console.log(error);
     },

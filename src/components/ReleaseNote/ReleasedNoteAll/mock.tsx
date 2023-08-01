@@ -172,8 +172,8 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
       '\n' +
       '#### For Windows\n' +
       '\n' +
-      '- Fixed a bug that meant WSL data could not be moved to a different disk. Fixes [docker/for-win#13269](https://github.com/docker/for-win/issues/13269).\n' +
-      '- Fixed a bug where Docker Desktop was not stopping its WSL distros (docker-desktop and docker-desktop-data) when it was shutdown, consuming host memory unnecessarily.\n' +
+      '- Fixed a bug that meant WSL index could not be moved to a different disk. Fixes [docker/for-win#13269](https://github.com/docker/for-win/issues/13269).\n' +
+      '- Fixed a bug where Docker Desktop was not stopping its WSL distros (docker-desktop and docker-desktop-index) when it was shutdown, consuming host memory unnecessarily.\n' +
       "- Added a new setting that allows the Windows Docker daemon to use Docker Desktop's internal proxy when running Windows containers. See [Windows proxy settings](settings/windows.md#proxies).\n" +
       '\n' +
       '#### For Linux\n' +
@@ -244,9 +244,9 @@ export const TestReleasedNote: ReleasedNoteAll[] = [
       '- A slow or unresponsive WSL integration no longer prevents Docker Desktop from starting. Fixes [docker/for-win#13549](https://github.com/docker/for-win/issues/13549).\n' +
       '- Fixed a bug that caused Docker Desktop to crash on startup [docker/for-win#6890](https://github.com/docker/for-mac/issues/6890).\n' +
       '- Added the following installer flags:\n' +
-      '  - `--hyper-v-default-data-root` which specifies the default location for Hyper-V VM disk.\n' +
-      '  - `--windows-containers-default-data-root` which specifies the default data root for Windows Containers.\n' +
-      '  - `--wsl-default-data-root` which specifies the default location for WSL distro disks.\n',
+      '  - `--hyper-v-default-index-root` which specifies the default location for Hyper-V VM disk.\n' +
+      '  - `--windows-containers-default-index-root` which specifies the default index root for Windows Containers.\n' +
+      '  - `--wsl-default-index-root` which specifies the default location for WSL distro disks.\n',
     editState: false,
   },
   {

@@ -16,8 +16,8 @@ const EditIssue = loadable(() => import('@components/EditIssue'));
 const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
-const WorkSpacePage = loadable(() => import('@pages/WorkSpacePage'));
-const WorkSpaceDetail = loadable(() => import('@pages/WorkSpaceDetail'));
+const SprintPage = loadable(() => import('@pages/SprintPage'));
+const SprintDetailPage = loadable(() => import('@pages/SprintDetailPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 
 function App() {
@@ -44,9 +44,9 @@ function App() {
             <Route path=":releaseId" element={<ReleaseNoteDetail />} />
             <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
           </Route>
-          <Route path="/projects/:projectId/workspace/*">
-            <Route index element={<WorkSpacePage />} />
-            <Route path=":workspaceId" element={<WorkSpaceDetail />} />
+          <Route path="/projects/:projectId/sprints/*">
+            <Route index element={<SprintPage />} />
+            <Route path=":sprintId" element={<SprintDetailPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
