@@ -28,23 +28,23 @@ function App() {
           <Route path="/" element={<Navigate replace to="/initial" />} />
           <Route path="/main" element={<Main />} />
           <Route path="/initial" element={<InitialPage />} />
-          <Route path={'/project/:projectId/manage'} element={<ManagePage />} />
+          <Route path={'/projects/:projectId/manage'} element={<ManagePage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/project/:projectId/issue/*">
+          <Route path="/projects/:projectId/issues/*">
             <Route index element={<IssuePage />} />
             <Route path="createIssue" element={<CreateIssue />} />
             <Route path=":issueId" element={<IssueDetail />} />
             <Route path=":issueId/editIssue" element={<EditIssue />} />
           </Route>
-          <Route path="/project/:projectId/projectinfo" element={<ProjectInfo />} />
-          <Route path="/project/:projectId/releasenote/*">
+          <Route path="/projects/:projectId/projectinfo" element={<ProjectInfo />} />
+          <Route path="/projects/:projectId/releasenotes/*">
             <Route index element={<ReleaseNotePage />} />
             <Route path=":releaseId" element={<ReleaseNoteDetail />} />
             <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
           </Route>
-          <Route path="/project/:projectId/workspace/*">
+          <Route path="/projects/:projectId/workspace/*">
             <Route index element={<WorkSpacePage />} />
             <Route path=":workspaceId" element={<WorkSpaceDetail />} />
           </Route>

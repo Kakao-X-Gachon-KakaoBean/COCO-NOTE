@@ -24,11 +24,11 @@ const SideDetailBar = () => {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to={`/project/${selectedProject.projectId}/projectinfo`}>프로젝트 정보</Link>,
+      label: <Link to={`/projects/${selectedProject.projectId}/projectinfo`}>프로젝트 정보</Link>,
     },
     {
       key: '2',
-      label: <Link to={`/project/${selectedProject.projectId}/manage`}>멤버 관리</Link>,
+      label: <Link to={`/projects/${selectedProject.projectId}/manage`}>멤버 관리</Link>,
     },
   ];
   return (
@@ -50,7 +50,7 @@ const SideDetailBar = () => {
           <Text>릴리즈 노트</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/project/${selectedProject.projectId}/releasenote`);
+              navigate(`/projects/${selectedProject.projectId}/releasenotes`);
             }}
           >
             전체보기
@@ -65,7 +65,7 @@ const SideDetailBar = () => {
           <Text>작업 관리</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/project/${selectedProject.projectId}/workspace`);
+              navigate(`/projects/${selectedProject.projectId}/workspace`);
             }}
           >
             전체보기
@@ -78,7 +78,7 @@ const SideDetailBar = () => {
           <Text>이슈</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/project/${selectedProject.projectId}/issue`);
+              navigate(`/projects/${selectedProject.projectId}/issues`);
             }}
           >
             전체보기

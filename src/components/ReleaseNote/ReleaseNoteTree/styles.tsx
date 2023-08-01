@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
-import { Tree } from 'antd';
+import { Button } from 'antd';
 
-export const StyledTreeNode = styled(Tree.TreeNode)`
-  font-family: SCDream4; // 원하는 글꼴로 변경
+export const CreateReleaseNoteButton = styled(Button)`
+  margin-left: 2vw;
+  margin-bottom: 1vh;
+  border-width: 0 !important;
+  box-shadow: none !important;
 `;

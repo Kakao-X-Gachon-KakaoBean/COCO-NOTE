@@ -45,7 +45,7 @@ const SideBar = () => {
                   setSelectedProject(project);
                   setProjectInfoMenuOpen(true);
                   await waitForAnimation();
-                  navigate(`/project/${project.projectId}/projectinfo`);
+                  navigate(`/projects/${project.projectId}/projectinfo`);
                 }}
               >
                 <InnerText>{project.projectTitle}</InnerText>

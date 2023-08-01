@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
-import { Input } from 'antd';
 import { keyframes } from '@emotion/react';
 
 export const Wrapper = styled.div`
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -13,12 +12,15 @@ export const Wrapper = styled.div`
   padding: 20px;
 
   width: 30vw;
-  height: 35vh;
+  min-width: 400px;
+  height: 60vh;
+  min-height: 180px;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
+  box-sizing: border-box;
 
   transform: translate(-50%, -50%);
   animation-duration: 0.3s;
@@ -52,14 +54,54 @@ export const Wrapper = styled.div`
     top: 1rem;
     right: 1rem;
 
-    font-size: 1rem;
+    font-size: 2rem;
   }
 `;
 
 export const InputKey = styled.div`
-  margin-top: 1rem;
+  margin-top: 1.2rem;
   display: flex;
   justify-content: center;
+`;
+
+export const InputKeyWithText = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const checkButtonAnimation = keyframes`
+    to{
+      background-color: #039ba1;
+      color: white;
+      border: none;
+    }
+`;
+
+export const CheckBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10vw;
+  height: 5vh;
+  background: #f2fcfc;
+  border: 1px solid #b6e4e5;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.8vw;
+  font-weight: 700;
+  color: #b6e4e5;
+  cursor: pointer;
+  &:hover {
+    animation: ${checkButtonAnimation} 0.2s ease-in-out forwards;
+  }
+`;
+
+export const EmailLabel = styled.div`
+  display: flex;
+  width: 25vw;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const Form = styled.form`
@@ -67,20 +109,30 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
 `;
 
 export const Div = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
 `;
 
 export const Header = styled.header`
-  font-size: 1.3rem;
+  font-size: 1.3vw;
   font-weight: bold;
+  margin: 1vh 0 5vh 0;
 `;
+
+export const Label = styled.div`
+  & span {
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 700;
+    width: 10vw;
+  }
+`;
+
 const buttonAnimation = keyframes`
   from {
     background-color: #f1f3f5;
@@ -92,6 +144,7 @@ const buttonAnimation = keyframes`
     border: none;
   }
 `;
+
 export const Button = styled.button`
   color: #b8c0c5;
   display: flex;
@@ -111,30 +164,27 @@ export const Button = styled.button`
   }
 `;
 
-export const EmailHeader = styled.div`
-  font-size: 1.2rem;
+export const Error = styled.div`
+  color: red;
   font-weight: bold;
-  margin-bottom: 0.5rem;
-`;
-export const EmailBody = styled.div`
-  font-size: 1rem;
-  width: 15rem;
-  height: 6rem;
-  border: 1px solid #efefef;
-  margin-top: 0.5rem;
-  border-radius: 10px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0.2rem 1rem;
-  flex-direction: column;
+  font-size: small;
 `;
 
-export const InputInfo = styled(Input)`
+export const Correct = styled.div`
+  color: dodgerblue;
+  font-weight: bold;
+  font-size: small;
+`;
+
+export const Input = styled.input`
   box-sizing: border-box;
-  width: 15rem;
-  height: 2rem;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid black;
+  width: 25vw;
+  height: 5vh;
   outline: none;
-  font-size: 1rem;
-  margin-top: 0.4rem;
+  font-size: 1vw;
+  margin-bottom: 0.5vh;
 `;
