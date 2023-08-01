@@ -179,6 +179,7 @@ const ManageMember = () => {
     {
       onMutate() {},
       onSuccess(data) {
+        console.log(data);
         setEmail('');
       },
       onError(error) {
@@ -213,6 +214,7 @@ const ManageMember = () => {
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
+    console.log(event);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
