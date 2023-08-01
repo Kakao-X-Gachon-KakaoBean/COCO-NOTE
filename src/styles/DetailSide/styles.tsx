@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useRecoilValue } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 
 const projectINfoMenuOpen = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks

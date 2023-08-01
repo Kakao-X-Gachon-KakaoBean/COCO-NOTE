@@ -4,9 +4,9 @@ import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
 import { DataNode } from 'antd/es/tree';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+import { SelectedProjectState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
-import { Test } from '@components/ReleaseNote/ReleasedNoteAll/mockExam.tsx';
+import { Test } from '@/components/ReleaseNote/ReleasedNoteAll/mockExam.tsx';
 
 const ReleaseNoteExam: React.FC = () => {
   const navigate = useNavigate();

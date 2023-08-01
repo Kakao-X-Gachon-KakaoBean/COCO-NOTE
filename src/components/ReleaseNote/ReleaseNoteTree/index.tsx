@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { TestReleasedNote } from '@components/ReleaseNote/ReleasedNoteAll/mock.tsx';
+import { TestReleasedNote } from '@/components/ReleaseNote/ReleasedNoteAll/mock.tsx';
 import { DataNode } from 'antd/es/tree';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+import { SelectedProjectState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 
 const ReleaseNoteTree: React.FC = () => {

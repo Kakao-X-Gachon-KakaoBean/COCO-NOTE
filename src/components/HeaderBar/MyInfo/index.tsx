@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Dropdown, Space } from 'antd';
 import { Link } from 'react-router-dom';
-import AvatarCrop from '@components/AvatarCrop';
+import AvatarCrop from '@/components/AvatarCrop';
 import { UserOutlined } from '@ant-design/icons';
 
 const Notification: React.FC = () => {

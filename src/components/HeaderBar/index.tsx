@@ -1,8 +1,8 @@
-import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@components/HeaderBar/styles.tsx';
-import Notification from '@components/HeaderBar/Notification';
-import MyInfo from '@components/HeaderBar/MyInfo';
+import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@/components/HeaderBar/styles.tsx';
+import Notification from '@/components/HeaderBar/Notification';
+import MyInfo from '@/components/HeaderBar/MyInfo';
 import { useRecoilState } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 
 const HeaderBar = () => {

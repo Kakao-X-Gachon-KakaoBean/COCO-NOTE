@@ -1,14 +1,14 @@
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'antd';
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from 'react-query';
-import MDEditor from '@uiw/react-md-editor';
+// import MDEditor from '@uiw/react-md-editor';
 
 import {
   CommentBox,
@@ -22,12 +22,12 @@ import {
   IssueDetailHeader,
   IssueDetailHeaderButtonSection,
   IssueDetailTop,
-} from '@components/IssueDetail/styles.tsx';
+} from '@/components/IssueDetail/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
-import { ActivityIndicator } from '@components/ActivityIndicator';
-import { Input } from '@components/EditIssue/styles.tsx';
-import { IssueDetailtext } from '@components/IssueDetail/mock.tsx';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
+import { Input } from '@/components/EditIssue/styles.tsx';
+import { IssueDetailtext } from '@/components/IssueDetail/mock.tsx';
 
 interface Comment {
   content: string;
@@ -122,9 +122,9 @@ const IssueDetail = () => {
                 </IssueDetailHeaderButtonSection>
               </IssueDetailHeader>
               <IssueDetailBody>
-                <div data-color-mode="light" style={{ padding: 15 }}>
-                  <MDEditor.Markdown source={value} style={{ fontFamily: 'SCDream4' }} />
-                </div>
+                {/*<div data-color-mode="light" style={{ padding: 15 }}>*/}
+                {/*  <MDEditor.Markdown source={value} style={{ fontFamily: 'SCDream4' }} />*/}
+                {/*</div>*/}
               </IssueDetailBody>
               <IssueDetailComment>
                 <IssueDetailCommentInput>
