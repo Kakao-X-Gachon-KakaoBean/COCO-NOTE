@@ -31,7 +31,7 @@ const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-  // const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
 
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
@@ -66,9 +66,9 @@ const LogIn = () => {
     [email, password, LoginMutation]
   );
 
-  // if (isLogin) {
-  //   return <Navigate replace to={'/main'} />;
-  // }
+  if (isLogin) {
+    return <Navigate replace to={'/main'} />;
+  }
 
   return (
     <>
