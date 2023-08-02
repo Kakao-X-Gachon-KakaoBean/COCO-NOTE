@@ -18,7 +18,7 @@ import {
   Vertical,
   Wrapper,
 } from '@pages/Login/styles.tsx';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@components/Menu';
 import useInput from '../../hooks/useInput.ts';
@@ -32,7 +32,7 @@ const LogIn = () => {
   const [password, onChangePassword] = useInput('');
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
   const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
-
+  const navigate = useNavigate();
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
   }, []);
@@ -49,6 +49,7 @@ const LogIn = () => {
       onMutate() {},
       onSuccess(data) {
         localStorage.setItem('accessToken', data?.accessToken);
+        navigate('/main');
       },
       onError(error) {
         // setLogInError(error.response?.data?.code === 401);
