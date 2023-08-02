@@ -42,7 +42,7 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
       }
 
       axios
-        .post('123', { email }, { withCredentials: true })
+        .post('http://localhost:8080/emails', { email }, { withCredentials: true })
         .then(() => {
           setFailUseEmail(true);
           toast(message('메일로 인증번호가 발송되었습니다.'), {
@@ -87,22 +87,26 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
       passwordToChange: string;
       checkPasswordToChange: string;
     }
-  >('modifyPassword', data => axios.patch('2/members/password', data).then(response => response.data), {
-    onMutate() {
-      // setLogInError(false);
-    },
-    onSuccess() {
-      toast(message('비밀번호가 변경 되었습니다.'), {
-        type: 'success',
-      });
-      console.log('요청 성공');
-    },
-    onError(error) {
-      // setLogInError(error.response?.data?.code === 401);
-      toast(message('정보를 잘못 입력하셨습니다.'), { type: 'error' });
-      console.log(error);
-    },
-  });
+  >(
+    'modifyPassword',
+    data => axios.patch('http://localhost:8080/members/password', data).then(response => response.data),
+    {
+      onMutate() {
+        // setLogInError(false);
+      },
+      onSuccess() {
+        toast(message('비밀번호가 변경 되었습니다.'), {
+          type: 'success',
+        });
+        console.log('요청 성공');
+      },
+      onError(error) {
+        // setLogInError(error.response?.data?.code === 401);
+        toast(message('정보를 잘못 입력하셨습니다.'), { type: 'error' });
+        console.log(error);
+      },
+    }
+  );
 
   const onSubmit = useCallback(
     (e?: React.FormEvent<HTMLFormElement>) => {
