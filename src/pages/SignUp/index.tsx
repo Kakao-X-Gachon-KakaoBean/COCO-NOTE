@@ -22,8 +22,6 @@ import { Button, Modal } from 'antd';
 import useInput from '../../hooks/useInput.ts';
 
 const SignUp = () => {
-  const baseUrl = 1234;
-
   const [name, onChangeName] = useInput('');
   const [email, onChangeEmail] = useInput('');
   const [password, , setPassword] = useInput('');
@@ -45,7 +43,7 @@ const SignUp = () => {
       checkPassword: string;
       emailAuthKey: string;
     }
-  >('user', data => axios.post(`${baseUrl}/members`, data).then(response => response.data), {
+  >('user', data => axios.post(`http://localhost:8080/members`, data).then(response => response.data), {
     onMutate() {
       setSignUpSuccess(false);
     },
@@ -93,6 +91,7 @@ const SignUp = () => {
   const onSubmitEmail = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e?.preventDefault();
+      console.log(email);
       const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
       if (!email || !email.trim()) {
@@ -100,7 +99,7 @@ const SignUp = () => {
       }
 
       axios
-        .post(`${baseUrl}/emails`, { email }, { withCredentials: true })
+        .post('http://localhost:8080/emails', { email }, { withCredentials: true })
         .then(() => {
           setFailUseEmail(true);
           toast(message('메일로 인증번호가 발송되었습니다.'), {

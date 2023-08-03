@@ -18,7 +18,7 @@ import {
   Vertical,
   Wrapper,
 } from '@pages/Login/styles.tsx';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@components/Menu';
 import useInput from '../../hooks/useInput.ts';
@@ -28,12 +28,11 @@ import axios, { AxiosError } from 'axios';
 import SearchPassword from '@components/SearchPassword';
 
 const LogIn = () => {
-  const baseUrl = '123';
-
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
+  const navigate = useNavigate();
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
   }, []);
@@ -42,7 +41,7 @@ const LogIn = () => {
     'user',
     data =>
       axios
-        .post('123', data, {
+        .post('http://localhost:8080/local/login', data, {
           withCredentials: true,
         })
         .then(response => response.data),
@@ -50,6 +49,7 @@ const LogIn = () => {
       onMutate() {},
       onSuccess(data) {
         localStorage.setItem('accessToken', data?.accessToken);
+        navigate('/main');
       },
       onError(error) {
         // setLogInError(error.response?.data?.code === 401);
@@ -59,7 +59,6 @@ const LogIn = () => {
     }
   );
 
-  //로컬 로그인
   const onSubmit = useCallback(
     (e: ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -68,10 +67,9 @@ const LogIn = () => {
     [email, password, LoginMutation]
   );
 
-  //로그인 정보 있을 시 메인으로 리다이렉트
-  // if (isLogin) {
-  //   return <Redirect to={"/main"} />;
-  // }
+  if (isLogin) {
+    return <Navigate replace to={'/main'} />;
+  }
 
   return (
     <>
@@ -114,11 +112,11 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn href={`${baseUrl}/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
+          <GoogleBtn href={`http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn href={`${baseUrl}/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
+          <KakaoBtn href={`http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>
