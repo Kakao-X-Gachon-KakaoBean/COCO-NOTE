@@ -173,12 +173,16 @@ const ManageMember = () => {
     SetProjectModalOpen(false);
   };
 
-  const mutation = useMutation<MemberState, AxiosError, { email: string }>(
+  const mutation = useMutation<MemberState, AxiosError, { invitedMemberEmails: string[] }>(
     'SubmitEmail',
     data =>
       axios
-        .post(`localhost:3000/local/login`, data, {
+        .post(`http://localhost:8080/projects/0/invitation`, data, {
           withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
         })
         .then(response => response.data),
     {
@@ -209,9 +213,9 @@ const ManageMember = () => {
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
-      mutation.mutate({ email });
+      mutation.mutate({ invitedMemberEmails: emails });
     },
-    [email, mutation]
+    [emails, mutation]
   );
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
