@@ -1,11 +1,11 @@
-import { AddCircle, Circle, InnerText, Wrapper } from '@components/SideBar/styles.tsx';
+import { AddCircle, Circle, InnerText, Wrapper } from '@/components/SideBar/styles.tsx';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   AddProjectClickState,
   projectInfoMenuOpenState,
   projectValueState,
   SelectedProjectState,
-} from '@states/ProjectState.ts';
+} from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 
@@ -40,7 +40,7 @@ const SideBar = () => {
           ) : (
             <Tooltip placement={'right'} title={project.projectTitle} key={project.projectId}>
               <Circle
-                className={selectedProject === project ? 'selected' : 'notSelected'}
+                className={selectedProject.projectId === project.projectId ? 'selected' : 'notSelected'}
                 onClick={async () => {
                   setSelectedProject(project);
                   setProjectInfoMenuOpen(true);
