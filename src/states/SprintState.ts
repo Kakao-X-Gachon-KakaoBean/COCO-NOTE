@@ -16,6 +16,16 @@ export const SprintValueState: RecoilState<TableData[]> = atom({
   default: initialSprintValue,
 });
 
+export const AddSprintValue: RecoilState<boolean> = atom({
+  key: 'AddSprint',
+  default: false,
+});
+
+export const AddTaskValue: RecoilState<boolean> = atom({
+  key: 'AddTask',
+  default: false,
+});
+
 export const SelectedSprintState: RecoilState<TableData> = atom({
   key: 'SelectedSprintState',
   default: { ...initialSprintValue[0] },

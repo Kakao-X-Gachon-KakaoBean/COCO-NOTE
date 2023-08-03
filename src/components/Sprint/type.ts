@@ -1,16 +1,16 @@
-interface Member {
+interface Worker {
   workerId: number;
   workerName: string;
-  //이미지는 나중에 이미지로 바꿔야합니다.
-  workerProfile: string;
+  //아래 값은 나중에 이미지로 보여줘야함.
+  workerThumbnailImg: string;
 }
 
-interface ChildType {
+export interface ChildType {
   taskId: React.Key;
   sprintTitle: string;
   taskDesc: string;
-  status: string;
-  worker: Member;
+  taskWorkStatus: string;
+  worker: Worker;
 }
 
 export interface TableData {

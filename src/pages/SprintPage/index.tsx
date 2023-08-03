@@ -7,6 +7,8 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import CreateSprintModal from '@components/CreateSprintModal';
+import CreateTaskModal from '@components/CreateTaskModal';
 
 const WorkSpacePage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
@@ -49,7 +51,11 @@ const WorkSpacePage = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>{contents()}</Wrapper>
+      <Wrapper>
+        <CreateSprintModal />
+        <CreateTaskModal />
+        {contents()}
+      </Wrapper>
     </>
   );
 };
