@@ -1,12 +1,14 @@
 import { ColumnsType } from 'antd/es/table';
 import { Button, Table } from 'antd';
 import { TableData } from '@components/Sprint/type.ts';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useRecoilState } from 'recoil';
+import { SprintValueState } from '@states/SprintState.ts';
 
 // 나중에 tasks/taskTitle 스프린트로 이름 바꿔주기
 // const json = { /* JSON 객체 데이터 */ };
@@ -54,13 +56,14 @@ const columns: ColumnsType<TableData> = [
     render: (text: string, record: TableData) => {
       const { sprintId } = record;
       return {
-        children: sprintId ? (
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {text} <Button>할일 추가</Button>
-          </div>
-        ) : (
-          <div>{text}</div>
-        ),
+        children:
+          sprintId && sprintId !== 999 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              {text} <Button>할일 추가</Button>
+            </div>
+          ) : (
+            <div>{text}</div>
+          ),
       };
     },
   },
@@ -178,7 +181,8 @@ for (let i = 0; i < columns.length; i++) {
 }
 
 const Sprint = () => {
-  const [datasource, setDatasource] = useState(index);
+  const [dataSource, setDataSource] = useRecoilState(SprintValueState);
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -187,9 +191,13 @@ const Sprint = () => {
     })
   );
 
+  useEffect(() => {
+    setDataSource(index);
+  });
+
   const onDragEnd = ({ active, over }: DragEndEvent) => {
     if (active.id !== over?.id) {
-      setDatasource(prev => {
+      setDataSource(prev => {
         const activeIndex = prev.findIndex(i => i.key === active.id);
         const overIndex = prev.findIndex(i => i.key === over?.id);
         return arrayMove(prev, activeIndex, overIndex);
@@ -204,7 +212,7 @@ const Sprint = () => {
       <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
         <SortableContext
           // rowKey array
-          items={datasource.map(i => i.key)}
+          items={dataSource.map(i => i.key)}
           strategy={verticalListSortingStrategy}
         >
           <Table
@@ -215,7 +223,7 @@ const Sprint = () => {
             }}
             rowKey="key"
             columns={columns}
-            dataSource={datasource}
+            dataSource={dataSource}
             pagination={false}
             scroll={{ x: '100vw', y: '65vh' }}
           />{' '}
