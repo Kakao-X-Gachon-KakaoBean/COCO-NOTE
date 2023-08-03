@@ -57,6 +57,7 @@
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@jest/globals": "^29.6.2",
+    "@tanstack/react-query-devtools": "^4.32.1",
     "@testing-library/cypress": "^9.0.0",
     "@testing-library/dom": "^9.3.0",
     "@testing-library/jest-dom": "^5.16.5",
@@ -93,7 +94,7 @@
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "transformIgnorePatterns": [
-      "node_modules\/(?!axios)"
+      "node_modules/(?!axios)"
     ]
   },
   "packageManager": "yarn@3.6.1"
