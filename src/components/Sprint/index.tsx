@@ -1,6 +1,12 @@
 import { ColumnsType } from 'antd/es/table';
-import { Table } from 'antd';
+import { Button, Table } from 'antd';
 import { TableData } from '@components/Sprint/type.ts';
+import { useState } from 'react';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 // 나중에 tasks/taskTitle 스프린트로 이름 바꿔주기
 // const json = { /* JSON 객체 데이터 */ };
@@ -18,19 +24,52 @@ import { TableData } from '@components/Sprint/type.ts';
 //   tasks: modifiedTasks,
 // };
 
+interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
+  'data-row-key': string;
+}
+
+const Row = (props: RowProps) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: props['data-row-key'],
+  });
+
+  const style: React.CSSProperties = {
+    ...props.style,
+    transform: CSS.Transform.toString(transform && { ...transform, scaleY: 1 }),
+    transition,
+    cursor: 'move',
+    ...(isDragging ? { position: 'relative', zIndex: 9999 } : {}),
+  };
+
+  return <tr {...props} ref={setNodeRef} style={style} {...attributes} {...listeners} />;
+};
+
 const columns: ColumnsType<TableData> = [
   {
     title: '스프린트',
-    width: '12vw',
+    width: '20vw',
     dataIndex: 'sprintTitle',
     key: 'sprintTitle',
     fixed: 'left',
+    render: (text: string, record: TableData) => {
+      const { sprintId } = record;
+      return {
+        children: sprintId ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {text} <Button>할일 추가</Button>
+          </div>
+        ) : (
+          <div>{text}</div>
+        ),
+      };
+    },
   },
 ];
 
 const index: TableData[] = [];
-for (let i = 0; i < 3; i++) {
+for (let i = 1; i < 4; i++) {
   index.push({
+    key: String(i),
     sprintId: i,
     sprintTitle: `스프린트 ${i}`,
     sprintDesc: '',
@@ -39,21 +78,22 @@ for (let i = 0; i < 3; i++) {
   });
 }
 index.push({
-  sprintId: 9,
+  key: String(100),
+  sprintId: 100,
   sprintTitle: `UI/UX 설계`,
   sprintDesc: '',
   startDate: `2023 8월`,
-  dueDate: `2023 9월`,
+  dueDate: `2023 8월`,
   children: [
     {
-      taskId: 91,
+      taskId: '9-1',
       sprintTitle: '하위 항목 1',
       taskDesc: '',
       status: '진행중',
       worker: { workerId: 3, workerName: '조연겸', workerProfile: 'aakkalwegkgkwk' },
     },
     {
-      taskId: 92,
+      taskId: '9-2',
       sprintTitle: '하위 항목 2',
       taskDesc: '',
       status: '해야할 일',
@@ -132,16 +172,56 @@ for (let i = 0; i < columns.length; i++) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         item[column.title] = 'Y'; // 해당 열의 데이터에 'Y' 값을 넣습니다.
-        //console.log(column.title);
       }
     });
   }
 }
 
 const Sprint = () => {
+  const [datasource, setDatasource] = useState(index);
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 1,
+      },
+    })
+  );
+
+  const onDragEnd = ({ active, over }: DragEndEvent) => {
+    if (active.id !== over?.id) {
+      setDatasource(prev => {
+        const activeIndex = prev.findIndex(i => i.key === active.id);
+        const overIndex = prev.findIndex(i => i.key === over?.id);
+        return arrayMove(prev, activeIndex, overIndex);
+      });
+    }
+  };
+
+  //const sortableItems = useMemo(() => datasource.map(item => item.key), [datasource]);
+
   return (
     <>
-      <Table columns={columns} dataSource={index} pagination={false} scroll={{ x: '100vw', y: '65vh' }} />
+      <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
+        <SortableContext
+          // rowKey array
+          items={datasource.map(i => i.key)}
+          strategy={verticalListSortingStrategy}
+        >
+          <Table
+            components={{
+              body: {
+                row: Row,
+              },
+            }}
+            rowKey="key"
+            columns={columns}
+            dataSource={datasource}
+            pagination={false}
+            scroll={{ x: '100vw', y: '65vh' }}
+          />{' '}
+          <Button>스프린트 추가하기</Button>
+        </SortableContext>
+      </DndContext>
     </>
   );
 };

@@ -14,6 +14,7 @@ interface ChildType {
 }
 
 export interface TableData {
+  key: string;
   sprintId: React.Key;
   sprintTitle: string;
   sprintDesc: string;
