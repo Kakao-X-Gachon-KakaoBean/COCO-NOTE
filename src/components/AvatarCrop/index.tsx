@@ -3,10 +3,12 @@ import Avatar from 'react-avatar-edit';
 import { Modal, Typography } from 'antd';
 
 import defaultImage from '../../images/defaultAvatar.png';
-import PreviewAvatar from '@components/AvatarCrop/PreviewAvatar';
-import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@components/AvatarCrop/styles.tsx';
-import { ModalVisibleProps } from '@components/AvatarCrop/type.ts';
-import { MypageUser, MyPageUserState } from '@states/userState.ts';
+
+import PreviewAvatar from '@/components/AvatarCrop/PreviewAvatar';
+import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@/components/AvatarCrop/styles.tsx';
+import { ModalVisibleProps } from '@/components/AvatarCrop/type.ts';
+import { MypageUser, MyPageUserState } from '../../States/UserState.ts';
+
 import { useRecoilState } from 'recoil';
 
 const { Text, Title } = Typography;

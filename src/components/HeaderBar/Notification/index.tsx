@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
-import { items } from '@components/HeaderBar/Notification/dummy.tsx';
+import { items } from '@/components/HeaderBar/Notification/dummy.tsx';
 import { BellOutlined } from '@ant-design/icons';
 
 const Notification: React.FC = () => {

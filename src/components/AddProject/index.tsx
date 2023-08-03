@@ -1,9 +1,9 @@
 import { Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
-import { AddProjectClickState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
+import { AddProjectClickState, projectValueState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { IProjectValue } from '@layouts/Main/type.ts';
+import { IProjectValue } from '@/layouts/Main/type.ts';
 
 const AddProject = () => {
   const [projectList, setProjectList] = useRecoilState(projectValueState);

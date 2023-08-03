@@ -43,6 +43,6 @@
     /* Add esModuleInterop option */
     "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": ["lib", "src", "types", "**/*.ts", "test/**/**.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

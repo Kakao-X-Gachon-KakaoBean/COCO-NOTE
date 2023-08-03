@@ -1,7 +1,7 @@
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { useState } from 'react';
@@ -12,12 +12,12 @@ import {
   CreateIssueInput,
   CreateIssueSubmit,
   CreateIssueTitle,
-} from '@components/CreateIssue/styles.tsx';
+} from '@/components/CreateIssue/styles.tsx';
 import { Button } from 'antd';
 import { useRecoilValueLoadable } from 'recoil';
-import { ActivityIndicator } from '@components/ActivityIndicator';
-import { Input } from '@components/EditIssue/styles.tsx';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
+import { Input } from '@/components/EditIssue/styles.tsx';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 
 const CreateIssue = () => {
   const navigate = useNavigate();
