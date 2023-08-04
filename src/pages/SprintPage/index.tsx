@@ -1,12 +1,14 @@
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
-import GanttChart from '@components/GanttChart';
-import { ComponentWrapper, HeaderText } from '@pages/WorkSpacePage/styles.tsx';
+import Sprint from '@components/Sprint';
+import { ComponentWrapper, HeaderText } from '@pages/SprintPage/styles.tsx';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import CreateSprintModal from '@components/CreateSprintModal';
+import CreateTaskModal from '@components/CreateTaskModal';
 
 const WorkSpacePage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
@@ -20,7 +22,7 @@ const WorkSpacePage = () => {
           return (
             <ComponentWrapper>
               <HeaderText>작업 관리</HeaderText>
-              <GanttChart />
+              <Sprint />
             </ComponentWrapper>
           );
         } else {
@@ -49,7 +51,11 @@ const WorkSpacePage = () => {
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>{contents()}</Wrapper>
+      <Wrapper>
+        <CreateSprintModal />
+        <CreateTaskModal />
+        {contents()}
+      </Wrapper>
     </>
   );
 };

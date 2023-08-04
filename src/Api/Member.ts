@@ -8,15 +8,15 @@
 //   { email: string }
 // >(
 //   "SubmitEmail",
-//   (data) =>
+//   (index) =>
 //     axios
-//       .post(`localhost:3000/local/login`, data, {
+//       .post(`localhost:3000/local/login`, index, {
 //         withCredentials: true,
 //       })
-//       .then((response) => response.data),
+//       .then((response) => response.index),
 //   {
 //     onMutate() {},
-//     onSuccess(data) {
+//     onSuccess(index) {
 //       // setEmail("");
 //     },
 //     onError(error) {

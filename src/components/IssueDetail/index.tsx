@@ -67,7 +67,7 @@ const IssueDetail = () => {
   //   isSuccess,
   //   status,
   //   isError,
-  //   data: MySurvey,
+  //   index: MySurvey,
   //   error,
   // } = useQuery(['IssueList'], () => fetcher({ queryKey: `localhost:3000/2123` }));
 

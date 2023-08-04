@@ -37,9 +37,11 @@ import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
 import { useMutation } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useRecoilValue } from 'recoil';
+import { projectInfoMenuOpenState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import { IProjectValue } from '@layouts/Main/type.ts';
+import { toast } from 'react-toastify';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -101,8 +103,11 @@ const ManageMember = () => {
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
   const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const selectedProject = useRecoilValue(SelectedProjectState);
+  const [projectList, setProjectList] = useRecoilState(projectValueState);
+  const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const { TextArea } = Input;
+  const [title, setTitle] = useState(selectedProject.projectTitle);
+  const [content, setContent] = useState(selectedProject.projectContent);
 
   const [rows, setRows] = useState([
     { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
@@ -218,6 +223,35 @@ const ManageMember = () => {
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const modifyProject = () => {
+    const newProject: IProjectValue = {
+      ...selectedProject, // Keep other properties of the selected project unchanged
+      projectTitle: title,
+      projectContent: content,
+    };
+    const selectedIndex = projectList.findIndex(project => project.projectId === selectedProject.projectId);
+
+    // Create a new array with the modified project
+    const updatedProjectList = [...projectList];
+    updatedProjectList[selectedIndex] = newProject;
+
+    // Update the entire projectValueState with the new array
+    setProjectList(updatedProjectList);
+    setSelectedProject(newProject);
+    console.log(selectedIndex);
+    console.log(updatedProjectList);
+  };
+
+  const handleOk = () => {
+    if (title && content && (title !== selectedProject.projectTitle || content !== selectedProject.projectContent)) {
+      modifyProject();
+      SetProjectModalOpen(false);
+      toast.success('프로젝트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
+    } else {
+      toast.error('프로젝트 명과 프로젝트 설명을 다시 확인해주세요'); // toast.error로 실패 메시지 표시
+    }
   };
 
   return (
@@ -368,29 +402,18 @@ const ManageMember = () => {
               </Button>
             </div>
           </Modal>
-          <Modal
-            title="프로젝트 정보 변경"
-            open={projectModalOpen}
-            onCancel={handleProject}
-            footer={
-              <div>
-                <Button key="submit" type="primary">
-                  OK
-                </Button>
-              </div>
-            }
-          >
+          <Modal title="새 프로젝트 생성" open={projectModalOpen} onOk={handleOk} onCancel={handleProject}>
             <TextArea
-              value={selectedProject.projectTitle}
+              value={title}
               autoSize={{ minRows: 1, maxRows: 10 }}
-              onChange={e => (selectedProject.projectTitle = e.target.value)}
+              onChange={e => setTitle(e.target.value)}
               placeholder="프로젝트 명"
               style={{ marginBottom: '2rem', marginTop: '3rem' }}
             />
             <TextArea
-              value={selectedProject.projectContent}
+              value={content}
               autoSize={{ minRows: 3, maxRows: 10 }}
-              onChange={e => (selectedProject.projectContent = e.target.value)}
+              onChange={e => setContent(e.target.value)}
               placeholder="프로젝트 설명"
               style={{ marginBottom: '2rem' }}
             />

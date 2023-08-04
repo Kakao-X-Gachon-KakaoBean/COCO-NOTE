@@ -8,7 +8,7 @@ import { ActivityIndicator } from '@components/ActivityIndicator';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 
-const WorkSpaceDetail = () => {
+const SprintDetailPage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
 
   let contents = null;
@@ -53,4 +53,4 @@ const WorkSpaceDetail = () => {
   );
 };
 
-export default WorkSpaceDetail;
+export default SprintDetailPage;
