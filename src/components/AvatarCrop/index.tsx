@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Avatar from 'react-avatar-edit';
 import { Modal, Typography } from 'antd';
@@ -49,6 +49,8 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
     if (arr.length < 2) {
       return null;
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const mime = arr[0].match(/:(.*?);/)[1];
     const bstr = atob(arr[1]);
     let n = bstr.length;

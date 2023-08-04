@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import GoogleImg from '../../images/google-logo.png';
 import KakaoImg from '../../images/kakao-logo.png';
 
@@ -26,6 +26,7 @@ import { IUser } from '@states/userState.ts';
 import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import SearchPassword from '@components/SearchPassword';
+import { ToastContainer } from 'react-toastify';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
@@ -73,6 +74,18 @@ const LogIn = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Wrapper>
         <Header>
           <Link to="/main">COCO:NOTE</Link>
