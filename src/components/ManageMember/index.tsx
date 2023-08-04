@@ -35,13 +35,14 @@ import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import axios, { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { MemberState } from '@states/MemberState.ts';
-import { projectInfoMenuOpenState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
-import { IProjectValue } from '@layouts/Main/type.ts';
 import { toast } from 'react-toastify';
+import fetcher from '@utils/fetcher.ts';
+import { useParams } from 'react-router';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -103,11 +104,21 @@ const ManageMember = () => {
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
   const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const [projectList, setProjectList] = useRecoilState(projectValueState);
-  const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const { TextArea } = Input;
   const [title, setTitle] = useState(selectedProject.projectTitle);
   const [content, setContent] = useState(selectedProject.projectContent);
+
+  const projectId: string | undefined = useParams().projectId;
+
+  const queryClient = useQueryClient();
+
+  const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
+    fetcher({
+      queryKey: `http://localhost:8080/projects/${projectId}`,
+    })
+  );
 
   const [rows, setRows] = useState([
     { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
@@ -177,7 +188,7 @@ const ManageMember = () => {
     'SubmitEmail',
     data =>
       axios
-        .post(`http://localhost:8080/projects/0/invitation`, data, {
+        .patch(`http://localhost:8080/projects/${projectId}/invitation`, data, {
           withCredentials: true,
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
@@ -188,6 +199,7 @@ const ManageMember = () => {
     {
       onMutate() {},
       onSuccess(data) {
+        console.log(data);
         setEmail('');
       },
       onError(error) {
@@ -195,6 +207,76 @@ const ManageMember = () => {
         alert('전송에 실패하였습니다.');
       },
     }
+  );
+
+  const editMutation = useMutation<ProjectData, AxiosError, { newTitle: string; newContent: string }>(
+    'SubmitProject',
+    data =>
+      axios
+        .patch(`http://localhost:8080/projects/${projectId}`, data, {
+          withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        console.log(data);
+        queryClient.invalidateQueries('projectinfo');
+        setTitle('');
+        setContent('');
+        SetProjectModalOpen(false);
+      },
+      onError(error) {
+        console.log(error);
+        toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요');
+      },
+    }
+  );
+
+  const editProject = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      editMutation.mutate({ newTitle: title, newContent: content });
+    },
+    [title, content, editMutation]
+  );
+
+  const deleteMutation = useMutation<any, AxiosError, { projectId: string | undefined }>(
+    'DeleteSurvey',
+    ({ projectId }) =>
+      axios
+        .delete(`http://localhost:8080/projects/${projectId}`, {
+          withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        console.log(data);
+        queryClient.invalidateQueries('projectinfo');
+      },
+      onError(error) {
+        console.log(error);
+        alert('실패');
+      },
+    }
+  );
+
+  const deleteProject = useCallback(
+    (projectId: string | undefined) => {
+      if (projectId) {
+        deleteMutation.mutate({ projectId });
+      }
+    },
+    [deleteMutation]
   );
 
   const addEmail = () => {
@@ -275,11 +357,11 @@ const ManageMember = () => {
             <ProjectBody>
               <ProjectBodyTitle>
                 <div>프로젝트 이름</div>
-                <div>{selectedProject.projectTitle}</div>
+                <div>{projectData?.projectTitle}</div>
               </ProjectBodyTitle>
               <ProjectBodyExplain>
                 <div>프로젝트 설명</div>
-                <div>{selectedProject.projectContent}</div>
+                <div>{projectData?.projectContent}</div>
               </ProjectBodyExplain>
             </ProjectBody>
             <ProjectSubMit></ProjectSubMit>
@@ -367,7 +449,7 @@ const ManageMember = () => {
                 </Table>
               </TableContainer>
             </MemberList>
-            <Button type="primary" danger size={'large'}>
+            <Button key="submit" onClick={deleteProject}>
               프로젝트 삭제
             </Button>
           </MemberSection>
@@ -406,7 +488,18 @@ const ManageMember = () => {
               </Button>
             </div>
           </Modal>
-          <Modal title="새 프로젝트 생성" open={projectModalOpen} onOk={handleOk} onCancel={handleProject}>
+          <Modal
+            title="프로젝트 정보 변경"
+            open={projectModalOpen}
+            onCancel={handleProject}
+            footer={
+              <div>
+                <Button key="submit" style={{ width: '5rem' }} onClick={editProject}>
+                  변경하기
+                </Button>
+              </div>
+            }
+          >
             <TextArea
               value={title}
               autoSize={{ minRows: 1, maxRows: 10 }}
