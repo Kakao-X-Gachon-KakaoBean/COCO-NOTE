@@ -6,15 +6,15 @@ import {
   Text,
   ViewAll,
   Wrapper,
-} from '@components/SideDetailBar/styles.tsx';
+} from '@/components/SideDetailBar/styles.tsx';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
-import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
-import ReleaseNoteExam from '@components/ReleaseNote/ReleaseNoteExam';
+import ReleaseNoteTree from '@/components/ReleaseNote/ReleaseNoteTree';
+import ReleaseNoteExam from '@/components/ReleaseNote/ReleaseNoteExam';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);

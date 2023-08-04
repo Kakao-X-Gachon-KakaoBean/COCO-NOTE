@@ -3,8 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps } from 'antd/es/tree';
-import { TestReleasedNote } from '@components/ReleaseNote/ReleasedNoteAll/mock.tsx';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+
+import { TestReleasedNote } from '@/components/ReleaseNote/ReleasedNoteAll/mock.tsx';
+
+import { SelectedProjectState } from '@/states/ProjectState.ts';
+
+
 import { useRecoilValue } from 'recoil';
 import { CreateReleaseNoteButton } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
 import CreateReleaseNoteModal from '@components/ReleaseNote/CreateReleaseNoteModal';

@@ -117,7 +117,10 @@ const Sprint = () => {
       width: '12vw',
       render: (text: string, record: TableData) => {
         const { startDate, dueDate } = record;
+        console.log(text);
         const cellStyle = {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           background: record[title] === 'Y' && isWithinRange(startDate, dueDate) ? '#23c483' : 'white',
         };
 
@@ -143,7 +146,6 @@ const Sprint = () => {
 
   //const sortableItems = useMemo(() => datasource.map(item => item.key), [datasource]);
 
-  console.log(dataSource);
   return (
     <>
       <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
