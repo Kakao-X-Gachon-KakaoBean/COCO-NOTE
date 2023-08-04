@@ -1,11 +1,11 @@
-import AvatarCrop from '@components/AvatarCrop';
+import AvatarCrop from '@/components/AvatarCrop';
 import { useState } from 'react';
 import { Space, Typography } from 'antd';
-import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@components/MyInfoCard/styles.tsx';
+import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@/components/MyInfoCard/styles.tsx';
 import { useRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
-import { MypageUser, MyPageUserState } from '@states/userState.ts';
-import fetcher from '@utils/fetcher.ts';
+import { MypageUser, MyPageUserState } from '@/states/userState.ts';
+import fetcher from '@/utils/fetcher.ts';
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {
   const [modalVisible, setModalVisible] = useState(false);

@@ -4,11 +4,11 @@ import Avatar from 'react-avatar-edit';
 import { Modal, Typography } from 'antd';
 
 import defaultImage from '../../images/defaultAvatar.png';
-import PreviewAvatar from '@components/AvatarCrop/PreviewAvatar';
-import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@components/AvatarCrop/styles.tsx';
-import { ModalVisibleProps, ProfileImages } from '@components/AvatarCrop/type.ts';
-import { IUser, MypageUser } from '@states/userState.ts';
-import fetcher from '@utils/fetcher.ts';
+import PreviewAvatar from '@/components/AvatarCrop/PreviewAvatar';
+import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@/components/AvatarCrop/styles.tsx';
+import { ModalVisibleProps, ProfileImages } from '@/components/AvatarCrop/type.ts';
+import { IUser, MypageUser } from '@/states/userState.ts';
+import fetcher from '@/utils/fetcher.ts';
 import axios, { AxiosError } from 'axios';
 
 const { Text, Title } = Typography;
