@@ -28,16 +28,16 @@ atom({
 });
 
 export interface MypageUser {
-  originalImage: string | undefined;
-  profileImage: string | null;
+  profileImg: string | undefined;
+  thumbnailImg: string | null;
   name: string;
   email: string;
 }
 const myPageInitialState: MypageUser = {
-  originalImage: undefined,
-  profileImage: null,
-  name: '김윤호',
-  email: 'hkj9909@gmail.com',
+  profileImg: undefined,
+  thumbnailImg: null,
+  name: '',
+  email: '',
 };
 export const MyPageUserState = atom({
   key: 'MyPageUserState',

@@ -1,25 +1,71 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Avatar from 'react-avatar-edit';
 import { Modal, Typography } from 'antd';
 
 import defaultImage from '../../images/defaultAvatar.png';
 import PreviewAvatar from '@components/AvatarCrop/PreviewAvatar';
 import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@components/AvatarCrop/styles.tsx';
-import { ModalVisibleProps } from '@components/AvatarCrop/type.ts';
-import { MypageUser, MyPageUserState } from '@states/userState.ts';
-import { useRecoilState } from 'recoil';
+import { ModalVisibleProps, ProfileImages } from '@components/AvatarCrop/type.ts';
+import { IUser, MypageUser } from '@states/userState.ts';
+import fetcher from '@utils/fetcher.ts';
+import axios, { AxiosError } from 'axios';
 
 const { Text, Title } = Typography;
 const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {
-  const [userInfo, setUserInfo] = useRecoilState<MypageUser>(MyPageUserState);
-  const [preview, setPreview] = useState<string | null>(userInfo.profileImage);
+  const [userProfileInfo, setUserProfileInfo] = useState<MypageUser>();
+  const queryClient = useQueryClient();
+  const { data } = useQuery<MypageUser>(['memberInfo'], () =>
+    fetcher({
+      queryKey: 'http://localhost:8080/members/info',
+    })
+  );
+  const uploadProfileImageMutation = useMutation<IUser, AxiosError, ProfileImages>(
+    'profileImage',
+    data =>
+      axios
+        .post('http://localhost:8080/members/images', data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        })
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess() {
+        console.log('프로필 업로드 성공');
+        queryClient.invalidateQueries('memberInfo');
+      },
+      onError(error) {
+        console.log('에러 발생', error);
+      },
+    }
+  );
 
-  useEffect(() => {
-    setPreview(userInfo.profileImage);
-  }, [userInfo.profileImage, userInfo.originalImage]);
+  function base64toFile(base64Data: string, filename: string): File | null {
+    const arr = base64Data.split(',');
+    if (arr.length < 2) {
+      return null;
+    }
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
 
   const onCrop = (crop: string): void => {
-    setPreview(crop);
+    setUserProfileInfo({
+      ...userProfileInfo,
+      thumbnailImg: crop,
+    });
   };
 
   const onBeforeFileLoad = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -28,10 +74,9 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
       const reader = new FileReader();
       reader.onload = function () {
         if (typeof reader.result === 'string') {
-          console.log('원본', reader.result);
-          setUserInfo({
-            ...userInfo,
-            originalImage: reader.result,
+          setUserProfileInfo({
+            ...userProfileInfo,
+            profileImg: reader.result,
           });
         }
       };
@@ -42,49 +87,43 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
     }
   };
 
-  const closeModalHandler = () => {
-    setPreview(userInfo.profileImage);
-    closeModal();
-  };
-
   return (
-    <div>
+    <>
       <Modal
         title="프로필 이미지 설정"
         centered
         open={modalVisible}
         onOk={() => {
-          setUserInfo(prevUserInfo => ({
-            ...prevUserInfo,
-            profileImage: preview === null ? defaultImage : preview,
-          }));
-          closeModalHandler();
+          uploadProfileImageMutation.mutate({
+            profileImg: base64toFile(userProfileInfo.profileImg, 'profileImg'),
+            thumbnailImg: base64toFile(userProfileInfo.thumbnailImg, 'thumbnailImg'),
+          });
+          closeModal();
         }}
-        onCancel={() => closeModalHandler()}
+        onCancel={() => closeModal()}
       >
         <Avatar
+          // 추후에 S3 관련 오류 해결하면 활성화
+          // src={data?.profileImg}
           width={480}
           height={295}
           onCrop={onCrop}
-          onClose={() => {
-            setPreview(userInfo.profileImage);
-          }}
           onBeforeFileLoad={onBeforeFileLoad}
           label="클릭하여 이미지를 업로드하세요"
         />
       </Modal>
       <MetaDiv>
         <PreviewAvatarDiv>
-          <PreviewAvatar preview={preview ?? defaultImage} />
+          <PreviewAvatar preview={data?.thumbnailImg ?? defaultImage} />
         </PreviewAvatarDiv>
         {showProfileText && (
           <ProfileTextDiv>
-            <Title level={4}>{userInfo.name}</Title>
-            <Text type={'secondary'}>{userInfo.email}</Text>
+            <Title level={4}>{data?.name}</Title>
+            <Text type={'secondary'}>{data?.email}</Text>
           </ProfileTextDiv>
         )}
       </MetaDiv>
-    </div>
+    </>
   );
 };
 

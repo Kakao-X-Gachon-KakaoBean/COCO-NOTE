@@ -3,16 +3,22 @@ import { useState } from 'react';
 import { Space, Typography } from 'antd';
 import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@components/MyInfoCard/styles.tsx';
 import { useRecoilState } from 'recoil';
+import { useQuery } from 'react-query';
 import { MypageUser, MyPageUserState } from '@states/userState.ts';
+import fetcher from '@utils/fetcher.ts';
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {
-  // avatar crop modal
   const [modalVisible, setModalVisible] = useState(false);
-
   const [userInfo, setUserInfo] = useRecoilState<MypageUser>(MyPageUserState);
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  const { data } = useQuery<MypageUser>(['memberInfo'], () =>
+    fetcher({
+      queryKey: 'http://localhost:8080/members/info',
+    })
+  );
 
   return (
     <InfoCardDiv>
@@ -36,7 +42,7 @@ const MyInfoCard = () => {
                   onChange: value => setUserInfo({ ...userInfo, name: value }),
                 }}
               >
-                {userInfo.name}
+                {data?.name}
               </Text>
             </Paragraph>
             <Paragraph>
@@ -44,7 +50,7 @@ const MyInfoCard = () => {
                 이메일
                 <br />
               </Text>
-              <Text style={{ fontFamily: 'SCDream4' }}>{userInfo.email}</Text>
+              <Text style={{ fontFamily: 'SCDream4' }}>{data?.email}</Text>
             </Paragraph>
           </Space>
         </Typography>
