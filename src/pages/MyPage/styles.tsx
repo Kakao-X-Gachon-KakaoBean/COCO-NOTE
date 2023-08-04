@@ -13,7 +13,7 @@ export const MyPageDiv = styled.div`
   width: 35%;
   height: 50%;
   margin-right: 8%;
-  margin-top: 2%;
+  margin-top: -4%;
 `;
 export const MyPageTextDiv = styled.div`
   font-size: 1.2vw;
