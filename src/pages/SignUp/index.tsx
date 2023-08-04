@@ -214,7 +214,7 @@ const SignUp = () => {
         open={signUpSuccess}
         centered
       >
-        <p>BeanBay의 회원이 되신 것을 환영합니다.</p>
+        <p>COCONOTE의 회원이 되신 것을 환영합니다.</p>
       </Modal>
     </>
   );
