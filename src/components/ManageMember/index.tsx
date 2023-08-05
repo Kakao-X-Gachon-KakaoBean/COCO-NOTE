@@ -245,9 +245,9 @@ const ManageMember = () => {
     [title, content, editMutation]
   );
 
-  const deleteMutation = useMutation<any, AxiosError, { projectId: string | undefined }>(
+  const deleteMutation = useMutation<any, AxiosError>(
     'DeleteSurvey',
-    ({ projectId }) =>
+    () =>
       axios
         .delete(`http://localhost:8080/projects/${projectId}`, {
           withCredentials: true,
@@ -261,6 +261,7 @@ const ManageMember = () => {
       onMutate() {},
       onSuccess(data) {
         console.log(data);
+        alert('성공');
         queryClient.invalidateQueries('projectinfo');
       },
       onError(error) {
@@ -270,14 +271,9 @@ const ManageMember = () => {
     }
   );
 
-  const deleteProject = useCallback(
-    (projectId: string | undefined) => {
-      if (projectId) {
-        deleteMutation.mutate({ projectId });
-      }
-    },
-    [deleteMutation]
-  );
+  const deleteProject = useCallback(() => {
+    deleteMutation.mutate();
+  }, [deleteMutation]);
 
   const addEmail = () => {
     const newEmail = [...emails, email];
