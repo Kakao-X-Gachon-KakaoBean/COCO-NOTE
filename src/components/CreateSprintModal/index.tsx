@@ -13,20 +13,24 @@ const CreateSprintModal = () => {
   const [contents, setContents] = useState('');
   const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
+  const [startMonth, setStartMonth] = useState('');
+  const [dueMonth, setDueMonth] = useState('');
   //const [flagStartDate, setFlagStartDate] = useState('');
   const { TextArea } = Input;
 
-  const onChangeStartDate: DatePickerProps['onChange'] = date => {
+  const onChangeStartDate: DatePickerProps['onChange'] = (date, dateString) => {
     if (date) {
       const text = date.year() + ' ' + Number(date.month() + 1) + '월';
-      setStartDate(text);
+      setStartDate(dateString);
+      setStartMonth(text);
     }
   };
 
-  const onChangeDueDate: DatePickerProps['onChange'] = date => {
+  const onChangeDueDate: DatePickerProps['onChange'] = (date, dateString) => {
     if (date) {
       const text = date.year() + ' ' + Number(date.month() + 1) + '월';
-      setDueDate(text);
+      setDueDate(dateString);
+      setDueMonth(text);
     }
   };
   const handleOk = () => {
@@ -81,11 +85,13 @@ const CreateSprintModal = () => {
           sprintDesc: contents,
           startDate: startDate,
           dueDate: dueDate,
+          startMonth: startMonth,
+          dueMonth: dueMonth,
         },
       ];
 
       newSprint.forEach(sprint => {
-        const data = insertYInMonths(sprint.startDate, sprint.dueDate);
+        const data = insertYInMonths(sprint.startMonth, sprint.dueMonth);
         Object.assign(sprint, data);
       });
       setSprintList(newSprint);
@@ -97,8 +103,10 @@ const CreateSprintModal = () => {
         sprintDesc: contents,
         startDate: startDate,
         dueDate: dueDate,
+        startMonth: startMonth,
+        dueMonth: dueMonth,
       };
-      const data = insertYInMonths(startDate, dueDate);
+      const data = insertYInMonths(startMonth, dueMonth);
       newSprint = { ...newSprint, ...data };
       setSprintList(prevSprintList => [...prevSprintList, newSprint]);
     }
@@ -120,12 +128,10 @@ const CreateSprintModal = () => {
         style={{ marginBottom: '2rem' }}
       />
       <div>
-        시작일
-        <DatePicker onChange={onChangeStartDate} />
+        시작일 <DatePicker onChange={onChangeStartDate} />
       </div>
       <div>
-        종료일
-        <DatePicker onChange={onChangeDueDate} />
+        종료일 <DatePicker onChange={onChangeDueDate} />
       </div>
     </Modal>
   );

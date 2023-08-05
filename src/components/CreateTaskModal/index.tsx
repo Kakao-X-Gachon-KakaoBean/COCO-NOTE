@@ -39,8 +39,8 @@ const CreateTaskModal = () => {
       taskId: selectedSprintWithChildren.children ? selectedSprintWithChildren.children.length + 1 : 1,
       sprintTitle: title,
       taskDesc: contents,
-      taskWorkStatus: '',
-      worker: { workerId: 0, workerName: '', workerThumbnailImg: '' },
+      workStatus: '할 일',
+      worker: { workerId: 0, workerName: '테스트', workerThumbnailImg: '' },
     };
 
     selectedSprintWithChildren.children.push(newTask);

@@ -7,7 +7,14 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useRecoilState } from 'recoil';
-import { AddSprintValue, AddTaskValue, SelectedSprintState, SprintValueState } from '@states/SprintState.ts';
+import {
+  AddSprintValue,
+  AddTaskValue,
+  SelectedSprintState,
+  SelectedTaskState,
+  SprintValueState,
+} from '@states/SprintState.ts';
+import { useNavigate } from 'react-router-dom';
 
 // 나중에 tasks/taskTitle 스프린트로 이름 바꿔주기
 // const json = { /* JSON 객체 데이터 */ };
@@ -64,10 +71,12 @@ function isWithinRange(startDate: string, dueDate: string): boolean {
 }
 
 const Sprint = () => {
+  const navigate = useNavigate();
   const [dataSource, setDataSource] = useRecoilState(SprintValueState);
   const [, setIsAddSprint] = useRecoilState(AddSprintValue);
   const [, setIsAddTask] = useRecoilState(AddTaskValue);
   const [, setSelectedSprint] = useRecoilState(SelectedSprintState);
+  const [, setSelectedTask] = useRecoilState(SelectedTaskState);
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -83,12 +92,21 @@ const Sprint = () => {
       key: 'sprintTitle',
       fixed: 'left',
       render: (text: string, record: TableData) => {
-        const { sprintId } = record;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const { sprintId, taskId } = record;
         return {
           children:
             sprintId && sprintId !== 999 ? (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                {text}{' '}
+                <div
+                  onClick={() => {
+                    setSelectedSprint(record);
+                    navigate(`${record.sprintId}/`);
+                  }}
+                >
+                  {text}{' '}
+                </div>
                 <Button
                   onClick={() => {
                     setIsAddTask(true);
@@ -97,6 +115,15 @@ const Sprint = () => {
                 >
                   할일 추가
                 </Button>
+              </div>
+            ) : taskId ? (
+              <div
+                onClick={() => {
+                  setSelectedTask(record);
+                  navigate(`tasks/${record.taskId}`);
+                }}
+              >
+                {text}{' '}
               </div>
             ) : (
               <div>{text}</div>
@@ -116,12 +143,12 @@ const Sprint = () => {
       key: title,
       width: '12vw',
       render: (text: string, record: TableData) => {
-        const { startDate, dueDate } = record;
+        const { startMonth, dueMonth } = record;
         console.log(text);
         const cellStyle = {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          background: record[title] === 'Y' && isWithinRange(startDate, dueDate) ? '#23c483' : 'white',
+          background: record[title] === 'Y' && isWithinRange(startMonth, dueMonth) ? '#23c483' : 'white',
         };
 
         return {

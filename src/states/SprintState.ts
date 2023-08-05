@@ -1,5 +1,5 @@
 import { atom, RecoilState } from 'recoil';
-import { TableData } from '@components/Sprint/type.ts';
+import { ChildType, TableData } from '@components/Sprint/type.ts';
 
 const initialSprintValue: TableData[] = [
   {
@@ -8,7 +8,19 @@ const initialSprintValue: TableData[] = [
     sprintTitle: '스프린트를 추가해주세요',
     sprintDesc: '',
     startDate: '',
+    startMonth: '',
+    dueMonth: '',
     dueDate: '',
+  },
+];
+
+const initialTaskValue: ChildType[] = [
+  {
+    taskId: '999',
+    sprintTitle: '',
+    taskDesc: '',
+    workStatus: '',
+    worker: { workerId: 0, workerName: '', workerThumbnailImg: '' },
   },
 ];
 export const SprintValueState: RecoilState<TableData[]> = atom({
@@ -29,4 +41,9 @@ export const AddTaskValue: RecoilState<boolean> = atom({
 export const SelectedSprintState: RecoilState<TableData> = atom({
   key: 'SelectedSprintState',
   default: { ...initialSprintValue[0] },
+});
+
+export const SelectedTaskState: RecoilState<ChildType> = atom({
+  key: 'SelectedTaskState',
+  default: { ...initialTaskValue[0] },
 });
