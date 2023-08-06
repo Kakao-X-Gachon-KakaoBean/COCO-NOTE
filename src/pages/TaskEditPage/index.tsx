@@ -7,15 +7,40 @@ import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/TaskEditPage/styl
 import { Button, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { ChildType } from '@components/Sprint/type.ts';
 
 const TaskDetailPage = () => {
   const navigate = useNavigate();
   const { TextArea } = Input;
   const selectedTask = useRecoilValue(SelectedTaskState);
   const [sprintList, setSprintList] = useRecoilState(SprintValueState);
-  const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
+  const [title, setTitle] = useState(selectedTask.sprintTitle);
+  const [contents, setContents] = useState(selectedTask.taskDesc);
   const getBack = () => {
+    const newTask: ChildType = {
+      ...selectedTask,
+      sprintTitle: title,
+      taskDesc: contents,
+    };
+
+    const updatedSprintList = sprintList.map(sprint => {
+      if (sprint.children) {
+        const updatedChildren = sprint.children.map(task => {
+          if (task.taskId === selectedTask.taskId) {
+            return newTask;
+          } else {
+            return task;
+          }
+        });
+        return { ...sprint, children: updatedChildren };
+      } else {
+        return sprint;
+      }
+    });
+
+    console.log(updatedSprintList);
+    setSprintList(updatedSprintList);
+
     navigate(-1);
   };
 
@@ -28,7 +53,7 @@ const TaskDetailPage = () => {
         <ComponentWrapper>
           <TitleNEdit>
             <TextArea
-              value={selectedTask.sprintTitle}
+              value={title}
               autoSize={{ minRows: 1, maxRows: 10 }}
               onChange={e => setTitle(e.target.value)}
               placeholder="하위작업 명"
@@ -37,7 +62,7 @@ const TaskDetailPage = () => {
             <Button onClick={getBack}>완료하기</Button>
           </TitleNEdit>
           <TextArea
-            value={selectedTask.taskDesc}
+            value={contents}
             autoSize={{ minRows: 3, maxRows: 10 }}
             onChange={e => setContents(e.target.value)}
             placeholder="하위작업 설명"

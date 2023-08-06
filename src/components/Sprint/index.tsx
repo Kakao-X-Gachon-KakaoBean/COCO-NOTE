@@ -119,6 +119,8 @@ const Sprint = () => {
             ) : taskId ? (
               <div
                 onClick={() => {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
                   setSelectedTask(record);
                   navigate(`tasks/${record.taskId}`);
                 }}

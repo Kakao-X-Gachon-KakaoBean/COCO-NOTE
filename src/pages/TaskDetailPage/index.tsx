@@ -1,8 +1,8 @@
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
-import { useRecoilValue } from 'recoil';
-import { SelectedTaskState } from '@/states/SprintState.ts';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { SelectedTaskState, SprintValueState } from '@/states/SprintState.ts';
 import {
   ComponentWrapper,
   ContentsText,
@@ -17,9 +17,18 @@ import { useNavigate } from 'react-router-dom';
 const TaskDetailPage = () => {
   const navigate = useNavigate();
   const selectedTask = useRecoilValue(SelectedTaskState);
+  const [sprintList, setSprintList] = useRecoilState(SprintValueState);
 
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    // 해당 작업이 속한 스프린트를 찾아서 값을 업데이트
+    const updatedSprintList = sprintList.map(sprint => {
+      const updatedChildren = sprint.children?.map(task =>
+        task.taskId === selectedTask.taskId ? { ...task, workStatus: value } : task
+      );
+      return { ...sprint, children: updatedChildren };
+    });
+
+    setSprintList(updatedSprintList);
   };
 
   return (
@@ -47,7 +56,7 @@ const TaskDetailPage = () => {
               style={{ width: '7vw' }}
               onChange={handleChange}
               options={[
-                { value: '해야할일', label: '해야할일' },
+                { value: '할 일', label: '할 일' },
                 { value: '진행 중', label: '진행 중' },
                 { value: '완료', label: '완료' },
               ]}
