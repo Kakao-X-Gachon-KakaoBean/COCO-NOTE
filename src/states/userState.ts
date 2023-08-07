@@ -8,6 +8,7 @@ export interface IUser {
   emailAuthKey: string;
   checkPassword: string;
   accessToken: string;
+  refreshToken: string;
   error: any;
 }
 
@@ -19,6 +20,7 @@ const initialState: IUser = {
   emailAuthKey: '',
   checkPassword: '',
   accessToken: '',
+  refreshToken: '',
   error: '',
 };
 
