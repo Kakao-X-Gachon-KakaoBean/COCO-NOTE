@@ -188,7 +188,7 @@ const ManageMember = () => {
     'SubmitEmail',
     data =>
       axios
-        .patch(`http://localhost:8080/projects/${projectId}/invitation`, data, {
+        .post(`http://localhost:8080/projects/${projectId}/invitation`, data, {
           withCredentials: true,
           headers: {
             'X-Requested-With': 'XMLHttpRequest',
@@ -201,6 +201,7 @@ const ManageMember = () => {
       onSuccess(data) {
         console.log(data);
         setEmail('');
+        alert('전송에 성공.');
       },
       onError(error) {
         console.log(error);
