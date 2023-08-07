@@ -17,6 +17,7 @@ const HeaderBar = () => {
   const onLogout = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setIsLogin(false);
     document.location.href = '/';
   }, []);

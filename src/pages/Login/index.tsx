@@ -50,6 +50,7 @@ const LogIn = () => {
       onMutate() {},
       onSuccess(data) {
         localStorage.setItem('accessToken', data?.accessToken);
+        localStorage.setItem('refreshToken', data?.refreshToken);
         navigate('/main');
       },
       onError(error) {
