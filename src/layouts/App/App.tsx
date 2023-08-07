@@ -3,6 +3,7 @@ import '@layouts/App/App.css';
 import loadable from '@loadable/component';
 import ReleaseNoteDetail from '@components/ReleaseNote/ReleaseNoteDetail';
 import AddProject from '@components/AddProject';
+import { ToastContainer } from 'react-toastify';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -18,6 +19,9 @@ const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
 const SprintPage = loadable(() => import('@pages/SprintPage'));
 const SprintDetailPage = loadable(() => import('@pages/SprintDetailPage'));
+const TaskDetailPage = loadable(() => import('@pages/TaskDetailPage'));
+const SprintEditPage = loadable(() => import('@pages/SprintEditPage'));
+const TaskEditPage = loadable(() => import('@pages/TaskEditPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 
 function App() {
@@ -47,10 +51,14 @@ function App() {
           <Route path="/projects/:projectId/sprints/*">
             <Route index element={<SprintPage />} />
             <Route path=":sprintId" element={<SprintDetailPage />} />
+            <Route path="tasks/:taskId" element={<TaskDetailPage />} />
+            <Route path=":sprintId/edit" element={<SprintEditPage />} />
+            <Route path="tasks/:taskId/edit" element={<TaskEditPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
       <AddProject />
+      <ToastContainer position="top-center" autoClose={1500} closeOnClick pauseOnFocusLoss theme="light" />
     </>
   );
 }

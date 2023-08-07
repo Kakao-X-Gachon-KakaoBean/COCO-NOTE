@@ -9,16 +9,19 @@ export interface ChildType {
   taskId: React.Key;
   sprintTitle: string;
   taskDesc: string;
-  taskWorkStatus: string;
+  workStatus: string;
   worker: Worker;
 }
 
 export interface TableData {
+  taskId?: any;
   key: string;
   sprintId: React.Key;
   sprintTitle: string;
   sprintDesc: string;
   startDate: string;
   dueDate: string;
+  startMonth: string;
+  dueMonth: string;
   children?: ChildType[];
 }

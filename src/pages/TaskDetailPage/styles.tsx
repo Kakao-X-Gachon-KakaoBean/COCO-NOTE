@@ -17,28 +17,20 @@ export const TitleNEdit = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  margin-bottom: 3vh;
   justify-content: space-between;
+  margin-top: 5vh;
+  margin-bottom: 3vh;
 `;
 
 export const HeaderText = styled.div`
   font-size: xx-large;
   color: Black;
-  margin-top: 5vh;
-  margin-bottom: 5vh;
 `;
 
 export const ContentsText = styled.div`
   font-size: large;
   color: Black;
   margin-bottom: 3vh;
-`;
-
-export const TaskText = styled.div`
-  font-size: large;
-  color: Black;
-  margin-bottom: 3vh;
-  margin-top: 10vh;
 `;
 
 export const Text = styled.div`
@@ -59,34 +51,6 @@ export const Text = styled.div`
   }
 `;
 
-export const TaskDiv = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  margin-bottom: 3vh;
-  justify-content: space-between;
-
-  & > div {
-    min-width: 200px; /* 원하는 너비로 조정 */
-  }
-`;
-
-export const TitleDiv = styled.div``;
-
-export const DescDiv = styled.div`
-  margin-right: 10vw;
-`;
-
 export const WorkerNStatus = styled.div`
-  margin-right: 5vw;
-`;
-
-export const HorizontalLine = styled.div`
-  border-bottom: 1px solid #aaa;
-  line-height: 1rem;
-  margin-top: 0.5rem;
-`;
-
-export const MemberList = styled.div`
-  margin: 3vh 0 5vh 0;
+  margin-bottom: 3vh;
 `;
