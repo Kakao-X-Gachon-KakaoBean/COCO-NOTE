@@ -12,7 +12,6 @@ import CreateTaskModal from '@components/CreateTaskModal';
 
 const WorkSpacePage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
-
   let contents = null;
 
   switch (projectInfoMenuOpen.state) {

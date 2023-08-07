@@ -8,11 +8,13 @@ import {
   ContentsText,
   HeaderText,
   TitleNEdit,
+  WorkerName,
   WorkerNStatus,
   Wrapper,
 } from '@/pages/TaskDetailPage/styles.tsx';
-import { Button, Select } from 'antd';
+import { Button, Image, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import defaultImage from '@/images/defaultAvatar.png';
 
 const TaskDetailPage = () => {
   const navigate = useNavigate();
@@ -49,8 +51,16 @@ const TaskDetailPage = () => {
             </Button>
           </TitleNEdit>
           <WorkerNStatus>
-            {' '}
-            담당자 : {selectedTask.worker.workerName}{' '}
+            <Image
+              src={
+                selectedTask.worker.workerThumbnailImg !== '' ? selectedTask.worker.workerThumbnailImg : defaultImage
+              }
+              style={{ borderRadius: '100%', marginRight: '1vw' }}
+              preview={false}
+              width={'2vw'}
+              height={'2vw'}
+            />
+            <WorkerName> {selectedTask.worker.workerName} </WorkerName>
             <Select
               defaultValue={selectedTask.workStatus}
               style={{ width: '7vw' }}

@@ -8,21 +8,28 @@ import {
   ContentsText,
   DescDiv,
   HeaderText,
+  PreviewAvatarDiv,
   TaskDiv,
   TaskText,
   TitleDiv,
   TitleNEdit,
+  WorkerName,
   WorkerNStatus,
   Wrapper,
 } from '@/pages/SprintDetailPage/styles.tsx';
-import { Button, Select } from 'antd';
+import { Button, Image, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import defaultImage from '@/images/defaultAvatar.png';
 
 const SprintDetailPage = () => {
   const navigate = useNavigate();
   const selectedSprint = useRecoilValue(SelectedSprintState);
   const [sprintList, setSprintList] = useRecoilState(SprintValueState);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  console.log(selectedSprint.children[0].worker.workerThumbnailImg === '');
   const handleChange = (value: string, taskId: React.Key) => {
     // 해당 작업이 속한 스프린트를 찾아서 값을 업데이트
     const updatedSprintList = sprintList.map(sprint => {
@@ -71,10 +78,19 @@ const SprintDetailPage = () => {
                   <TitleDiv>{task.sprintTitle}</TitleDiv>
                   <DescDiv>{task.taskDesc}</DescDiv>
                   <WorkerNStatus>
-                    {task.worker.workerName}
+                    <PreviewAvatarDiv>
+                      <Image
+                        src={task.worker.workerThumbnailImg !== '' ? task.worker.workerThumbnailImg : defaultImage}
+                        style={{ borderRadius: '100%' }}
+                        preview={false}
+                        width={'2vw'}
+                        height={'2vw'}
+                      />
+                    </PreviewAvatarDiv>
+                    <WorkerName> {task.worker.workerName} </WorkerName>
                     <Select
                       defaultValue={task.workStatus}
-                      style={{ width: '7vw', marginLeft: '2vw' }}
+                      style={{ width: '7vw' }}
                       onChange={value => handleChange(value, task.taskId)}
                       options={[
                         { value: '할 일', label: '할 일' },
