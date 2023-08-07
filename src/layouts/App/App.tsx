@@ -19,6 +19,7 @@ const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
 const SprintPage = loadable(() => import('@pages/SprintPage'));
 const SprintDetailPage = loadable(() => import('@pages/SprintDetailPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
+const InvitationPage = loadable(() => import('@pages/InvitationPage'));
 
 function App() {
   return (
@@ -47,6 +48,10 @@ function App() {
           <Route path="/projects/:projectId/sprints/*">
             <Route index element={<SprintPage />} />
             <Route path=":sprintId" element={<SprintDetailPage />} />
+          </Route>
+          <Route path="/invitations/*">
+            <Route index element={<InvitationPage />} />
+            <Route path=":projectkey" element={<InvitationPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
