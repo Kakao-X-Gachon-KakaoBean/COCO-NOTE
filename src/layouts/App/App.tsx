@@ -23,6 +23,7 @@ const TaskDetailPage = loadable(() => import('@pages/TaskDetailPage'));
 const SprintEditPage = loadable(() => import('@pages/SprintEditPage'));
 const TaskEditPage = loadable(() => import('@pages/TaskEditPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
+const InvitationPage = loadable(() => import('@pages/InvitationPage'));
 
 function App() {
   return (
@@ -54,6 +55,10 @@ function App() {
             <Route path="tasks/:taskId" element={<TaskDetailPage />} />
             <Route path=":sprintId/edit" element={<SprintEditPage />} />
             <Route path="tasks/:taskId/edit" element={<TaskEditPage />} />
+          </Route>
+          <Route path="/invitations/*">
+            <Route index element={<InvitationPage />} />
+            <Route path=":projectkey" element={<InvitationPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

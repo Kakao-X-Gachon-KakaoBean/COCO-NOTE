@@ -8,6 +8,10 @@ interface IProjectValue {
   projectContent: string;
 }
 
+export interface ProjectKey {
+  projectSecretKey: string;
+}
+
 const initialProjectValue: IProjectValue[] = [
   {
     projectId: 0,
