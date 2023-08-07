@@ -1,9 +1,12 @@
 import { DatePicker, DatePickerProps, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AddSprintValue, SprintValueState } from '@states/SprintState.ts';
 import { TableData } from '@components/Sprint/type.ts';
+import { useMutation, useQueryClient } from 'react-query';
+import axios, { AxiosError } from 'axios';
+import { useParams } from 'react-router';
 //import moment from 'moment';
 
 const CreateSprintModal = () => {
@@ -17,6 +20,61 @@ const CreateSprintModal = () => {
   const [dueMonth, setDueMonth] = useState('');
   //const [flagStartDate, setFlagStartDate] = useState('');
   const { TextArea } = Input;
+  const id = useParams().projectId;
+  const queryClient = useQueryClient();
+
+  const CreateSprintMutation = useMutation<
+    TableData,
+    AxiosError,
+    { sprintTitle: string; sprintDesc: string; projectId: number; startDate: string; dueDate: string }
+  >(
+    'createSprint',
+    data =>
+      axios
+        .post('http://localhost:8080/sprints', data, {
+          withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        console.log(data);
+        addSprint();
+        setIsAddSprint(false);
+        queryClient.invalidateQueries('projectList');
+        setTitle('');
+        setContents('');
+        setStartDate('');
+        setDueDate('');
+        toast.success('스프린트가 생성 되었습니다.');
+      },
+      onError(error) {
+        console.log(error);
+        toast.error('스프린트 생성에 실패하였습니다.');
+      },
+    }
+  );
+
+  const onSubmitSprint = useCallback(
+    (e: any) => {
+      e.preventDefault();
+
+      if (title && contents && startDate && dueDate && id) {
+        CreateSprintMutation.mutate({
+          sprintTitle: title,
+          sprintDesc: contents,
+          projectId: Number(id),
+          startDate: startDate,
+          dueDate: dueDate,
+        });
+      }
+    },
+    [title, contents, id, startDate, dueDate, CreateSprintMutation]
+  );
 
   const onChangeStartDate: DatePickerProps['onChange'] = (date, dateString) => {
     if (date) {
@@ -31,19 +89,6 @@ const CreateSprintModal = () => {
       const text = date.year() + ' ' + Number(date.month() + 1) + '월';
       setDueDate(dateString);
       setDueMonth(text);
-    }
-  };
-  const handleOk = () => {
-    if (title && contents && startDate && dueDate) {
-      addSprint();
-      setIsAddSprint(false);
-      setTitle('');
-      setContents('');
-      setStartDate('');
-      setDueDate('');
-      toast.success('스프린트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
-    } else {
-      toast.error('각 란을 정확히 입력해주세요'); // toast.error로 실패 메시지 표시
     }
   };
 
@@ -112,7 +157,7 @@ const CreateSprintModal = () => {
     }
   };
   return (
-    <Modal title="새 스프린트 생성" open={isAddSprint} onOk={handleOk} onCancel={handleCancel}>
+    <Modal title="새 스프린트 생성" open={isAddSprint} onOk={onSubmitSprint} onCancel={handleCancel}>
       <TextArea
         value={title}
         autoSize={{ minRows: 1, maxRows: 10 }}

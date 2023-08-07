@@ -67,7 +67,7 @@ export const TaskDiv = styled.div`
   justify-content: space-between;
 
   & > div {
-    min-width: 200px; /* 원하는 너비로 조정 */
+    min-width: 10vw; /* 원하는 너비로 조정 */
   }
 `;
 
@@ -77,8 +77,19 @@ export const DescDiv = styled.div`
   margin-right: 10vw;
 `;
 
+export const PreviewAvatarDiv = styled.div`
+  background-color: white;
+  margin-right: 1vw;
+`;
+
 export const WorkerNStatus = styled.div`
-  margin-right: 5vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const WorkerName = styled.div`
+  width: 5vw;
 `;
 
 export const HorizontalLine = styled.div`

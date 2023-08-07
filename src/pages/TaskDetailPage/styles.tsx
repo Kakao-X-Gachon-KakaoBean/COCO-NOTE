@@ -52,5 +52,14 @@ export const Text = styled.div`
 `;
 
 export const WorkerNStatus = styled.div`
+  width: 14vw;
   margin-bottom: 3vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const WorkerName = styled.div`
+  width: 3vw;
 `;
