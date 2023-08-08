@@ -44,6 +44,8 @@ import { toast } from 'react-toastify';
 import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -108,8 +110,6 @@ const ManageMember = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const { TextArea } = Input;
-  const [title, setTitle] = useState(selectedProject.projectTitle);
-  const [content, setContent] = useState(selectedProject.projectContent);
 
   const projectId: string | undefined = useParams().projectId;
 
@@ -315,35 +315,6 @@ const ManageMember = () => {
     setPage(0);
   };
 
-  const modifyProject = () => {
-    const newProject: IProjectValue = {
-      ...selectedProject, // Keep other properties of the selected project unchanged
-      projectTitle: title,
-      projectContent: content,
-    };
-    const selectedIndex = projectList.findIndex(project => project.projectId === selectedProject.projectId);
-
-    // Create a new array with the modified project
-    const updatedProjectList = [...projectList];
-    updatedProjectList[selectedIndex] = newProject;
-
-    // Update the entire projectValueState with the new array
-    setProjectList(updatedProjectList);
-    setSelectedProject(newProject);
-    console.log(selectedIndex);
-    console.log(updatedProjectList);
-  };
-
-  const handleOk = () => {
-    if (title && content && (title !== selectedProject.projectTitle || content !== selectedProject.projectContent)) {
-      modifyProject();
-      SetProjectModalOpen(false);
-      toast.success('프로젝트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
-    } else {
-      toast.error('프로젝트 명과 프로젝트 설명을 다시 확인해주세요'); // toast.error로 실패 메시지 표시
-    }
-  };
-
   return (
     <>
       {isVisible ? (
@@ -351,6 +322,7 @@ const ManageMember = () => {
           <ProjectSection>
             <Button type="primary" shape="circle" icon={<CloseOutlined />} />
             <ProjectHeader>
+              <FontAwesomeIcon icon={faCrown} style={{ color: '#e2ff05' }} />
               <div>프로젝트 정보</div>
               <div>
                 <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
@@ -403,6 +375,9 @@ const ManageMember = () => {
                       (row, i) => (
                         <TableRow key={row.name}>
                           <TableCell component="th" scope="row">
+                            {row.position === '관리자' && (
+                              <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
+                            )}
                             {row.name}
                           </TableCell>
                           <TableCell style={{ width: 300 }} align="center">
