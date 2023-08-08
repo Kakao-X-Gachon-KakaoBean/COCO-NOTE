@@ -43,6 +43,7 @@ import { ActivityIndicator } from '@components/ActivityIndicator';
 import { toast } from 'react-toastify';
 import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -112,6 +113,7 @@ const ManageMember = () => {
 
   const projectId: string | undefined = useParams().projectId;
 
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
@@ -184,7 +186,7 @@ const ManageMember = () => {
     SetProjectModalOpen(false);
   };
 
-  const mutation = useMutation<MemberState, AxiosError, { invitedMemberEmails: string[] }>(
+  const submitMutation = useMutation<MemberState, AxiosError, { invitedMemberEmails: string[] }>(
     'SubmitEmail',
     data =>
       axios
@@ -201,7 +203,9 @@ const ManageMember = () => {
       onSuccess(data) {
         console.log(data);
         setEmail('');
-        alert('전송에 성공.');
+        setEmails([]);
+        SetInvitationModalOpen(false);
+        toast.success('멤버 초대 완료하였습니다.');
       },
       onError(error) {
         console.log(error);
@@ -227,9 +231,11 @@ const ManageMember = () => {
       onSuccess(data) {
         console.log(data);
         queryClient.invalidateQueries('projectinfo');
+        queryClient.invalidateQueries('projectList');
         setTitle('');
         setContent('');
         SetProjectModalOpen(false);
+        toast.success('프로젝트 정보가 변경되었습니다.');
       },
       onError(error) {
         console.log(error);
@@ -262,8 +268,9 @@ const ManageMember = () => {
       onMutate() {},
       onSuccess(data) {
         console.log(data);
-        alert('성공');
         queryClient.invalidateQueries('projectinfo');
+        toast.success('프로젝트가 삭제되었습니다.');
+        navigate('/');
       },
       onError(error) {
         console.log(error);
@@ -292,9 +299,9 @@ const ManageMember = () => {
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
-      mutation.mutate({ invitedMemberEmails: emails });
+      submitMutation.mutate({ invitedMemberEmails: emails });
     },
-    [emails, mutation]
+    [emails, submitMutation]
   );
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
