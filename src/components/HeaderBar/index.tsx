@@ -5,6 +5,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
+import { removeCookie } from '@utils/cookie.ts';
 
 const HeaderBar = () => {
   const [projectInfoMenuOpen, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
@@ -17,7 +18,7 @@ const HeaderBar = () => {
   const onLogout = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    removeCookie('refreshToken');
     setIsLogin(false);
     document.location.href = '/';
   }, []);
