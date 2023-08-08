@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import GoogleImg from '../../images/google-logo.png';
 import KakaoImg from '../../images/kakao-logo.png';
 
@@ -27,6 +27,7 @@ import { useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import SearchPassword from '@components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
+import { setCookie } from '@utils/cookie.ts';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
@@ -50,6 +51,7 @@ const LogIn = () => {
       onMutate() {},
       onSuccess(data) {
         localStorage.setItem('accessToken', data?.accessToken);
+        setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
         navigate('/main');
       },
       onError(error) {
