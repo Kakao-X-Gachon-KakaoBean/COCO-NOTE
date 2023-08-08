@@ -58,7 +58,18 @@ function App() {
         </Routes>
       </BrowserRouter>
       <AddProject />
-      <ToastContainer position="top-center" autoClose={1500} closeOnClick pauseOnFocusLoss theme="light" />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

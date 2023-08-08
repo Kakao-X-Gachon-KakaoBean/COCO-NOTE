@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { IUser } from '@states/userState.ts';
 import axios, { AxiosError } from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Modal } from 'antd';
 import useInput from '../../hooks/useInput.ts';
@@ -118,18 +118,6 @@ const SignUp = () => {
   return (
     <>
       <Wrapper>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        ></ToastContainer>
         <Header>회원가입</Header>
         <SubHeader>
           <div>
