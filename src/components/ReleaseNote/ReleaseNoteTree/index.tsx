@@ -6,17 +6,16 @@ import type { TreeProps } from 'antd/es/tree';
 
 import { TestReleasedNote } from '@/components/ReleaseNote/ReleasedNoteAll/mock.tsx';
 
-import { SelectedProjectState } from '@/states/ProjectState.ts';
-
-
 import { useRecoilValue } from 'recoil';
 import { CreateReleaseNoteButton } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
 import CreateReleaseNoteModal from '@components/ReleaseNote/CreateReleaseNoteModal';
 import { CreateModalInput } from '@components/ReleaseNote/CreateReleaseNoteModal/type.ts';
+import { useParams } from 'react-router';
 
 const ReleaseNoteTree: React.FC = () => {
   const navigate = useNavigate();
-  const selectedProject = useRecoilValue(SelectedProjectState);
+  const headerParam = useParams();
+  const projectId = headerParam.projectId;
   const [selectedNodeKey, setSelectedNodeKey] = useState<string | null>(null);
   const [previousNodeKey, setPreviousNodeKey] = useState<string | null>(null);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
@@ -51,16 +50,16 @@ const ReleaseNoteTree: React.FC = () => {
     setSelectedKeys(selectedKeys);
 
     if (selectedKey === previousNodeKey) {
-      navigate(`/projects/${selectedProject.projectId}/releasenotes/${String(previousNodeKey)}`);
+      navigate(`/projects/${projectId}/releasenotes/${String(previousNodeKey)}`);
     } else {
       setPreviousNodeKey(selectedNodeKey);
       setSelectedNodeKey(selectedKey);
       const mergedReleasedNoteTree = [...editReleaseNoteTreeData, ...releasedNoteTreeData];
       const selectedNode = mergedReleasedNoteTree.find(node => node.key === selectedKey);
       if (selectedNode && selectedNode.children && selectedNode.children.length > 0) {
-        navigate(`/projects/${selectedProject.projectId}/releasenotes/${String(selectedNode.children[0].key)}`);
+        navigate(`/projects${projectId}/releasenotes/${String(selectedNode.children[0].key)}`);
       } else {
-        navigate(`/projects/${selectedProject.projectId}/releasenotes/${selectedKey}`);
+        navigate(`/projects/${projectId}/releasenotes/${selectedKey}`);
       }
     }
   };
@@ -77,7 +76,7 @@ const ReleaseNoteTree: React.FC = () => {
         contents: input.contents,
       };
       editReleaseNoteTreeData[0].children.push(newEditRelease);
-      navigate(`/project/${selectedProject.projectId}/releasenote/${newEditRelease.key}`);
+      navigate(`/project/${projectId}/releasenote/${newEditRelease.key}`);
     }
     setCreateModalVisible(false);
   };
