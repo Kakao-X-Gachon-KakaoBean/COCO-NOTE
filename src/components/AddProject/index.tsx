@@ -1,10 +1,9 @@
 import { Button, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
-import { AddProjectClickState } from '@/states/ProjectState.ts';
+import { AddProjectClickState, ProjectInfo } from '@/states/ProjectState.ts';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
-import { MemberState } from '@states/MemberState.ts';
 import axios, { AxiosError } from 'axios';
 
 const AddProject = () => {
@@ -21,7 +20,7 @@ const AddProject = () => {
     setIsAddProject(false);
   };
 
-  const mutation = useMutation<MemberState, AxiosError, { title: string; content: string }>(
+  const mutation = useMutation<ProjectInfo, AxiosError, { title: string; content: string }>(
     'SubmitProject',
     data =>
       axios

@@ -15,10 +15,10 @@ const queryClient = new QueryClient();
 axios.interceptors.response.use(
   response => response,
   async error => {
-    const originalRequest = error.config;
+    const requestApi = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response.status === 401 && !requestApi._retry) {
+      requestApi._retry = true;
       const refreshToken = getCookie('refreshToken');
       if (refreshToken) {
         try {
@@ -27,8 +27,8 @@ axios.interceptors.response.use(
           const accessToken = response.data.accessToken;
           localStorage.setItem('accessToken', accessToken);
 
-          originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-          return axios(originalRequest);
+          requestApi.headers['Authorization'] = `Bearer ${accessToken}`;
+          return axios(requestApi);
         } catch (refreshError) {
           toast.error('에러에러에러');
         }

@@ -12,6 +12,19 @@ export interface IUser {
   error: any;
 }
 
+export interface LoginUser {
+  email: string;
+  password: string;
+}
+
+export interface SignUpUser {
+  name: string;
+  email: string;
+  password: string;
+  checkPassword: string;
+  emailAuthKey: string;
+}
+
 const initialState: IUser = {
   isLoggingIn: false,
   name: '',
