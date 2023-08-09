@@ -14,7 +14,7 @@ const initialSprintValue: TableData[] = [
 
 const initialTaskValue: ChildType[] = [
   {
-    taskId: '999',
+    taskId: 999,
     taskTitle: '',
     taskDesc: '',
     workStatus: '',
@@ -49,5 +49,10 @@ export const SelectedTaskState: RecoilState<ChildType> = atom({
 
 export const SelectedSprintId: RecoilState<number> = atom({
   key: 'SelectedSprintId',
+  default: 0,
+});
+
+export const SelectedTaskId: RecoilState<number> = atom({
+  key: 'SelectedTaskId',
   default: 0,
 });

@@ -35,6 +35,7 @@ const SprintDetailPage = () => {
       queryKey: `http://localhost:8080/sprints/${sprintId}`,
     })
   );
+
   useEffect(() => {
     if (data.data) {
       console.log(data.data);
@@ -52,6 +53,10 @@ const SprintDetailPage = () => {
           { workStatus: data.workStatus },
           {
             withCredentials: true,
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
           }
         )
         .then(response => response.data),
