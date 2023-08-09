@@ -49,16 +49,16 @@ const ReleaseNoteTree: React.FC = () => {
     setSelectedKeys(selectedKeys);
 
     if (selectedKey === previousNodeKey) {
-      navigate(`/projects/${projectId}/releasenotes/${String(previousNodeKey)}`);
+      navigate(`/projects/${projectId}/releasenotes/manuscripts/${String(previousNodeKey)}`);
     } else {
       setPreviousNodeKey(selectedNodeKey);
       setSelectedNodeKey(selectedKey);
       const mergedReleasedNoteTree = [...editReleaseNoteTreeData, ...releasedNoteTreeData];
       const selectedNode = mergedReleasedNoteTree.find(node => node.key === selectedKey);
       if (selectedNode && selectedNode.children && selectedNode.children.length > 0) {
-        navigate(`/projects${projectId}/releasenotes/${String(selectedNode.children[0].key)}`);
+        navigate(`/projects${projectId}/releasenotes/manuscripts/${String(selectedNode.children[0].key)}`);
       } else {
-        navigate(`/projects/${projectId}/releasenotes/${selectedKey}`);
+        navigate(`/projects/${projectId}/releasenotes/manuscripts/${selectedKey}`);
       }
     }
   };

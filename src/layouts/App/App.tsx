@@ -1,7 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
-import ReleaseNoteDetail from '@components/ReleaseNote/ReleaseNoteDetail';
 import AddProject from '@components/AddProject';
 import { ToastContainer } from 'react-toastify';
 
@@ -17,6 +16,8 @@ const EditIssue = loadable(() => import('@components/EditIssue'));
 const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
+const SingleManuscript = loadable(() => import('@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript'));
+const SingleReleaseNote = loadable(() => import('@components/ReleaseNote/ReleaseNoteDetail/SingleReleaseNote'));
 const SprintPage = loadable(() => import('@pages/SprintPage'));
 const SprintDetailPage = loadable(() => import('@pages/SprintDetailPage'));
 const TaskDetailPage = loadable(() => import('@pages/TaskDetailPage'));
@@ -46,8 +47,9 @@ function App() {
           <Route path="/projects/:projectId/projectinfo" element={<ProjectInfo />} />
           <Route path="/projects/:projectId/releasenotes/*">
             <Route index element={<ReleaseNotePage />} />
-            <Route path=":releaseId" element={<ReleaseNoteDetail />} />
-            <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
+            <Route path="manuscripts/:releaseId" element={<SingleManuscript />} />
+            <Route path="manuscripts/:releaseId/edit" element={<ReleaseNoteEdit />} />
+            <Route path=":releaseId" element={<SingleReleaseNote />} />
           </Route>
           <Route path="/projects/:projectId/sprints/*">
             <Route index element={<SprintPage />} />
