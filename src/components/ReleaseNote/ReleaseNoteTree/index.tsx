@@ -6,7 +6,6 @@ import type { TreeProps } from 'antd/es/tree';
 
 import { TestReleasedNote } from '@/components/ReleaseNote/ReleasedNoteAll/mock.tsx';
 
-import { useRecoilValue } from 'recoil';
 import { CreateReleaseNoteButton } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
 import CreateReleaseNoteModal from '@components/ReleaseNote/CreateReleaseNoteModal';
 import { CreateModalInput } from '@components/ReleaseNote/CreateReleaseNoteModal/type.ts';
@@ -70,13 +69,13 @@ const ReleaseNoteTree: React.FC = () => {
   const handleOk = (input: CreateModalInput) => {
     // 여기서 input 값을 보고 navigate 및 editReleaseNoteTreeData에 추가하면 된다.
     if (input.status === 'success') {
-      const newEditRelease = {
-        title: input.title,
-        key: input.key,
-        contents: input.contents,
-      };
-      editReleaseNoteTreeData[0].children.push(newEditRelease);
-      navigate(`/project/${projectId}/releasenote/${newEditRelease.key}`);
+      // const newEditRelease = {
+      //   title: input.title,
+      //   key: input.version,
+      //   content: '',
+      // };
+      // editReleaseNoteTreeData[0].children.push(newEditRelease);
+      // navigate(`/project/${projectId}/releasenote/${newEditRelease.key}`);
     }
     setCreateModalVisible(false);
   };
