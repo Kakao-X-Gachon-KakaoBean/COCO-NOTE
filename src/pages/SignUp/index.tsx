@@ -14,12 +14,13 @@ import {
 } from '@pages/SignUp/styles';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { IUser } from '@states/userState.ts';
-import axios, { AxiosError } from 'axios';
+import { SignUpUser } from '@states/userState.ts';
+import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Modal } from 'antd';
 import useInput from '../../hooks/useInput.ts';
+import { postEmail, signUp } from '@/Api/User/SignUp.ts';
 
 const SignUp = () => {
   const [name, onChangeName] = useInput('');
@@ -32,28 +33,6 @@ const SignUp = () => {
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   const [mismatchError, setMismatchError] = useState(false);
-
-  const mutation = useMutation<
-    IUser,
-    AxiosError,
-    {
-      name: string;
-      email: string;
-      password: string;
-      checkPassword: string;
-      emailAuthKey: string;
-    }
-  >('user', data => axios.post(`http://localhost:8080/members`, data).then(response => response.data), {
-    onMutate() {
-      setSignUpSuccess(false);
-    },
-    onSuccess() {
-      setSignUpSuccess(true);
-    },
-    onError() {
-      alert('양식을 알맞게 작성해주세요');
-    },
-  });
 
   const onChangePassword = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -71,48 +50,68 @@ const SignUp = () => {
     [password, setCheckPassword]
   );
 
+  const signUpUser: SignUpUser = {
+    name,
+    email,
+    password,
+    checkPassword,
+    emailAuthKey,
+  };
+  const signUpMutation = useMutation<'회원가입 성공' | '회원가입 실패', AxiosError, SignUpUser>('signup', signUp, {
+    onSuccess: data => {
+      if (data === '회원가입 성공') {
+        setSignUpSuccess(true);
+      } else {
+        setSignUpSuccess(false);
+        alert('양식을 알맞게 작성해주세요');
+      }
+    },
+    onError: () => {
+      alert('서버와 연결이 되어있지 않습니다.');
+    },
+  });
+
   const onSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (name && email && password && checkPassword && emailAuthKey) {
-        mutation.mutate({
-          name,
-          email,
-          password,
-          checkPassword,
-          emailAuthKey,
-        });
-      }
+      signUpMutation.mutate(signUpUser);
     },
-    [email, name, password, checkPassword, emailAuthKey, mutation]
+    [signUpMutation, signUpUser]
   );
 
-  //입력한 이메일로 인증번호 보내기
-  const onSubmitEmail = useCallback(
-    (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e?.preventDefault();
-      console.log(email);
-      const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
+  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
-      if (!email || !email.trim()) {
-        return;
-      }
-
-      axios
-        .post('http://localhost:8080/emails', { email }, { withCredentials: true })
-        .then(() => {
+  const postEmailMutation = useMutation<'이메일 발송 성공' | '이메일 발송 실패', AxiosError, string>(
+    'post email',
+    postEmail,
+    {
+      onSuccess: data => {
+        if (data === '이메일 발송 성공') {
           setFailUseEmail(true);
           toast(message('메일로 인증번호가 발송되었습니다.'), {
             type: 'success',
           });
-        })
-        .catch(error => {
+        } else {
           toast(message('메일 주소를 확인해주세요.'), { type: 'error' });
           setFailUseEmail(false);
-          console.log(error.response);
-        });
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
+  const onSubmitEmail = useCallback(
+    (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e?.preventDefault();
+
+      if (!email || !email.trim()) {
+        return;
+      }
+      postEmailMutation.mutate(email);
     },
-    [email]
+    [postEmailMutation, email]
   );
 
   return (
