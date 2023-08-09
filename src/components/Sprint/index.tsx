@@ -11,7 +11,7 @@ import {
   AddSprintValue,
   AddTaskValue,
   SelectedSprintId,
-  SelectedTaskState,
+  SelectedTaskId,
   SprintValueState,
 } from '@states/SprintState.ts';
 import { useNavigate } from 'react-router-dom';
@@ -62,8 +62,8 @@ const Sprint = () => {
   const [dataSource, setDataSource] = useRecoilState(SprintValueState);
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
   const [isAddTask, setIsAddTask] = useRecoilState(AddTaskValue);
-  const [, setSelectedTask] = useRecoilState(SelectedTaskState);
   const [, setSelectedSprintId] = useRecoilState(SelectedSprintId);
+  const [, setSelectedTaskId] = useRecoilState(SelectedTaskId);
 
   const data = useQuery<TableData[]>(['sprintList'], () =>
     fetcher({
@@ -186,7 +186,7 @@ const Sprint = () => {
                 onClick={() => {
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
-                  setSelectedTask(record);
+                  setSelectedTaskId(record.taskId);
                   navigate(`tasks/${record.taskId}`);
                 }}
               >
