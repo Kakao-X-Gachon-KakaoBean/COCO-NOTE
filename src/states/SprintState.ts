@@ -8,8 +8,6 @@ const initialSprintValue: TableData[] = [
     sprintTitle: '스프린트를 추가해주세요',
     sprintDesc: '',
     startDate: '',
-    startMonth: '',
-    dueMonth: '',
     dueDate: '',
   },
 ];
@@ -17,10 +15,11 @@ const initialSprintValue: TableData[] = [
 const initialTaskValue: ChildType[] = [
   {
     taskId: '999',
-    sprintTitle: '',
+    taskTitle: '',
     taskDesc: '',
     workStatus: '',
-    worker: { workerId: 0, workerName: '', workerThumbnailImg: '' },
+    workerName: '',
+    workerThumbnailImg: '',
   },
 ];
 export const SprintValueState: RecoilState<TableData[]> = atom({
@@ -46,4 +45,9 @@ export const SelectedSprintState: RecoilState<TableData> = atom({
 export const SelectedTaskState: RecoilState<ChildType> = atom({
   key: 'SelectedTaskState',
   default: { ...initialTaskValue[0] },
+});
+
+export const SelectedSprintId: RecoilState<number> = atom({
+  key: 'SelectedSprintId',
+  default: 0,
 });

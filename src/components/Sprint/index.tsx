@@ -10,7 +10,7 @@ import { useRecoilState } from 'recoil';
 import {
   AddSprintValue,
   AddTaskValue,
-  SelectedSprintState,
+  SelectedSprintId,
   SelectedTaskState,
   SprintValueState,
 } from '@states/SprintState.ts';
@@ -60,16 +60,22 @@ const Sprint = () => {
   const navigate = useNavigate();
   const id = useParams().projectId;
   const [dataSource, setDataSource] = useRecoilState(SprintValueState);
-  const [, setIsAddSprint] = useRecoilState(AddSprintValue);
-  const [, setIsAddTask] = useRecoilState(AddTaskValue);
-  const [, setSelectedSprint] = useRecoilState(SelectedSprintState);
+  const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
+  const [isAddTask, setIsAddTask] = useRecoilState(AddTaskValue);
   const [, setSelectedTask] = useRecoilState(SelectedTaskState);
+  const [, setSelectedSprintId] = useRecoilState(SelectedSprintId);
 
   const data = useQuery<TableData[]>(['sprintList'], () =>
     fetcher({
       queryKey: `http://localhost:8080/sprints?projectId=${id}`,
     })
   );
+
+  useEffect(() => {
+    if (isAddSprint || isAddTask) {
+      data.refetch();
+    }
+  }, [data, isAddSprint, isAddTask]);
 
   useEffect(() => {
     if (data.data) {
@@ -160,7 +166,7 @@ const Sprint = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div
                   onClick={() => {
-                    setSelectedSprint(record);
+                    setSelectedSprintId(record.sprintId);
                     navigate(`${record.sprintId}/`);
                   }}
                 >
@@ -168,8 +174,8 @@ const Sprint = () => {
                 </div>
                 <Button
                   onClick={() => {
+                    setSelectedSprintId(record.sprintId);
                     setIsAddTask(true);
-                    setSelectedSprint(record);
                   }}
                 >
                   할일 추가
