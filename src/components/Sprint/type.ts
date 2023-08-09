@@ -6,14 +6,19 @@ interface Worker {
 }
 
 export interface ChildType {
-  taskId: React.Key;
+  taskId: number;
   taskTitle: string;
+  taskDesc?: string;
+  workStatus: string;
+  workerName: string;
+  workerThumbnailImg: string;
 }
 
 export interface TableData {
-  taskId?: React.Key;
+  taskId?: number;
   key: string;
-  sprintId: React.Key;
+  sprintId: number;
+  sprintDesc?: string;
   sprintTitle: string;
   startDate: string;
   dueDate: string;

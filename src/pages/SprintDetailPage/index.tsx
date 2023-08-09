@@ -1,12 +1,9 @@
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { SelectedSprintState, SprintValueState } from '@/states/SprintState.ts';
 import {
   ComponentWrapper,
   ContentsText,
-  DescDiv,
   HeaderText,
   PreviewAvatarDiv,
   TaskDiv,
@@ -19,34 +16,60 @@ import {
 } from '@/pages/SprintDetailPage/styles.tsx';
 import { Button, Image, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import defaultImage from '@/images/defaultAvatar.png';
+import { useMutation, useQuery } from 'react-query';
+import { ChildType, TableData } from '@components/Sprint/type.ts';
+import fetcher from '@utils/fetcher.ts';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { SelectedSprintId, SelectedSprintState } from '@states/SprintState.ts';
+import axios, { AxiosError } from 'axios';
 
 const SprintDetailPage = () => {
   const navigate = useNavigate();
-  const selectedSprint = useRecoilValue(SelectedSprintState);
-  const [sprintList, setSprintList] = useRecoilState(SprintValueState);
+  const sprintId = useRecoilValue(SelectedSprintId);
+  const [taskId, setTaskId] = useState(0);
+  const [selectedSprint, setSelectedSprint] = useRecoilState(SelectedSprintState);
+  const data = useQuery<TableData>(['sprint'], () =>
+    fetcher({
+      queryKey: `http://localhost:8080/sprints/${sprintId}`,
+    })
+  );
+  useEffect(() => {
+    if (data.data) {
+      console.log(data.data);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  console.log(selectedSprint.children[0].worker.workerThumbnailImg === '');
-  const handleChange = (value: string, taskId: React.Key) => {
-    // 해당 작업이 속한 스프린트를 찾아서 값을 업데이트
-    const updatedSprintList = sprintList.map(sprint => {
-      if (sprint.sprintId === selectedSprint.sprintId) {
-        // 선택된 스프린트일 경우, 작업 중에서 taskId와 일치하는 작업을 찾아 값을 업데이트
-        const updatedChildren = sprint.children?.map(task =>
-          task.taskId === taskId ? { ...task, workStatus: value } : task
-        );
-        return { ...sprint, children: updatedChildren };
-      } else {
-        return sprint;
-      }
-    });
+      setSelectedSprint(data.data);
+    }
+  }, [data.data]);
 
-    console.log(updatedSprintList);
+  const changeWorkStatusMutation = useMutation<string, AxiosError, { workStatus: string; taskId: number }>(
+    'workStatus',
+    data =>
+      axios
+        .patch(
+          `http://localhost:8080/tasks/${data.taskId}/work-status`,
+          { workStatus: data.workStatus },
+          {
+            withCredentials: true,
+          }
+        )
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        console.log(data);
+      },
+      onError(error) {
+        console.log(error);
+        alert('작업상태 변경에 실패하였습니다.');
+      },
+    }
+  );
 
-    setSprintList(updatedSprintList);
+  const handleChange = (value: string, taskId: number) => {
+    setTaskId(taskId);
+    changeWorkStatusMutation.mutate({ workStatus: value, taskId: taskId }); // taskId를 mutate 함수에 전달
   };
 
   return (
@@ -73,29 +96,32 @@ const SprintDetailPage = () => {
           <TaskText>하위작업</TaskText>
           {selectedSprint.children && (
             <div>
-              {selectedSprint.children.map(task => (
+              {selectedSprint.children.map((task: ChildType) => (
                 <TaskDiv key={task.taskId}>
-                  <TitleDiv>{task.sprintTitle}</TitleDiv>
-                  <DescDiv>{task.taskDesc}</DescDiv>
+                  <TitleDiv>{task.taskTitle}</TitleDiv>
                   <WorkerNStatus>
                     <PreviewAvatarDiv>
                       <Image
-                        src={task.worker.workerThumbnailImg !== '' ? task.worker.workerThumbnailImg : defaultImage}
+                        src={task.workerThumbnailImg !== null ? task.workerThumbnailImg : defaultImage}
                         style={{ borderRadius: '100%' }}
                         preview={false}
                         width={'2vw'}
                         height={'2vw'}
                       />
                     </PreviewAvatarDiv>
-                    <WorkerName> {task.worker.workerName} </WorkerName>
+                    <WorkerName> {task.workerName !== null ? task.workerName : '미할당'} </WorkerName>
                     <Select
                       defaultValue={task.workStatus}
                       style={{ width: '7vw' }}
                       onChange={value => handleChange(value, task.taskId)}
+                      onClick={() => {
+                        setTaskId(task.taskId);
+                        console.log(task.taskId);
+                      }}
                       options={[
-                        { value: '할 일', label: '할 일' },
-                        { value: '진행 중', label: '진행 중' },
-                        { value: '완료', label: '완료' },
+                        { value: 'NOT_ASSIGNED', label: '할 일' },
+                        { value: 'WORKING', label: '진행 중' },
+                        { value: 'COMPLETE', label: '완료' },
                       ]}
                     />
                   </WorkerNStatus>
