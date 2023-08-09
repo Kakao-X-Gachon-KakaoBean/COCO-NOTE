@@ -12,6 +12,12 @@ export interface IUser {
   error: any;
 }
 
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
+}
+
 export interface LoginUser {
   email: string;
   password: string;
