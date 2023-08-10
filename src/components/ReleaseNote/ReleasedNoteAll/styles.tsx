@@ -8,6 +8,8 @@ export const ReleasedNoteDiv = styled.div`
 `;
 
 export const ReleasedNoteParagraph = styled(Paragraph)`
+  margin-left: 7%;
+  margin-top: 11%;
   font-family: SCDream4;
 `;
 

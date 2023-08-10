@@ -19,6 +19,7 @@ import {
   ReleasedNoteText,
   ReleasedNoteTitle,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+import { SingleManuscript } from '@components/ReleaseNote/ReleaseNoteDetail/SingleReleaseNote/type.ts';
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,10 +31,33 @@ import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { useQuery } from 'react-query';
+import fetcher from '@utils/fetcher.ts';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
+
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();
+  const headerParam = useParams();
+  const scriptId = headerParam.releaseId;
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
+  const [manuscriptData, setManuscriptData] = useState<SingleManuscript>();
+  useQuery<SingleManuscript>(
+    ['manuscript', scriptId],
+    () =>
+      fetcher({
+        queryKey: `http://localhost:8080/manuscripts/${scriptId}`,
+      }),
+    {
+      onSuccess: data => {
+        setManuscriptData(data);
+      },
+      onError: () => {
+        toast.error('오류가 발생했습니다. 화면을 새로고침 해주세요.');
+      },
+    }
+  );
 
   let contents = null;
   const editReleaseNote = () => {
@@ -48,7 +72,7 @@ const SingleManuscript: React.FC = () => {
       contents = () => {
         if (projectInfoMenuOpen.contents) {
           return (
-            <div>
+            <>
               <Typography>
                 <Modal
                   centered
@@ -70,11 +94,15 @@ const SingleManuscript: React.FC = () => {
                   <ReleaseNoteHeaderDiv>
                     <ReleaseNoteHeaderTop>
                       <ReleaseNoteHeaderTopLeft>
-                        {/*<ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>*/}
-                        <EditingText>
-                          <FontAwesomeIcon icon={faCircle} size={'xs'} />
-                          &nbsp;현재 작성 중입니다
-                        </EditingText>
+                        <ReleasedNoteTitle>{manuscriptData?.manuscriptTitle}</ReleasedNoteTitle>
+                        {manuscriptData?.manuscriptStatus === 'Modifying' ? (
+                          <EditingText>
+                            <FontAwesomeIcon icon={faCircle} size={'xs'} />
+                            &nbsp;현재 다른 사용자가 작성 중입니다
+                          </EditingText>
+                        ) : (
+                          <></>
+                        )}
                       </ReleaseNoteHeaderTopLeft>
                       <ReleaseNoteHeaderTopRight>
                         <Button danger onClick={() => setDeleteModalOpen(true)}>
@@ -84,20 +112,25 @@ const SingleManuscript: React.FC = () => {
                       </ReleaseNoteHeaderTopRight>
                     </ReleaseNoteHeaderTop>
                     <ReleaseNoteHeaderMiddle>
-                      {/*<ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>*/}
+                      <ReleasedNoteText>{'Version ' + manuscriptData?.manuscriptVersion}</ReleasedNoteText>
                     </ReleaseNoteHeaderMiddle>
                     <ReleaseNoteHeaderBottom>
-                      {/*<ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>*/}
+                      <ReleasedNoteDate>{ConvertDate(manuscriptData?.createdAt ?? '')}</ReleasedNoteDate>
                     </ReleaseNoteHeaderBottom>
                   </ReleaseNoteHeaderDiv>
                   <MarkdownParagraph>
                     <BulletinDiv data-color-mode="light">
-                      {/*<MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />*/}
+                      <MDEditor.Markdown
+                        source={manuscriptData?.manuscriptContent}
+                        style={{ fontFamily: 'SCDream4' }}
+                      />
                     </BulletinDiv>
                   </MarkdownParagraph>
+                  <div>가장 마지막에 수정한 멤버</div>
+                  <div>{manuscriptData?.lastEditedMemberName}</div>
                 </ReleasedNoteParagraph>
               </Typography>
-            </div>
+            </>
           );
         } else {
           return <ActivityIndicator />;
