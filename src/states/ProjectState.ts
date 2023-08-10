@@ -17,6 +17,11 @@ export interface ProjectInfo {
   content: string;
 }
 
+export interface EditProject {
+  newTitle: string;
+  newContent: string;
+}
+
 export interface ProjectData {
   projectTitle: string;
   projectContent: string;

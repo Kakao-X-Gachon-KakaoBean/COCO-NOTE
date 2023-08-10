@@ -34,10 +34,9 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { MemberState } from '@states/MemberState.ts';
-import { ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { EditProject, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { toast } from 'react-toastify';
@@ -46,6 +45,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import { deleteMember, editProjectInfo, inviteMember } from '@/Api/Project/ManagePage.ts';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -110,6 +110,7 @@ const ManageMember = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const { TextArea } = Input;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const projectId: string | undefined = useParams().projectId;
 
@@ -118,9 +119,10 @@ const ManageMember = () => {
 
   const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
     fetcher({
-      queryKey: `http://localhost:8080/projects/${projectId}`,
+      queryKey: `${BACKEND_URL}/projects/${projectId}`,
     })
   );
+  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
   const [rows, setRows] = useState([
     { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
@@ -186,60 +188,26 @@ const ManageMember = () => {
     SetProjectModalOpen(false);
   };
 
-  const submitMutation = useMutation<MemberState, AxiosError, { invitedMemberEmails: string[] }>(
-    'SubmitEmail',
-    data =>
-      axios
-        .post(`http://localhost:8080/projects/${projectId}/invitation`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+  const EditProjectInfoMutation = useMutation<'정보 수정 성공' | '정보 수정 실패', AxiosError, EditProject>(
+    'edit project info',
+    (data: EditProject) => editProjectInfo(projectId, data), // 함수를 반환하도록 수정
     {
-      onMutate() {},
-      onSuccess(data) {
-        console.log(data);
-        setEmail('');
-        setEmails([]);
-        SetInvitationModalOpen(false);
-        toast.success('멤버 초대 완료하였습니다.');
+      onSuccess: data => {
+        if (data === '정보 수정 성공') {
+          toast(message('정보를 수정하였습니다.'), {
+            type: 'success',
+          });
+          queryClient.invalidateQueries('projectinfo');
+          queryClient.invalidateQueries('projectList');
+          setTitle('');
+          setContent('');
+          SetProjectModalOpen(false);
+        } else {
+          toast(message('정보 수정에 실패하였습니다.'), { type: 'error' });
+        }
       },
-      onError(error) {
-        console.log(error);
-        alert('전송에 실패하였습니다.');
-      },
-    }
-  );
-
-  const editMutation = useMutation<ProjectData, AxiosError, { newTitle: string; newContent: string }>(
-    'SubmitProject',
-    data =>
-      axios
-        .patch(`http://localhost:8080/projects/${projectId}`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
-    {
-      onMutate() {},
-      onSuccess(data) {
-        console.log(data);
-        queryClient.invalidateQueries('projectinfo');
-        queryClient.invalidateQueries('projectList');
-        setTitle('');
-        setContent('');
-        SetProjectModalOpen(false);
-        toast.success('프로젝트 정보가 변경되었습니다.');
-      },
-      onError(error) {
-        console.log(error);
-        toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요');
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
@@ -247,34 +215,28 @@ const ManageMember = () => {
   const editProject = useCallback(
     (e: any) => {
       e.preventDefault();
-      editMutation.mutate({ newTitle: title, newContent: content });
+      EditProjectInfoMutation.mutate({ newTitle: title, newContent: content });
     },
-    [title, content, editMutation]
+    [title, content, EditProjectInfoMutation]
   );
 
-  const deleteMutation = useMutation<any, AxiosError>(
-    'DeleteSurvey',
-    () =>
-      axios
-        .delete(`http://localhost:8080/projects/${projectId}`, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+  const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
+    'delete member',
+    () => deleteMember(projectId), // 함수를 반환하도록 수정
     {
-      onMutate() {},
-      onSuccess(data) {
-        console.log(data);
-        queryClient.invalidateQueries('projectinfo');
-        toast.success('프로젝트가 삭제되었습니다.');
-        navigate('/');
+      onSuccess: data => {
+        if (data === '삭제 성공') {
+          toast(message('삭제 성공했습니다.'), {
+            type: 'success',
+          });
+          queryClient.invalidateQueries('projectinfo');
+          navigate('/');
+        } else {
+          toast(message('삭제 실패하였습니다.'), { type: 'error' });
+        }
       },
-      onError(error) {
-        console.log(error);
-        alert('실패');
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
@@ -295,13 +257,39 @@ const ManageMember = () => {
     setEmails(newEmails);
   };
 
+  const inviteMemberMutation = useMutation<
+    '멤버 초대 성공' | '멤버 초대 실패',
+    AxiosError,
+    { invitedMemberEmails: string[] }
+  >(
+    'invite member',
+    (data: { invitedMemberEmails: string[] }) => inviteMember(projectId, data), // 함수를 반환하도록 수정
+    {
+      onSuccess: data => {
+        if (data === '멤버 초대 성공') {
+          toast(message('초대를 완료했습니다.'), {
+            type: 'success',
+          });
+          setEmail('');
+          setEmails([]);
+          SetInvitationModalOpen(false);
+        } else {
+          toast(message('초대에 실패하였습니다.'), { type: 'error' });
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
   //이메일로 초대 보내기
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
-      submitMutation.mutate({ invitedMemberEmails: emails });
+      inviteMemberMutation.mutate({ invitedMemberEmails: emails });
     },
-    [emails, submitMutation]
+    [emails, inviteMemberMutation]
   );
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
