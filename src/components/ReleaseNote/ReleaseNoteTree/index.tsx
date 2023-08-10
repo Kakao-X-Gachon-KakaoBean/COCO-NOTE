@@ -1,17 +1,16 @@
-import React, { Key, useEffect, useState } from 'react';
+import { Key, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
-import type { TreeProps } from 'antd/es/tree';
-
-import { TestReleasedNote } from '@/components/ReleaseNote/ReleasedNoteAll/mock.tsx';
-
+import type { TreeProps, DataNode } from 'antd/es/tree';
 import { CreateReleaseNoteButton } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
 import CreateReleaseNoteModal from '@components/ReleaseNote/CreateReleaseNoteModal';
-import { CreateModalInput } from '@components/ReleaseNote/CreateReleaseNoteModal/type.ts';
 import { useParams } from 'react-router';
+import { useQuery } from 'react-query';
+import fetcher from '@utils/fetcher.ts';
+import { ManuscriptTree, ReleasedNoteTree } from '@components/ReleaseNote/ReleaseNoteTree/type.ts';
 
-const ReleaseNoteTree: React.FC = () => {
+const ReleaseNoteTree = () => {
   const navigate = useNavigate();
   const headerParam = useParams();
   const projectId = headerParam.projectId;
@@ -19,30 +18,55 @@ const ReleaseNoteTree: React.FC = () => {
   const [previousNodeKey, setPreviousNodeKey] = useState<string | null>(null);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
   const [createModalVisible, setCreateModalVisible] = useState(false);
-
-  const editReleaseNoteTreeData = [
+  const [editReleaseNoteTreeData, setEditReleaseNoteTreeData] = useState<DataNode[] | undefined>();
+  const [releasedNoteTreeData, setReleasedNoteTreeData] = useState<DataNode[] | undefined>();
+  useQuery<ManuscriptTree>(
+    ['manuscriptAll', projectId],
+    () =>
+      fetcher({
+        queryKey: 'http://localhost:8080/manuscripts?projectId=' + projectId,
+      }),
     {
-      title: '수정 중인 릴리즈 노트',
-      key: 'edit',
-      children: TestReleasedNote.filter(note => note.editState).map(note => ({
-        title: note.title,
-        key: note.version,
-        contents: note.contents,
-      })),
-    },
-  ];
-
-  const releasedNoteTreeData = [
+      enabled: projectId !== undefined,
+      onSuccess: data => {
+        setEditReleaseNoteTreeData([
+          {
+            title: '수정 중인 릴리즈 노트',
+            key: 'edit',
+            children: data.manuscripts.map(tree => ({
+              title: tree.title,
+              key: tree.version,
+            })),
+          },
+        ]);
+      },
+      onError: () => {
+        console.log('오류가 발생했습니다.');
+      },
+    }
+  );
+  useQuery<ReleasedNoteTree>(
+    ['releasedNoteAll', projectId],
+    () =>
+      fetcher({
+        queryKey: 'http://localhost:8080/release-notes?projectId=' + projectId,
+      }),
     {
-      title: '배포된 릴리즈 노트 목록',
-      key: 'released',
-      children: TestReleasedNote.filter(note => !note.editState).map(note => ({
-        title: note.title,
-        key: note.version,
-        contents: note.contents,
-      })),
-    },
-  ];
+      enabled: projectId !== undefined,
+      onSuccess: data => {
+        setReleasedNoteTreeData([
+          {
+            title: '배포된 릴리즈 노트 목록',
+            key: 'released',
+            children: data.releaseNotes.map(tree => ({
+              title: tree.title,
+              key: tree.version,
+            })),
+          },
+        ]);
+      },
+    }
+  );
 
   const onSelect: TreeProps['onSelect'] = selectedKeys => {
     const selectedKey = selectedKeys[0].toString();
@@ -62,21 +86,8 @@ const ReleaseNoteTree: React.FC = () => {
       }
     }
   };
-  useEffect(() => {
-    setPreviousNodeKey(null);
-  }, [selectedNodeKey]);
 
-  const handleOk = (input: CreateModalInput) => {
-    // 여기서 input 값을 보고 navigate 및 editReleaseNoteTreeData에 추가하면 된다.
-    if (input.status === 'success') {
-      // const newEditRelease = {
-      //   title: input.title,
-      //   key: input.version,
-      //   content: '',
-      // };
-      // editReleaseNoteTreeData[0].children.push(newEditRelease);
-      // navigate(`/project/${projectId}/releasenote/${newEditRelease.key}`);
-    }
+  const handleOk = () => {
     setCreateModalVisible(false);
   };
 
