@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { ManuscriptTree, ReleasedNoteTree } from '@components/ReleaseNote/ReleaseNoteTree/type.ts';
 import { toast } from 'react-toastify';
+import { ActivityIndicator } from '@components/ActivityIndicator';
 
 const ReleaseNoteTree = () => {
   const navigate = useNavigate();
@@ -95,23 +96,33 @@ const ReleaseNoteTree = () => {
   return (
     <>
       <CreateReleaseNoteModal visible={createModalVisible} handleOk={handleOk} />
-      <Tree
-        switcherIcon={<DownOutlined />}
-        defaultExpandAll
-        onSelect={onSelect}
-        selectedKeys={selectedKeys}
-        treeData={editReleaseNoteTreeData}
-        style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
-      />
-      <CreateReleaseNoteButton onClick={() => setCreateModalVisible(true)}>+</CreateReleaseNoteButton>
-      <Tree
-        switcherIcon={<DownOutlined />}
-        defaultExpandAll
-        onSelect={onSelect}
-        selectedKeys={selectedKeys}
-        treeData={releasedNoteTreeData}
-        style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
-      />
+      {editReleaseNoteTreeData ? (
+        <>
+          <Tree
+            switcherIcon={<DownOutlined />}
+            defaultExpandAll
+            onSelect={onSelect}
+            selectedKeys={selectedKeys}
+            treeData={editReleaseNoteTreeData}
+            style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
+          />
+          <CreateReleaseNoteButton onClick={() => setCreateModalVisible(true)}>+</CreateReleaseNoteButton>
+        </>
+      ) : (
+        <ActivityIndicator />
+      )}
+      {releasedNoteTreeData ? (
+        <Tree
+          switcherIcon={<DownOutlined />}
+          defaultExpandAll
+          onSelect={onSelect}
+          selectedKeys={selectedKeys}
+          treeData={releasedNoteTreeData}
+          style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
+        />
+      ) : (
+        <ActivityIndicator />
+      )}
     </>
   );
 };
