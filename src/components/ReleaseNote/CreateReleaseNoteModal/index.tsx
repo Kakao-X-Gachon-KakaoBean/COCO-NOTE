@@ -11,8 +11,8 @@ const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => 
   const queryClient = useQueryClient();
   const headerParam = useParams();
   const projectId = headerParam.projectId;
-  const [title, setTitle] = useState(' ');
-  const [version, setVersion] = useState(' ');
+  const [title, setTitle] = useState('');
+  const [version, setVersion] = useState('');
 
   const postCreateManuscriptMutation = useMutation<'원고 생성 성공' | '원고 생성 실패', AxiosError, CreateManuscript>(
     'manuscripts',
