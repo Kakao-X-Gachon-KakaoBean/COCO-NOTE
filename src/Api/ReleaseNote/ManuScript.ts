@@ -7,7 +7,6 @@ export const createManuscript = async (data: CreateManuscript) => {
     await instance.post('/manuscripts', data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
       },
     });
     return '원고 생성 성공';
