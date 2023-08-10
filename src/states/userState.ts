@@ -8,7 +8,27 @@ export interface IUser {
   emailAuthKey: string;
   checkPassword: string;
   accessToken: string;
+  refreshToken: string;
   error: any;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  tokenType: string;
+}
+
+export interface LoginUser {
+  email: string;
+  password: string;
+}
+
+export interface SignUpUser {
+  name: string;
+  email: string;
+  password: string;
+  checkPassword: string;
+  emailAuthKey: string;
 }
 
 const initialState: IUser = {
@@ -19,6 +39,7 @@ const initialState: IUser = {
   emailAuthKey: '',
   checkPassword: '',
   accessToken: '',
+  refreshToken: '',
   error: '',
 };
 
@@ -28,16 +49,16 @@ atom({
 });
 
 export interface MypageUser {
-  originalImage: string | undefined;
-  profileImage: string | null;
+  profileImg: string | undefined;
+  thumbnailImg: string | null;
   name: string;
   email: string;
 }
 const myPageInitialState: MypageUser = {
-  originalImage: undefined,
-  profileImage: null,
-  name: '김윤호',
-  email: 'hkj9909@gmail.com',
+  profileImg: undefined,
+  thumbnailImg: null,
+  name: '',
+  email: '',
 };
 export const MyPageUserState = atom({
   key: 'MyPageUserState',

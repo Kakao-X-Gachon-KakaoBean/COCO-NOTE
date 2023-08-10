@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useCallback, useState } from 'react';
 
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios, { AxiosError } from 'axios';
 
@@ -125,18 +125,6 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
 
   return (
     <Wrapper onClick={stopPropagation}>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      ></ToastContainer>
       <Form>
         <Div>
           <Header>비밀번호 변경</Header>

@@ -8,6 +8,28 @@ interface IProjectValue {
   projectContent: string;
 }
 
+export interface ProjectKey {
+  projectSecretKey: string;
+}
+
+export interface ProjectInfo {
+  title: string;
+  content: string;
+}
+
+export interface ProjectData {
+  projectTitle: string;
+  projectContent: string;
+  projectMembers?: Array<ProjectMember<string>>;
+}
+
+export interface ProjectMember<T = string> {
+  projectMemberId: number;
+  projectMemberName: string;
+  projectMemberEmail: string;
+  projectMemberRole: T;
+}
+
 const initialProjectValue: IProjectValue[] = [
   {
     projectId: 0,

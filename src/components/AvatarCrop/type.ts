@@ -3,3 +3,8 @@ export interface ModalVisibleProps {
   modalVisible: boolean;
   closeModal: () => void;
 }
+
+export interface ProfileImages {
+  profileImg: string | undefined;
+  thumbnailImg: string | null;
+}
