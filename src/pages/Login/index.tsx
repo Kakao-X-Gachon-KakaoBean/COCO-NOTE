@@ -22,12 +22,13 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@components/Menu';
 import useInput from '../../hooks/useInput.ts';
-import { IUser } from '@states/userState.ts';
+import { LoginResponse, LoginUser } from '@states/userState.ts';
 import { useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import SearchPassword from '@components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
 import { setCookie } from '@utils/cookie.ts';
+import { logIn } from '@/Api/User/Login.ts';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
@@ -39,35 +40,28 @@ const LogIn = () => {
     setCheckPasswordModal(prev => !prev);
   }, []);
 
-  const LoginMutation = useMutation<IUser, AxiosError, { email: string; password: string }>(
-    'user',
-    data =>
-      axios
-        .post('http://localhost:8080/local/login', data, {
-          withCredentials: true,
-        })
-        .then(response => response.data),
-    {
-      onMutate() {},
-      onSuccess(data) {
-        localStorage.setItem('accessToken', data?.accessToken);
-        setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
-        navigate('/main');
-      },
-      onError(error) {
-        // setLogInError(error.response?.index?.code === 401);
-        console.log(error);
-        alert('로그인에 실패하였습니다.');
-      },
-    }
-  );
+  const logInData: LoginUser = {
+    email,
+    password,
+  };
+
+  const logInMutation = useMutation<LoginResponse, AxiosError, LoginUser>('logIn', logIn, {
+    onSuccess: data => {
+      localStorage.setItem('accessToken', data?.accessToken);
+      setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
+      navigate('/main');
+    },
+    onError: () => {
+      alert('이메일과 비밀번호가 일치하지 않습니다.');
+    },
+  });
 
   const onSubmit = useCallback(
     (e: ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
-      LoginMutation.mutate({ email, password });
+      logInMutation.mutate(logInData);
     },
-    [email, password, LoginMutation]
+    [logInData, logInMutation]
   );
 
   if (isLogin) {
