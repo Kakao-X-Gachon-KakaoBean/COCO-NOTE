@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Typography } from 'antd';
 import MDEditor from '@uiw/react-md-editor';
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
@@ -22,10 +22,33 @@ import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { SingleReleasedNote } from '@components/ReleaseNote/ReleaseNoteDetail/SingleReleaseNote/type.ts';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router';
+import fetcher from '@utils/fetcher.ts';
+import { toast } from 'react-toastify';
 
 const SingleReleaseNote: React.FC = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
+  const headerParam = useParams();
+  const scriptId = headerParam.releaseId;
+  const [releaseNoteData, setReleaseNoteData] = useState<SingleReleasedNote>();
 
+  useQuery<SingleReleasedNote>(
+    ['releasenote', scriptId],
+    () =>
+      fetcher({
+        queryKey: `http://localhost:8080/release-notes/${scriptId}`,
+      }),
+    {
+      onSuccess: data => {
+        setReleaseNoteData(data);
+      },
+      onError: () => {
+        toast.error('오류가 발생했습니다. 화면을 새로고침 해주세요.');
+      },
+    }
+  );
   let contents = null;
   switch (projectInfoMenuOpen.state) {
     case 'hasValue':
@@ -37,17 +60,20 @@ const SingleReleaseNote: React.FC = () => {
                 <ReleasedNoteParagraph>
                   <ReleaseNoteHeaderDiv>
                     <ReleaseNoteHeaderTop>
-                      {/*<ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>*/}
+                      <ReleasedNoteTitle>{releaseNoteData?.releaseNoteTitle}</ReleasedNoteTitle>
                     </ReleaseNoteHeaderTop>
                     <ReleaseNoteHeaderMiddle>
-                      {/*<ReleasedNoteText>{'Version ' + note.version}</ReleasedNoteText>*/}
+                      <ReleasedNoteText>{'Version ' + releaseNoteData?.releaseNoteVersion}</ReleasedNoteText>
                     </ReleaseNoteHeaderMiddle>
                     <ReleaseNoteHeaderBottom>
-                      {/*<ReleasedNoteDate>{ConvertDate(note.date)}</ReleasedNoteDate>*/}
+                      <ReleasedNoteDate>{ConvertDate(releaseNoteData?.createdAt ?? '')}</ReleasedNoteDate>
                     </ReleaseNoteHeaderBottom>
                   </ReleaseNoteHeaderDiv>
                   <MarkdownParagraph data-color-mode="light">
-                    {/*<MDEditor.Markdown source={note.contents} style={{ fontFamily: 'SCDream4' }} />*/}
+                    <MDEditor.Markdown
+                      source={releaseNoteData?.releaseNoteContent}
+                      style={{ fontFamily: 'SCDream4' }}
+                    />
                   </MarkdownParagraph>
                 </ReleasedNoteParagraph>
               </Typography>
