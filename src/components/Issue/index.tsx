@@ -7,6 +7,10 @@ import { IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/style
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import { useQuery } from 'react-query';
+import fetcher from '@utils/fetcher.ts';
+import { IssueList } from '@states/IssueState.ts';
+import { useParams } from 'react-router';
 
 interface DataType {
   key: React.Key;
@@ -36,6 +40,13 @@ const columns: ColumnsType<DataType> = [
 ];
 const Issue = () => {
   const navigate = useNavigate();
+  const projectId: string | undefined = useParams().projectId;
+
+  const { isLoading, data: issuedata } = useQuery<[IssueList]>(['issuelist'], () =>
+    fetcher({
+      queryKey: `http://localhost:8080/issues/page?projectId=1&page=0`,
+    })
+  );
 
   const data: DataType[] = [];
   for (let i = 0; i < 10; i++) {
