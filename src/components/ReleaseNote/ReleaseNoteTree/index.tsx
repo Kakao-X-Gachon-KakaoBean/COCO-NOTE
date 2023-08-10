@@ -9,13 +9,12 @@ import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { ManuscriptTree, ReleasedNoteTree } from '@components/ReleaseNote/ReleaseNoteTree/type.ts';
+import { toast } from 'react-toastify';
 
 const ReleaseNoteTree = () => {
   const navigate = useNavigate();
   const headerParam = useParams();
   const projectId = headerParam.projectId;
-  const [selectedNodeKey, setSelectedNodeKey] = useState<string | null>(null);
-  const [previousNodeKey, setPreviousNodeKey] = useState<string | null>(null);
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editReleaseNoteTreeData, setEditReleaseNoteTreeData] = useState<DataNode[] | undefined>();
@@ -34,8 +33,10 @@ const ReleaseNoteTree = () => {
             title: '수정 중인 릴리즈 노트',
             key: 'edit',
             children: data.manuscripts.map(tree => ({
-              title: tree.title,
-              key: tree.version,
+              title: tree.version,
+              key: tree.title,
+              id: tree.id,
+              state: 'edit',
             })),
           },
         ]);
@@ -59,8 +60,10 @@ const ReleaseNoteTree = () => {
             title: '배포된 릴리즈 노트 목록',
             key: 'released',
             children: data.releaseNotes.map(tree => ({
-              title: tree.title,
-              key: tree.version,
+              title: tree.version,
+              key: tree.title,
+              id: tree.id,
+              state: 'released',
             })),
           },
         ]);
@@ -68,22 +71,20 @@ const ReleaseNoteTree = () => {
     }
   );
 
-  const onSelect: TreeProps['onSelect'] = selectedKeys => {
-    const selectedKey = selectedKeys[0].toString();
+  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const scriptId = info.node.id ?? 'none';
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const scriptType = info.node.state ?? 'none';
     setSelectedKeys(selectedKeys);
-
-    if (selectedKey === previousNodeKey) {
-      navigate(`/projects/${projectId}/releasenotes/manuscripts/${String(previousNodeKey)}`);
+    if (scriptType === 'edit') {
+      navigate(`/projects/${projectId}/releasenotes/manuscripts/${scriptId}`);
+    } else if (scriptType === 'released') {
+      navigate(`/projects/${projectId}/releasenotes/${scriptId}`);
     } else {
-      setPreviousNodeKey(selectedNodeKey);
-      setSelectedNodeKey(selectedKey);
-      const mergedReleasedNoteTree = [...editReleaseNoteTreeData, ...releasedNoteTreeData];
-      const selectedNode = mergedReleasedNoteTree.find(node => node.key === selectedKey);
-      if (selectedNode && selectedNode.children && selectedNode.children.length > 0) {
-        navigate(`/projects${projectId}/releasenotes/manuscripts/${String(selectedNode.children[0].key)}`);
-      } else {
-        navigate(`/projects/${projectId}/releasenotes/manuscripts/${selectedKey}`);
-      }
+      toast.error('오류가 발생했습니다. 새로고침 해주세요.');
     }
   };
 
