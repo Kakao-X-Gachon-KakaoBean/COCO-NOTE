@@ -5,29 +5,28 @@ import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import { ReleasedNoteDiv } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
-import { Editor, TemporarySave, TitleVersionInput } from '@components/ReleaseNote/ReleaseNoteEdit/styles.tsx';
+import {
+  EditManuscriptDiv,
+  Editor,
+  TemporarySave,
+  TitleVersionInput,
+  TopHeaderInfo,
+} from '@components/ReleaseNote/ReleaseNoteEdit/styles.tsx';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useRecoilValueLoadable } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
-
-interface FormValues {
-  version: string;
-  title: string;
-}
+import { useLocation } from 'react-router';
+import { ManuscriptEdit } from '@components/ReleaseNote/ReleaseNoteEdit/type.ts';
 const ReleaseNoteEdit = () => {
-  const [value, setValue] = useState<string | undefined>('**내용을 입력해주세요.**');
+  const location = useLocation();
+  const manuscriptInfo = location.state as ManuscriptEdit;
+  const [title, setTitle] = useState(manuscriptInfo?.manuscriptTitle);
+  const [version, setVersion] = useState(manuscriptInfo?.manuscriptVersion);
+  const [value, setValue] = useState<string | undefined>(
+    manuscriptInfo?.manuscriptContent ?? '**내용을 입력해주세요.**'
+  );
   const [form] = Form.useForm();
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
-
-  const handleSubmit = (values: FormValues) => {
-    console.log(values);
-  };
-
-  const initialValues = {
-    version: '1.0.0',
-    title: '미리 작성된 제목',
-  };
 
   let contents = null;
 
@@ -36,26 +35,34 @@ const ReleaseNoteEdit = () => {
       contents = () => {
         if (projectInfoMenuOpen.contents) {
           return (
-            <ReleasedNoteDiv>
+            <EditManuscriptDiv>
               <TitleVersionInput>
-                <Form initialValues={initialValues} form={form} onFinish={handleSubmit}>
-                  <Form.Item name="version" label="버전" rules={[{ required: true, message: '버전을 입력해주세요' }]}>
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="title" label="제목" rules={[{ required: true, message: '제목을 입력해주세요' }]}>
-                    <Input />
-                  </Form.Item>
-                </Form>
+                <TopHeaderInfo>
+                  <div>제목</div>
+                  <Input
+                    value={title}
+                    onChange={event => setTitle(event.target.value)}
+                    placeholder={'제목을 입력해주세요'}
+                  />
+                </TopHeaderInfo>
+                <TopHeaderInfo>
+                  <div>버전</div>
+                  <Input
+                    value={version}
+                    onChange={event => setVersion(event.target.value)}
+                    placeholder={'버전을 입력해주세요'}
+                  />
+                </TopHeaderInfo>
               </TitleVersionInput>
               <Editor data-color-mode="light">
                 <MDEditor height={'60vh'} value={value} onChange={setValue} />
               </Editor>
               <TemporarySave>
                 <Button type="primary" onClick={() => form.submit()}>
-                  임시저장
+                  저장하기
                 </Button>
               </TemporarySave>
-            </ReleasedNoteDiv>
+            </EditManuscriptDiv>
           );
         } else {
           return <ActivityIndicator />;

@@ -31,10 +31,11 @@ import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
+import { verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
 
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();
@@ -58,10 +59,19 @@ const SingleManuscript: React.FC = () => {
       },
     }
   );
+  const verifyEditManuscriptMutation = useMutation(verifyEditPermissions, {
+    onSuccess: data => {
+      console.log(data);
+      navigate('edit', { state: data });
+    },
+    onError: () => {
+      toast.error('권한을 받아오는데 문제가 있습니다.');
+    },
+  });
 
   let contents = null;
   const editReleaseNote = () => {
-    navigate('edit');
+    verifyEditManuscriptMutation.mutate(scriptId ?? '');
   };
   const deleteReleaseNote = () => {
     // 릴리즈 노트 삭제 검증 후 모달 종료

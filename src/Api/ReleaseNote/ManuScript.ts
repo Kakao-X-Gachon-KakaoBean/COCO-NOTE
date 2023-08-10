@@ -14,3 +14,17 @@ export const createManuscript = async (data: CreateManuscript) => {
     return '원고 생성 실패';
   }
 };
+
+// 원고 수정 권한 확인
+export const verifyEditPermissions = async (scriptId: string) => {
+  try {
+    const response = await instance.patch(`/manuscripts/${scriptId}/access-status`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (err) {
+    return '원고 수정 권한 확인 실패';
+  }
+};
