@@ -2,12 +2,13 @@ import { Button, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { CreateManuscript, ModalProps } from '@components/ReleaseNote/CreateReleaseNoteModal/type.ts';
 import { GuideText, ModalDiv } from '@components/ReleaseNote/CreateReleaseNoteModal/styles.tsx';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { createManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => {
+  const queryClient = useQueryClient();
   const headerParam = useParams();
   const projectId = headerParam.projectId;
   const [title, setTitle] = useState(' ');
@@ -19,6 +20,7 @@ const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => 
     {
       onSuccess: data => {
         if (data === '원고 생성 성공') {
+          queryClient.invalidateQueries('manuscriptAll');
           toast.success('릴리즈 노트 생성에 성공했습니다.');
           handleOk({ title: title, version: version, status: 'success' });
         } else {
