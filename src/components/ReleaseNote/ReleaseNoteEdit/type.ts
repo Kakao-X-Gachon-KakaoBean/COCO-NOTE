@@ -4,3 +4,10 @@ export interface ManuscriptEdit {
   manuscriptContent: string;
   manuscriptVersion: string;
 }
+
+export interface SaveEditedManuscript {
+  manuscriptId: string;
+  title: string;
+  content: string;
+  version: string;
+}

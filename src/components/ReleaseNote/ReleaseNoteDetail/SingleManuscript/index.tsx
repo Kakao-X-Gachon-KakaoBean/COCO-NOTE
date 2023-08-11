@@ -61,8 +61,11 @@ const SingleManuscript: React.FC = () => {
   );
   const verifyEditManuscriptMutation = useMutation(verifyEditPermissions, {
     onSuccess: data => {
-      console.log(data);
-      navigate('edit', { state: data });
+      if (data === '원고 수정 권한 확인 실패') {
+        toast.error('현재 다른 사용자가 이 릴리즈노트를 수정 중이거나, 서버에 오류가 있습니다.');
+      } else {
+        navigate('edit', { state: data });
+      }
     },
     onError: () => {
       toast.error('권한을 받아오는데 문제가 있습니다.');
