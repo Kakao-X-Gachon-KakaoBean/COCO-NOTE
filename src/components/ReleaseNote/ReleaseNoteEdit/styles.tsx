@@ -19,6 +19,7 @@ export const TemporarySave = styled.div`
   display: flex;
   margin-top: 2vh;
   justify-content: flex-end;
+  gap: 1vw;
 `;
 export const TopHeaderInfo = styled.div`
   display: flex;

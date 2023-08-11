@@ -1,4 +1,4 @@
-export interface SingleManuscript {
+export interface SingleManuscriptInfo {
   lastEditedMemberName: string;
   manuscriptId: number;
   manuscriptTitle: string;

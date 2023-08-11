@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
-import { Typography, Button, Modal } from 'antd';
+import { Typography, Button } from 'antd';
 import {
   BulletinDiv,
-  DeleteModalBtnDiv,
   EditingText,
   ReleaseNoteHeaderBottom,
   ReleaseNoteHeaderDiv,
@@ -19,7 +18,6 @@ import {
   ReleasedNoteText,
   ReleasedNoteTitle,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
-import { SingleManuscript } from '@components/ReleaseNote/ReleaseNoteDetail/SingleReleaseNote/type.ts';
 import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -36,15 +34,16 @@ import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
+import { LastEditedMemberDiv } from '@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
+import { SingleManuscriptInfo } from '@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/type.ts';
 
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();
   const headerParam = useParams();
   const scriptId = headerParam.releaseId;
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
-  const [manuscriptData, setManuscriptData] = useState<SingleManuscript>();
-  useQuery<SingleManuscript>(
+  const [manuscriptData, setManuscriptData] = useState<SingleManuscriptInfo>();
+  useQuery<SingleManuscriptInfo>(
     ['manuscript', scriptId],
     () =>
       fetcher({
@@ -76,10 +75,6 @@ const SingleManuscript: React.FC = () => {
   const editReleaseNote = () => {
     verifyEditManuscriptMutation.mutate(scriptId ?? '');
   };
-  const deleteReleaseNote = () => {
-    // 릴리즈 노트 삭제 검증 후 모달 종료
-    setDeleteModalOpen(false);
-  };
   switch (projectInfoMenuOpen.state) {
     case 'hasValue':
       contents = () => {
@@ -87,22 +82,6 @@ const SingleManuscript: React.FC = () => {
           return (
             <>
               <Typography>
-                <Modal
-                  centered
-                  title={'릴리즈 노트 삭제'}
-                  open={deleteModalOpen}
-                  onCancel={() => setDeleteModalOpen(false)}
-                  onOk={() => setDeleteModalOpen(false)}
-                  footer={
-                    <DeleteModalBtnDiv>
-                      <Button type={'primary'} danger onClick={() => deleteReleaseNote}>
-                        삭제하기
-                      </Button>
-                    </DeleteModalBtnDiv>
-                  }
-                >
-                  <div>정말 이 릴리즈 노트를 삭제하시겠습니까?</div>
-                </Modal>
                 <ReleasedNoteParagraph>
                   <ReleaseNoteHeaderDiv>
                     <ReleaseNoteHeaderTop>
@@ -118,9 +97,6 @@ const SingleManuscript: React.FC = () => {
                         )}
                       </ReleaseNoteHeaderTopLeft>
                       <ReleaseNoteHeaderTopRight>
-                        <Button danger onClick={() => setDeleteModalOpen(true)}>
-                          삭제
-                        </Button>
                         <Button onClick={() => editReleaseNote()}>수정하기</Button>
                       </ReleaseNoteHeaderTopRight>
                     </ReleaseNoteHeaderTop>
@@ -139,8 +115,9 @@ const SingleManuscript: React.FC = () => {
                       />
                     </BulletinDiv>
                   </MarkdownParagraph>
-                  <div>가장 마지막에 수정한 멤버</div>
-                  <div>{manuscriptData?.lastEditedMemberName}</div>
+                  <LastEditedMemberDiv>
+                    가장 마지막에 수정한 멤버: {manuscriptData?.lastEditedMemberName}
+                  </LastEditedMemberDiv>
                 </ReleasedNoteParagraph>
               </Typography>
             </>

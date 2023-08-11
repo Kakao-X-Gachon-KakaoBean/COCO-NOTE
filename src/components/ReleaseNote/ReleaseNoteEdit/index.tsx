@@ -1,6 +1,6 @@
 import MDEditor from '@uiw/react-md-editor';
 import { useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import HeaderBar from '@components/HeaderBar';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
@@ -21,6 +21,7 @@ import { saveEditedManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { DeleteModalBtnDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 const ReleaseNoteEdit = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const ReleaseNoteEdit = () => {
   const manuscriptInfo = location.state as ManuscriptEdit;
   const [title, setTitle] = useState(manuscriptInfo?.manuscriptTitle);
   const [version, setVersion] = useState(manuscriptInfo?.manuscriptVersion);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [value, setValue] = useState<string | undefined>(
     manuscriptInfo?.manuscriptContent ?? '**내용을 입력해주세요.**'
   );
@@ -54,40 +56,65 @@ const ReleaseNoteEdit = () => {
     });
     console.log('saved');
   };
+  const deleteReleaseNote = () => {
+    // 릴리즈 노트 삭제 검증 후 모달 종료
+    setDeleteModalOpen(false);
+  };
 
   switch (projectInfoMenuOpen.state) {
     case 'hasValue':
       contents = () => {
         if (projectInfoMenuOpen.contents) {
           return (
-            <EditManuscriptDiv>
-              <TitleVersionInput>
-                <TopHeaderInfo>
-                  <div>제목</div>
-                  <Input
-                    value={title}
-                    onChange={event => setTitle(event.target.value)}
-                    placeholder={'제목을 입력해주세요'}
-                  />
-                </TopHeaderInfo>
-                <TopHeaderInfo>
-                  <div>버전</div>
-                  <Input
-                    value={version}
-                    onChange={event => setVersion(event.target.value)}
-                    placeholder={'버전을 입력해주세요'}
-                  />
-                </TopHeaderInfo>
-              </TitleVersionInput>
-              <Editor data-color-mode="light">
-                <MDEditor height={'60vh'} value={value} onChange={setValue} />
-              </Editor>
-              <TemporarySave>
-                <Button type="primary" onClick={() => saveManuscript()}>
-                  저장하기
-                </Button>
-              </TemporarySave>
-            </EditManuscriptDiv>
+            <>
+              <Modal
+                centered
+                title={'릴리즈 노트 삭제'}
+                open={deleteModalOpen}
+                onCancel={() => setDeleteModalOpen(false)}
+                onOk={() => setDeleteModalOpen(false)}
+                footer={
+                  <DeleteModalBtnDiv>
+                    <Button type={'primary'} danger onClick={() => deleteReleaseNote}>
+                      삭제하기
+                    </Button>
+                  </DeleteModalBtnDiv>
+                }
+              >
+                <div>정말 이 릴리즈 노트를 삭제하시겠습니까?</div>
+              </Modal>
+              <EditManuscriptDiv>
+                <TitleVersionInput>
+                  <TopHeaderInfo>
+                    <div>제목</div>
+                    <Input
+                      value={title}
+                      onChange={event => setTitle(event.target.value)}
+                      placeholder={'제목을 입력해주세요'}
+                    />
+                  </TopHeaderInfo>
+                  <TopHeaderInfo>
+                    <div>버전</div>
+                    <Input
+                      value={version}
+                      onChange={event => setVersion(event.target.value)}
+                      placeholder={'버전을 입력해주세요'}
+                    />
+                  </TopHeaderInfo>
+                </TitleVersionInput>
+                <Editor data-color-mode="light">
+                  <MDEditor height={'60vh'} value={value} onChange={setValue} />
+                </Editor>
+                <TemporarySave>
+                  <Button danger onClick={() => setDeleteModalOpen(true)}>
+                    릴리즈 노트 삭제
+                  </Button>
+                  <Button type="primary" onClick={() => saveManuscript()}>
+                    저장하기
+                  </Button>
+                </TemporarySave>
+              </EditManuscriptDiv>
+            </>
           );
         } else {
           return <ActivityIndicator />;
