@@ -126,7 +126,7 @@ const ManageMember = () => {
   );
   const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
-  const [qwe, setQwe] = useState<Array<{ name: string; email: string; position: string }>>([]);
+  const [memberList, setMemberList] = useState<Array<{ name: string; email: string; position: string }>>([]);
 
   useEffect(() => {
     if (projectData && projectData.projectMembers) {
@@ -136,7 +136,7 @@ const ManageMember = () => {
         email: member.projectMemberEmail,
         position: member.projectMemberRole,
       }));
-      setQwe(qq);
+      setMemberList(qq);
     }
   }, [projectData]);
 
@@ -175,7 +175,7 @@ const ManageMember = () => {
   }, [projectInfoMenuOpen]);
 
   const handleChange = (value: { value: string; label: React.ReactNode }, i: number) => {
-    const newRows = qwe
+    const newRows = memberList
       .filter((row, index) => {
         if (i === index) {
           const newRole = value.value;
@@ -192,9 +192,9 @@ const ManageMember = () => {
         };
       });
 
-    const updatedRows = [...qwe];
+    const updatedRows = [...memberList];
     updatedRows[i].position = value.value;
-    setQwe(updatedRows);
+    setMemberList(updatedRows);
 
     setModifiedData(prevData => {
       const newData = prevData.filter(item => item.modifyProjectMemberId !== newRows[0].modifyProjectMemberId);
@@ -347,7 +347,7 @@ const ManageMember = () => {
     [emails, inviteMemberMutation]
   );
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - qwe.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - memberList.length) : 0;
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -413,33 +413,34 @@ const ManageMember = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(rowsPerPage > 0 ? qwe.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : qwe).map(
-                      (qwe, i) => (
-                        <TableRow key={qwe.name}>
-                          <TableCell component="th" scope="row">
-                            {qwe.name}
-                            {qwe.position === 'ADMIN' && (
-                              <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
-                            )}
-                          </TableCell>
-                          <TableCell style={{ width: 300 }} align="center">
-                            {qwe.email}
-                          </TableCell>
-                          <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
-                            <Select
-                              labelInValue
-                              defaultValue={{
-                                value: qwe.position,
-                                label: qwe.position,
-                              }}
-                              style={{ width: 100, marginRight: 10 }}
-                              onChange={value => handleChange(value, i)}
-                              options={SelectOption}
-                            />
-                          </TableCell>
-                        </TableRow>
-                      )
-                    )}
+                    {(rowsPerPage > 0
+                      ? memberList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : memberList
+                    ).map((memberList, i) => (
+                      <TableRow key={memberList.name}>
+                        <TableCell component="th" scope="row">
+                          {memberList.name}
+                          {memberList.position === 'ADMIN' && (
+                            <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
+                          )}
+                        </TableCell>
+                        <TableCell style={{ width: 300 }} align="center">
+                          {memberList.email}
+                        </TableCell>
+                        <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
+                          <Select
+                            labelInValue
+                            defaultValue={{
+                              value: memberList.position,
+                              label: memberList.position,
+                            }}
+                            style={{ width: 100, marginRight: 10 }}
+                            onChange={value => handleChange(value, i)}
+                            options={SelectOption}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
                         <TableCell colSpan={6} />
@@ -451,7 +452,7 @@ const ManageMember = () => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                         colSpan={3}
-                        count={qwe.length}
+                        count={memberList.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         SelectProps={{
