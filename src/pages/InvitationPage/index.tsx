@@ -74,7 +74,7 @@ const InvitationPage = () => {
         <ProjectExplain>{data?.projectTitle}에서 초대를 하였습니다.</ProjectExplain>
         <ButtonBox>
           <Button onClick={onSubmitKey}>수락하기</Button>
-          <NoButton onClick={onCancle}>수락 안함</NoButton>
+          <NoButton onClick={onCancle}>거절하기</NoButton>
         </ButtonBox>
       </Wrapper>
     </>
