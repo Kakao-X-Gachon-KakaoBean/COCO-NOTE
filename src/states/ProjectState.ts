@@ -17,6 +17,11 @@ export interface ProjectInfo {
   content: string;
 }
 
+export interface EditProject {
+  newTitle: string;
+  newContent: string;
+}
+
 export interface ProjectData {
   projectTitle: string;
   projectContent: string;
@@ -28,6 +33,15 @@ export interface ProjectMember<T = string> {
   projectMemberName: string;
   projectMemberEmail: string;
   projectMemberRole: T;
+}
+
+export interface MemberRole {
+  modifyProjectMemberId: number;
+  projectRole: 'ADMIN' | 'MEMBER' | 'VIEWER' | 'LEFT_MEMBER' | 'INVITED_PERSON';
+}
+
+export interface ModifyMember {
+  modifyProjectMemberRole: MemberRole[];
 }
 
 const initialProjectValue: IProjectValue[] = [
