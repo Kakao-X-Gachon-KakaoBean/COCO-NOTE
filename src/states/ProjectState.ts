@@ -35,6 +35,15 @@ export interface ProjectMember<T = string> {
   projectMemberRole: T;
 }
 
+export interface MemberRole {
+  modifyProjectMemberId: number;
+  projectRole: 'ADMIN' | 'MEMBER' | 'VIEWER' | 'LEFT_MEMBER' | 'INVITED_PERSON';
+}
+
+export interface ModifyMember {
+  modifyProjectMemberRole: MemberRole[];
+}
+
 const initialProjectValue: IProjectValue[] = [
   {
     projectId: 0,

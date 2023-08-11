@@ -36,7 +36,7 @@ import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { EditProject, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { EditProject, MemberRole, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { toast } from 'react-toastify';
@@ -45,7 +45,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
-import { deleteMember, editProjectInfo, inviteMember } from '@/Api/Project/ManagePage.ts';
+import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/Api/Project/ManagePage.ts';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -109,6 +109,8 @@ const ManageMember = () => {
   const [emails, setEmails] = useState<string[]>([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [modifiedData, setModifiedData] = useState<Array<{ modifyProjectMemberId: number; projectRole: string }>>([]);
+
   const { TextArea } = Input;
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -124,35 +126,40 @@ const ManageMember = () => {
   );
   const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
-  const [rows, setRows] = useState([
-    { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
-    { name: '조연겸', email: 'j949854@gmail.com', position: '방문자' },
-    { name: '김윤호', email: 'j949854@gmail.com', position: '방문자' },
-    { name: '안수빈', email: 'j949854@gmail.com', position: '멤버' },
-    { name: '김희찬', email: 'j949854@gmail.com', position: '멤버' },
-    { name: '인범시치', email: 'j949854@gmail.com', position: '방문자' },
-    {
-      name: 'Ice cream sandwich',
-      email: 'j949854@gmail.com',
-      position: '방문자',
-    },
-    { name: 'Jelly Bean', email: 'j949854@gmail.com', position: '멤버' },
-    { name: 'KitKat', email: 'j949854@gmail.com', position: '멤버' },
-    { name: 'Lollipop', email: 'j949854@gmail.com', position: '멤버' },
-  ]);
+  const [qwe, setQwe] = useState<Array<{ name: string; email: string; position: string }>>([]);
+
+  useEffect(() => {
+    if (projectData && projectData.projectMembers) {
+      const qq = projectData.projectMembers.map(member => ({
+        id: member.projectMemberId,
+        name: member.projectMemberName,
+        email: member.projectMemberEmail,
+        position: member.projectMemberRole,
+      }));
+      setQwe(qq);
+    }
+  }, [projectData]);
 
   const SelectOption = [
     {
-      value: '관리자',
-      label: '관리자',
+      value: 'ADMIN',
+      label: 'ADMIN',
     },
     {
-      value: '멤버',
-      label: '멤버',
+      value: 'MEMBER',
+      label: 'MEMBER',
     },
     {
-      value: '구경',
-      label: '구경',
+      value: 'VIEWER',
+      label: 'VIEWER',
+    },
+    {
+      value: 'INVITED_PERSON',
+      label: 'INVITED_PERSON',
+    },
+    {
+      value: 'LEFT_MEMBER',
+      label: 'LEFT_MEMBER',
     },
   ];
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
@@ -168,16 +175,35 @@ const ManageMember = () => {
   }, [projectInfoMenuOpen]);
 
   const handleChange = (value: { value: string; label: React.ReactNode }, i: number) => {
-    const newRows = [...rows];
-    newRows[i].position = value.value;
-    setRows(newRows);
-    console.log(rows);
-  };
+    const newRows = qwe
+      .filter((row, index) => {
+        if (i === index) {
+          const newRole = value.value;
+          if (newRole !== row.position) {
+            return true;
+          }
+        }
+        return false;
+      })
+      .map(row => {
+        return {
+          modifyProjectMemberId: row.id,
+          projectRole: row.position,
+        };
+      });
 
-  const handleDelete = (i: number) => {
-    const newRows = [...rows];
-    newRows.splice(i, 1);
-    setRows(newRows);
+    const updatedRows = [...qwe];
+    updatedRows[i].position = value.value;
+    setQwe(updatedRows);
+
+    setModifiedData(prevData => {
+      const newData = prevData.filter(item => item.modifyProjectMemberId !== newRows[0].modifyProjectMemberId);
+      newData.push({
+        modifyProjectMemberId: updatedRows[i].id,
+        projectRole: updatedRows[i].position,
+      });
+      return newData;
+    });
   };
 
   const handleInvitation = () => {
@@ -210,6 +236,35 @@ const ManageMember = () => {
         alert('서버와 연결이 되어있지 않습니다.');
       },
     }
+  );
+
+  const ModifyMemberRole = useMutation<'권한 수정 성공' | '권한 수정 실패', AxiosError, ModifyMember>(
+    'modify member role',
+    (data: ModifyMember) => modifyMemberRole(projectId, data), // 함수를 반환하도록 수정
+    {
+      onSuccess: data => {
+        if (data === '권한 수정 성공') {
+          toast(message('권한을 수정하였습니다.'), {
+            type: 'success',
+          });
+          setModifiedData([]);
+          queryClient.invalidateQueries('projectinfo');
+        } else {
+          toast(message('권한 수정에 실패하였습니다.'), { type: 'error' });
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
+  const modifyMember = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      ModifyMemberRole.mutate({ modifyProjectMemberRole: modifiedData });
+    },
+    [modifiedData, ModifyMemberRole]
   );
 
   const editProject = useCallback(
@@ -292,7 +347,7 @@ const ManageMember = () => {
     [emails, inviteMemberMutation]
   );
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - qwe.length) : 0;
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -305,12 +360,11 @@ const ManageMember = () => {
 
   return (
     <>
-      {isVisible ? (
+      {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
             <Button type="primary" shape="circle" icon={<CloseOutlined />} />
             <ProjectHeader>
-              <FontAwesomeIcon icon={faCrown} style={{ color: '#e2ff05' }} />
               <div>프로젝트 정보</div>
               <div>
                 <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
@@ -343,7 +397,7 @@ const ManageMember = () => {
                 >
                   멤버 추가
                 </Button>
-                <Button type="primary" style={{ color: 'white' }} size={'large'}>
+                <Button type="primary" style={{ color: 'white' }} size={'large'} onClick={modifyMember}>
                   멤버 권한 저장
                 </Button>
               </MemberHeaderRight>
@@ -359,30 +413,29 @@ const ManageMember = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
-                      (row, i) => (
-                        <TableRow key={row.name}>
+                    {(rowsPerPage > 0 ? qwe.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : qwe).map(
+                      (qwe, i) => (
+                        <TableRow key={qwe.name}>
                           <TableCell component="th" scope="row">
-                            {row.position === '관리자' && (
+                            {qwe.name}
+                            {qwe.position === 'ADMIN' && (
                               <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
                             )}
-                            {row.name}
                           </TableCell>
                           <TableCell style={{ width: 300 }} align="center">
-                            {row.email}
+                            {qwe.email}
                           </TableCell>
                           <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
                             <Select
                               labelInValue
                               defaultValue={{
-                                value: row.position,
-                                label: row.position,
+                                value: qwe.position,
+                                label: qwe.position,
                               }}
-                              style={{ width: 80, marginRight: 10 }}
+                              style={{ width: 100, marginRight: 10 }}
                               onChange={value => handleChange(value, i)}
                               options={SelectOption}
                             />
-                            <CloseOutlined onClick={() => handleDelete(i)} />
                           </TableCell>
                         </TableRow>
                       )
@@ -398,7 +451,7 @@ const ManageMember = () => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                         colSpan={3}
-                        count={rows.length}
+                        count={qwe.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         SelectProps={{
