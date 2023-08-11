@@ -55,7 +55,7 @@ const SingleReleaseNote: React.FC = () => {
       contents = () => {
         if (projectInfoMenuOpen.contents) {
           return (
-            <div>
+            <>
               <Typography>
                 <ReleasedNoteParagraph>
                   <ReleaseNoteHeaderDiv>
@@ -77,7 +77,7 @@ const SingleReleaseNote: React.FC = () => {
                   </MarkdownParagraph>
                 </ReleasedNoteParagraph>
               </Typography>
-            </div>
+            </>
           );
         } else {
           return <ActivityIndicator />;

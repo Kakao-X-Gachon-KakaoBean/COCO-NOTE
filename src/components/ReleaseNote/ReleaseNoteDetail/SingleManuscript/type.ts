@@ -7,3 +7,9 @@ export interface SingleManuscriptInfo {
   createdAt: string;
   manuscriptStatus: string;
 }
+export interface DistributeManuscript {
+  title: string;
+  content: string;
+  version: string;
+  projectId: string;
+}

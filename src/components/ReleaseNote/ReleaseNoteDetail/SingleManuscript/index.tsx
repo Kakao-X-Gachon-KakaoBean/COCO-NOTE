@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import MDEditor from '@uiw/react-md-editor';
-import { Typography, Button } from 'antd';
+import { Typography, Button, Modal } from 'antd';
 import {
   BulletinDiv,
+  DeleteModalBtnDiv,
   EditingText,
   ReleaseNoteHeaderBottom,
   ReleaseNoteHeaderDiv,
@@ -33,7 +34,7 @@ import { useMutation, useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
+import { distributeManuscript, verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
 import { LastEditedMemberDiv } from '@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
 import { SingleManuscriptInfo } from '@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/type.ts';
 
@@ -41,8 +42,10 @@ const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();
   const headerParam = useParams();
   const scriptId = headerParam.releaseId;
+  const projectId = headerParam.projectId;
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
   const [manuscriptData, setManuscriptData] = useState<SingleManuscriptInfo>();
+  const [distributeModalOpen, setDistributeModalOpen] = useState<boolean>(false);
   useQuery<SingleManuscriptInfo>(
     ['manuscript', scriptId],
     () =>
@@ -70,6 +73,16 @@ const SingleManuscript: React.FC = () => {
       toast.error('권한을 받아오는데 문제가 있습니다.');
     },
   });
+  const distributeManuscriptMutation = useMutation(distributeManuscript, {
+    onSuccess: data => {
+      if (data === '원고 배포 성공') {
+        toast.success('해당 릴리즈 노트를 배포하였습니다.');
+        navigate(`/projects/${projectId}/releasenotes`);
+      } else {
+        toast.error('릴리즈 노트 배포에 실패했습니다. 화면을 새로고침 해주세요.');
+      }
+    },
+  });
 
   let contents = null;
   const editReleaseNote = () => {
@@ -81,6 +94,43 @@ const SingleManuscript: React.FC = () => {
         if (projectInfoMenuOpen.contents) {
           return (
             <>
+              <Modal
+                centered
+                title={'릴리즈 노트 삭제'}
+                open={distributeModalOpen}
+                onCancel={() => setDistributeModalOpen(false)}
+                onOk={() => setDistributeModalOpen(false)}
+                footer={
+                  <DeleteModalBtnDiv>
+                    <Button
+                      type={'primary'}
+                      onClick={() => {
+                        if (
+                          manuscriptData?.manuscriptTitle &&
+                          manuscriptData?.manuscriptContent &&
+                          manuscriptData?.manuscriptVersion &&
+                          projectId
+                        ) {
+                          distributeManuscriptMutation.mutate({
+                            title: manuscriptData?.manuscriptTitle,
+                            content: manuscriptData?.manuscriptContent,
+                            version: manuscriptData?.manuscriptVersion,
+                            projectId: projectId,
+                          });
+                          setDistributeModalOpen(false);
+                        } else {
+                          toast.error('데이터를 불러올 수 없습니다.');
+                        }
+                      }}
+                    >
+                      배포하기
+                    </Button>
+                  </DeleteModalBtnDiv>
+                }
+              >
+                <div>{manuscriptData?.manuscriptTitle}</div>
+                <div>위 릴리즈 노트를 배포하시겠습니까?</div>
+              </Modal>
               <Typography>
                 <ReleasedNoteParagraph>
                   <ReleaseNoteHeaderDiv>
@@ -98,6 +148,9 @@ const SingleManuscript: React.FC = () => {
                       </ReleaseNoteHeaderTopLeft>
                       <ReleaseNoteHeaderTopRight>
                         <Button onClick={() => editReleaseNote()}>수정하기</Button>
+                        <Button type={'primary'} onClick={() => setDistributeModalOpen(true)}>
+                          릴리즈 노트 배포
+                        </Button>
                       </ReleaseNoteHeaderTopRight>
                     </ReleaseNoteHeaderTop>
                     <ReleaseNoteHeaderMiddle>

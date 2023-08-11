@@ -1,6 +1,7 @@
 import { instance } from '@/Api';
 import { CreateManuscript } from '@components/ReleaseNote/CreateReleaseNoteModal/type.ts';
 import { SaveEditedManuscript } from '@components/ReleaseNote/ReleaseNoteEdit/type.ts';
+import { DistributeManuscript } from '@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/type.ts';
 
 // 원고 생성
 export const createManuscript = async (data: CreateManuscript) => {
@@ -56,5 +57,19 @@ export const deleteManuscript = async (scriptId: string) => {
     return '원고 삭제 성공';
   } catch (err) {
     return '원고 삭제 실패';
+  }
+};
+
+// 원고 배포
+export const distributeManuscript = async (data: DistributeManuscript) => {
+  try {
+    await instance.post(`/release-notes`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return '원고 배포 성공';
+  } catch (err) {
+    return '원고 배포 실패';
   }
 };
