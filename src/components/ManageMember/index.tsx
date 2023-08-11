@@ -215,7 +215,7 @@ const ManageMember = () => {
   };
 
   const EditProjectInfoMutation = useMutation<'정보 수정 성공' | '정보 수정 실패', AxiosError, EditProject>(
-    'edit project info',
+    'editProjectInfo',
     (data: EditProject) => editProjectInfo(projectId, data), // 함수를 반환하도록 수정
     {
       onSuccess: data => {
@@ -239,7 +239,7 @@ const ManageMember = () => {
   );
 
   const ModifyMemberRole = useMutation<'권한 수정 성공' | '권한 수정 실패', AxiosError, ModifyMember>(
-    'modify member role',
+    'modifyMemberRole',
     (data: ModifyMember) => modifyMemberRole(projectId, data), // 함수를 반환하도록 수정
     {
       onSuccess: data => {
@@ -276,7 +276,7 @@ const ManageMember = () => {
   );
 
   const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
-    'delete member',
+    'deleteMember',
     () => deleteMember(projectId), // 함수를 반환하도록 수정
     {
       onSuccess: data => {
@@ -317,7 +317,7 @@ const ManageMember = () => {
     AxiosError,
     { invitedMemberEmails: string[] }
   >(
-    'invite member',
+    'inviteMember',
     (data: { invitedMemberEmails: string[] }) => inviteMember(projectId, data), // 함수를 반환하도록 수정
     {
       onSuccess: data => {
