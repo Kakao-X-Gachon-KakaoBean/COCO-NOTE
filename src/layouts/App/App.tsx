@@ -3,6 +3,7 @@ import '@layouts/App/App.css';
 import loadable from '@loadable/component';
 import AddProject from '@components/AddProject';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -77,6 +78,7 @@ function App() {
         pauseOnHover
         theme="light"
       />
+      결
     </>
   );
 }
