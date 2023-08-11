@@ -35,7 +35,8 @@ const ReleaseNoteTree = () => {
             key: 'edit',
             children: data.manuscripts.map(tree => ({
               title: tree.version,
-              key: tree.title,
+              key: tree.version,
+              name: tree.title,
               id: tree.id,
               state: 'edit',
             })),
@@ -62,7 +63,8 @@ const ReleaseNoteTree = () => {
             key: 'released',
             children: data.releaseNotes.map(tree => ({
               title: tree.version,
-              key: tree.title,
+              key: tree.version,
+              name: tree.title,
               id: tree.id,
               state: 'released',
             })),

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const Wrapper = styled.div<{ open: boolean }>`
   background-color: white;
   width: 20%;
-  height: 100%;
+  height: 89.7%;
   position: fixed;
   top: 10.3%;
   left: 8.3%;
@@ -12,6 +12,7 @@ export const Wrapper = styled.div<{ open: boolean }>`
   border-top: 0pt;
   transform: translateX(${({ open }) => (open ? '0' : '-100%')});
   transition: transform 0.3s ease-out;
+  overflow-y: auto;
 `;
 export const DropdownDiv = styled.div`
   height: 1rem;
