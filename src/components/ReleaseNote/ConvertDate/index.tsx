@@ -12,6 +12,7 @@ const ConvertDate = (input: string): string => {
     }
 
     const [year, month, day] = datePart.split('. ').map(part => parseInt(part));
+    // eslint-disable-next-line prefer-const
     let [hour, minute] = timePart.split(':').map(part => parseInt(part));
 
     if (input.includes('오후') && hour !== 12) {
