@@ -44,3 +44,17 @@ export const saveEditedManuscript = async (data: SaveEditedManuscript) => {
     return '원고 수정 실패';
   }
 };
+
+// 원고 삭제
+export const deleteManuscript = async (scriptId: string) => {
+  try {
+    await instance.delete(`/manuscripts/${scriptId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return '원고 삭제 성공';
+  } catch (err) {
+    return '원고 삭제 실패';
+  }
+};

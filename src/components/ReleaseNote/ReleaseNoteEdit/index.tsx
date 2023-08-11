@@ -17,7 +17,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { useLocation, useParams } from 'react-router';
 import { ManuscriptEdit } from '@components/ReleaseNote/ReleaseNoteEdit/type.ts';
-import { saveEditedManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
+import { deleteManuscript, saveEditedManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ const ReleaseNoteEdit = () => {
   const navigate = useNavigate();
   const headerParam = useParams();
   const scriptId = headerParam.releaseId;
+  const projectId = headerParam.projectId;
   const manuscriptInfo = location.state as ManuscriptEdit;
   const [title, setTitle] = useState(manuscriptInfo?.manuscriptTitle);
   const [version, setVersion] = useState(manuscriptInfo?.manuscriptVersion);
@@ -45,6 +46,17 @@ const ReleaseNoteEdit = () => {
       }
     },
   });
+  const deleteManuscriptMutation = useMutation(deleteManuscript, {
+    onSuccess: data => {
+      if (data === '원고 삭제 성공') {
+        toast.success('해당 릴리즈 노트가 삭제되었습니다.');
+        setDeleteModalOpen(false);
+        navigate(`/projects/${projectId}/releasenotes`);
+      } else {
+        toast.error('릴리즈 노트 삭제에 문제가 발생하였습니다. 새로고침하여 재시작해주세요.');
+      }
+    },
+  });
   let contents = null;
 
   const saveManuscript = () => {
@@ -54,11 +66,6 @@ const ReleaseNoteEdit = () => {
       version: version,
       content: value ?? '',
     });
-    console.log('saved');
-  };
-  const deleteReleaseNote = () => {
-    // 릴리즈 노트 삭제 검증 후 모달 종료
-    setDeleteModalOpen(false);
   };
 
   switch (projectInfoMenuOpen.state) {
@@ -75,7 +82,13 @@ const ReleaseNoteEdit = () => {
                 onOk={() => setDeleteModalOpen(false)}
                 footer={
                   <DeleteModalBtnDiv>
-                    <Button type={'primary'} danger onClick={() => deleteReleaseNote}>
+                    <Button
+                      type={'primary'}
+                      danger
+                      onClick={() => {
+                        deleteManuscriptMutation.mutate(scriptId ?? '');
+                      }}
+                    >
                       삭제하기
                     </Button>
                   </DeleteModalBtnDiv>
