@@ -2,6 +2,8 @@
 
 import { instance } from '@/Api';
 import { CreateComment, CreateIssue } from '@states/IssueState.ts';
+import fetcher from '@utils/fetcher.ts';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const postIssue = async (data: CreateIssue) => {
   try {
@@ -19,4 +21,9 @@ export const postComment = async (data: CreateComment) => {
   } catch (err) {
     return '댓글 달기 실패';
   }
+};
+export const fetchPage = async (projectId: string | undefined, nextPage: number) => {
+  return fetcher({
+    queryKey: `${BACKEND_URL}/issues/page?projectId=${projectId}&page=${nextPage}`,
+  });
 };
