@@ -3875,6 +3875,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stomp/stompjs@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@stomp/stompjs@npm:7.0.0"
+  checksum: 94618b5a394339ed3098dae213eef27c462f504ba050208598c9ef396abb527b57e6333b2e78af4715693d6ba04fffb23df4b1bf7041bc0f1b3bc6e92138f1dc
+  languageName: node
+  linkType: hard
+
 "@surma/rollup-plugin-off-main-thread@npm:^2.2.3":
   version: 2.2.3
   resolution: "@surma/rollup-plugin-off-main-thread@npm:2.2.3"
@@ -12575,6 +12582,7 @@ __metadata:
     "@loadable/component": ^5.15.3
     "@mui/icons-material": ^5.11.16
     "@mui/material": ^5.13.6
+    "@stomp/stompjs": ^7.0.0
     "@tanstack/react-query-devtools": ^4.32.1
     "@testing-library/cypress": ^9.0.0
     "@testing-library/dom": ^9.3.0
