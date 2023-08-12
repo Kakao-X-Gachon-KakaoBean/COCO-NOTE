@@ -1,25 +1,20 @@
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { ColumnsType } from 'antd/es/table';
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
-import { IssueList } from '@states/IssueState.ts';
+import { IssueDataType, IssueList } from '@states/IssueState.ts';
 import { useParams } from 'react-router';
+import { fetchPage } from '@/Api/Issue/Issue.ts';
+import { BACKEND_URL } from '@/Api';
 
-interface DataType {
-  key: React.Key;
-  issue: string;
-  version: string;
-  name: string;
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<IssueDataType> = [
   {
     title: '번호',
     dataIndex: 'version',
@@ -41,36 +36,43 @@ const columns: ColumnsType<DataType> = [
 const Issue = () => {
   const navigate = useNavigate();
   const projectId: string | undefined = useParams().projectId;
+  const [currentPage, setCurrentPage] = useState(0);
+  const queryClint = useQueryClient();
+  const maxPostPage = 10;
 
-  const { isLoading, data: issuedata } = useQuery<[IssueList]>(['issuelist'], () =>
-    fetcher({
-      queryKey: `http://localhost:8080/issues/page?projectId=1&page=0`,
-    })
+  useEffect(() => {
+    if (currentPage < maxPostPage) {
+      const nextPage = currentPage + 1;
+      queryClint.prefetchQuery(['issueList', nextPage], () => fetchPage(projectId, nextPage));
+    }
+  }, [currentPage, queryClint, projectId]);
+
+  const { isLoading, data: issuedata } = useQuery<IssueList>(
+    ['issueList', currentPage],
+    () =>
+      fetcher({
+        queryKey: `${BACKEND_URL}/issues/page?projectId=${projectId}&page=${currentPage}`,
+      }),
+    { keepPreviousData: true }
   );
 
-  const data: DataType[] = [];
-  for (let i = 0; i < 10; i++) {
-    data.push({
-      key: i,
-      issue: `이슈 제목 ${i}`,
-      version: `${i}`,
-      name: `사람 이름 ${i}`,
-    });
-  }
+  const [issueList, setIssueList] = useState<IssueDataType[]>([]);
 
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  useEffect(() => {
+    if (issuedata && issuedata.issues) {
+      const newList = issuedata?.issues.map(issue => ({
+        key: issue.id,
+        issue: issue.title,
+        version: issue.id,
+        name: issue.writerName,
+      }));
+      setIssueList(newList);
+    }
+  }, [issuedata]);
+
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
 
-  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-  };
-  const onRow = (record: DataType) => {
+  const onRow = (record: IssueDataType) => {
     return {
       onClick: (): void => {
         navigate(`${record.key}`);
@@ -83,6 +85,9 @@ const Issue = () => {
   };
 
   let contents = null;
+  if (isLoading) {
+    return <h3>Loading....</h3>;
+  }
 
   switch (projectInfoMenuOpen.state) {
     case 'hasValue':
@@ -92,14 +97,25 @@ const Issue = () => {
             <div style={{ padding: '1rem' }}>
               <IssueHeader>이슈</IssueHeader>
               <IssueTable>
-                <Table
-                  rowSelection={rowSelection}
-                  columns={columns}
-                  dataSource={data}
-                  onRow={onRow}
-                  pagination={{ pageSize: 8 }}
-                />
+                <Table columns={columns} dataSource={issueList} onRow={onRow} pagination={false} />
               </IssueTable>
+              <button
+                disabled={currentPage <= 0}
+                onClick={() => {
+                  setCurrentPage(prev => prev - 1);
+                }}
+              >
+                이전 페이지
+              </button>
+              <span>Page {currentPage}</span>
+              <button
+                disabled={issuedata?.finalPage === true}
+                onClick={() => {
+                  setCurrentPage(prev => prev + 1);
+                }}
+              >
+                다음 페이지
+              </button>
               <IssueCreateBtn>
                 <Button type="primary" onClick={goCreateIssue}>
                   새 이슈 생성
