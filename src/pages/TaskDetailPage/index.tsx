@@ -8,12 +8,13 @@ import {
   ComponentWrapper,
   ContentsText,
   HeaderText,
+  ProfileImg,
   TitleNEdit,
   WorkerName,
   WorkerNStatus,
   Wrapper,
 } from '@/pages/TaskDetailPage/styles.tsx';
-import { Button, Image, Select } from 'antd';
+import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '@/images/defaultAvatar.png';
 import { QueryClient, useMutation, useQuery } from 'react-query';
@@ -172,12 +173,8 @@ const TaskDetailPage = () => {
               </ButtonDiv>
             </TitleNEdit>
             <WorkerNStatus>
-              <Image
+              <ProfileImg
                 src={selectedTask.workerThumbnailImg !== null ? selectedTask.workerThumbnailImg : defaultImage}
-                style={{ borderRadius: '100%' }}
-                preview={false}
-                width={'2vw'}
-                height={'2vw'}
               />
               <WorkerName>
                 {' '}

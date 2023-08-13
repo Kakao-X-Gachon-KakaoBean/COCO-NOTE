@@ -7,6 +7,7 @@ import {
   ContentsText,
   HeaderText,
   PreviewAvatarDiv,
+  ProfileImg,
   TaskDiv,
   TaskText,
   TitleDiv,
@@ -15,7 +16,7 @@ import {
   WorkerNStatus,
   Wrapper,
 } from '@/pages/SprintDetailPage/styles.tsx';
-import { Button, Image, Select } from 'antd';
+import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import defaultImage from '@/images/defaultAvatar.png';
@@ -202,13 +203,7 @@ const SprintDetailPage = () => {
                     <TitleDiv>{task.taskTitle}</TitleDiv>
                     <WorkerNStatus>
                       <PreviewAvatarDiv>
-                        <Image
-                          src={task.workerThumbnailImg !== null ? task.workerThumbnailImg : defaultImage}
-                          style={{ borderRadius: '100%' }}
-                          preview={false}
-                          width={'2vw'}
-                          height={'2vw'}
-                        />
+                        <ProfileImg src={task.workerThumbnailImg !== null ? task.workerThumbnailImg : defaultImage} />
                       </PreviewAvatarDiv>
                       <WorkerName>
                         {' '}

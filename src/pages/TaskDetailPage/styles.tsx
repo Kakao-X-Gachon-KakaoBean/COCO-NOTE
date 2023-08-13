@@ -68,3 +68,9 @@ export const ButtonDiv = styled.div`
   display: flex;
   gap: 1vw;
 `;
+
+export const ProfileImg = styled.img`
+  width: 2vw;
+  height: 4vh;
+  border-radius: 100%;
+`;

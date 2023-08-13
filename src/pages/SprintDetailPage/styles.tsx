@@ -106,3 +106,9 @@ export const HorizontalLine = styled.div`
 export const MemberList = styled.div`
   margin: 3vh 0 5vh 0;
 `;
+
+export const ProfileImg = styled.img`
+  width: 2vw;
+  height: 4vh;
+  border-radius: 100%;
+`;
