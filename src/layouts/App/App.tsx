@@ -1,8 +1,9 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
-import ReleaseNoteDetail from '@components/ReleaseNote/ReleaseNoteDetail';
 import AddProject from '@components/AddProject';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -16,9 +17,15 @@ const EditIssue = loadable(() => import('@components/EditIssue'));
 const CreateIssue = loadable(() => import('@components/CreateIssue'));
 const ProjectInfo = loadable(() => import('@pages/ProjectInfo'));
 const ReleaseNotePage = loadable(() => import('@pages/ReleaseNotePage'));
-const WorkSpacePage = loadable(() => import('@pages/WorkSpacePage'));
-const WorkSpaceDetail = loadable(() => import('@pages/WorkSpaceDetail'));
+const SingleManuscript = loadable(() => import('@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript'));
+const SingleReleaseNote = loadable(() => import('@components/ReleaseNote/ReleaseNoteDetail/SingleReleaseNote'));
+const SprintPage = loadable(() => import('@pages/SprintPage'));
+const SprintDetailPage = loadable(() => import('@pages/SprintDetailPage'));
+const TaskDetailPage = loadable(() => import('@pages/TaskDetailPage'));
+const SprintEditPage = loadable(() => import('@pages/SprintEditPage'));
+const TaskEditPage = loadable(() => import('@pages/TaskEditPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
+const InvitationPage = loadable(() => import('@pages/InvitationPage'));
 
 function App() {
   return (
@@ -28,29 +35,50 @@ function App() {
           <Route path="/" element={<Navigate replace to="/initial" />} />
           <Route path="/main" element={<Main />} />
           <Route path="/initial" element={<InitialPage />} />
-          <Route path={'/project/:projectId/manage'} element={<ManagePage />} />
+          <Route path={'/projects/:projectId/manage'} element={<ManagePage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/project/:projectId/issue/*">
+          <Route path="/projects/:projectId/issues/*">
             <Route index element={<IssuePage />} />
             <Route path="createIssue" element={<CreateIssue />} />
             <Route path=":issueId" element={<IssueDetail />} />
             <Route path=":issueId/editIssue" element={<EditIssue />} />
           </Route>
-          <Route path="/project/:projectId/projectinfo" element={<ProjectInfo />} />
-          <Route path="/project/:projectId/releasenote/*">
+          <Route path="/projects/:projectId/projectinfo" element={<ProjectInfo />} />
+          <Route path="/projects/:projectId/releasenotes/*">
             <Route index element={<ReleaseNotePage />} />
-            <Route path=":releaseId" element={<ReleaseNoteDetail />} />
-            <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
+            <Route path="manuscripts/:releaseId" element={<SingleManuscript />} />
+            <Route path="manuscripts/:releaseId/edit" element={<ReleaseNoteEdit />} />
+            <Route path=":releaseId" element={<SingleReleaseNote />} />
           </Route>
-          <Route path="/project/:projectId/workspace/*">
-            <Route index element={<WorkSpacePage />} />
-            <Route path=":workspaceId" element={<WorkSpaceDetail />} />
+          <Route path="/projects/:projectId/sprints/*">
+            <Route index element={<SprintPage />} />
+            <Route path=":sprintId" element={<SprintDetailPage />} />
+            <Route path="tasks/:taskId" element={<TaskDetailPage />} />
+            <Route path=":sprintId/edit" element={<SprintEditPage />} />
+            <Route path="tasks/:taskId/edit" element={<TaskEditPage />} />
+          </Route>
+          <Route path="/invitations/*">
+            <Route index element={<InvitationPage />} />
+            <Route path=":projectkey" element={<InvitationPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
       <AddProject />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      결
     </>
   );
 }

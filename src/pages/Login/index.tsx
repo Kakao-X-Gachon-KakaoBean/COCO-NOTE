@@ -18,71 +18,70 @@ import {
   Vertical,
   Wrapper,
 } from '@pages/Login/styles.tsx';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@components/Menu';
-import SearchEmail from '@components/SearchEmail';
-import SearchPassword from '@components/PasswordModal';
 import useInput from '../../hooks/useInput.ts';
-import { IUser } from '@states/UserState.ts';
+import { LoginResponse, LoginUser } from '@states/userState.ts';
 import { useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import SearchPassword from '@components/SearchPassword';
+import { ToastContainer } from 'react-toastify';
+import { setCookie } from '@utils/cookie.ts';
+import { logIn } from '@/Api/User/Login.ts';
 
 const LogIn = () => {
-  const baseUrl = '123';
-
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-
-  const [name, onChangeName] = useInput('');
-  const [birth, onChangeBirth] = useInput('');
-  const [checkEmailModal, setCheckEmailModal] = useState(false);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-
-  const onCloseEmailModal = useCallback(() => {
-    setCheckEmailModal(prev => !prev);
-  }, []);
-
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
+  const navigate = useNavigate();
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
   }, []);
 
-  const LoginMutation = useMutation<IUser, AxiosError, { email: string; password: string }>(
-    'user',
-    data =>
-      axios
-        .post('123', data, {
-          withCredentials: true,
-        })
-        .then(response => response.data),
-    {
-      onMutate() {},
-      onSuccess(data) {
-        localStorage.setItem('accessToken', data?.accessToken);
-      },
-      onError(error) {
-        // setLogInError(error.response?.data?.code === 401);
-        alert('로그인에 실패하였습니다.');
-      },
-    }
-  );
+  const logInData: LoginUser = {
+    email,
+    password,
+  };
 
-  //로컬 로그인
+  const logInMutation = useMutation<LoginResponse, AxiosError, LoginUser>('logIn', logIn, {
+    onSuccess: data => {
+      localStorage.setItem('accessToken', data?.accessToken);
+      setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
+      navigate('/main');
+    },
+    onError: () => {
+      alert('이메일과 비밀번호가 일치하지 않습니다.');
+    },
+  });
+
   const onSubmit = useCallback(
     (e: ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
-      LoginMutation.mutate({ email, password });
+      logInMutation.mutate(logInData);
     },
-    [email, password, LoginMutation]
+    [logInData, logInMutation]
   );
 
-  //로그인 정보 있을 시 메인으로 리다이렉트
-  // if (isLogin) {
-  //   return <Redirect to={"/main"} />;
-  // }
+  if (isLogin) {
+    return <Navigate replace to={'/main'} />;
+  }
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Wrapper>
         <Header>
           <Link to="/main">COCO:NOTE</Link>
@@ -108,10 +107,6 @@ const LogIn = () => {
                 display: 'flex',
               }}
             >
-              <SearchBtn type="button" onClick={onCloseEmailModal}>
-                이메일 찾기
-              </SearchBtn>
-              <div>/</div>
               <SearchBtn type="button" onClick={onClosePasswordModal}>
                 비밀번호 변경
               </SearchBtn>
@@ -126,39 +121,18 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn href={`${baseUrl}/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
+          <GoogleBtn href={`http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn href={`${baseUrl}/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
+          <KakaoBtn href={`http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>
         </SocialLogin>
-        {checkEmailModal && (
-          <Menu show={checkEmailModal} onCloseModal={onCloseEmailModal}>
-            {
-              <SearchEmail
-                name={name}
-                onChangeName={onChangeName}
-                onCloseEmailModal={onCloseEmailModal}
-                birth={birth}
-                onChangeBirth={onChangeBirth}
-              />
-            }
-          </Menu>
-        )}
         {checkPasswordModal && (
           <Menu show={checkPasswordModal} onCloseModal={onClosePasswordModal}>
-            {
-              <SearchPassword
-                name={email}
-                onChangeName={onChangeName}
-                onClosePasswordModal={onClosePasswordModal}
-                birth={birth}
-                onChangeBirth={onChangeBirth}
-              />
-            }
+            <SearchPassword onClosePasswordModal={onClosePasswordModal} />
           </Menu>
         )}
       </Wrapper>

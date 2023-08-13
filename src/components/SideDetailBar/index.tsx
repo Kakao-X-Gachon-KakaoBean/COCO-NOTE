@@ -6,15 +6,14 @@ import {
   Text,
   ViewAll,
   Wrapper,
-} from '@components/SideDetailBar/styles.tsx';
+} from '@/components/SideDetailBar/styles.tsx';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
-import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
-import ReleaseNoteExam from '@components/ReleaseNote/ReleaseNoteExam';
+import ReleaseNoteTree from '@/components/ReleaseNote/ReleaseNoteTree';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
@@ -24,11 +23,11 @@ const SideDetailBar = () => {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to={`/project/${selectedProject.projectId}/projectinfo`}>프로젝트 정보</Link>,
+      label: <Link to={`/projects/${selectedProject.projectId}/projectinfo`}>프로젝트 정보</Link>,
     },
     {
       key: '2',
-      label: <Link to={`/project/${selectedProject.projectId}/manage`}>프로젝트 관리</Link>,
+      label: <Link to={`/projects/${selectedProject.projectId}/manage`}>멤버 관리</Link>,
     },
   ];
   return (
@@ -50,22 +49,21 @@ const SideDetailBar = () => {
           <Text>릴리즈 노트</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/project/${selectedProject.projectId}/releasenote`);
+              navigate(`/projects/${selectedProject.projectId}/releasenotes`);
             }}
           >
             전체보기
           </ViewAll>
         </HorizonText>
         <HorizontalLine />
-        {selectedProject.projectTitle === '테스트 프로젝트' ? <ReleaseNoteTree /> : <ReleaseNoteExam />}
-        {/*<ReleaseNoteTree />*/}
+        <ReleaseNoteTree />
       </ScrollWrapper>
       <ScrollWrapper>
         <HorizonText>
           <Text>작업 관리</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/project/${selectedProject.projectId}/workspace`);
+              navigate(`/projects/${selectedProject.projectId}/sprints`);
             }}
           >
             전체보기
@@ -78,7 +76,7 @@ const SideDetailBar = () => {
           <Text>이슈</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/project/${selectedProject.projectId}/issue`);
+              navigate(`/projects/${selectedProject.projectId}/issues`);
             }}
           >
             전체보기

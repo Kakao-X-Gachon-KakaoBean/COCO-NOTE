@@ -1,47 +1,73 @@
-import { Input, Modal } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
-import { AddProjectClickState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useState } from 'react';
+import { AddProjectClickState, ProjectInfo } from '@/states/ProjectState.ts';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { IProjectValue } from '@layouts/Main/type.ts';
+import { useMutation, useQueryClient } from 'react-query';
+import axios, { AxiosError } from 'axios';
 
 const AddProject = () => {
-  const [projectList, setProjectList] = useRecoilState(projectValueState);
   const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);
-  const [, setSelectedProject] = useRecoilState(SelectedProjectState);
   const [title, setTitle] = useState('');
-  const [contents, setContents] = useState('');
+  const [content, setContent] = useState('');
   const { TextArea } = Input;
 
-  const handleOk = () => {
-    if (title && contents) {
-      addProject();
-      setIsAddProject(false);
-      setTitle('');
-      setContents('');
-      toast.success('프로젝트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
-    } else {
-      toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요'); // toast.error로 실패 메시지 표시
-    }
-  };
+  const queryClient = useQueryClient();
 
   const handleCancel = () => {
     setTitle('');
-    setContents('');
+    setContent('');
     setIsAddProject(false);
   };
 
-  const addProject = () => {
-    const newProject: IProjectValue = {
-      projectId: projectList.length + 1,
-      projectTitle: title,
-      projectContent: contents,
-    };
-    setProjectList(prevProjectList => [...prevProjectList, newProject]);
-    setSelectedProject(newProject);
-  };
+  const mutation = useMutation<ProjectInfo, AxiosError, { title: string; content: string }>(
+    'SubmitProject',
+    data =>
+      axios
+        .post(`http://localhost:8080/projects`, data, {
+          withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        toast.success('프로젝트가 생성 되었습니다.');
+        queryClient.invalidateQueries('projectList');
+        setTitle('');
+        setContent('');
+        setIsAddProject(false);
+      },
+      onError(error) {
+        console.log(error);
+        toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요');
+      },
+    }
+  );
+
+  const onSubmitProject = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      mutation.mutate({ title, content });
+    },
+    [title, content, mutation]
+  );
+
   return (
-    <Modal title="새 프로젝트 생성" open={isAddProject} onOk={handleOk} onCancel={handleCancel}>
+    <Modal
+      title="새 프로젝트 생성"
+      open={isAddProject}
+      onCancel={handleCancel}
+      footer={
+        <Button type="primary" style={{ width: '5rem' }} onClick={onSubmitProject}>
+          전송
+        </Button>
+      }
+      centered
+    >
       <TextArea
         value={title}
         autoSize={{ minRows: 1, maxRows: 10 }}
@@ -50,9 +76,9 @@ const AddProject = () => {
         style={{ marginBottom: '2rem', marginTop: '3rem' }}
       />
       <TextArea
-        value={contents}
+        value={content}
         autoSize={{ minRows: 3, maxRows: 10 }}
-        onChange={e => setContents(e.target.value)}
+        onChange={e => setContent(e.target.value)}
         placeholder="프로젝트 설명"
         style={{ marginBottom: '2rem' }}
       />

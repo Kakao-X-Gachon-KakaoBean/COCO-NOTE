@@ -1,10 +1,47 @@
 import { atom, RecoilState } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
+const { persistAtom } = recoilPersist();
 interface IProjectValue {
   projectId: number;
   projectTitle: string;
   projectContent: string;
+}
+
+export interface ProjectKey {
+  projectSecretKey: string;
+}
+
+export interface ProjectInfo {
+  title: string;
+  content: string;
+}
+
+export interface EditProject {
+  newTitle: string;
+  newContent: string;
+}
+
+export interface ProjectData {
+  projectTitle: string;
+  projectContent: string;
+  projectMembers?: Array<ProjectMember<string>>;
+}
+
+export interface ProjectMember<T = string> {
+  projectMemberId: number;
+  projectMemberName: string;
+  projectMemberEmail: string;
+  projectMemberRole: T;
+}
+
+export interface MemberRole {
+  modifyProjectMemberId: number;
+  projectRole: 'ADMIN' | 'MEMBER' | 'VIEWER' | 'LEFT_MEMBER' | 'INVITED_PERSON';
+}
+
+export interface ModifyMember {
+  modifyProjectMemberRole: MemberRole[];
 }
 
 const initialProjectValue: IProjectValue[] = [
@@ -19,11 +56,6 @@ const initialProjectValue: IProjectValue[] = [
     projectContent: '프로젝트에 대한 설명입니다.',
   },
 ];
-
-const { persistAtom } = recoilPersist({
-  key: 'recoil-persist',
-  storage: localStorage,
-});
 
 export const projectValueState: RecoilState<IProjectValue[]> = atom({
   key: 'ProjectValueState',
@@ -44,4 +76,5 @@ export const projectInfoMenuOpenState = atom({
 export const SelectedProjectState: RecoilState<IProjectValue> = atom({
   key: 'SelectedProject',
   default: { ...initialProjectValue[0] },
+  effects_UNSTABLE: [persistAtom],
 });

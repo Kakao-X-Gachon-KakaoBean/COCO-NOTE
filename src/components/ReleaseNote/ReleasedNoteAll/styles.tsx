@@ -4,10 +4,13 @@ const { Paragraph, Text } = Typography;
 export const ReleasedNoteDiv = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2% 15% 5% 10%;
+  padding: 2% 9% 5% 9%;
 `;
 
 export const ReleasedNoteParagraph = styled(Paragraph)`
+  margin-left: 5%;
+  margin-top: 3%;
+  padding-right: 5%;
   font-family: SCDream4;
 `;
 

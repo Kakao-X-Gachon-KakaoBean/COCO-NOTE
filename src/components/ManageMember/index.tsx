@@ -34,14 +34,18 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
-import axios, { AxiosError } from 'axios';
-import { useMutation } from 'react-query';
-import { MemberState } from '@states/MemberState.ts';
-import { projectInfoMenuOpenState, projectValueState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { AxiosError } from 'axios';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { EditProject, MemberRole, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
-import { IProjectValue } from '@layouts/Main/type.ts';
 import { toast } from 'react-toastify';
+import fetcher from '@utils/fetcher.ts';
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/Api/Project/ManagePage.ts';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -103,41 +107,59 @@ const ManageMember = () => {
   const [projectModalOpen, SetProjectModalOpen] = useState(false);
   const [email, onChangeEmail, setEmail] = useInput('');
   const [emails, setEmails] = useState<string[]>([]);
-  const [projectList, setProjectList] = useRecoilState(projectValueState);
-  const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
-  const { TextArea } = Input;
-  const [title, setTitle] = useState(selectedProject.projectTitle);
-  const [content, setContent] = useState(selectedProject.projectContent);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [modifiedData, setModifiedData] = useState<Array<{ modifyProjectMemberId: number; projectRole: string }>>([]);
 
-  const [rows, setRows] = useState([
-    { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
-    { name: '조연겸', email: 'j949854@gmail.com', position: '방문자' },
-    { name: '김윤호', email: 'j949854@gmail.com', position: '방문자' },
-    { name: '안수빈', email: 'j949854@gmail.com', position: '멤버' },
-    { name: '김희찬', email: 'j949854@gmail.com', position: '멤버' },
-    { name: '인범시치', email: 'j949854@gmail.com', position: '방문자' },
-    {
-      name: 'Ice cream sandwich',
-      email: 'j949854@gmail.com',
-      position: '방문자',
-    },
-    { name: 'Jelly Bean', email: 'j949854@gmail.com', position: '멤버' },
-    { name: 'KitKat', email: 'j949854@gmail.com', position: '멤버' },
-    { name: 'Lollipop', email: 'j949854@gmail.com', position: '멤버' },
-  ]);
+  const { TextArea } = Input;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  const projectId: string | undefined = useParams().projectId;
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
+    fetcher({
+      queryKey: `${BACKEND_URL}/projects/${projectId}`,
+    })
+  );
+  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
+
+  const [memberList, setMemberList] = useState<Array<{ name: string; email: string; position: string }>>([]);
+
+  useEffect(() => {
+    if (projectData && projectData.projectMembers) {
+      const qq = projectData.projectMembers.map(member => ({
+        id: member.projectMemberId,
+        name: member.projectMemberName,
+        email: member.projectMemberEmail,
+        position: member.projectMemberRole,
+      }));
+      setMemberList(qq);
+    }
+  }, [projectData]);
 
   const SelectOption = [
     {
-      value: '관리자',
-      label: '관리자',
+      value: 'ADMIN',
+      label: 'ADMIN',
     },
     {
-      value: '멤버',
-      label: '멤버',
+      value: 'MEMBER',
+      label: 'MEMBER',
     },
     {
-      value: '구경',
-      label: '구경',
+      value: 'VIEWER',
+      label: 'VIEWER',
+    },
+    {
+      value: 'INVITED_PERSON',
+      label: 'INVITED_PERSON',
+    },
+    {
+      value: 'LEFT_MEMBER',
+      label: 'LEFT_MEMBER',
     },
   ];
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
@@ -153,16 +175,35 @@ const ManageMember = () => {
   }, [projectInfoMenuOpen]);
 
   const handleChange = (value: { value: string; label: React.ReactNode }, i: number) => {
-    const newRows = [...rows];
-    newRows[i].position = value.value;
-    setRows(newRows);
-    console.log(rows);
-  };
+    const newRows = memberList
+      .filter((row, index) => {
+        if (i === index) {
+          const newRole = value.value;
+          if (newRole !== row.position) {
+            return true;
+          }
+        }
+        return false;
+      })
+      .map(row => {
+        return {
+          modifyProjectMemberId: row.id,
+          projectRole: row.position,
+        };
+      });
 
-  const handleDelete = (i: number) => {
-    const newRows = [...rows];
-    newRows.splice(i, 1);
-    setRows(newRows);
+    const updatedRows = [...memberList];
+    updatedRows[i].position = value.value;
+    setMemberList(updatedRows);
+
+    setModifiedData(prevData => {
+      const newData = prevData.filter(item => item.modifyProjectMemberId !== newRows[0].modifyProjectMemberId);
+      newData.push({
+        modifyProjectMemberId: updatedRows[i].id,
+        projectRole: updatedRows[i].position,
+      });
+      return newData;
+    });
   };
 
   const handleInvitation = () => {
@@ -173,25 +214,91 @@ const ManageMember = () => {
     SetProjectModalOpen(false);
   };
 
-  const mutation = useMutation<MemberState, AxiosError, { email: string }>(
-    'SubmitEmail',
-    data =>
-      axios
-        .post(`localhost:3000/local/login`, data, {
-          withCredentials: true,
-        })
-        .then(response => response.data),
+  const EditProjectInfoMutation = useMutation<'정보 수정 성공' | '정보 수정 실패', AxiosError, EditProject>(
+    'editProjectInfo',
+    (data: EditProject) => editProjectInfo(projectId, data), // 함수를 반환하도록 수정
     {
-      onMutate() {},
-      onSuccess(data) {
-        setEmail('');
+      onSuccess: data => {
+        if (data === '정보 수정 성공') {
+          toast(message('정보를 수정하였습니다.'), {
+            type: 'success',
+          });
+          queryClient.invalidateQueries('projectinfo');
+          queryClient.invalidateQueries('projectList');
+          setTitle('');
+          setContent('');
+          SetProjectModalOpen(false);
+        } else {
+          toast(message('정보 수정에 실패하였습니다.'), { type: 'error' });
+        }
       },
-      onError(error) {
-        console.log(error);
-        alert('전송에 실패하였습니다.');
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
+
+  const ModifyMemberRole = useMutation<'권한 수정 성공' | '권한 수정 실패', AxiosError, ModifyMember>(
+    'modifyMemberRole',
+    (data: ModifyMember) => modifyMemberRole(projectId, data), // 함수를 반환하도록 수정
+    {
+      onSuccess: data => {
+        if (data === '권한 수정 성공') {
+          toast(message('권한을 수정하였습니다.'), {
+            type: 'success',
+          });
+          setModifiedData([]);
+          queryClient.invalidateQueries('projectinfo');
+        } else {
+          toast(message('권한 수정에 실패하였습니다.'), { type: 'error' });
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
+  const modifyMember = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      ModifyMemberRole.mutate({ modifyProjectMemberRole: modifiedData });
+    },
+    [modifiedData, ModifyMemberRole]
+  );
+
+  const editProject = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      EditProjectInfoMutation.mutate({ newTitle: title, newContent: content });
+    },
+    [title, content, EditProjectInfoMutation]
+  );
+
+  const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
+    'deleteMember',
+    () => deleteMember(projectId), // 함수를 반환하도록 수정
+    {
+      onSuccess: data => {
+        if (data === '삭제 성공') {
+          toast(message('삭제 성공했습니다.'), {
+            type: 'success',
+          });
+          queryClient.invalidateQueries('projectinfo');
+          navigate('/');
+        } else {
+          toast(message('삭제 실패하였습니다.'), { type: 'error' });
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
+  const deleteProject = useCallback(() => {
+    deleteMutation.mutate();
+  }, [deleteMutation]);
 
   const addEmail = () => {
     const newEmail = [...emails, email];
@@ -205,16 +312,42 @@ const ManageMember = () => {
     setEmails(newEmails);
   };
 
+  const inviteMemberMutation = useMutation<
+    '멤버 초대 성공' | '멤버 초대 실패',
+    AxiosError,
+    { invitedMemberEmails: string[] }
+  >(
+    'inviteMember',
+    (data: { invitedMemberEmails: string[] }) => inviteMember(projectId, data), // 함수를 반환하도록 수정
+    {
+      onSuccess: data => {
+        if (data === '멤버 초대 성공') {
+          toast(message('초대를 완료했습니다.'), {
+            type: 'success',
+          });
+          setEmail('');
+          setEmails([]);
+          SetInvitationModalOpen(false);
+        } else {
+          toast(message('초대에 실패하였습니다.'), { type: 'error' });
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
   //이메일로 초대 보내기
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
-      mutation.mutate({ email });
+      inviteMemberMutation.mutate({ invitedMemberEmails: emails });
     },
-    [email, mutation]
+    [emails, inviteMemberMutation]
   );
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - memberList.length) : 0;
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -225,36 +358,9 @@ const ManageMember = () => {
     setPage(0);
   };
 
-  const modifyProject = () => {
-    const newProject: IProjectValue = {
-      ...selectedProject, // Keep other properties of the selected project unchanged
-      projectTitle: title,
-      projectContent: content,
-    };
-    const selectedIndex = projectList.findIndex(project => project.projectId === selectedProject.projectId);
-
-    // Create a new array with the modified project
-    const updatedProjectList = [...projectList];
-    updatedProjectList[selectedIndex] = newProject;
-
-    // Update the entire projectValueState with the new array
-    setProjectList(updatedProjectList);
-    setSelectedProject(newProject);
-  };
-
-  const handleOk = () => {
-    if (title && content && (title !== selectedProject.projectTitle || content !== selectedProject.projectContent)) {
-      modifyProject();
-      SetProjectModalOpen(false);
-      toast.success('프로젝트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
-    } else {
-      toast.error('프로젝트 명과 프로젝트 설명을 다시 확인해주세요'); // toast.error로 실패 메시지 표시
-    }
-  };
-
   return (
     <>
-      {isVisible ? (
+      {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
             <Button type="primary" shape="circle" icon={<CloseOutlined />} />
@@ -269,11 +375,11 @@ const ManageMember = () => {
             <ProjectBody>
               <ProjectBodyTitle>
                 <div>프로젝트 이름</div>
-                <div>{selectedProject.projectTitle}</div>
+                <div>{projectData?.projectTitle}</div>
               </ProjectBodyTitle>
               <ProjectBodyExplain>
                 <div>프로젝트 설명</div>
-                <div>{selectedProject.projectContent}</div>
+                <div>{projectData?.projectContent}</div>
               </ProjectBodyExplain>
             </ProjectBody>
             <ProjectSubMit></ProjectSubMit>
@@ -291,7 +397,7 @@ const ManageMember = () => {
                 >
                   멤버 추가
                 </Button>
-                <Button type="primary" style={{ color: 'white' }} size={'large'}>
+                <Button type="primary" style={{ color: 'white' }} size={'large'} onClick={modifyMember}>
                   멤버 권한 저장
                 </Button>
               </MemberHeaderRight>
@@ -307,31 +413,34 @@ const ManageMember = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
-                      (row, i) => (
-                        <TableRow key={row.name}>
-                          <TableCell component="th" scope="row">
-                            {row.name}
-                          </TableCell>
-                          <TableCell style={{ width: 300 }} align="center">
-                            {row.email}
-                          </TableCell>
-                          <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
-                            <Select
-                              labelInValue
-                              defaultValue={{
-                                value: row.position,
-                                label: row.position,
-                              }}
-                              style={{ width: 80, marginRight: 10 }}
-                              onChange={value => handleChange(value, i)}
-                              options={SelectOption}
-                            />
-                            <CloseOutlined onClick={() => handleDelete(i)} />
-                          </TableCell>
-                        </TableRow>
-                      )
-                    )}
+                    {(rowsPerPage > 0
+                      ? memberList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : memberList
+                    ).map((memberList, i) => (
+                      <TableRow key={memberList.name}>
+                        <TableCell component="th" scope="row">
+                          {memberList.name}
+                          {memberList.position === 'ADMIN' && (
+                            <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
+                          )}
+                        </TableCell>
+                        <TableCell style={{ width: 300 }} align="center">
+                          {memberList.email}
+                        </TableCell>
+                        <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
+                          <Select
+                            labelInValue
+                            defaultValue={{
+                              value: memberList.position,
+                              label: memberList.position,
+                            }}
+                            style={{ width: 100, marginRight: 10 }}
+                            onChange={value => handleChange(value, i)}
+                            options={SelectOption}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
                     {emptyRows > 0 && (
                       <TableRow style={{ height: 53 * emptyRows }}>
                         <TableCell colSpan={6} />
@@ -343,7 +452,7 @@ const ManageMember = () => {
                       <TablePagination
                         rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                         colSpan={3}
-                        count={rows.length}
+                        count={memberList.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         SelectProps={{
@@ -361,7 +470,7 @@ const ManageMember = () => {
                 </Table>
               </TableContainer>
             </MemberList>
-            <Button type="primary" danger size={'large'}>
+            <Button key="submit" onClick={deleteProject}>
               프로젝트 삭제
             </Button>
           </MemberSection>
@@ -400,7 +509,18 @@ const ManageMember = () => {
               </Button>
             </div>
           </Modal>
-          <Modal title="프로젝트 정보 변경" open={projectModalOpen} onOk={handleOk} onCancel={handleProject}>
+          <Modal
+            title="프로젝트 정보 변경"
+            open={projectModalOpen}
+            onCancel={handleProject}
+            footer={
+              <div>
+                <Button key="submit" style={{ width: '5rem' }} onClick={editProject}>
+                  변경하기
+                </Button>
+              </div>
+            }
+          >
             <TextArea
               value={title}
               autoSize={{ minRows: 1, maxRows: 10 }}
