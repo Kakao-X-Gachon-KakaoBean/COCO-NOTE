@@ -44,7 +44,7 @@ const ReleaseNoteTree = () => {
         ]);
       },
       onError: () => {
-        console.log('오류가 발생했습니다.');
+        alert('오류가 발생했습니다.');
       },
     }
   );
