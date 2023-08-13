@@ -52,8 +52,8 @@ export const Text = styled.div`
 `;
 
 export const WorkerNStatus = styled.div`
-  width: 14vw;
-  margin-bottom: 3vh;
+  width: 20vw;
+  margin-bottom: 5vh;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -61,5 +61,10 @@ export const WorkerNStatus = styled.div`
 `;
 
 export const WorkerName = styled.div`
-  width: 3vw;
+  width: 8vw;
+`;
+
+export const ButtonDiv = styled.div`
+  display: flex;
+  gap: 1vw;
 `;

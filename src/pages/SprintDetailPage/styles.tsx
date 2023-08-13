@@ -89,7 +89,12 @@ export const WorkerNStatus = styled.div`
 `;
 
 export const WorkerName = styled.div`
-  width: 5vw;
+  width: 10vw;
+`;
+
+export const ButtonDiv = styled.div`
+  display: flex;
+  gap: 1vw;
 `;
 
 export const HorizontalLine = styled.div`

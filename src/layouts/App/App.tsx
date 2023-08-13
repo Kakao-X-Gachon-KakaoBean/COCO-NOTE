@@ -4,6 +4,7 @@ import loadable from '@loadable/component';
 import ReleaseNoteDetail from '@components/ReleaseNote/ReleaseNoteDetail';
 import AddProject from '@components/AddProject';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
