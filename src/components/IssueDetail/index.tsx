@@ -5,71 +5,101 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
-import { useCallback, useState } from 'react';
+import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { useMutation, useQueryClient } from 'react-query';
-// import MDEditor from '@uiw/react-md-editor';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import MDEditor from '@uiw/react-md-editor';
 
 import {
   CommentBox,
   EachCommentBox,
   EachCommentBoxBody,
   EachCommentBoxHeader,
+  EachCommentBoxHeaderMember,
   IssueDetailBody,
   IssueDetailBox,
   IssueDetailComment,
   IssueDetailCommentInput,
+  IssueDetailFooter,
+  IssueDetailFooterMember,
   IssueDetailHeader,
   IssueDetailHeaderButtonSection,
   IssueDetailTop,
+  ProfileImg,
 } from '@/components/IssueDetail/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { Input } from '@/components/EditIssue/styles.tsx';
-import { IssueDetailtext } from '@/components/IssueDetail/mock.tsx';
+import { Comment, CreateComment, GetIssueDetail } from '@states/IssueState.ts';
+import { postComment } from '@/Api/Issue/Issue.ts';
+import { toast } from 'react-toastify';
+import fetcher from '@utils/fetcher.ts';
+import { BACKEND_URL } from '@/Api';
 
-interface Comment {
-  content: string;
-}
 const IssueDetail = () => {
-  const pageId: string | undefined = useParams().issueId;
+  const issueId: string | undefined = useParams().issueId;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const [value] = useState<string | undefined>(IssueDetailtext);
   const [comments, setComments] = useState<Comment[]>([]);
-  const [newComment, setNewComment] = useState('');
+  const [content, setContent] = useState('');
+
+  const { isLoading, data: detailIssue } = useQuery<GetIssueDetail>(['detatilIssue'], () =>
+    fetcher({
+      queryKey: `${BACKEND_URL}/issues/${issueId}`,
+    })
+  );
+
+  useEffect(() => {
+    if (detailIssue && detailIssue.comments) {
+      const newList = detailIssue?.comments.map(comment => ({
+        commentId: comment.commentId,
+        content: comment.content,
+        writerName: comment.writerName,
+        writtenTime: comment.writtenTime,
+        thumbnailImg: comment.thumbnailImg,
+      }));
+      setComments(newList);
+    }
+  }, [detailIssue]);
 
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
-  const addComment = () => {
-    const comment: Comment = { content: newComment };
-
-    setComments([...comments, comment]);
-
-    setNewComment('');
-  };
 
   const getBack = () => {
     navigate(-1);
   };
 
-  // const dee = () => {
-  //   console.log('delete');
-  // };
-
   const editIssue = () => {
     navigate(`editIssue`);
   };
 
-  // const {
-  //   isLoading,
-  //   isSuccess,
-  //   status,
-  //   isError,
-  //   index: MySurvey,
-  //   error,
-  // } = useQuery(['IssueList'], () => fetcher({ queryKey: `localhost:3000/2123` }));
+  const postCommentMutation = useMutation<'댓글 달기 완료' | '댓글 달기 실패', AxiosError, CreateComment>(
+    'post comment',
+    postComment,
+    {
+      onSuccess: data => {
+        if (data === '댓글 달기 완료') {
+          toast.success('댓글을 달았습니다.');
+          queryClient.invalidateQueries('detatilIssue');
+          setContent('');
+        } else {
+          toast.error('댓글 달기에 실패하였습니다.');
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
+  const submitComment: MouseEventHandler<HTMLButtonElement> = useCallback(
+    e => {
+      e.preventDefault();
+      postCommentMutation.mutate({ content, issueId });
+    },
+    [postCommentMutation, content, issueId]
+  );
 
   const DeleteAPI = useMutation<string, AxiosError, { IssueId: string }>(
     'DeleteIssue',
@@ -103,6 +133,10 @@ const IssueDetail = () => {
     [DeleteAPI]
   );
 
+  if (isLoading) {
+    return <h3>Loading....</h3>;
+  }
+
   let contents = null;
 
   switch (projectInfoMenuOpen.state) {
@@ -115,33 +149,43 @@ const IssueDetail = () => {
                 <Button onClick={getBack}>뒤로 가기</Button>
               </IssueDetailTop>
               <IssueDetailHeader>
-                <div>{pageId}번째 이슈</div>
+                <div>{detailIssue?.issue.title}</div>
                 <IssueDetailHeaderButtonSection>
                   <Button onClick={DeleteIssue}>삭제</Button>
                   <Button onClick={editIssue}>수정</Button>
                 </IssueDetailHeaderButtonSection>
               </IssueDetailHeader>
+              <IssueDetailFooter>
+                <IssueDetailFooterMember>
+                  <ProfileImg src={detailIssue?.issue.thumbnailImg} alt="썸네일" />
+                  <div>{detailIssue?.issue.writerName}</div>
+                </IssueDetailFooterMember>
+                <div>{detailIssue?.issue.writtenTime}</div>
+              </IssueDetailFooter>
               <IssueDetailBody>
-                {/*<div data-color-mode="light" style={{ padding: 15 }}>*/}
-                {/*  <MDEditor.Markdown source={value} style={{ fontFamily: 'SCDream4' }} />*/}
-                {/*</div>*/}
+                <div data-color-mode="light" style={{ padding: 15 }}>
+                  <MDEditor.Markdown source={detailIssue?.issue?.content} style={{ fontFamily: 'SCDream4' }} />
+                </div>
               </IssueDetailBody>
               <IssueDetailComment>
                 <IssueDetailCommentInput>
                   <Input
                     type="text"
-                    value={newComment}
-                    onChange={e => setNewComment(e.target.value)}
+                    value={content}
+                    onChange={e => setContent(e.target.value)}
                     placeholder="댓글을 달아주세요"
                   />
-                  <Button onClick={addComment}>Submit</Button>
+                  <Button onClick={submitComment}>Submit</Button>
                 </IssueDetailCommentInput>
                 <CommentBox>
                   {comments.map((comment, index) => (
                     <EachCommentBox key={index}>
                       <EachCommentBoxHeader>
-                        <div>작성자 이름</div>
-                        <div>작성 일자</div>
+                        <EachCommentBoxHeaderMember>
+                          <ProfileImg src={comment.thumbnailImg} alt="썸네일" />
+                          <div>{comment.writerName}</div>
+                        </EachCommentBoxHeaderMember>
+                        <div>{comment.writtenTime}</div>
                       </EachCommentBoxHeader>
                       <EachCommentBoxBody>{comment.content}</EachCommentBoxBody>
                     </EachCommentBox>
