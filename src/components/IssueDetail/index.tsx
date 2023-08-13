@@ -15,13 +15,17 @@ import {
   EachCommentBox,
   EachCommentBoxBody,
   EachCommentBoxHeader,
+  EachCommentBoxHeaderMember,
   IssueDetailBody,
   IssueDetailBox,
   IssueDetailComment,
   IssueDetailCommentInput,
+  IssueDetailFooter,
+  IssueDetailFooterMember,
   IssueDetailHeader,
   IssueDetailHeaderButtonSection,
   IssueDetailTop,
+  ProfileImg,
 } from '@/components/IssueDetail/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
@@ -77,6 +81,8 @@ const IssueDetail = () => {
       onSuccess: data => {
         if (data === '댓글 달기 완료') {
           toast.success('댓글을 달았습니다.');
+          queryClient.invalidateQueries('detatilIssue');
+          setContent('');
         } else {
           toast.error('댓글 달기에 실패하였습니다.');
         }
@@ -144,13 +150,18 @@ const IssueDetail = () => {
               </IssueDetailTop>
               <IssueDetailHeader>
                 <div>{detailIssue?.issue.title}</div>
-                <div>{detailIssue?.issue.writtenTime}</div>
-                <div>{detailIssue?.issue.writerName}</div>
                 <IssueDetailHeaderButtonSection>
                   <Button onClick={DeleteIssue}>삭제</Button>
                   <Button onClick={editIssue}>수정</Button>
                 </IssueDetailHeaderButtonSection>
               </IssueDetailHeader>
+              <IssueDetailFooter>
+                <IssueDetailFooterMember>
+                  <ProfileImg src={detailIssue?.issue.thumbnailImg} alt="썸네일" />
+                  <div>{detailIssue?.issue.writerName}</div>
+                </IssueDetailFooterMember>
+                <div>{detailIssue?.issue.writtenTime}</div>
+              </IssueDetailFooter>
               <IssueDetailBody>
                 <div data-color-mode="light" style={{ padding: 15 }}>
                   <MDEditor.Markdown source={detailIssue?.issue?.content} style={{ fontFamily: 'SCDream4' }} />
@@ -170,8 +181,10 @@ const IssueDetail = () => {
                   {comments.map((comment, index) => (
                     <EachCommentBox key={index}>
                       <EachCommentBoxHeader>
-                        <div>{comment.thumbnailImg}</div>
-                        <div>{comment.writerName}</div>
+                        <EachCommentBoxHeaderMember>
+                          <ProfileImg src={comment.thumbnailImg} alt="썸네일" />
+                          <div>{comment.writerName}</div>
+                        </EachCommentBoxHeaderMember>
                         <div>{comment.writtenTime}</div>
                       </EachCommentBoxHeader>
                       <EachCommentBoxBody>{comment.content}</EachCommentBoxBody>

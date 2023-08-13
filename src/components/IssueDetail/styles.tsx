@@ -22,6 +22,38 @@ export const IssueDetailHeader = styled.div`
     font-weight: bold;
   }
 `;
+export const IssueDetailFooter = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 2rem;
+  height: 3rem;
+  color: #747575;
+  background-color: #f4f8fc;
+  border-top: 1px solid #d7e4e5;
+  border-bottom: 1px solid #d7e4e5;
+  position: relative;
+`;
+
+export const IssueDetailFooterMember = styled.div`
+  display: flex;
+  align-items: center;
+
+  & div::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 15px;
+    margin-left: 1rem;
+    background-color: #747575;
+  }
+`;
+
+export const ProfileImg = styled.img`
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.3rem;
+`;
 export const IssueDetailHeaderButtonSection = styled.div`
   width: 8rem;
   display: flex;
@@ -56,16 +88,22 @@ export const EachCommentBox = styled.div`
 
 export const EachCommentBoxHeader = styled.div`
   margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: gray;
 
-  & div:first-child {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-bottom: 0.3rem;
-  }
   & div:last-child {
-    font-size: 0.8rem;
-    color: gray;
+    font-weight: bold;
+    padding: 0.3rem;
   }
 `;
 
-export const EachCommentBoxBody = styled.div``;
+export const EachCommentBoxHeaderMember = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: black;
+`;
+
+export const EachCommentBoxBody = styled.div`
+  padding: 0.3rem;
+`;

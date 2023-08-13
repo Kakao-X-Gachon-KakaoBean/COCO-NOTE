@@ -3,7 +3,7 @@ import { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
 import { Button, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/styles.tsx';
+import { IssueBottom, IssueButton, IssueCreateBtn, IssueHeader, IssueTable } from '@components/Issue/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
@@ -13,6 +13,8 @@ import { IssueDataType, IssueList } from '@states/IssueState.ts';
 import { useParams } from 'react-router';
 import { fetchPage } from '@/Api/Issue/Issue.ts';
 import { BACKEND_URL } from '@/Api';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const columns: ColumnsType<IssueDataType> = [
   {
@@ -99,23 +101,25 @@ const Issue = () => {
               <IssueTable>
                 <Table columns={columns} dataSource={issueList} onRow={onRow} pagination={false} />
               </IssueTable>
-              <button
-                disabled={currentPage <= 0}
-                onClick={() => {
-                  setCurrentPage(prev => prev - 1);
-                }}
-              >
-                이전 페이지
-              </button>
-              <span>Page {currentPage}</span>
-              <button
-                disabled={issuedata?.finalPage === true}
-                onClick={() => {
-                  setCurrentPage(prev => prev + 1);
-                }}
-              >
-                다음 페이지
-              </button>
+              <IssueBottom>
+                <IssueButton
+                  disabled={currentPage <= 0}
+                  onClick={() => {
+                    setCurrentPage(prev => prev - 1);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </IssueButton>
+                <span>Page {currentPage}</span>
+                <IssueButton
+                  disabled={issuedata?.finalPage === true}
+                  onClick={() => {
+                    setCurrentPage(prev => prev + 1);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </IssueButton>
+              </IssueBottom>
               <IssueCreateBtn>
                 <Button type="primary" onClick={goCreateIssue}>
                   새 이슈 생성
