@@ -28,7 +28,7 @@ const ReleaseNoteEdit = () => {
   const headerParam = useParams();
   const scriptId = headerParam.releaseId;
   const projectId = headerParam.projectId;
-  const manuscriptInfo = location.state as ManuscriptEdit;
+  const manuscriptInfo: ManuscriptEdit = location.state;
   const [title, setTitle] = useState(manuscriptInfo?.manuscriptTitle);
   const [version, setVersion] = useState(manuscriptInfo?.manuscriptVersion);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
