@@ -16,6 +16,7 @@ import { ReleaseNoteHeaderDiv } from '@components/ReleaseNote/ReleaseNoteDetail/
 import { useParams } from 'react-router';
 import { PagedReleaseNotes } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
 import { useInfiniteQuery } from 'react-query';
+import { useInView } from 'react-intersection-observer';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import pagedFetcher from '@utils/pagedFetcher.ts';
 const ReleasedNoteAll: React.FC = () => {
@@ -35,6 +36,18 @@ const ReleasedNoteAll: React.FC = () => {
       },
     }
   );
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isLoading) {
+      fetchNextPage().catch(error => {
+        console.error(error);
+      });
+    }
+  }, [inView, hasNextPage, isLoading, fetchNextPage]);
 
   return (
     <ReleasedNoteDiv>
@@ -66,15 +79,7 @@ const ReleasedNoteAll: React.FC = () => {
                     </MarkdownParagraph>
                   </div>
                 ))}
-              <div>
-                <button onClick={() => fetchNextPage()} disabled={!hasNextPage || isFetchingNextPage}>
-                  {isFetchingNextPage
-                    ? '더 보기..'
-                    : hasNextPage
-                    ? '더 보기'
-                    : '더 이상 릴리즈 노트가 존재하지 않습니다.'}
-                </button>
-              </div>
+              {isFetchingNextPage ? <ActivityIndicator /> : hasNextPage && <div ref={ref}></div>}
             </>
           )}
         </ReleasedNoteParagraph>
