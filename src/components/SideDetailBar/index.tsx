@@ -27,7 +27,7 @@ const SideDetailBar = () => {
     },
     {
       key: '2',
-      label: <Link to={`/projects/${selectedProject.projectId}/manage`}>멤버 관리</Link>,
+      label: <Link to={`/projects/${selectedProject.projectId}/manage`}>프로젝트 관리</Link>,
     },
   ];
   return (

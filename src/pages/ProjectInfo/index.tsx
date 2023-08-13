@@ -1,28 +1,48 @@
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import { ComponentText, ComponentWrapper, HorizontalLine, MemberList } from '@pages/ProjectInfo/styles.tsx';
-import SideDetailBar from '@components/SideDetailBar';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import TableContainer from '@mui/material/TableContainer';
-import TablePagination from '@mui/material/TablePagination';
+import {
+  MemberHeader,
+  MemberHeaderLeft,
+  MemberList,
+  MemberSection,
+  ProjectBody,
+  ProjectBodyExplain,
+  ProjectBodyTitle,
+  ProjectHeader,
+  ProjectSection,
+  ProjectSubMit,
+} from '@components/ManageMember/styles.tsx';
+
+import { Button, Divider } from 'antd';
+
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import LastPageIcon from '@mui/icons-material/LastPage';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
-import { TableHead } from '@mui/material';
-import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
 import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import FirstPageIcon from '@mui/icons-material/FirstPage';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import LastPageIcon from '@mui/icons-material/LastPage';
+import React, { useEffect, useState } from 'react';
 import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { CloseOutlined } from '@ant-design/icons';
+import { TableHead } from '@mui/material';
+import { useQuery } from 'react-query';
+import { ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import fetcher from '@utils/fetcher.ts';
+import { useParams } from 'react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrown } from '@fortawesome/free-solid-svg-icons';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -77,141 +97,153 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-const ProjectInfo = () => {
-  const selectedProject = useRecoilValue(SelectedProjectState);
-  const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
+const ManageMember = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const projectId: string | undefined = useParams().projectId;
 
-  const [rows] = useState([
-    { name: '추성준', email: 'j949854@gmail.com', position: '관리자' },
-    { name: '조연겸', email: 'j949854@gmail.com', position: '방문자' },
-    { name: '김윤호', email: 'j949854@gmail.com', position: '방문자' },
-    { name: '안수빈', email: 'j949854@gmail.com', position: '멤버' },
-    { name: '김희찬', email: 'j949854@gmail.com', position: '멤버' },
-    { name: '인범시치', email: 'j949854@gmail.com', position: '방문자' },
-    {
-      name: 'Ice cream sandwich',
-      email: 'j949854@gmail.com',
-      position: '방문자',
-    },
-    { name: 'Jelly Bean', email: 'j949854@gmail.com', position: '멤버' },
-    { name: 'KitKat', email: 'j949854@gmail.com', position: '멤버' },
-    { name: 'Lollipop', email: 'j949854@gmail.com', position: '멤버' },
-  ]);
+  const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
+    fetcher({
+      queryKey: `${BACKEND_URL}/projects/${projectId}`,
+    })
+  );
+
+  const [memberList, setMemberList] = useState<Array<{ name: string; email: string; position: string }>>([]);
+
+  useEffect(() => {
+    if (projectData && projectData.projectMembers) {
+      const qq = projectData.projectMembers.map(member => ({
+        id: member.projectMemberId,
+        name: member.projectMemberName,
+        email: member.projectMemberEmail,
+        position: member.projectMemberRole,
+      }));
+      setMemberList(qq);
+    }
+  }, [projectData]);
+
+  const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (!projectInfoMenuOpen) {
+      setIsVisible(false);
+      setTimeout(() => {
+        setIsVisible(true);
+      }, 550);
+    }
+  }, [projectInfoMenuOpen]);
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - memberList.length) : 0;
+
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    console.log(event);
+    setPage(newPage);
+  };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
-  let contents = null;
-
-  switch (projectInfoMenuOpen.state) {
-    case 'hasValue':
-      contents = () => {
-        if (projectInfoMenuOpen.contents) {
-          return (
-            <ComponentWrapper>
-              <ComponentText>프로젝트 이름</ComponentText>
-              <ComponentText className={'title'}>{selectedProject.projectTitle}</ComponentText>
-              <ComponentText>프로젝트 설명</ComponentText>
-              <ComponentText className={'contents'}>{selectedProject.projectContent}</ComponentText>
-              <HorizontalLine />
-              <ComponentText>프로젝트 멤버 리스트</ComponentText>
-              <MemberList>
-                <TableContainer component={Paper}>
-                  <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-                    <TableHead>
-                      <TableRow sx={{ background: 'gray' }}>
-                        <TableCell align="left">이름</TableCell>
-                        <TableCell align="center">이메일</TableCell>
-                        <TableCell align="center">직위</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
-                        row => (
-                          <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                              {row.name}
-                            </TableCell>
-                            <TableCell style={{ width: 300 }} align="center">
-                              {row.email}
-                            </TableCell>
-                            <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
-                              {row.position}
-                            </TableCell>
-                          </TableRow>
-                        )
-                      )}
-                      {emptyRows > 0 && (
-                        <TableRow style={{ height: 53 * emptyRows }}>
-                          <TableCell colSpan={6} />
-                        </TableRow>
-                      )}
-                    </TableBody>
-                    <TableFooter>
-                      <TableRow>
-                        {/* eslint-disable-next-line react/jsx-no-undef */}
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
-                          colSpan={3}
-                          count={rows.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          SelectProps={{
-                            inputProps: {
-                              'aria-label': 'rows per page',
-                            },
-                            native: true,
-                          }}
-                          onRowsPerPageChange={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                          onPageChange={handleChangePage}
-                        />
-                      </TableRow>
-                    </TableFooter>
-                  </Table>
-                </TableContainer>
-              </MemberList>
-            </ComponentWrapper>
-          );
-        } else {
-          return <ActivityIndicator />;
-        }
-      };
-      break;
-    case 'hasError':
-      contents = () => {
-        return <div>데이터를 서버에서 불러올 수 없습니다.</div>;
-      };
-      break;
-    case 'loading':
-      contents = () => {
-        return <ActivityIndicator />;
-      };
-      break;
-    default:
-      contents = () => {
-        return <div>에러가 발생했습니다. 페이지를 새로고침해주세요.</div>;
-      };
-  }
-
   return (
     <>
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>{contents()}</Wrapper>
+      {isVisible && !isLoading && projectData && projectData.projectMembers ? (
+        <Wrapper>
+          <ProjectSection>
+            <Button type="primary" shape="circle" icon={<CloseOutlined />} />
+            <ProjectHeader>
+              <div>프로젝트 정보</div>
+            </ProjectHeader>
+            <ProjectBody>
+              <ProjectBodyTitle>
+                <div>프로젝트 이름</div>
+                <div>{projectData?.projectTitle}</div>
+              </ProjectBodyTitle>
+              <ProjectBodyExplain>
+                <div>프로젝트 설명</div>
+                <div>{projectData?.projectContent}</div>
+              </ProjectBodyExplain>
+            </ProjectBody>
+            <ProjectSubMit></ProjectSubMit>
+          </ProjectSection>
+          <Divider />
+          <MemberSection>
+            <MemberHeader>
+              <MemberHeaderLeft>구성원 관리</MemberHeaderLeft>
+            </MemberHeader>
+            <MemberList>
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+                  <TableHead>
+                    <TableRow sx={{ background: '#f5f5f8' }}>
+                      <TableCell align="left">이름</TableCell>
+                      <TableCell align="center">이메일</TableCell>
+                      <TableCell align="center">직위</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(rowsPerPage > 0
+                      ? memberList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      : memberList
+                    ).map(memberList => (
+                      <TableRow key={memberList.name}>
+                        <TableCell component="th" scope="row">
+                          {memberList.name}
+                          {memberList.position === 'ADMIN' && (
+                            <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
+                          )}
+                        </TableCell>
+                        <TableCell style={{ width: 300 }} align="center">
+                          {memberList.email}
+                        </TableCell>
+                        <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
+                          {memberList.position}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                  <TableFooter>
+                    <TableRow>
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                        colSpan={3}
+                        count={memberList.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        SelectProps={{
+                          inputProps: {
+                            'aria-label': 'rows per page',
+                          },
+                          native: true,
+                        }}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                      />
+                    </TableRow>
+                  </TableFooter>
+                </Table>
+              </TableContainer>
+            </MemberList>
+          </MemberSection>
+        </Wrapper>
+      ) : (
+        <Wrapper>
+          <ActivityIndicator />
+        </Wrapper>
+      )}
     </>
   );
 };
 
-export default ProjectInfo;
+export default ManageMember;
