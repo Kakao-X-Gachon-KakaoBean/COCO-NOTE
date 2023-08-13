@@ -40,7 +40,7 @@ const CreateSprintModal = () => {
       onSuccess(data) {
         console.log(data);
         setIsAddSprint(false);
-        queryClient.invalidateQueries('projectList');
+        queryClient.invalidateQueries(`projectList`);
         setTitle('');
         setContents('');
         setStartDate('');

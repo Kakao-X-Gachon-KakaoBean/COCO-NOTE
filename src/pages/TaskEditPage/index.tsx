@@ -1,48 +1,58 @@
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { SelectedTaskState, SprintValueState } from '@/states/SprintState.ts';
+import { useRecoilValue } from 'recoil';
+import { SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
 import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/TaskEditPage/styles.tsx';
 import { Button, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { ChildType } from '@components/Sprint/type.ts';
+import { useCallback, useState } from 'react';
+import { useMutation } from 'react-query';
+import axios, { AxiosError } from 'axios';
 
-const TaskDetailPage = () => {
+const TaskEditPage = () => {
   const navigate = useNavigate();
   const { TextArea } = Input;
   const selectedTask = useRecoilValue(SelectedTaskState);
-  const [sprintList, setSprintList] = useRecoilState(SprintValueState);
-  const [title, setTitle] = useState(selectedTask.sprintTitle);
+  const selectedTaskId = useRecoilValue(SelectedTaskId);
+  const sprintId = selectedTask.sprintId;
+  const [title, setTitle] = useState(selectedTask.taskTitle);
   const [contents, setContents] = useState(selectedTask.taskDesc);
-  const getBack = () => {
-    const newTask: ChildType = {
-      ...selectedTask,
-      sprintTitle: title,
-      taskDesc: contents,
-    };
 
-    const updatedSprintList = sprintList.map(sprint => {
-      if (sprint.children) {
-        const updatedChildren = sprint.children.map(task => {
-          if (task.taskId === selectedTask.taskId) {
-            return newTask;
-          } else {
-            return task;
-          }
-        });
-        return { ...sprint, children: updatedChildren };
-      } else {
-        return sprint;
-      }
-    });
+  const editTaskMutation = useMutation<string, AxiosError, { taskTitle: string; taskDesc: string; sprintId: number }>(
+    'edittask',
+    data =>
+      axios
+        .patch(`http://localhost:8080/tasks/${selectedTaskId}`, data, {
+          withCredentials: true,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then(response => response.data),
+    {
+      onMutate() {},
+      onSuccess(data) {
+        console.log(data);
+        navigate(-1);
+      },
+      onError(error) {
+        console.log(error);
+        alert('하위작업 수정에 실패하였습니다.');
+      },
+    }
+  );
 
-    console.log(updatedSprintList);
-    setSprintList(updatedSprintList);
-
-    navigate(-1);
-  };
+  const onSubmit = useCallback(() => {
+    if (sprintId && title && contents) {
+      editTaskMutation.mutate({
+        taskTitle: title,
+        taskDesc: contents,
+        sprintId: sprintId,
+      });
+    }
+  }, [title, contents, editTaskMutation, sprintId]);
 
   return (
     <>
@@ -59,7 +69,7 @@ const TaskDetailPage = () => {
               placeholder="하위작업 명"
               style={{ fontSize: 'xx-large', color: 'Black', marginTop: '5vh', marginBottom: '5vh', width: '50vw' }}
             />
-            <Button onClick={getBack}>완료하기</Button>
+            <Button onClick={onSubmit}>완료하기</Button>
           </TitleNEdit>
           <TextArea
             value={contents}
@@ -74,4 +84,4 @@ const TaskDetailPage = () => {
   );
 };
 
-export default TaskDetailPage;
+export default TaskEditPage;

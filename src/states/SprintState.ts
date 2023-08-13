@@ -1,6 +1,14 @@
 import { atom, RecoilState } from 'recoil';
 import { ChildType, TableData } from '@components/Sprint/type.ts';
 
+export interface ProjectMember {
+  projectMemberId: number;
+  projectMemberName: string;
+  projectMemberEmail: string;
+  projectMemberRole: 'ADMIN' | 'MEMBER' | 'VIEWER' | 'INVITED_PERSON';
+  memberThumbnailImg: string;
+}
+
 const initialSprintValue: TableData[] = [
   {
     key: 'NoItem',
@@ -15,6 +23,7 @@ const initialSprintValue: TableData[] = [
 const initialTaskValue: ChildType[] = [
   {
     taskId: 999,
+    sprintId: 999,
     taskTitle: '',
     taskDesc: '',
     workStatus: '',
@@ -34,6 +43,16 @@ export const AddSprintValue: RecoilState<boolean> = atom({
 
 export const AddTaskValue: RecoilState<boolean> = atom({
   key: 'AddTask',
+  default: false,
+});
+
+export const DeleteSprintValue: RecoilState<boolean> = atom({
+  key: 'DeleteSprintModal',
+  default: false,
+});
+
+export const DeleteTaskValue: RecoilState<boolean> = atom({
+  key: 'DeleteTask',
   default: false,
 });
 
