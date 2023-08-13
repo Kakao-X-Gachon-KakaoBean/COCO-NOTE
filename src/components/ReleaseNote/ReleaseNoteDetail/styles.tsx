@@ -15,7 +15,7 @@ export const ReleaseNoteHeaderDiv = styled.div`
 export const ReleaseNoteHeaderTop = styled.div`
   display: flex;
   flex-direction: row;
-  width: 80%;
+  width: 91.4%;
   justify-content: space-between;
 `;
 export const ReleaseNoteHeaderTopLeft = styled.div`
@@ -42,6 +42,8 @@ export const BulletinDiv = styled.div`
   height: 50vh;
   border-radius: 10px;
   border: #dadada solid;
+  padding: 5.5%;
+  overflow-y: auto;
 `;
 
 export const EditingText = styled.div`
