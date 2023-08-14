@@ -100,17 +100,20 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const ProjectInfo = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const projectId: string | undefined = useParams().projectId;
 
-  const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
+  const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo', projectId], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects/${projectId}`,
     })
   );
+
+  console.log(projectData);
 
   const [memberList, setMemberList] = useState<
     Array<{
