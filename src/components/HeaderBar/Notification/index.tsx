@@ -38,6 +38,7 @@ const Notification: React.FC = () => {
             ))}
             <MoreBtn
               onClick={async () => {
+                setVisible(false);
                 initialSelectedProject();
                 setProjectInfoMenuOpen(false);
                 await waitForAnimation();
