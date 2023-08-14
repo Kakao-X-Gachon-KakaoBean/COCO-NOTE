@@ -29,10 +29,13 @@ import SearchPassword from '@components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
 import { setCookie } from '@utils/cookie.ts';
 import { logIn } from '@/Api/User/Login.ts';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { BACKEND_URL } from '@/Api';
 
 const LogIn = () => {
+  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [memberId, setMemberId] = useRecoilState(memberIdState);
@@ -51,6 +54,8 @@ const LogIn = () => {
   const logInMutation = useMutation<LoginResponse, AxiosError, LoginUser>('logIn', logIn, {
     onSuccess: data => {
       localStorage.setItem('accessToken', data?.accessToken);
+      initialSelectedProject();
+      setProjectInfoMenuOpen(false);
       setMemberId(data?.memberId.toString());
       setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
       navigate('/main');
