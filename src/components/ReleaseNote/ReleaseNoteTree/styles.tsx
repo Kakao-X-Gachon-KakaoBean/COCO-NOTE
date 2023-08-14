@@ -7,3 +7,8 @@ export const CreateReleaseNoteButton = styled(Button)`
   border-width: 0 !important;
   box-shadow: none !important;
 `;
+
+export const ReleaseTreeDiv = styled.div`
+  height: 35vh;
+  overflow-y: auto;
+`;

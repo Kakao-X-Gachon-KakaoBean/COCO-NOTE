@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
 import type { TreeProps, DataNode } from 'antd/es/tree';
-import { CreateReleaseNoteButton } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
+import { CreateReleaseNoteButton, ReleaseTreeDiv } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
 import CreateReleaseNoteModal from '@components/ReleaseNote/CreateReleaseNoteModal';
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
@@ -98,33 +98,35 @@ const ReleaseNoteTree = () => {
   return (
     <>
       <CreateReleaseNoteModal visible={createModalVisible} handleOk={handleOk} />
-      {editReleaseNoteTreeData ? (
-        <>
+      <ReleaseTreeDiv>
+        {editReleaseNoteTreeData ? (
+          <>
+            <Tree
+              switcherIcon={<DownOutlined />}
+              defaultExpandAll
+              onSelect={onSelect}
+              selectedKeys={selectedKeys}
+              treeData={editReleaseNoteTreeData}
+              style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
+            />
+            <CreateReleaseNoteButton onClick={() => setCreateModalVisible(true)}>+</CreateReleaseNoteButton>
+          </>
+        ) : (
+          <ActivityIndicator />
+        )}
+        {releasedNoteTreeData ? (
           <Tree
             switcherIcon={<DownOutlined />}
             defaultExpandAll
             onSelect={onSelect}
             selectedKeys={selectedKeys}
-            treeData={editReleaseNoteTreeData}
+            treeData={releasedNoteTreeData}
             style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
           />
-          <CreateReleaseNoteButton onClick={() => setCreateModalVisible(true)}>+</CreateReleaseNoteButton>
-        </>
-      ) : (
-        <ActivityIndicator />
-      )}
-      {releasedNoteTreeData ? (
-        <Tree
-          switcherIcon={<DownOutlined />}
-          defaultExpandAll
-          onSelect={onSelect}
-          selectedKeys={selectedKeys}
-          treeData={releasedNoteTreeData}
-          style={{ fontFamily: 'SCDream4', fontSize: '0.8vw' }}
-        />
-      ) : (
-        <ActivityIndicator />
-      )}
+        ) : (
+          <ActivityIndicator />
+        )}
+      </ReleaseTreeDiv>
     </>
   );
 };
