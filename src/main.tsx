@@ -9,6 +9,7 @@ import { CookiesProvider } from 'react-cookie';
 import axios from 'axios';
 import { getCookie } from '@utils/cookie.ts';
 import { toast } from 'react-toastify';
+import { BACKEND_URL } from '@/Api';
 
 const queryClient = new QueryClient();
 
@@ -22,7 +23,7 @@ axios.interceptors.response.use(
       const refreshToken = getCookie('refreshToken');
       if (refreshToken) {
         try {
-          const response = await axios.post('http://localhost:8080/access-tokens', { refreshToken });
+          const response = await axios.post(`${BACKEND_URL}/access-tokens`, { refreshToken });
 
           const accessToken = response.data.accessToken;
           localStorage.setItem('accessToken', accessToken);

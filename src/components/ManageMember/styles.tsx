@@ -6,6 +6,10 @@ export const ProjectSection = styled.div`
   gap: 2rem;
   margin: 0 1rem;
 `;
+export const ProjectButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 export const MemberSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,3 +68,15 @@ export const MemberHeaderRight = styled.div`
 `;
 
 export const MemberList = styled.div``;
+
+export const ProfileImg = styled.img`
+  width: 2vw;
+  height: 4vh;
+  border-radius: 100%;
+`;
+
+export const ProfileNName = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 1vw;
+`;

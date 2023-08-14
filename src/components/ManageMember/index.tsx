@@ -4,12 +4,14 @@ import {
   MemberHeaderRight,
   MemberList,
   MemberSection,
+  ProfileImg,
+  ProfileNName,
   ProjectBody,
   ProjectBodyExplain,
   ProjectBodyTitle,
+  ProjectButton,
   ProjectHeader,
   ProjectSection,
-  ProjectSubMit,
 } from '@components/ManageMember/styles.tsx';
 
 import { Button, Divider, Input, Modal, Select } from 'antd';
@@ -36,7 +38,7 @@ import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { EditProject, MemberRole, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { EditProject, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@components/ActivityIndicator';
 import { toast } from 'react-toastify';
@@ -46,6 +48,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/Api/Project/ManagePage.ts';
+import defaultImage from '@/images/defaultAvatar.png';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -126,17 +129,26 @@ const ManageMember = () => {
   );
   const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
-  const [memberList, setMemberList] = useState<Array<{ name: string; email: string; position: string }>>([]);
+  const [memberList, setMemberList] = useState<
+    Array<{
+      id: number;
+      name: string;
+      email: string;
+      position: string;
+      memberThumbnailImg: string;
+    }>
+  >([]);
 
   useEffect(() => {
     if (projectData && projectData.projectMembers) {
-      const qq = projectData.projectMembers.map(member => ({
+      const newMember = projectData.projectMembers.map(member => ({
         id: member.projectMemberId,
         name: member.projectMemberName,
         email: member.projectMemberEmail,
         position: member.projectMemberRole,
+        memberThumbnailImg: member.memberThumbnailImg,
       }));
-      setMemberList(qq);
+      setMemberList(newMember);
     }
   }, [projectData]);
 
@@ -281,13 +293,11 @@ const ManageMember = () => {
     {
       onSuccess: data => {
         if (data === '삭제 성공') {
-          toast(message('삭제 성공했습니다.'), {
-            type: 'success',
-          });
+          toast.success('삭제되었습니다.');
           queryClient.invalidateQueries('projectinfo');
-          navigate('/');
+          navigate('/main');
         } else {
-          toast(message('삭제 실패하였습니다.'), { type: 'error' });
+          toast.error('삭제 실패하였습니다.');
         }
       },
       onError: () => {
@@ -350,6 +360,7 @@ const ManageMember = () => {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - memberList.length) : 0;
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    console.log(event);
     setPage(newPage);
   };
 
@@ -363,11 +374,13 @@ const ManageMember = () => {
       {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
-            <Button type="primary" shape="circle" icon={<CloseOutlined />} />
+            <ProjectButton>
+              <Button shape="circle" icon={<CloseOutlined />} />
+            </ProjectButton>
             <ProjectHeader>
               <div>프로젝트 정보</div>
               <div>
-                <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
+                <Button size="large" onClick={() => SetProjectModalOpen(true)}>
                   프로젝트 정보 수정
                 </Button>
               </div>
@@ -382,7 +395,6 @@ const ManageMember = () => {
                 <div>{projectData?.projectContent}</div>
               </ProjectBodyExplain>
             </ProjectBody>
-            <ProjectSubMit></ProjectSubMit>
           </ProjectSection>
           <Divider />
           <MemberSection>
@@ -419,10 +431,17 @@ const ManageMember = () => {
                     ).map((memberList, i) => (
                       <TableRow key={memberList.name}>
                         <TableCell component="th" scope="row">
-                          {memberList.name}
-                          {memberList.position === 'ADMIN' && (
-                            <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
-                          )}
+                          <ProfileNName>
+                            <ProfileImg
+                              src={
+                                memberList.memberThumbnailImg !== null ? memberList.memberThumbnailImg : defaultImage
+                              }
+                            />
+                            {memberList.name}
+                            {memberList.position === 'ADMIN' && (
+                              <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
+                            )}
+                          </ProfileNName>
                         </TableCell>
                         <TableCell style={{ width: 300 }} align="center">
                           {memberList.email}

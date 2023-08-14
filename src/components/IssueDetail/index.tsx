@@ -6,7 +6,7 @@ import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import MDEditor from '@uiw/react-md-editor';
 
@@ -32,7 +32,7 @@ import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { Input } from '@/components/EditIssue/styles.tsx';
 import { Comment, CreateComment, GetIssueDetail } from '@states/IssueState.ts';
-import { postComment } from '@/Api/Issue/Issue.ts';
+import { deleteIssue, postComment } from '@/Api/Issue/Issue.ts';
 import { toast } from 'react-toastify';
 import fetcher from '@utils/fetcher.ts';
 import { BACKEND_URL } from '@/Api';
@@ -93,7 +93,7 @@ const IssueDetail = () => {
     }
   );
 
-  const submitComment: MouseEventHandler<HTMLButtonElement> = useCallback(
+  const submitComment: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = useCallback(
     e => {
       e.preventDefault();
       postCommentMutation.mutate({ content, issueId });
@@ -101,37 +101,16 @@ const IssueDetail = () => {
     [postCommentMutation, content, issueId]
   );
 
-  const DeleteAPI = useMutation<string, AxiosError, { IssueId: string }>(
-    'DeleteIssue',
-    ({ IssueId }) =>
-      axios
-        .delete(`localhost:3000/Issues/${IssueId}`, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
-    {
-      onMutate() {},
-      onSuccess(data: string) {
-        queryClient.invalidateQueries('MySurvey');
-        console.log(data);
-      },
-      onError(error) {
-        alert('실패');
-        console.log(error);
-      },
-    }
-  );
-
-  const DeleteIssue = useCallback(
-    (IssueId: any) => {
-      DeleteAPI.mutate({ IssueId });
+  const deleteIssueMutation = useMutation(deleteIssue, {
+    onSuccess: data => {
+      if (data === '이슈 삭제 성공') {
+        toast.success('이슈가 삭제되었습니다.');
+        navigate(-1);
+      } else {
+        toast.error('에러가 발생하였습니다.');
+      }
     },
-    [DeleteAPI]
-  );
+  });
 
   if (isLoading) {
     return <h3>Loading....</h3>;
@@ -151,7 +130,13 @@ const IssueDetail = () => {
               <IssueDetailHeader>
                 <div>{detailIssue?.issue.title}</div>
                 <IssueDetailHeaderButtonSection>
-                  <Button onClick={DeleteIssue}>삭제</Button>
+                  <Button
+                    onClick={() => {
+                      deleteIssueMutation.mutate(issueId ?? '');
+                    }}
+                  >
+                    삭제
+                  </Button>
                   <Button onClick={editIssue}>수정</Button>
                 </IssueDetailHeaderButtonSection>
               </IssueDetailHeader>

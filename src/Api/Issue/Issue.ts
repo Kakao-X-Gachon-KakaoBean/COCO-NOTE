@@ -27,3 +27,12 @@ export const fetchPage = async (projectId: string | undefined, nextPage: number)
     queryKey: `${BACKEND_URL}/issues/page?projectId=${projectId}&page=${nextPage}`,
   });
 };
+
+export const deleteIssue = async (issueId: string) => {
+  try {
+    await instance.delete(`/issues/${issueId}`);
+    return '이슈 삭제 성공';
+  } catch (err) {
+    return '이슈 삭제 실패';
+  }
+};
