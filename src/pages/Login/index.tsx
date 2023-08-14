@@ -38,7 +38,7 @@ const LogIn = () => {
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
-  const [setMemberId] = useRecoilState(memberIdState);
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
   const [isLogin] = useState(localStorage.getItem('accessToken') !== null);
   const navigate = useNavigate();
@@ -46,6 +46,7 @@ const LogIn = () => {
     setCheckPasswordModal(prev => !prev);
   }, []);
 
+  console.log(memberId);
   const logInData: LoginUser = {
     email,
     password,
