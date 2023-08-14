@@ -6,6 +6,10 @@ export const ProjectSection = styled.div`
   gap: 2rem;
   margin: 0 1rem;
 `;
+export const ProjectButton = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 export const MemberSection = styled.div`
   display: flex;
   flex-direction: column;

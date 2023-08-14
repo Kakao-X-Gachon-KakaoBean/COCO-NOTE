@@ -9,9 +9,9 @@ import {
   ProjectBody,
   ProjectBodyExplain,
   ProjectBodyTitle,
+  ProjectButton,
   ProjectHeader,
   ProjectSection,
-  ProjectSubMit,
 } from '@components/ManageMember/styles.tsx';
 
 import { Button, Divider, Input, Modal, Select } from 'antd';
@@ -131,6 +131,7 @@ const ManageMember = () => {
 
   const [memberList, setMemberList] = useState<
     Array<{
+      id: number;
       name: string;
       email: string;
       position: string;
@@ -292,13 +293,11 @@ const ManageMember = () => {
     {
       onSuccess: data => {
         if (data === '삭제 성공') {
-          toast(message('삭제 성공했습니다.'), {
-            type: 'success',
-          });
+          toast.success('삭제되었습니다.');
           queryClient.invalidateQueries('projectinfo');
-          navigate('/');
+          navigate('/main');
         } else {
-          toast(message('삭제 실패하였습니다.'), { type: 'error' });
+          toast.error('삭제 실패하였습니다.');
         }
       },
       onError: () => {
@@ -375,11 +374,13 @@ const ManageMember = () => {
       {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
-            <Button type="primary" shape="circle" icon={<CloseOutlined />} />
+            <ProjectButton>
+              <Button shape="circle" icon={<CloseOutlined />} />
+            </ProjectButton>
             <ProjectHeader>
               <div>프로젝트 정보</div>
               <div>
-                <Button type="primary" size="large" onClick={() => SetProjectModalOpen(true)}>
+                <Button size="large" onClick={() => SetProjectModalOpen(true)}>
                   프로젝트 정보 수정
                 </Button>
               </div>
@@ -394,7 +395,6 @@ const ManageMember = () => {
                 <div>{projectData?.projectContent}</div>
               </ProjectBodyExplain>
             </ProjectBody>
-            <ProjectSubMit></ProjectSubMit>
           </ProjectSection>
           <Divider />
           <MemberSection>
