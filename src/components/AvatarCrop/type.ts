@@ -5,6 +5,6 @@ export interface ModalVisibleProps {
 }
 
 export interface ProfileImages {
-  profileImg: string | undefined;
-  thumbnailImg: string | null;
+  profileImg: File | null;
+  thumbnailImg: File | null;
 }
