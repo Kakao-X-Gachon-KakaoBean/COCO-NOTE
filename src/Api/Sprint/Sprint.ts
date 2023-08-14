@@ -9,7 +9,7 @@ import {
   EditTaskDataType,
   WorkStatusType,
 } from '@states/SprintState.ts';
-// import fetcher from '@utils/fetcher.ts';
+
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // 스프린트 생성
