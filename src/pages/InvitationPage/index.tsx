@@ -18,6 +18,7 @@ import fetcher from '@utils/fetcher.ts';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { inviteMember } from '@/Api/Invitation/Invitation.ts';
+import { InvitationState } from '@states/InvitationState.ts';
 
 const InvitationPage = () => {
   const projectKey: any = useParams().projectkey;
@@ -25,7 +26,7 @@ const InvitationPage = () => {
   const navigate = useNavigate();
   const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
-  const { data } = useQuery<any>(['invitatintitle'], () =>
+  const { data } = useQuery<InvitationState>(['invitatintitle'], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects/title?projectSecretKey=${projectKey}`,
     })
