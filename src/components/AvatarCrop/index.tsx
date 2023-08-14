@@ -10,10 +10,16 @@ import { ModalVisibleProps, ProfileImages } from '@/components/AvatarCrop/type.t
 import { IUser, MypageUser } from '@/states/userState.ts';
 import fetcher from '@/utils/fetcher.ts';
 import axios, { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 const { Text, Title } = Typography;
 const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {
-  const [userProfileInfo, setUserProfileInfo] = useState<MypageUser>();
+  const [userProfileInfo, setUserProfileInfo] = useState<MypageUser | undefined>({
+    profileImg: undefined,
+    thumbnailImg: null,
+    name: '',
+    email: '',
+  });
   const queryClient = useQueryClient();
   const { data } = useQuery<MypageUser>(['memberInfo'], () =>
     fetcher({
@@ -35,7 +41,7 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
     {
       onMutate() {},
       onSuccess() {
-        console.log('프로필 업로드 성공');
+        toast.success('프로필 변경에 성공했습니다.');
         queryClient.invalidateQueries('memberInfo');
       },
       onError(error) {
@@ -49,9 +55,8 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
     if (arr.length < 2) {
       return null;
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const mime = arr[0].match(/:(.*?);/)[1];
+    const matchResult = arr[0].match(/:(.*?);/);
+    const mime = matchResult ? matchResult[1] : undefined;
     const bstr = atob(arr[1]);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
@@ -64,10 +69,12 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
   }
 
   const onCrop = (crop: string): void => {
-    setUserProfileInfo({
-      ...userProfileInfo,
-      thumbnailImg: crop,
-    });
+    if (userProfileInfo) {
+      setUserProfileInfo({
+        ...userProfileInfo,
+        thumbnailImg: crop,
+      });
+    }
   };
 
   const onBeforeFileLoad = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -75,7 +82,7 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
       const file = event.target.files[0];
       const reader = new FileReader();
       reader.onload = function () {
-        if (typeof reader.result === 'string') {
+        if (typeof reader.result === 'string' && userProfileInfo) {
           setUserProfileInfo({
             ...userProfileInfo,
             profileImg: reader.result,
@@ -96,10 +103,15 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
         centered
         open={modalVisible}
         onOk={() => {
-          uploadProfileImageMutation.mutate({
-            profileImg: base64toFile(userProfileInfo.profileImg, 'profileImg'),
-            thumbnailImg: base64toFile(userProfileInfo.thumbnailImg, 'thumbnailImg'),
-          });
+          if (userProfileInfo && userProfileInfo.profileImg && userProfileInfo.thumbnailImg) {
+            const profileImage = base64toFile(userProfileInfo.profileImg, 'profileImg');
+            const thumbnailImage = base64toFile(userProfileInfo.thumbnailImg, 'thumbnailImg');
+
+            uploadProfileImageMutation.mutate({
+              profileImg: profileImage,
+              thumbnailImg: thumbnailImage,
+            });
+          }
           closeModal();
         }}
         onCancel={() => closeModal()}
