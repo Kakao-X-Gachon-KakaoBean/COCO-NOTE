@@ -40,7 +40,7 @@ const LogIn = () => {
   const [password, onChangePassword] = useInput('');
   const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
-  const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
+  const [isLogin] = useState(localStorage.getItem('accessToken') !== null);
   const navigate = useNavigate();
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
