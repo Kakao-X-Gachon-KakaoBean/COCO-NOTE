@@ -29,6 +29,7 @@ import SearchPassword from '@components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
 import { setCookie } from '@utils/cookie.ts';
 import { logIn } from '@/Api/User/Login.ts';
+import { BACKEND_URL } from '@/Api';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
@@ -121,11 +122,11 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn href={`http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
+          <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn href={`http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
+          <KakaoBtn href={`${BACKEND_URL}/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>

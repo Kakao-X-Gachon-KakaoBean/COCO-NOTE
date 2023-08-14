@@ -63,7 +63,7 @@ const SignUp = () => {
         setSignUpSuccess(true);
       } else {
         setSignUpSuccess(false);
-        alert('양식을 알맞게 작성해주세요');
+        toast.error('양식을 알맞게 작성해주세요');
       }
     },
     onError: () => {
@@ -79,8 +79,6 @@ const SignUp = () => {
     [signUpMutation, signUpUser]
   );
 
-  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
-
   const postEmailMutation = useMutation<'이메일 발송 성공' | '이메일 발송 실패', AxiosError, string>(
     'post email',
     postEmail,
@@ -88,11 +86,9 @@ const SignUp = () => {
       onSuccess: data => {
         if (data === '이메일 발송 성공') {
           setFailUseEmail(true);
-          toast(message('메일로 인증번호가 발송되었습니다.'), {
-            type: 'success',
-          });
+          toast.success('메일로 인증 번호가 발송되었습니다.');
         } else {
-          toast(message('메일 주소를 확인해주세요.'), { type: 'error' });
+          toast.error('인증 번호 발송에 실패하였습니다.');
           setFailUseEmail(false);
         }
       },
@@ -191,7 +187,7 @@ const SignUp = () => {
         </Form>
       </Wrapper>
       <Modal
-        title="Cocoa"
+        title="COCONOTE"
         closeIcon={' '}
         footer={[
           <Link key="submit" to="/login">
