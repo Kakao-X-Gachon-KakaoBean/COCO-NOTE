@@ -49,14 +49,14 @@ const TaskDetailPage = () => {
   ];
   const res = useQueries([
     {
-      queryKey: ['task'],
+      queryKey: ['task', taskId],
       queryFn: () =>
         fetcher({
           queryKey: `http://localhost:8080/tasks/${taskId}`,
         }),
     },
     {
-      queryKey: ['member'],
+      queryKey: ['member', selectedTask.sprintId],
       queryFn: () =>
         fetcher({
           queryKey: `http://localhost:8080/projects/${selectedTask.sprintId}/members`,
