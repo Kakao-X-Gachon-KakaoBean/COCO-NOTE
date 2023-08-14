@@ -29,6 +29,7 @@ const SprintEditPage = loadable(() => import('@pages/SprintEditPage'));
 const TaskEditPage = loadable(() => import('@pages/TaskEditPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 const InvitationPage = loadable(() => import('@pages/InvitationPage'));
+const NotificationPage = loadable(() => import('@pages/NotificationPage'));
 
 function App() {
   const memberId = useRecoilValue(memberIdState);
@@ -50,6 +51,7 @@ function App() {
           <Route path="/" element={<Navigate replace to="/initial" />} />
           <Route path="/main" element={<Main />} />
           <Route path="/initial" element={<InitialPage />} />
+          <Route path="/notification" element={<NotificationPage />} />
           <Route path={'/projects/:projectId/manage'} element={<ManagePage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
