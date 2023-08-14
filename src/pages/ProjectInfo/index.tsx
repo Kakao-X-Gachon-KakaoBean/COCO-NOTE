@@ -3,13 +3,16 @@ import {
   MemberHeaderLeft,
   MemberList,
   MemberSection,
+  ProfileImg,
+  ProfileNName,
   ProjectBody,
   ProjectBodyExplain,
   ProjectBodyTitle,
   ProjectHeader,
   ProjectSection,
   ProjectSubMit,
-} from '@components/ManageMember/styles.tsx';
+} from '@/pages/ProjectInfo/styles.tsx';
+import defaultImage from '@/images/defaultAvatar.png';
 
 import { Button, Divider } from 'antd';
 
@@ -97,7 +100,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
   );
 }
 
-const ManageMember = () => {
+const ProjectInfo = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -109,17 +112,25 @@ const ManageMember = () => {
     })
   );
 
-  const [memberList, setMemberList] = useState<Array<{ name: string; email: string; position: string }>>([]);
+  const [memberList, setMemberList] = useState<
+    Array<{
+      name: string;
+      email: string;
+      position: string;
+      memberThumbnailImg: string;
+    }>
+  >([]);
 
   useEffect(() => {
     if (projectData && projectData.projectMembers) {
-      const qq = projectData.projectMembers.map(member => ({
+      const newMember = projectData.projectMembers.map(member => ({
         id: member.projectMemberId,
         name: member.projectMemberName,
         email: member.projectMemberEmail,
         position: member.projectMemberRole,
+        memberThumbnailImg: member.memberThumbnailImg,
       }));
-      setMemberList(qq);
+      setMemberList(newMember);
     }
   }, [projectData]);
 
@@ -193,10 +204,17 @@ const ManageMember = () => {
                     ).map(memberList => (
                       <TableRow key={memberList.name}>
                         <TableCell component="th" scope="row">
-                          {memberList.name}
-                          {memberList.position === 'ADMIN' && (
-                            <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
-                          )}
+                          <ProfileNName>
+                            <ProfileImg
+                              src={
+                                memberList.memberThumbnailImg !== null ? memberList.memberThumbnailImg : defaultImage
+                              }
+                            />
+                            {memberList.name}
+                            {memberList.position === 'ADMIN' && (
+                              <FontAwesomeIcon icon={faCrown} style={{ color: 'yellow', marginRight: 5 }} />
+                            )}
+                          </ProfileNName>
                         </TableCell>
                         <TableCell style={{ width: 300 }} align="center">
                           {memberList.email}
@@ -246,4 +264,4 @@ const ManageMember = () => {
   );
 };
 
-export default ManageMember;
+export default ProjectInfo;

@@ -64,3 +64,15 @@ export const MemberHeaderRight = styled.div`
 `;
 
 export const MemberList = styled.div``;
+
+export const ProfileImg = styled.img`
+  width: 2vw;
+  height: 4vh;
+  border-radius: 100%;
+`;
+
+export const ProfileNName = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 1vw;
+`;
