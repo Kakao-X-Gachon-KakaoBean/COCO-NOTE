@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Card, Dropdown, Space } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AvatarCrop from '@/components/AvatarCrop';
 import { UserOutlined } from '@ant-design/icons';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 
 const Notification: React.FC = () => {
-  // dropdown
+  const navigate = useNavigate();
+  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const [visible, setVisible] = useState(false);
-
-  // avatar crop modal
   const [modalVisible, setModalVisible] = useState(false);
+
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -17,26 +20,32 @@ const Notification: React.FC = () => {
   const handleDropdownVisibleChange = (flag: boolean) => {
     setVisible(flag);
   };
-
+  function waitForAnimation() {
+    return new Promise(resolve => setTimeout(resolve, 550));
+  }
   return (
     <Dropdown
       overlay={
         <Card
           style={{ width: '22vw' }}
           actions={[
-            <Link
-              to="/mypage"
+            <div
               style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
-              onClick={() => {
+              onClick={async () => {
                 setVisible(false);
+                initialSelectedProject();
+                setProjectInfoMenuOpen(false);
+                await waitForAnimation();
+                setVisible(false);
+                navigate('/mypage');
               }}
             >
-              <UserOutlined style={{ fontSize: 15 }} /> &nbsp; 내 정보
-            </Link>,
+              <UserOutlined style={{ fontSize: 15 }} /> &nbsp; 마이 페이지
+            </div>,
           ]}
         >
           <AvatarCrop showProfileText={true} modalVisible={modalVisible} closeModal={closeModal} />

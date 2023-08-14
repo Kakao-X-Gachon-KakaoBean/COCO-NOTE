@@ -4,16 +4,15 @@ export const CenterDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 80%;
+  margin-left: 7.3%;
   align-items: center;
 `;
 export const MyPageDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 35%;
+  width: 45%;
   height: 50%;
-  margin-right: 8%;
-  margin-top: -4%;
 `;
 export const MyPageTextDiv = styled.div`
   font-size: 1.2vw;
