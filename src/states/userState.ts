@@ -16,6 +16,7 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   tokenType: string;
+  memberId: number;
 }
 
 export interface LoginUser {
@@ -63,4 +64,9 @@ const myPageInitialState: MypageUser = {
 export const MyPageUserState = atom({
   key: 'MyPageUserState',
   default: myPageInitialState,
+});
+
+export const memberIdState = atom({
+  key: 'memberAtom',
+  default: '',
 });
