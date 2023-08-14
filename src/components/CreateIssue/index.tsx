@@ -84,10 +84,6 @@ const CreateIssue = () => {
                 <div data-color-mode="light">
                   <MDEditor height={500} value={content} onChange={setContent} />
                 </div>
-                {/*미리 보기*/}
-                {/*<div index-color-mode="light" style={{ padding: 15 }}>*/}
-                {/*  <MDEditor.Markdown style={{ padding: 10 }} source={value} />*/}
-                {/*</div>*/}
               </CreateIssueInput>
               <CreateIssueSubmit>
                 <Button onClick={submitNewIssue}>제출</Button>
