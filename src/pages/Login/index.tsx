@@ -22,18 +22,20 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@components/Menu';
 import useInput from '../../hooks/useInput.ts';
-import { LoginResponse, LoginUser } from '@states/userState.ts';
+import { LoginResponse, LoginUser, memberIdState } from '@states/userState.ts';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import SearchPassword from '@components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
 import { setCookie } from '@utils/cookie.ts';
 import { logIn } from '@/Api/User/Login.ts';
+import { useRecoilState } from 'recoil';
 import { BACKEND_URL } from '@/Api';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
   const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ const LogIn = () => {
   const logInMutation = useMutation<LoginResponse, AxiosError, LoginUser>('logIn', logIn, {
     onSuccess: data => {
       localStorage.setItem('accessToken', data?.accessToken);
+      setMemberId(data?.memberId.toString());
       setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
       navigate('/main');
     },

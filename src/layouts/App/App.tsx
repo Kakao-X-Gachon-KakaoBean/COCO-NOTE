@@ -2,8 +2,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
 import AddProject from '@components/AddProject';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRecoilValue } from 'recoil';
+import { memberIdState } from '@states/userState.ts';
+import { Client } from '@stomp/stompjs';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -26,8 +29,21 @@ const SprintEditPage = loadable(() => import('@pages/SprintEditPage'));
 const TaskEditPage = loadable(() => import('@pages/TaskEditPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 const InvitationPage = loadable(() => import('@pages/InvitationPage'));
+const NotificationPage = loadable(() => import('@pages/NotificationPage'));
 
 function App() {
+  const memberId = useRecoilValue(memberIdState);
+  if (memberId !== '') {
+    const client = new Client({
+      brokerURL: 'ws://localhost:15674/ws',
+      onConnect: () => {
+        client.subscribe(`/queue/user-${memberId}`, message => {
+          toast.info(`Received: ${message.body}`);
+        });
+      },
+    });
+    client.activate();
+  }
   return (
     <>
       <BrowserRouter>
@@ -35,6 +51,7 @@ function App() {
           <Route path="/" element={<Navigate replace to="/initial" />} />
           <Route path="/main" element={<Main />} />
           <Route path="/initial" element={<InitialPage />} />
+          <Route path="/notification" element={<NotificationPage />} />
           <Route path={'/projects/:projectId/manage'} element={<ManagePage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
