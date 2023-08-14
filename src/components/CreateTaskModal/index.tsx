@@ -1,28 +1,54 @@
 import { Input, Modal } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddTaskValue, SelectedSprintState, SprintValueState } from '@states/SprintState.ts';
+import { AddTaskValue, CreateTaskDataType, SelectedSprintId } from '@states/SprintState.ts';
+import { useMutation, useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
+import { createTask } from '@/Api/Sprint/Sprint.ts';
 
 const CreateTaskModal = () => {
-  const [sprintList, setSprintList] = useRecoilState(SprintValueState);
   const [isAddTask, setIsAddTask] = useRecoilState(AddTaskValue);
-  const selectedSprint = useRecoilValue(SelectedSprintState);
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
+  const id = useRecoilValue(SelectedSprintId);
   const { TextArea } = Input;
+  const queryClient = useQueryClient();
 
-  const handleOk = () => {
-    if (title && contents) {
-      addTask();
-      setIsAddTask(false);
-      setTitle('');
-      setContents('');
-      toast.success('하위 작업이 생성 되었습니다.'); // toast.success로 성공 메시지 표시
-    } else {
-      toast.error('하위 작업의 이름과 설명을 정확히 입력해주세요'); // toast.error로 실패 메시지 표시
+  const CreateTaskMutation = useMutation<'하위작업 생성 완료' | '하위작업 생성 실패', AxiosError, CreateTaskDataType>(
+    'createTask',
+    createTask,
+    {
+      onMutate() {},
+      onSuccess(data) {
+        if (data === '하위작업 생성 완료') {
+          setIsAddTask(false);
+          queryClient.invalidateQueries('projectList');
+          setTitle('');
+          setContents('');
+          toast.success('하위작업이 생성 되었습니다.');
+        } else {
+          toast.warning('하위작업 생성에 실패했습니다.');
+        }
+      },
+      onError(error) {
+        console.log(error);
+        toast.error('서버와 연결 되어있지 않습니다.');
+      },
     }
-  };
+  );
+
+  const onSubmitTask = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      CreateTaskMutation.mutate({
+        taskTitle: title,
+        taskDesc: contents,
+        sprintId: Number(id),
+      });
+    },
+    [title, contents, id, CreateTaskMutation]
+  );
 
   const handleCancel = () => {
     setTitle('');
@@ -30,31 +56,8 @@ const CreateTaskModal = () => {
     setIsAddTask(false);
   };
 
-  const addTask = () => {
-    const selectedSprintWithChildren = selectedSprint.children
-      ? { ...selectedSprint, children: [...selectedSprint.children] }
-      : { ...selectedSprint, children: [] };
-
-    const newTask = {
-      taskId: selectedSprintWithChildren.children ? selectedSprintWithChildren.children.length + 1 : 1,
-      sprintTitle: title,
-      taskDesc: contents,
-      workStatus: '할 일',
-      worker: { workerId: 0, workerName: '테스트', workerThumbnailImg: '' },
-    };
-
-    selectedSprintWithChildren.children.push(newTask);
-
-    const updatedSprintList = sprintList.map(sprint =>
-      sprint.key === selectedSprint.key ? selectedSprintWithChildren : sprint
-    );
-
-    // sprintList를 업데이트
-    setSprintList(updatedSprintList);
-  };
-
   return (
-    <Modal title="새 하위 작업 생성" open={isAddTask} onOk={handleOk} onCancel={handleCancel}>
+    <Modal title="새 하위 작업 생성" open={isAddTask} onOk={onSubmitTask} onCancel={handleCancel}>
       <TextArea
         value={title}
         autoSize={{ minRows: 1, maxRows: 10 }}

@@ -1,6 +1,6 @@
 import { ColumnsType } from 'antd/es/table';
 import { Button, Table } from 'antd';
-import { TableData } from '@components/Sprint/type.ts';
+import { ChildType, TableData } from '@components/Sprint/type.ts';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
@@ -10,27 +10,15 @@ import { useRecoilState } from 'recoil';
 import {
   AddSprintValue,
   AddTaskValue,
-  SelectedSprintState,
-  SelectedTaskState,
+  SelectedSprintId,
+  SelectedTaskId,
   SprintValueState,
 } from '@states/SprintState.ts';
 import { useNavigate } from 'react-router-dom';
-
-// 나중에 tasks/taskTitle 스프린트로 이름 바꿔주기
-// const json = { /* JSON 객체 데이터 */ };
-//
-// // sprintTitle로 변경된 tasks 배열 생성
-// const modifiedTasks = json.tasks.map(task => ({
-//   ...task,
-//   sprint: task.taskTitle, // taskTitle 값을 sprint로 변경
-//   taskTitle: undefined, // taskTitle 필드 삭제 (선택 사항)
-// }));
-//
-// // sprintTitle로 변경된 JSON 객체 생성
-// const modifiedJson = {
-//   ...json,
-//   tasks: modifiedTasks,
-// };
+import { useQuery } from 'react-query';
+import fetcher from '@utils/fetcher.ts';
+import { useParams } from 'react-router';
+import { useEffect } from 'react';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   'data-row-key': string;
@@ -57,26 +45,101 @@ const currentMonth = currentDate.getMonth() + 1;
 const currentYear = currentDate.getFullYear();
 
 function isWithinRange(startDate: string, dueDate: string): boolean {
-  const dateBeforeSixMonth = new Date(currentYear, currentMonth - 7, 1);
-  const startMonth = dateBeforeSixMonth.toLocaleString('default', { month: 'long' });
-  const startYear = dateBeforeSixMonth.getFullYear();
-  const rangeStart = `${startYear} ${startMonth}`;
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth();
+  const dateBeforeSixMonth = new Date(currentYear, currentMonth - 6, 1);
+  const dateAfterTwelveMonth = new Date(currentYear, currentMonth + 12, 1);
+  const parsedStartDate = new Date(startDate);
+  const parsedDueDate = new Date(dueDate);
 
-  const dateAfterTwlvMonth = new Date(currentYear, currentMonth + 11, 1);
-  const endMonth = dateAfterTwlvMonth.toLocaleString('default', { month: 'long' });
-  const endYear = dateAfterTwlvMonth.getFullYear();
-  const rangeEnd = `${endYear} ${endMonth}`;
-
-  return startDate >= rangeStart && dueDate <= rangeEnd;
+  return parsedStartDate >= dateBeforeSixMonth && parsedDueDate <= dateAfterTwelveMonth;
 }
 
 const Sprint = () => {
   const navigate = useNavigate();
+  const id = useParams().projectId;
   const [dataSource, setDataSource] = useRecoilState(SprintValueState);
-  const [, setIsAddSprint] = useRecoilState(AddSprintValue);
-  const [, setIsAddTask] = useRecoilState(AddTaskValue);
-  const [, setSelectedSprint] = useRecoilState(SelectedSprintState);
-  const [, setSelectedTask] = useRecoilState(SelectedTaskState);
+  const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
+  const [isAddTask, setIsAddTask] = useRecoilState(AddTaskValue);
+  const [, setSelectedSprintId] = useRecoilState(SelectedSprintId);
+  const [, setSelectedTaskId] = useRecoilState(SelectedTaskId);
+
+  const data = useQuery<TableData[]>(['sprintList'], () =>
+    fetcher({
+      queryKey: `http://localhost:8080/sprints?projectId=${id}`,
+    })
+  );
+
+  useEffect(() => {
+    if (isAddSprint || isAddTask) {
+      data.refetch();
+    }
+  }, [data, isAddSprint, isAddTask]);
+
+  useEffect(() => {
+    function ProcessingData(data: { sprints: TableData[] }) {
+      const newDatasource: TableData[] = [];
+      if (data.sprints.length === 0) {
+        newDatasource.push({
+          key: String(999),
+          sprintId: 999,
+          sprintTitle: '스프린트를 추가해주세요',
+          startDate: '0000-00-00',
+          dueDate: '0000-00-00',
+        });
+      } else {
+        data.sprints.map((sprint: TableData, index: number) => {
+          let newSprint: TableData = {
+            sprintId: sprint.sprintId,
+            sprintTitle: sprint.sprintTitle,
+            startDate: sprint.startDate,
+            dueDate: sprint.dueDate,
+            key: String(index),
+          };
+
+          if (sprint.children && sprint.children.length > 0) {
+            newSprint.children = sprint.children.map((child: ChildType) => ({
+              ...child,
+              sprintTitle: child.taskTitle, // Change field name from taskTitle to sprintTitle
+            }));
+          }
+
+          const insertY = insertYInMonths(sprint.startDate, sprint.dueDate);
+          newSprint = { ...newSprint, ...insertY };
+          newDatasource.push(newSprint);
+        });
+      }
+      setDataSource(newDatasource);
+    }
+
+    if (data.data) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ProcessingData(data.data);
+    }
+  }, [data.data, setDataSource]);
+
+  function insertYInMonths(startDate: string, dueDate: string): { [key: string]: string } {
+    const startYear = Number(startDate.split('-')[0]);
+    const startMonth = Number(startDate.split('-')[1]);
+    const dueYear = Number(dueDate.split('-')[0]);
+    const dueMonth = Number(dueDate.split('-')[1]);
+
+    const data: { [key: string]: string } = {};
+
+    for (let year = startYear; year <= dueYear; year++) {
+      const start = year === startYear ? startMonth : 1;
+      const end = year === dueYear ? dueMonth : 12;
+
+      for (let month = start; month <= end; month++) {
+        data[`${year} ${month}월`] = 'Y';
+      }
+    }
+
+    return data;
+  }
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -101,7 +164,7 @@ const Sprint = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div
                   onClick={() => {
-                    setSelectedSprint(record);
+                    setSelectedSprintId(record.sprintId);
                     navigate(`${record.sprintId}/`);
                   }}
                 >
@@ -109,8 +172,8 @@ const Sprint = () => {
                 </div>
                 <Button
                   onClick={() => {
+                    setSelectedSprintId(record.sprintId);
                     setIsAddTask(true);
-                    setSelectedSprint(record);
                   }}
                 >
                   할일 추가
@@ -121,7 +184,7 @@ const Sprint = () => {
                 onClick={() => {
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
-                  setSelectedTask(record);
+                  setSelectedTaskId(record.taskId);
                   navigate(`tasks/${record.taskId}`);
                 }}
               >
@@ -144,13 +207,14 @@ const Sprint = () => {
       dataIndex: title,
       key: title,
       width: '12vw',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       render: (text: string, record: TableData) => {
-        const { startMonth, dueMonth } = record;
-        console.log(text);
+        const { startDate, dueDate } = record;
         const cellStyle = {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          background: record[title] === 'Y' && isWithinRange(startMonth, dueMonth) ? '#23c483' : 'white',
+          background: record[title] === 'Y' && isWithinRange(startDate, dueDate) ? '#23c483' : 'white',
         };
 
         return {
@@ -173,16 +237,10 @@ const Sprint = () => {
     }
   };
 
-  //const sortableItems = useMemo(() => datasource.map(item => item.key), [datasource]);
-
   return (
     <>
       <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-        <SortableContext
-          // rowKey array
-          items={dataSource.map(i => i.key)}
-          strategy={verticalListSortingStrategy}
-        >
+        <SortableContext items={dataSource.map(i => i.key)} strategy={verticalListSortingStrategy}>
           <Table
             components={{
               body: {

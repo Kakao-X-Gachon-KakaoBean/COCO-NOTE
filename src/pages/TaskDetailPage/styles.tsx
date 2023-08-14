@@ -52,5 +52,25 @@ export const Text = styled.div`
 `;
 
 export const WorkerNStatus = styled.div`
-  margin-bottom: 3vh;
+  width: 20vw;
+  margin-bottom: 5vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const WorkerName = styled.div`
+  width: 8vw;
+`;
+
+export const ButtonDiv = styled.div`
+  display: flex;
+  gap: 1vw;
+`;
+
+export const ProfileImg = styled.img`
+  width: 2vw;
+  height: 4vh;
+  border-radius: 100%;
 `;

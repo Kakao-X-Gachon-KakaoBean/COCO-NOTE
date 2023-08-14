@@ -1,6 +1,14 @@
 import { atom, RecoilState } from 'recoil';
 import { ChildType, TableData } from '@components/Sprint/type.ts';
 
+export interface ProjectMember {
+  projectMemberId: number;
+  projectMemberName: string;
+  projectMemberEmail: string;
+  projectMemberRole: 'ADMIN' | 'MEMBER' | 'VIEWER' | 'INVITED_PERSON';
+  memberThumbnailImg: string;
+}
+
 const initialSprintValue: TableData[] = [
   {
     key: 'NoItem',
@@ -8,19 +16,19 @@ const initialSprintValue: TableData[] = [
     sprintTitle: '스프린트를 추가해주세요',
     sprintDesc: '',
     startDate: '',
-    startMonth: '',
-    dueMonth: '',
     dueDate: '',
   },
 ];
 
 const initialTaskValue: ChildType[] = [
   {
-    taskId: '999',
-    sprintTitle: '',
+    taskId: 999,
+    sprintId: 999,
+    taskTitle: '',
     taskDesc: '',
     workStatus: '',
-    worker: { workerId: 0, workerName: '', workerThumbnailImg: '' },
+    workerName: '',
+    workerThumbnailImg: '',
   },
 ];
 export const SprintValueState: RecoilState<TableData[]> = atom({
@@ -38,6 +46,16 @@ export const AddTaskValue: RecoilState<boolean> = atom({
   default: false,
 });
 
+export const DeleteSprintValue: RecoilState<boolean> = atom({
+  key: 'DeleteSprintModal',
+  default: false,
+});
+
+export const DeleteTaskValue: RecoilState<boolean> = atom({
+  key: 'DeleteTask',
+  default: false,
+});
+
 export const SelectedSprintState: RecoilState<TableData> = atom({
   key: 'SelectedSprintState',
   default: { ...initialSprintValue[0] },
@@ -47,3 +65,50 @@ export const SelectedTaskState: RecoilState<ChildType> = atom({
   key: 'SelectedTaskState',
   default: { ...initialTaskValue[0] },
 });
+
+export const SelectedSprintId: RecoilState<number> = atom({
+  key: 'SelectedSprintId',
+  default: 0,
+});
+
+export const SelectedTaskId: RecoilState<number> = atom({
+  key: 'SelectedTaskId',
+  default: 0,
+});
+
+export interface WorkStatusType {
+  workStatus: string;
+  taskId: number;
+}
+
+export interface ChangeWorkerType {
+  taskId: number;
+  memberId: number;
+}
+
+export interface EditTaskDataType {
+  taskTitle: string;
+  taskDesc: string;
+  sprintId: number;
+}
+
+export interface EditSprintDataType {
+  sprintTitle: string;
+  sprintDesc: string;
+  startDate: string;
+  dueDate: string;
+}
+
+export interface CreateSprintDataType {
+  sprintTitle: string;
+  sprintDesc: string;
+  projectId: number;
+  startDate: string;
+  dueDate: string;
+}
+
+export interface CreateTaskDataType {
+  taskTitle: string;
+  taskDesc: string;
+  sprintId: number;
+}

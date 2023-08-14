@@ -1,50 +1,73 @@
 import { DatePicker, DatePickerProps, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddSprintValue, SprintValueState } from '@states/SprintState.ts';
-import { TableData } from '@components/Sprint/type.ts';
-//import moment from 'moment';
+import { AddSprintValue, CreateSprintDataType } from '@states/SprintState.ts';
+import { useMutation, useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
+import { useParams } from 'react-router';
+import { createSprint } from '@/Api/Sprint/Sprint.ts'; //import moment from 'moment';
 
 const CreateSprintModal = () => {
-  const [sprintList, setSprintList] = useRecoilState(SprintValueState);
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [startMonth, setStartMonth] = useState('');
-  const [dueMonth, setDueMonth] = useState('');
-  //const [flagStartDate, setFlagStartDate] = useState('');
   const { TextArea } = Input;
+  const id = useParams().projectId;
+  const queryClient = useQueryClient();
 
-  const onChangeStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    if (date) {
-      const text = date.year() + ' ' + Number(date.month() + 1) + '월';
-      setStartDate(dateString);
-      setStartMonth(text);
-    }
+  const CreateSprintMutation = useMutation<
+    '스프린트 생성 완료' | '스프린트 생성 실패',
+    AxiosError,
+    CreateSprintDataType
+  >('createSprint', createSprint, {
+    onMutate() {},
+    onSuccess(data) {
+      if (data === '스프린트 생성 완료') {
+        setIsAddSprint(false);
+        queryClient.invalidateQueries(`projectList`);
+        setTitle('');
+        setContents('');
+        setStartDate('');
+        setDueDate('');
+        toast.success('스프린트가 생성 되었습니다.');
+      } else {
+        toast.warning('스프린트 생성에 실패했습니다.');
+      }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('서버와 연결 되어있지 않습니다.');
+    },
+  });
+
+  const onSubmitSprint = useCallback(
+    (e: any) => {
+      e.preventDefault();
+
+      CreateSprintMutation.mutate({
+        sprintTitle: title,
+        sprintDesc: contents,
+        projectId: Number(id),
+        startDate: startDate,
+        dueDate: dueDate,
+      });
+    },
+    [title, contents, id, startDate, dueDate, CreateSprintMutation]
+  );
+
+  const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setStartDate(dateString);
   };
 
-  const onChangeDueDate: DatePickerProps['onChange'] = (date, dateString) => {
-    if (date) {
-      const text = date.year() + ' ' + Number(date.month() + 1) + '월';
-      setDueDate(dateString);
-      setDueMonth(text);
-    }
-  };
-  const handleOk = () => {
-    if (title && contents && startDate && dueDate) {
-      addSprint();
-      setIsAddSprint(false);
-      setTitle('');
-      setContents('');
-      setStartDate('');
-      setDueDate('');
-      toast.success('스프린트가 생성 되었습니다.'); // toast.success로 성공 메시지 표시
-    } else {
-      toast.error('각 란을 정확히 입력해주세요'); // toast.error로 실패 메시지 표시
-    }
+  const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setDueDate(dateString);
   };
 
   const handleCancel = () => {
@@ -55,64 +78,8 @@ const CreateSprintModal = () => {
     setIsAddSprint(false);
   };
 
-  function insertYInMonths(startDate: string, dueDate: string): { [key: string]: string } {
-    const startYear = Number(startDate.split(' ')[0]);
-    const startMonth = Number(startDate.split(' ')[1].replace('월', ''));
-    const dueYear = Number(dueDate.split(' ')[0]);
-    const dueMonth = Number(dueDate.split(' ')[1].replace('월', ''));
-
-    const data: { [key: string]: string } = {};
-
-    for (let year = startYear; year <= dueYear; year++) {
-      const start = year === startYear ? startMonth : 1;
-      const end = year === dueYear ? dueMonth : 12;
-
-      for (let month = start; month <= end; month++) {
-        data[`${year} ${month}월`] = 'Y';
-      }
-    }
-
-    return data;
-  }
-
-  const addSprint = () => {
-    if (sprintList[0].key === 'NoItem') {
-      const newSprint: TableData[] = [
-        {
-          key: '1',
-          sprintId: 1,
-          sprintTitle: title,
-          sprintDesc: contents,
-          startDate: startDate,
-          dueDate: dueDate,
-          startMonth: startMonth,
-          dueMonth: dueMonth,
-        },
-      ];
-
-      newSprint.forEach(sprint => {
-        const data = insertYInMonths(sprint.startMonth, sprint.dueMonth);
-        Object.assign(sprint, data);
-      });
-      setSprintList(newSprint);
-    } else {
-      let newSprint: TableData = {
-        key: String(sprintList.length + 1),
-        sprintId: sprintList.length + 1,
-        sprintTitle: title,
-        sprintDesc: contents,
-        startDate: startDate,
-        dueDate: dueDate,
-        startMonth: startMonth,
-        dueMonth: dueMonth,
-      };
-      const data = insertYInMonths(startMonth, dueMonth);
-      newSprint = { ...newSprint, ...data };
-      setSprintList(prevSprintList => [...prevSprintList, newSprint]);
-    }
-  };
   return (
-    <Modal title="새 스프린트 생성" open={isAddSprint} onOk={handleOk} onCancel={handleCancel}>
+    <Modal title="새 스프린트 생성" open={isAddSprint} onOk={onSubmitSprint} onCancel={handleCancel}>
       <TextArea
         value={title}
         autoSize={{ minRows: 1, maxRows: 10 }}

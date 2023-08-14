@@ -1,81 +1,74 @@
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
-import { useRecoilState } from 'recoil';
-import { SelectedSprintState, SprintValueState } from '@/states/SprintState.ts';
+import { useRecoilValue } from 'recoil';
+import { EditSprintDataType, SelectedSprintId, SelectedSprintState } from '@/states/SprintState.ts';
 import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/SprintDetailPage/styles.tsx';
 import { Button, DatePicker, DatePickerProps, Input } from 'antd';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TableData } from '@components/Sprint/type.ts';
+import { useMutation } from 'react-query';
+import { AxiosError } from 'axios';
+import { editSprint } from '@/Api/Sprint/Sprint.ts';
+import { toast } from 'react-toastify';
 
 const SprintEditPage = () => {
-  const [selectedSprint, setSelectedSprint] = useRecoilState(SelectedSprintState);
-  const [sprintList, setSprintList] = useRecoilState(SprintValueState);
+  const selectedSprint = useRecoilValue(SelectedSprintState);
+  const sprintId = useRecoilValue(SelectedSprintId);
   const [title, setTitle] = useState(selectedSprint.sprintTitle);
   const [contents, setContents] = useState(selectedSprint.sprintDesc);
   const [startDate, setStartDate] = useState('');
   const [dueDate, setDueDate] = useState('');
-  const [startMonth, setStartMonth] = useState('');
-  const [dueMonth, setDueMonth] = useState('');
   const { TextArea } = Input;
   const navigate = useNavigate();
 
-  function insertYInMonths(startDate: string, dueDate: string): { [key: string]: string } {
-    const startYear = Number(startDate.split(' ')[0]);
-    const startMonth = Number(startDate.split(' ')[1].replace('월', ''));
-    const dueYear = Number(dueDate.split(' ')[0]);
-    const dueMonth = Number(dueDate.split(' ')[1].replace('월', ''));
-
-    const data: { [key: string]: string } = {};
-
-    for (let year = startYear; year <= dueYear; year++) {
-      const start = year === startYear ? startMonth : 1;
-      const end = year === dueYear ? dueMonth : 12;
-
-      for (let month = start; month <= end; month++) {
-        data[`${year} ${month}월`] = 'Y';
+  const editSprintMutation = useMutation<
+    '스프린트 수정 완료' | '스프린트 수정 실패',
+    AxiosError,
+    {
+      data: EditSprintDataType;
+      selectedSprintId: number;
+    }
+  >('editsprint', data => editSprint(data.data, data.selectedSprintId), {
+    onMutate() {},
+    onSuccess(data) {
+      if (data === '스프린트 수정 완료') {
+        toast.success('스프린트 수정이 완료되었습니다.');
+        navigate(-1);
+      } else {
+        toast.warning('스프린트 수정에 실패하였습니다.');
       }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('서버와 연결 되어있지 않습니다.');
+    },
+  });
+
+  const onSubmit = useCallback(() => {
+    if (title && contents && startDate && dueDate) {
+      editSprintMutation.mutate({
+        data: {
+          sprintTitle: title,
+          sprintDesc: contents,
+          startDate: startDate,
+          dueDate: dueDate,
+        },
+        selectedSprintId: sprintId,
+      });
     }
+  }, [title, contents, startDate, dueDate, editSprintMutation, sprintId]);
 
-    return data;
-  }
-
-  const getBack = () => {
-    let newSprint: TableData = {
-      key: selectedSprint.key,
-      sprintId: selectedSprint.sprintId,
-      sprintTitle: title,
-      sprintDesc: contents,
-      startDate: startDate,
-      dueDate: dueDate,
-      startMonth: startMonth,
-      dueMonth: dueMonth,
-    };
-    const data = insertYInMonths(startMonth, dueMonth);
-    newSprint = { ...newSprint, ...data };
-
-    const updatedSprintList = sprintList.map(sprint => (sprint.key === selectedSprint.key ? newSprint : sprint));
-
-    setSelectedSprint(newSprint);
-    setSprintList(updatedSprintList);
-    navigate(-1);
+  const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setStartDate(dateString);
   };
 
-  const onChangeStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    if (date) {
-      const text = date.year() + ' ' + Number(date.month() + 1) + '월';
-      setStartDate(dateString);
-      setStartMonth(text);
-    }
-  };
-
-  const onChangeDueDate: DatePickerProps['onChange'] = (date, dateString) => {
-    if (date) {
-      const text = date.year() + ' ' + Number(date.month() + 1) + '월';
-      setDueDate(dateString);
-      setDueMonth(text);
-    }
+  const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setDueDate(dateString);
   };
 
   return (
@@ -93,7 +86,7 @@ const SprintEditPage = () => {
               placeholder="스프린트 명"
               style={{ fontSize: 'xx-large', color: 'Black', marginTop: '5vh', marginBottom: '5vh', width: '50vw' }}
             />
-            <Button onClick={getBack}>완료하기</Button>
+            <Button onClick={onSubmit}>완료하기</Button>
           </TitleNEdit>
           <TextArea
             value={contents}
