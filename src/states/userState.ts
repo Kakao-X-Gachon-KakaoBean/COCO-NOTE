@@ -1,4 +1,7 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
+
+const { persistAtom } = recoilPersist();
 
 export interface IUser {
   isLoggingIn: boolean;
@@ -69,4 +72,5 @@ export const MyPageUserState = atom({
 export const memberIdState = atom({
   key: 'memberAtom',
   default: '',
+  effects_UNSTABLE: [persistAtom],
 });

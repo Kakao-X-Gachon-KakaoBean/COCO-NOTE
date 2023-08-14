@@ -2,8 +2,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
 import AddProject from '@components/AddProject';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRecoilValue } from 'recoil';
+import { memberIdState } from '@states/userState.ts';
+import { Client } from '@stomp/stompjs';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -28,6 +31,18 @@ const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNo
 const InvitationPage = loadable(() => import('@pages/InvitationPage'));
 
 function App() {
+  const memberId = useRecoilValue(memberIdState);
+  if (memberId !== '') {
+    const client = new Client({
+      brokerURL: 'ws://localhost:15674/ws',
+      onConnect: () => {
+        client.subscribe(`/queue/user-${memberId}`, message => {
+          toast.info(`Received: ${message.body}`);
+        });
+      },
+    });
+    client.activate();
+  }
   return (
     <>
       <BrowserRouter>
