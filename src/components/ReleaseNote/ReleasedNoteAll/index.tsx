@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Divider, Typography } from 'antd';
 import {
   ReleasedNoteDiv,
   ReleasedNoteParagraph,
-  ReleasedNoteDate,
+  // ReleasedNoteDate,
   ReleasedNoteTitle,
   MarkdownParagraph,
-  ReleasedNoteText,
+  // ReleasedNoteText,
   ReleaseNoteTotalText,
   ReleaseNoteTotalDetail,
 } from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
-import ConvertDate from '@components/ReleaseNote/ConvertDate';
+// import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { ReleaseNoteHeaderDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { useParams } from 'react-router';
 import { PagedReleaseNotes } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
