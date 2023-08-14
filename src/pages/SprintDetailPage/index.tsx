@@ -32,9 +32,11 @@ import {
   SelectedSprintState,
   WorkStatusType,
 } from '@states/SprintState.ts';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import DeleteSprintModal from '@/components/DeleteSprintModal';
 import { useParams } from 'react-router';
+import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
+import { toast } from 'react-toastify';
 
 const SprintDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -108,62 +110,48 @@ const SprintDetailPage = () => {
     setMemberList(categorizedData);
   };
 
-  const changeWorkStatusMutation = useMutation<string, AxiosError, WorkStatusType>(
-    'workStatus',
-    data =>
-      axios
-        .patch(
-          `http://localhost:8080/tasks/${data.taskId}/work-status`,
-          { workStatus: data.workStatus },
-          {
-            withCredentials: true,
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-          }
-        )
-        .then(response => response.data),
-    {
-      onMutate() {},
-      onSuccess(data) {
+  const changeWorkStatusMutation = useMutation<
+    '작업 상태 변경 완료' | '작업 상태 변경 실패',
+    AxiosError,
+    WorkStatusType
+  >('workStatus', data => changeWorkStatus(data), {
+    onMutate() {},
+    onSuccess(data) {
+      if (data === '작업 상태 변경 완료') {
         sprintData.refetch();
         memberData.refetch();
         queryClient.invalidateQueries('sprintList');
         queryClient.invalidateQueries('task');
-        console.log(data);
-      },
-      onError(error) {
-        console.log(error);
-        alert('작업상태 변경에 실패하였습니다.');
-      },
-    }
-  );
+        toast.success('작업 상태를 변경하였습니다.');
+      } else {
+        toast.warning('작업 상태를 변경하지 못했습니다.');
+      }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('작업상태 변경에 실패하였습니다.');
+    },
+  });
 
-  const changeWorkerMutation = useMutation<string, AxiosError, ChangeWorkerType>(
+  const changeWorkerMutation = useMutation<'작업자 할당 완료' | '작업자 할당 실패', AxiosError, ChangeWorkerType>(
     'taskWorker',
-    data =>
-      axios
-        .patch(`http://localhost:8080/tasks/${data.taskId}/assignment/${data.memberId}`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+    data => changeWorker(data),
     {
       onMutate() {},
       onSuccess(data) {
-        sprintData.refetch();
-        memberData.refetch();
-        queryClient.invalidateQueries('sprintList');
-        queryClient.invalidateQueries('task');
-        console.log(data);
+        if (data === '작업자 할당 완료') {
+          sprintData.refetch();
+          memberData.refetch();
+          queryClient.invalidateQueries('sprintList');
+          queryClient.invalidateQueries('task');
+          toast.success('작업자를 할당하였습니다.');
+        } else {
+          toast.success('작업자 할당에 실패하였습니다.');
+        }
       },
       onError(error) {
         console.log(error);
-        alert('작업자 할당에 실패하였습니다.');
+        toast.error('서버와 연결 되어있지 않습니다.');
       },
     }
   );

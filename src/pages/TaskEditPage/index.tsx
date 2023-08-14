@@ -8,7 +8,9 @@ import { Button, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import { editTask } from '@/Api/Sprint/Sprint.ts';
+import { toast } from 'react-toastify';
 
 const TaskEditPage = () => {
   const navigate = useNavigate();
@@ -19,40 +21,41 @@ const TaskEditPage = () => {
   const [title, setTitle] = useState(selectedTask.taskTitle);
   const [contents, setContents] = useState(selectedTask.taskDesc);
 
-  const editTaskMutation = useMutation<string, AxiosError, EditTaskDataType>(
-    'edittask',
-    data =>
-      axios
-        .patch(`http://localhost:8080/tasks/${selectedTaskId}`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+  const editTaskMutation = useMutation<
+    '하위작업 수정 완료' | '하위작업 수정 실패',
+    AxiosError,
     {
-      onMutate() {},
-      onSuccess(data) {
-        console.log(data);
-        navigate(-1);
-      },
-      onError(error) {
-        console.log(error);
-        alert('하위작업 수정에 실패하였습니다.');
-      },
+      data: EditTaskDataType;
+      selectedTaskId: number;
     }
-  );
+  >('edittask', data => editTask(data.data, data.selectedTaskId), {
+    onMutate() {},
+    onSuccess(data) {
+      if (data === '하위작업 수정 완료') {
+        toast.success('하위작업 수정이 완료되었습니다.');
+        navigate(-1);
+      } else {
+        toast.warning('하위작업 수정에 실패하였습니다.');
+      }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('서버와 연결 되어있지 않습니다.');
+    },
+  });
 
   const onSubmit = useCallback(() => {
     if (sprintId && title && contents) {
       editTaskMutation.mutate({
-        taskTitle: title,
-        taskDesc: contents,
-        sprintId: sprintId,
+        data: {
+          taskTitle: title,
+          taskDesc: contents,
+          sprintId: sprintId,
+        },
+        selectedTaskId: selectedTaskId,
       });
     }
-  }, [title, contents, editTaskMutation, sprintId]);
+  }, [sprintId, title, contents, editTaskMutation, selectedTaskId]);
 
   return (
     <>

@@ -2,7 +2,14 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeleteTaskValue, ProjectMember, SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
+import {
+  ChangeWorkerType,
+  DeleteTaskValue,
+  ProjectMember,
+  SelectedTaskId,
+  SelectedTaskState,
+  WorkStatusType,
+} from '@/states/SprintState.ts';
 import {
   ButtonDiv,
   ComponentWrapper,
@@ -21,8 +28,10 @@ import { QueryClient, useMutation, useQuery } from 'react-query';
 import { ChildType } from '@components/Sprint/type.ts';
 import fetcher from '@utils/fetcher.ts';
 import { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import DeleteTaskModal from '@components/DeleteTaskModal';
+import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
+import { toast } from 'react-toastify';
 
 const TaskDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -86,69 +95,56 @@ const TaskDetailPage = () => {
     setMemberList(categorizedData);
   };
 
-  const changeWorkStatusMutation = useMutation<string, AxiosError, { workStatus: string }>(
-    'workStatus',
-    data =>
-      axios
-        .patch(
-          `http://localhost:8080/tasks/${taskId}/work-status`,
-          { workStatus: data.workStatus },
-          {
-            withCredentials: true,
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest',
-              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-          }
-        )
-        .then(response => response.data),
-    {
-      onMutate() {},
-      onSuccess(data) {
+  const changeWorkStatusMutation = useMutation<
+    '작업 상태 변경 완료' | '작업 상태 변경 실패',
+    AxiosError,
+    WorkStatusType
+  >('workStatus', data => changeWorkStatus(data), {
+    onMutate() {},
+    onSuccess(data) {
+      if (data === '작업 상태 변경 완료') {
         taskData.refetch();
         memberData.refetch();
         queryClient.invalidateQueries('task');
-        console.log(data);
-      },
-      onError(error) {
-        console.log(error);
-        alert('작업상태 변경에 실패하였습니다.');
-      },
-    }
-  );
-  const changeWorkerMutation = useMutation<string, AxiosError, { memberId: number }>(
+        toast.success('작업 상태를 변경하였습니다.');
+      } else {
+        toast.warning('작업 상태를 변경하지 못했습니다.');
+      }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('작업상태 변경에 실패하였습니다.');
+    },
+  });
+
+  const changeWorkerMutation = useMutation<'작업자 할당 완료' | '작업자 할당 실패', AxiosError, ChangeWorkerType>(
     'taskWorker',
-    data =>
-      axios
-        .patch(`http://localhost:8080/tasks/${taskId}/assignment/${data.memberId}`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+    data => changeWorker(data),
     {
       onMutate() {},
       onSuccess(data) {
-        taskData.refetch();
-        memberData.refetch();
-        queryClient.invalidateQueries('task');
-        console.log(data);
+        if (data === '작업자 할당 완료') {
+          taskData.refetch();
+          memberData.refetch();
+          queryClient.invalidateQueries('task');
+          toast.success('작업자를 할당하였습니다.');
+        } else {
+          toast.success('작업자 할당에 실패하였습니다.');
+        }
       },
       onError(error) {
         console.log(error);
-        alert('작업자 할당에 실패하였습니다.');
+        toast.error('서버와 연결 되어있지 않습니다.');
       },
     }
   );
 
   const workStatusChange = (value: string) => {
-    changeWorkStatusMutation.mutate({ workStatus: value });
+    changeWorkStatusMutation.mutate({ workStatus: value, taskId: taskId });
   };
 
   const workerChange = (value: number) => {
-    changeWorkerMutation.mutate({ memberId: value });
+    changeWorkerMutation.mutate({ memberId: value, taskId: taskId });
   };
   return (
     <>

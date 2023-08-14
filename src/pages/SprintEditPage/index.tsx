@@ -8,7 +8,9 @@ import { Button, DatePicker, DatePickerProps, Input } from 'antd';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import { editSprint } from '@/Api/Sprint/Sprint.ts';
+import { toast } from 'react-toastify';
 
 const SprintEditPage = () => {
   const selectedSprint = useRecoilValue(SelectedSprintState);
@@ -20,41 +22,42 @@ const SprintEditPage = () => {
   const { TextArea } = Input;
   const navigate = useNavigate();
 
-  const editSprintMutation = useMutation<string, AxiosError, EditSprintDataType>(
-    'editsprint',
-    data =>
-      axios
-        .patch(`http://localhost:8080/sprints/${sprintId}`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+  const editSprintMutation = useMutation<
+    '스프린트 수정 완료' | '스프린트 수정 실패',
+    AxiosError,
     {
-      onMutate() {},
-      onSuccess(data) {
-        console.log(data);
-        navigate(-1);
-      },
-      onError(error) {
-        console.log(error);
-        alert('스프린트 수정에 실패하였습니다.');
-      },
+      data: EditSprintDataType;
+      selectedSprintId: number;
     }
-  );
+  >('editsprint', data => editSprint(data.data, data.selectedSprintId), {
+    onMutate() {},
+    onSuccess(data) {
+      if (data === '스프린트 수정 완료') {
+        toast.success('스프린트 수정이 완료되었습니다.');
+        navigate(-1);
+      } else {
+        toast.warning('스프린트 수정에 실패하였습니다.');
+      }
+    },
+    onError(error) {
+      console.log(error);
+      toast.error('서버와 연결 되어있지 않습니다.');
+    },
+  });
 
   const onSubmit = useCallback(() => {
     if (title && contents && startDate && dueDate) {
       editSprintMutation.mutate({
-        sprintTitle: title,
-        sprintDesc: contents,
-        startDate: startDate,
-        dueDate: dueDate,
+        data: {
+          sprintTitle: title,
+          sprintDesc: contents,
+          startDate: startDate,
+          dueDate: dueDate,
+        },
+        selectedSprintId: sprintId,
       });
     }
-  }, [title, contents, startDate, dueDate, editSprintMutation]);
+  }, [title, contents, startDate, dueDate, editSprintMutation, sprintId]);
 
   const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

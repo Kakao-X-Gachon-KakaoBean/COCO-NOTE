@@ -1,27 +1,23 @@
 import { Modal } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { DeleteTaskValue, SelectedTaskId } from '@states/SprintState.ts';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { deleteTask } from '@/Api/Sprint/Sprint.ts';
+import { toast } from 'react-toastify';
 
 const DeleteTaskModal = () => {
   const [isDeleteTask, setIsDeleteTask] = useRecoilState(DeleteTaskValue);
-  const id = useRecoilValue(SelectedTaskId);
+  const taskId = useRecoilValue(SelectedTaskId);
   const navigate = useNavigate();
 
-  const handleDeleteTask = async () => {
-    try {
-      await axios.delete(`http://localhost:8080/tasks/${id}`, {
-        withCredentials: true,
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      });
+  const handleDeleteTask = async (id: number) => {
+    const result = await deleteTask(id);
+    if (result === '하위작업 삭제 완료') {
       setIsDeleteTask(false);
+      toast.success('하위작업이 삭제 되었습니다.');
       navigate(-1);
-    } catch (error) {
-      console.error('하위작업 삭제에 실패했습니다.', error);
+    } else {
+      toast.warning('하위작업 삭제에 실패하였습니다.');
     }
   };
 
@@ -33,7 +29,7 @@ const DeleteTaskModal = () => {
     <Modal
       title="정말로 하위작업을 삭제하시겠습니까?"
       open={isDeleteTask}
-      onOk={handleDeleteTask}
+      onOk={() => handleDeleteTask(taskId)}
       onCancel={handleCancel}
     ></Modal>
   );

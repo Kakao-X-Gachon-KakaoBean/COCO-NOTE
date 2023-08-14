@@ -4,8 +4,8 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AddTaskValue, CreateTaskDataType, SelectedSprintId } from '@states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
-import { TableData } from '@components/Sprint/type.ts';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import { createTask } from '@/Api/Sprint/Sprint.ts';
 
 const CreateTaskModal = () => {
   const [isAddTask, setIsAddTask] = useRecoilState(AddTaskValue);
@@ -15,31 +15,25 @@ const CreateTaskModal = () => {
   const { TextArea } = Input;
   const queryClient = useQueryClient();
 
-  const CreateTaskMutation = useMutation<TableData, AxiosError, CreateTaskDataType>(
+  const CreateTaskMutation = useMutation<'하위작업 생성 완료' | '하위작업 생성 실패', AxiosError, CreateTaskDataType>(
     'createTask',
-    data =>
-      axios
-        .post('http://localhost:8080/tasks', data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+    createTask,
     {
       onMutate() {},
       onSuccess(data) {
-        console.log(data);
-        setIsAddTask(false);
-        queryClient.invalidateQueries('projectList');
-        setTitle('');
-        setContents('');
-        toast.success('하위작업이 생성 되었습니다.');
+        if (data === '하위작업 생성 완료') {
+          setIsAddTask(false);
+          queryClient.invalidateQueries('projectList');
+          setTitle('');
+          setContents('');
+          toast.success('하위작업이 생성 되었습니다.');
+        } else {
+          toast.warning('하위작업 생성에 실패했습니다.');
+        }
       },
       onError(error) {
         console.log(error);
-        toast.error('하위작업 생성에 실패하였습니다.');
+        toast.error('서버와 연결 되어있지 않습니다.');
       },
     }
   );
@@ -47,14 +41,11 @@ const CreateTaskModal = () => {
   const onSubmitTask = useCallback(
     (e: any) => {
       e.preventDefault();
-
-      if (title && contents) {
-        CreateTaskMutation.mutate({
-          taskTitle: title,
-          taskDesc: contents,
-          sprintId: Number(id),
-        });
-      }
+      CreateTaskMutation.mutate({
+        taskTitle: title,
+        taskDesc: contents,
+        sprintId: Number(id),
+      });
     },
     [title, contents, id, CreateTaskMutation]
   );
