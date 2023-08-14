@@ -29,8 +29,12 @@ import SearchPassword from '@components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
 import { setCookie } from '@utils/cookie.ts';
 import { logIn } from '@/Api/User/Login.ts';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 
 const LogIn = () => {
+  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);
@@ -48,6 +52,8 @@ const LogIn = () => {
   const logInMutation = useMutation<LoginResponse, AxiosError, LoginUser>('logIn', logIn, {
     onSuccess: data => {
       localStorage.setItem('accessToken', data?.accessToken);
+      initialSelectedProject();
+      setProjectInfoMenuOpen(false);
       setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
       navigate('/main');
     },
