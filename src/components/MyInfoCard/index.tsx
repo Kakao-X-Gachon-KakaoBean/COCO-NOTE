@@ -2,14 +2,17 @@ import AvatarCrop from '@/components/AvatarCrop';
 import { useState } from 'react';
 import { Space, Typography } from 'antd';
 import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@/components/MyInfoCard/styles.tsx';
-import { useRecoilState } from 'recoil';
-import { useQuery } from 'react-query';
-import { MypageUser, MyPageUserState } from '@/states/userState.ts';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { MypageUser } from '@/states/userState.ts';
 import fetcher from '@/utils/fetcher.ts';
+import { modifyMemberName } from '@/Api/Mypage/Mypage.ts';
+import { toast } from 'react-toastify';
+import { AxiosError } from 'axios';
+import { EditName } from '@components/MyInfoCard/type.ts';
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [userInfo, setUserInfo] = useRecoilState<MypageUser>(MyPageUserState);
+  const queryClient = useQueryClient();
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -18,6 +21,20 @@ const MyInfoCard = () => {
     fetcher({
       queryKey: 'http://localhost:8080/members/info',
     })
+  );
+  const ModifyMemberNameMutation = useMutation<'멤버 이름 변경 성공' | '멤버 이름 변경 실패', AxiosError, EditName>(
+    'modifyMemberName',
+    (data: EditName) => modifyMemberName(data),
+    {
+      onSuccess: data => {
+        if (data === '멤버 이름 변경 성공') {
+          queryClient.invalidateQueries('memberInfo');
+          toast.success('이름을 변경했습니다.');
+        } else {
+          toast.error('이름 변경에 실패했습니다.');
+        }
+      },
+    }
   );
 
   return (
@@ -39,7 +56,7 @@ const MyInfoCard = () => {
                 style={{ fontSize: '1.3rem', fontFamily: 'SCDream5' }}
                 editable={{
                   tooltip: '이름 변경',
-                  onChange: value => setUserInfo({ ...userInfo, name: value }),
+                  onChange: value => ModifyMemberNameMutation.mutate({ nameToChange: value }),
                 }}
               >
                 {data?.name}
