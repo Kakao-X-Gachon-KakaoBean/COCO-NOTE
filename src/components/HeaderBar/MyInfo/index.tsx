@@ -30,6 +30,7 @@ const Notification: React.FC = () => {
           style={{ width: '22vw' }}
           actions={[
             <div
+              key={'myPageAction'}
               style={{
                 display: 'flex',
                 justifyContent: 'center',
