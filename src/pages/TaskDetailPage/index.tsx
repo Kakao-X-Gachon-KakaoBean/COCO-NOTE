@@ -24,8 +24,7 @@ import {
 import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '@/images/defaultAvatar.png';
-import { QueryClient, useMutation, useQuery } from 'react-query';
-import { ChildType } from '@components/Sprint/type.ts';
+import { QueryClient, useMutation, useQueries } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
@@ -48,24 +47,30 @@ const TaskDetailPage = () => {
     { value: 'WORKING', label: '진행 중' },
     { value: 'COMPLETE', label: '완료' },
   ];
-  const taskData = useQuery<ChildType>(['task'], () =>
-    fetcher({
-      queryKey: `http://localhost:8080/tasks/${taskId}`,
-    })
-  );
-  const memberData = useQuery<ProjectMember[]>(['member'], () =>
-    fetcher({
-      queryKey: `http://localhost:8080/projects/${selectedTask.sprintId}/members`,
-    })
-  );
+  const res = useQueries([
+    {
+      queryKey: ['task'],
+      queryFn: () =>
+        fetcher({
+          queryKey: `http://localhost:8080/tasks/${taskId}`,
+        }),
+    },
+    {
+      queryKey: ['member'],
+      queryFn: () =>
+        fetcher({
+          queryKey: `http://localhost:8080/projects/${selectedTask.sprintId}/members`,
+        }),
+    },
+  ]);
 
   useEffect(() => {
-    if (taskData.data && memberData.data) {
-      setSelectedTask(taskData.data);
-      createMemberList(memberData.data);
+    if (res[0].isSuccess && res[1].isSuccess) {
+      setSelectedTask(res[0].data);
+      createMemberList(res[1].data);
       setIsLoading(false);
     }
-  }, [taskData.data, memberData.data, setSelectedTask]);
+  }, [res, setSelectedTask]);
 
   const createMemberList = (memberData: ProjectMember[]) => {
     const roles: Record<string, string> = {
@@ -103,8 +108,8 @@ const TaskDetailPage = () => {
     onMutate() {},
     onSuccess(data) {
       if (data === '작업 상태 변경 완료') {
-        taskData.refetch();
-        memberData.refetch();
+        res[0].refetch();
+        res[1].refetch();
         queryClient.invalidateQueries('task');
         toast.success('작업 상태를 변경하였습니다.');
       } else {
@@ -124,8 +129,8 @@ const TaskDetailPage = () => {
       onMutate() {},
       onSuccess(data) {
         if (data === '작업자 할당 완료') {
-          taskData.refetch();
-          memberData.refetch();
+          res[0].refetch();
+          res[1].refetch();
           queryClient.invalidateQueries('task');
           toast.success('작업자를 할당하였습니다.');
         } else {

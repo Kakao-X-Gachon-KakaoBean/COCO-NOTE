@@ -20,7 +20,7 @@ import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import defaultImage from '@/images/defaultAvatar.png';
-import { QueryClient, useMutation, useQuery } from 'react-query';
+import { QueryClient, useMutation, useQueries } from 'react-query';
 import { ChildType, TableData } from '@components/Sprint/type.ts';
 import fetcher from '@utils/fetcher.ts';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -55,32 +55,33 @@ const SprintDetailPage = () => {
   ];
 
   const [, setIsDeleteSprint] = useRecoilState(DeleteSprintValue);
-  const sprintData = useQuery<TableData>(
-    ['sprint'],
-    () =>
-      fetcher({
-        queryKey: `http://localhost:8080/sprints/${sprintId}`,
-      }),
+  const res = useQueries([
     {
-      onSuccess: data => {
+      queryKey: ['sprint'],
+      queryFn: () =>
+        fetcher({
+          queryKey: `http://localhost:8080/sprints/${sprintId}`,
+        }),
+      onSuccess: (data: TableData) => {
         setSelectedSprint(data);
       },
-    }
-  );
-
-  const memberData = useQuery<ProjectMember[]>(['member'], () =>
-    fetcher({
-      queryKey: `http://localhost:8080/projects/${projectId}/members`,
-    })
-  );
+    },
+    {
+      queryKey: ['member'],
+      queryFn: () =>
+        fetcher({
+          queryKey: `http://localhost:8080/projects/${projectId}/members`,
+        }),
+    },
+  ]);
 
   useEffect(() => {
-    if (sprintData.data && memberData.data) {
-      setSelectedSprint(sprintData.data);
-      createMemberList(memberData.data);
+    if (res[0].data && res[1].data) {
+      setSelectedSprint(res[0].data);
+      createMemberList(res[1].data);
       setIsLoading(false);
     }
-  }, [sprintData.data, memberData.data, sprintData, memberData, setSelectedSprint]);
+  }, [res, setSelectedSprint]);
 
   const createMemberList = (memberData: ProjectMember[]) => {
     const roles: Record<string, string> = {
@@ -118,8 +119,8 @@ const SprintDetailPage = () => {
     onMutate() {},
     onSuccess(data) {
       if (data === '작업 상태 변경 완료') {
-        sprintData.refetch();
-        memberData.refetch();
+        res[0].refetch();
+        res[1].refetch();
         queryClient.invalidateQueries('sprintList');
         queryClient.invalidateQueries('task');
         toast.success('작업 상태를 변경하였습니다.');
@@ -140,8 +141,8 @@ const SprintDetailPage = () => {
       onMutate() {},
       onSuccess(data) {
         if (data === '작업자 할당 완료') {
-          sprintData.refetch();
-          memberData.refetch();
+          res[0].refetch();
+          res[1].refetch();
           queryClient.invalidateQueries('sprintList');
           queryClient.invalidateQueries('task');
           toast.success('작업자를 할당하였습니다.');

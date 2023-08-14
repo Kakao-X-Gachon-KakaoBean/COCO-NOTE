@@ -78,13 +78,47 @@ const Sprint = () => {
   }, [data, isAddSprint, isAddTask]);
 
   useEffect(() => {
+    function ProcessingData(data: { sprints: TableData[] }) {
+      const newDatasource: TableData[] = [];
+      if (data.sprints.length === 0) {
+        newDatasource.push({
+          key: String(999),
+          sprintId: 999,
+          sprintTitle: '스프린트를 추가해주세요',
+          startDate: '0000-00-00',
+          dueDate: '0000-00-00',
+        });
+      } else {
+        data.sprints.map((sprint: TableData, index: number) => {
+          let newSprint: TableData = {
+            sprintId: sprint.sprintId,
+            sprintTitle: sprint.sprintTitle,
+            startDate: sprint.startDate,
+            dueDate: sprint.dueDate,
+            key: String(index),
+          };
+
+          if (sprint.children && sprint.children.length > 0) {
+            newSprint.children = sprint.children.map((child: ChildType) => ({
+              ...child,
+              sprintTitle: child.taskTitle, // Change field name from taskTitle to sprintTitle
+            }));
+          }
+
+          const insertY = insertYInMonths(sprint.startDate, sprint.dueDate);
+          newSprint = { ...newSprint, ...insertY };
+          newDatasource.push(newSprint);
+        });
+      }
+      setDataSource(newDatasource);
+    }
+
     if (data.data) {
-      console.log(data.data);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       ProcessingData(data.data);
     }
-  }, [data.data]);
+  }, [data.data, setDataSource]);
 
   function insertYInMonths(startDate: string, dueDate: string): { [key: string]: string } {
     const startYear = Number(startDate.split('-')[0]);
@@ -105,41 +139,6 @@ const Sprint = () => {
 
     return data;
   }
-
-  const ProcessingData = (data: { sprints: TableData[] }) => {
-    const newDatasource: TableData[] = [];
-    if (data.sprints.length === 0) {
-      newDatasource.push({
-        key: String(999),
-        sprintId: 999,
-        sprintTitle: '스프린트를 추가해주세요',
-        startDate: '0000-00-00',
-        dueDate: '0000-00-00',
-      });
-    } else {
-      data.sprints.map((sprint: TableData, index: number) => {
-        let newSprint: TableData = {
-          sprintId: sprint.sprintId,
-          sprintTitle: sprint.sprintTitle,
-          startDate: sprint.startDate,
-          dueDate: sprint.dueDate,
-          key: String(index),
-        };
-
-        if (sprint.children && sprint.children.length > 0) {
-          newSprint.children = sprint.children.map((child: ChildType) => ({
-            ...child,
-            sprintTitle: child.taskTitle, // Change field name from taskTitle to sprintTitle
-          }));
-        }
-
-        const insertY = insertYInMonths(sprint.startDate, sprint.dueDate);
-        newSprint = { ...newSprint, ...insertY };
-        newDatasource.push(newSprint);
-      });
-    }
-    setDataSource(newDatasource);
-  };
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -208,9 +207,10 @@ const Sprint = () => {
       dataIndex: title,
       key: title,
       width: '12vw',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       render: (text: string, record: TableData) => {
         const { startDate, dueDate } = record;
-        console.log(text);
         const cellStyle = {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
