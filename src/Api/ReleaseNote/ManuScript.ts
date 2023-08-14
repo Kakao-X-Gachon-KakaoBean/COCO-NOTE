@@ -51,11 +51,7 @@ export const deleteManuscript = async (scriptId: string) => {
 // 원고 배포
 export const distributeManuscript = async (data: DistributeManuscript) => {
   try {
-    await instance.post(`/release-notes`, data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    await instance.post(`/release-notes`, data);
     return '원고 배포 성공';
   } catch (err) {
     return '원고 배포 실패';

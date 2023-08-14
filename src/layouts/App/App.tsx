@@ -78,7 +78,6 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      결
     </>
   );
 }
