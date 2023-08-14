@@ -33,6 +33,7 @@ export interface ProjectMember<T = string> {
   projectMemberName: string;
   projectMemberEmail: string;
   projectMemberRole: T;
+  memberThumbnailImg: string;
 }
 
 export interface MemberRole {
