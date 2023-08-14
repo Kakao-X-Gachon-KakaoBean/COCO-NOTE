@@ -34,6 +34,11 @@ const TaskDetailPage = () => {
     Array<{ label: string; options: Array<{ label: string; value: number }> }>
   >([]);
   const queryClient = new QueryClient();
+  const WorkStatusOption = [
+    { value: 'NOT_ASSIGNED', label: '할 일' },
+    { value: 'WORKING', label: '진행 중' },
+    { value: 'COMPLETE', label: '완료' },
+  ];
   const taskData = useQuery<ChildType>(['task'], () =>
     fetcher({
       queryKey: `http://localhost:8080/tasks/${taskId}`,
@@ -189,11 +194,7 @@ const TaskDetailPage = () => {
                 defaultValue={selectedTask.workStatus}
                 style={{ width: '7vw' }}
                 onChange={value => workStatusChange(value)}
-                options={[
-                  { value: 'NOT_ASSIGNED', label: '할 일' },
-                  { value: 'WORKING', label: '진행 중' },
-                  { value: 'COMPLETE', label: '완료' },
-                ]}
+                options={WorkStatusOption}
               />
             </WorkerNStatus>
             <ContentsText>{selectedTask.taskDesc}</ContentsText>

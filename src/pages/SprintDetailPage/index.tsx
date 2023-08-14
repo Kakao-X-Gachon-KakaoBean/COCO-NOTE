@@ -24,7 +24,14 @@ import { QueryClient, useMutation, useQuery } from 'react-query';
 import { ChildType, TableData } from '@components/Sprint/type.ts';
 import fetcher from '@utils/fetcher.ts';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeleteSprintValue, ProjectMember, SelectedSprintId, SelectedSprintState } from '@states/SprintState.ts';
+import {
+  ChangeWorkerType,
+  DeleteSprintValue,
+  ProjectMember,
+  SelectedSprintId,
+  SelectedSprintState,
+  WorkStatusType,
+} from '@states/SprintState.ts';
 import axios, { AxiosError } from 'axios';
 import DeleteSprintModal from '@/components/DeleteSprintModal';
 import { useParams } from 'react-router';
@@ -39,6 +46,11 @@ const SprintDetailPage = () => {
     Array<{ label: string; options: Array<{ label: string; value: number }> }>
   >([]);
   const queryClient = new QueryClient();
+  const WorkStatusOption = [
+    { value: 'NOT_ASSIGNED', label: '할 일' },
+    { value: 'WORKING', label: '진행 중' },
+    { value: 'COMPLETE', label: '완료' },
+  ];
 
   const [, setIsDeleteSprint] = useRecoilState(DeleteSprintValue);
   const sprintData = useQuery<TableData>(
@@ -96,7 +108,7 @@ const SprintDetailPage = () => {
     setMemberList(categorizedData);
   };
 
-  const changeWorkStatusMutation = useMutation<string, AxiosError, { workStatus: string; taskId: number }>(
+  const changeWorkStatusMutation = useMutation<string, AxiosError, WorkStatusType>(
     'workStatus',
     data =>
       axios
@@ -128,7 +140,7 @@ const SprintDetailPage = () => {
     }
   );
 
-  const changeWorkerMutation = useMutation<string, AxiosError, { taskId: number; memberId: number }>(
+  const changeWorkerMutation = useMutation<string, AxiosError, ChangeWorkerType>(
     'taskWorker',
     data =>
       axios
@@ -218,11 +230,7 @@ const SprintDetailPage = () => {
                         defaultValue={task.workStatus}
                         style={{ width: '7vw' }}
                         onChange={value => workStatusChange(value, task.taskId)}
-                        options={[
-                          { value: 'NOT_ASSIGNED', label: '할 일' },
-                          { value: 'WORKING', label: '진행 중' },
-                          { value: 'COMPLETE', label: '완료' },
-                        ]}
+                        options={WorkStatusOption}
                       />
                     </WorkerNStatus>
                   </TaskDiv>
