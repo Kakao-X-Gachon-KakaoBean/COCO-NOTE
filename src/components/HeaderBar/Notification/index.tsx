@@ -2,9 +2,16 @@ import React, { useState } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
 import { items } from '@/components/HeaderBar/Notification/dummy.tsx';
 import { BellOutlined } from '@ant-design/icons';
+import { MoreBtn } from '@components/HeaderBar/Notification/styles.tsx';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 
 const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);
+  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const navigate = useNavigate();
 
   const handleDropdownVisibleChange = (flag: boolean) => {
     setVisible(flag);
@@ -13,6 +20,10 @@ const Notification: React.FC = () => {
   const handleClick = () => {
     setVisible(!visible);
   };
+
+  function waitForAnimation() {
+    return new Promise(resolve => setTimeout(resolve, 550));
+  }
 
   return (
     <div>
@@ -25,6 +36,17 @@ const Notification: React.FC = () => {
                 {item.label}
               </Menu.Item>
             ))}
+            <MoreBtn
+              onClick={async () => {
+                setVisible(false);
+                initialSelectedProject();
+                setProjectInfoMenuOpen(false);
+                await waitForAnimation();
+                navigate('/notification');
+              }}
+            >
+              더 보기
+            </MoreBtn>
           </Menu>
         }
         trigger={['click']}

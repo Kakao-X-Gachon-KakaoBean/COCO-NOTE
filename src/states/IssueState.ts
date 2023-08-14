@@ -4,6 +4,11 @@ export interface CreateIssue {
   projectId: string | undefined;
 }
 
+export interface EditIssue {
+  title: string;
+  content: string | undefined;
+}
+
 export interface CreateComment {
   content: string;
   issueId: string | undefined;

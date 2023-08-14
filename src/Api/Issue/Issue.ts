@@ -1,9 +1,6 @@
-//이슈 페이지 api
-
-import { instance } from '@/Api';
-import { CreateComment, CreateIssue } from '@states/IssueState.ts';
+import { BACKEND_URL, instance } from '@/Api';
+import { CreateComment, CreateIssue, EditIssue } from '@states/IssueState.ts';
 import fetcher from '@utils/fetcher.ts';
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const postIssue = async (data: CreateIssue) => {
   try {
@@ -34,5 +31,14 @@ export const deleteIssue = async (issueId: string) => {
     return '이슈 삭제 성공';
   } catch (err) {
     return '이슈 삭제 실패';
+  }
+};
+
+export const editIssue = async (issueId: string, data: EditIssue) => {
+  try {
+    await instance.patch(`/issues/${issueId}`, data);
+    return '이슈 수정 성공';
+  } catch (err) {
+    return '이슈 수정 실패';
   }
 };

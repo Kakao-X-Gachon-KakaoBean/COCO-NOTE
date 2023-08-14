@@ -6,22 +6,29 @@ import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectS
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { removeCookie } from '@utils/cookie.ts';
+import { memberIdState } from '@states/userState.ts';
 
 const HeaderBar = () => {
   const [projectInfoMenuOpen, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const resetMemberId = useResetRecoilState(memberIdState);
   const [isLogin, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
 
   const redirectLogin = useCallback(() => {
     document.location.href = '/login';
   }, []);
 
-  const onLogout = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    localStorage.removeItem('accessToken');
-    removeCookie('refreshToken');
-    setIsLogin(false);
-    document.location.href = '/';
-  }, []);
+  const onLogout = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      localStorage.removeItem('accessToken');
+      resetMemberId();
+      localStorage.removeItem('memberAtom');
+      removeCookie('refreshToken');
+      setIsLogin(false);
+      document.location.href = '/';
+    },
+    [resetMemberId]
+  );
 
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const navigate = useNavigate();
