@@ -15,6 +15,13 @@ export interface IUser {
   error: any;
 }
 
+export interface EditPassword {
+  email: string;
+  emailAuthKey: string;
+  passwordToChange: string;
+  checkPasswordToChange: string;
+}
+
 export interface LoginResponse {
   accessToken: string;
   refreshToken: string;

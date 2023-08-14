@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, useCallback, useState } from 'react';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 import {
   Button,
@@ -20,8 +20,11 @@ import {
   Wrapper,
 } from '@components/SearchPassword/styles';
 import { PasswordModal } from '@components/SearchPassword/type';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import useInput from '../../hooks/useInput';
+import { postEmail } from '@/Api/User/SignUp.ts';
+import { modifyPassword } from '@/Api/User/Login.ts';
+import { EditPassword } from '@states/userState.ts';
 
 const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
   const [email, onChangeEmail] = useInput('');
@@ -30,34 +33,39 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
   const [emailAuthKey, onChangeEmailAuthKey] = useInput('');
   const [, setFailUseEmail] = useState(false);
   const [mismatchError, setMismatchError] = useState(false);
-  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
-  //입력한 이메일로 인증번호 보내기
+
+  const queryClient = useQueryClient();
+
+  const postEmailMutation = useMutation<'이메일 발송 성공' | '이메일 발송 실패', AxiosError, string>(
+    'post email',
+    postEmail,
+    {
+      onSuccess: data => {
+        if (data === '이메일 발송 성공') {
+          setFailUseEmail(true);
+          toast.success('메일로 인증 번호가 발송되었습니다.');
+        } else {
+          toast.error('인증 번호 발송에 실패하였습니다.');
+          setFailUseEmail(false);
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
   const onSubmitEmail = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e?.preventDefault();
-      const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
       if (!email || !email.trim()) {
         return;
       }
-
-      axios
-        .post('http://localhost:8080/emails', { email }, { withCredentials: true })
-        .then(() => {
-          setFailUseEmail(true);
-          toast(message('메일로 인증번호가 발송되었습니다.'), {
-            type: 'success',
-          });
-        })
-        .catch(error => {
-          toast(message('메일 주소를 확인해주세요.'), { type: 'error' });
-          setFailUseEmail(false);
-          console.log(error.response);
-        });
+      postEmailMutation.mutate(email);
     },
-    [email]
+    [postEmailMutation, email]
   );
-
   const onChangePassword = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setPasswordToChange(e.target.value);
@@ -78,32 +86,17 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
     e.stopPropagation();
   }, []);
 
-  const mutation = useMutation<
-    string,
-    AxiosError,
-    {
-      email: string;
-      emailAuthKey: string;
-      passwordToChange: string;
-      checkPasswordToChange: string;
-    }
-  >(
+  const modifyPasswordMutation = useMutation<'비밀번호 변경 성공' | '비밀번호 변경 실패', AxiosError, EditPassword>(
     'modifyPassword',
-    data => axios.patch('http://localhost:8080/members/password', data).then(response => response.data),
+    (data: EditPassword) => modifyPassword(data),
     {
-      onMutate() {
-        // setLogInError(false);
-      },
-      onSuccess() {
-        toast(message('비밀번호가 변경 되었습니다.'), {
-          type: 'success',
-        });
-        console.log('요청 성공');
-      },
-      onError(error) {
-        // setLogInError(error.response?.data?.code === 401);
-        toast(message('정보를 잘못 입력하셨습니다.'), { type: 'error' });
-        console.log(error);
+      onSuccess: data => {
+        if (data === '비밀번호 변경 성공') {
+          queryClient.invalidateQueries('memberInfo');
+          toast.success('비밀번호를 변경했습니다.');
+        } else {
+          toast.error('변경 실패하였습니다.');
+        }
       },
     }
   );
@@ -112,7 +105,7 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
     (e?: React.FormEvent<HTMLFormElement>) => {
       e?.preventDefault();
       if (email && emailAuthKey && passwordToChange && checkPasswordToChange) {
-        mutation.mutate({
+        modifyPasswordMutation.mutate({
           email,
           emailAuthKey,
           passwordToChange,
@@ -120,7 +113,7 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
         });
       }
     },
-    [email, emailAuthKey, passwordToChange, checkPasswordToChange, mutation]
+    [email, emailAuthKey, passwordToChange, checkPasswordToChange, modifyPasswordMutation]
   );
 
   return (

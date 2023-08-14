@@ -2,10 +2,19 @@
 
 import { instance } from '@/Api';
 import { AxiosResponse } from 'axios';
-import { LoginResponse, LoginUser } from '@states/userState.ts';
+import { EditPassword, LoginResponse, LoginUser } from '@states/userState.ts';
 
 export const logIn = async (data: LoginUser): Promise<LoginResponse> => {
   const res: AxiosResponse<LoginResponse> = await instance.post('/local/login', data);
 
   return res.data;
+};
+
+export const modifyPassword = async (data: EditPassword) => {
+  try {
+    await instance.patch(`/members/password`, data);
+    return '비밀번호 변경 성공';
+  } catch (err) {
+    return '비밀번호 변경 실패';
+  }
 };
