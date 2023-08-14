@@ -4,7 +4,7 @@ import SideDetailBar from '@/components/SideDetailBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
-import { MouseEventHandler, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
 import { CreateIssue } from '@states/IssueState.ts';
 import {
@@ -59,8 +59,8 @@ const CreateIssue = () => {
     }
   );
 
-  const submitNewIssue: MouseEventHandler<HTMLButtonElement> = useCallback(
-    e => {
+  const submitNewIssue = useCallback(
+    (e: React.MouseEvent) => {
       e.preventDefault();
       postIssueMutation.mutate({ title, content, projectId });
     },
