@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Dropdown, Space } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AvatarCrop from '@/components/AvatarCrop';
 import { UserOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
