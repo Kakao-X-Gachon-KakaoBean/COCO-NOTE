@@ -4,7 +4,8 @@ import { AddProjectClickState, ProjectInfo } from '@/states/ProjectState.ts';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
+import { addProject } from '@/Api/Project/ProjectList.ts';
 
 const AddProject = () => {
   const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);
@@ -20,30 +21,23 @@ const AddProject = () => {
     setIsAddProject(false);
   };
 
-  const mutation = useMutation<ProjectInfo, AxiosError, { title: string; content: string }>(
-    'SubmitProject',
-    data =>
-      axios
-        .post(`http://localhost:8080/projects`, data, {
-          withCredentials: true,
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then(response => response.data),
+  const addProjectMutation = useMutation<'프로젝트 생성 성공' | '프로젝트 생성 실패', AxiosError, ProjectInfo>(
+    'addProject',
+    addProject,
     {
-      onMutate() {},
-      onSuccess(data) {
-        toast.success('프로젝트가 생성 되었습니다.');
-        queryClient.invalidateQueries('projectList');
-        setTitle('');
-        setContent('');
-        setIsAddProject(false);
+      onSuccess: data => {
+        if (data === '프로젝트 생성 성공') {
+          toast.success('프로젝트가 생성되었습니다.');
+          queryClient.invalidateQueries('projectList');
+          setTitle('');
+          setContent('');
+          setIsAddProject(false);
+        } else {
+          toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요');
+        }
       },
-      onError(error) {
-        console.log(error);
-        toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요');
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
@@ -51,9 +45,9 @@ const AddProject = () => {
   const onSubmitProject = useCallback(
     (e: any) => {
       e.preventDefault();
-      mutation.mutate({ title, content });
+      addProjectMutation.mutate({ title, content });
     },
-    [title, content, mutation]
+    [title, content, addProjectMutation]
   );
 
   return (

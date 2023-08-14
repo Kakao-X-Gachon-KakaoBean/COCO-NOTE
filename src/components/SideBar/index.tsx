@@ -6,6 +6,7 @@ import { Tooltip } from 'antd';
 import { useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { IProjectValue } from '@layouts/Main/type.ts';
+import { BACKEND_URL } from '@/Api';
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const SideBar = () => {
 
   const { isLoading, data } = useQuery<IProjectValue[]>(['projectList'], () =>
     fetcher({
-      queryKey: 'http://localhost:8080/projects',
+      queryKey: `${BACKEND_URL}/projects`,
     })
   );
   function waitForAnimation() {
