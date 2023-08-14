@@ -75,3 +75,40 @@ export const SelectedTaskId: RecoilState<number> = atom({
   key: 'SelectedTaskId',
   default: 0,
 });
+
+export interface WorkStatusType {
+  workStatus: string;
+  taskId: number;
+}
+
+export interface ChangeWorkerType {
+  taskId: number;
+  memberId: number;
+}
+
+export interface EditTaskDataType {
+  taskTitle: string;
+  taskDesc: string;
+  sprintId: number;
+}
+
+export interface EditSprintDataType {
+  sprintTitle: string;
+  sprintDesc: string;
+  startDate: string;
+  dueDate: string;
+}
+
+export interface CreateSprintDataType {
+  sprintTitle: string;
+  sprintDesc: string;
+  projectId: number;
+  startDate: string;
+  dueDate: string;
+}
+
+export interface CreateTaskDataType {
+  taskTitle: string;
+  taskDesc: string;
+  sprintId: number;
+}

@@ -2,7 +2,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { useRecoilValue } from 'recoil';
-import { SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
+import { EditTaskDataType, SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
 import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/TaskEditPage/styles.tsx';
 import { Button, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ const TaskEditPage = () => {
   const [title, setTitle] = useState(selectedTask.taskTitle);
   const [contents, setContents] = useState(selectedTask.taskDesc);
 
-  const editTaskMutation = useMutation<string, AxiosError, { taskTitle: string; taskDesc: string; sprintId: number }>(
+  const editTaskMutation = useMutation<string, AxiosError, EditTaskDataType>(
     'edittask',
     data =>
       axios

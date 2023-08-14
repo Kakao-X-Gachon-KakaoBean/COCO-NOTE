@@ -2,7 +2,7 @@ import { Input, Modal } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddTaskValue, SelectedSprintId } from '@states/SprintState.ts';
+import { AddTaskValue, CreateTaskDataType, SelectedSprintId } from '@states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import { TableData } from '@components/Sprint/type.ts';
 import axios, { AxiosError } from 'axios';
@@ -15,11 +15,7 @@ const CreateTaskModal = () => {
   const { TextArea } = Input;
   const queryClient = useQueryClient();
 
-  const CreateTaskMutation = useMutation<
-    TableData,
-    AxiosError,
-    { taskTitle: string; taskDesc: string; sprintId: number }
-  >(
+  const CreateTaskMutation = useMutation<TableData, AxiosError, CreateTaskDataType>(
     'createTask',
     data =>
       axios

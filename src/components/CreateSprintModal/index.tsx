@@ -2,12 +2,11 @@ import { DatePicker, DatePickerProps, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddSprintValue } from '@states/SprintState.ts';
+import { AddSprintValue, CreateSprintDataType } from '@states/SprintState.ts';
 import { TableData } from '@components/Sprint/type.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import { useParams } from 'react-router';
-//import moment from 'moment';
+import { useParams } from 'react-router'; //import moment from 'moment';
 
 const CreateSprintModal = () => {
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
@@ -19,11 +18,7 @@ const CreateSprintModal = () => {
   const id = useParams().projectId;
   const queryClient = useQueryClient();
 
-  const CreateSprintMutation = useMutation<
-    TableData,
-    AxiosError,
-    { sprintTitle: string; sprintDesc: string; projectId: number; startDate: string; dueDate: string }
-  >(
+  const CreateSprintMutation = useMutation<TableData, AxiosError, CreateSprintDataType>(
     'createSprint',
     data =>
       axios

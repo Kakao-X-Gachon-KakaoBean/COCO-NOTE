@@ -126,7 +126,6 @@ const Sprint = () => {
           key: String(index),
         };
 
-        // Check if 'children' exists and has at least one task
         if (sprint.children && sprint.children.length > 0) {
           newSprint.children = sprint.children.map((child: ChildType) => ({
             ...child,
@@ -238,16 +237,10 @@ const Sprint = () => {
     }
   };
 
-  //const sortableItems = useMemo(() => datasource.map(item => item.key), [datasource]);
-
   return (
     <>
       <DndContext sensors={sensors} modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-        <SortableContext
-          // rowKey array
-          items={dataSource.map(i => i.key)}
-          strategy={verticalListSortingStrategy}
-        >
+        <SortableContext items={dataSource.map(i => i.key)} strategy={verticalListSortingStrategy}>
           <Table
             components={{
               body: {
