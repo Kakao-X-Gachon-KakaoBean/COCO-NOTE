@@ -71,7 +71,11 @@ const IssueDetail = () => {
   };
 
   const editIssue = () => {
-    navigate(`editIssue`);
+    navigate('editIssue', {
+      state: {
+        IssueData: detailIssue,
+      },
+    });
   };
 
   const postCommentMutation = useMutation<'댓글 달기 완료' | '댓글 달기 실패', AxiosError, CreateComment>(

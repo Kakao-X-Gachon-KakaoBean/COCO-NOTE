@@ -5,22 +5,57 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from 'antd';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
 import { EditIssueHeader, Input, EditIssueBox, EditIssueInput, EditIssueText, EditIssueSubmit } from './styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import { useLocation } from 'react-router';
+import { useMutation, useQueryClient } from 'react-query';
+import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
+import { EditIssue } from '@states/IssueState.ts';
+import { editIssue } from '@/Api/Issue/Issue.ts';
 
 const EditIssue = () => {
   const navigate = useNavigate();
-  const [title, onChangeTitle] = useInput<string>('');
-  const [value, setValue] = useState<string | undefined>('**내용을 입력해주세요.**');
+  const location = useLocation();
+  const { IssueData } = location.state;
+  const issueId = IssueData.issue.issueId;
+  const queryClient = useQueryClient();
+
+  const [title, onChangeTitle] = useInput<string>(IssueData.issue.title);
+  const [value, setValue] = useState<string | undefined>(IssueData.issue.content);
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
 
-  const submitIssue = () => {
-    console.log(`${title}, ${value}`);
-  };
+  const editIssueMutation = useMutation<'이슈 수정 성공' | '이슈 수정 실패', AxiosError, EditIssue>(
+    'editIssue',
+    (data: EditIssue) => editIssue(issueId, data),
+    {
+      onSuccess: data => {
+        if (data === '이슈 수정 성공') {
+          toast.success('수정 완료하였습니다.');
+          navigate(-1);
+          queryClient.invalidateQueries('detatilIssue');
+        } else {
+          toast.error('양식을 제대로 입력해주세요.');
+        }
+      },
+      onError: () => {
+        alert('서버와 연결이 되어있지 않습니다.');
+      },
+    }
+  );
+
+  const submitIssue = useCallback(
+    (e: any) => {
+      e.preventDefault();
+      editIssueMutation.mutate({ title: title, content: value });
+    },
+    [title, value, editIssueMutation]
+  );
+
   const getBack = () => {
     navigate(-1);
   };
@@ -44,7 +79,7 @@ const EditIssue = () => {
                 <MDEditor height={500} value={value} onChange={setValue} />
               </EditIssueText>
               <EditIssueSubmit>
-                <Button onClick={submitIssue}>제출</Button>
+                <Button onClick={submitIssue}>수정하기</Button>
               </EditIssueSubmit>
             </EditIssueBox>
           );

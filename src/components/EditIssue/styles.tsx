@@ -41,5 +41,6 @@ export const EditIssueText = styled.div``;
 
 export const EditIssueSubmit = styled.div`
   display: flex;
+  justify-content: flex-end;
   align-items: center;
 `;
