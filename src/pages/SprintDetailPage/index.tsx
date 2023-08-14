@@ -57,7 +57,7 @@ const SprintDetailPage = () => {
   const [, setIsDeleteSprint] = useRecoilState(DeleteSprintValue);
   const res = useQueries([
     {
-      queryKey: ['sprint'],
+      queryKey: ['sprint', sprintId],
       queryFn: () =>
         fetcher({
           queryKey: `http://localhost:8080/sprints/${sprintId}`,
@@ -67,7 +67,7 @@ const SprintDetailPage = () => {
       },
     },
     {
-      queryKey: ['member'],
+      queryKey: ['member', projectId],
       queryFn: () =>
         fetcher({
           queryKey: `http://localhost:8080/projects/${projectId}/members`,

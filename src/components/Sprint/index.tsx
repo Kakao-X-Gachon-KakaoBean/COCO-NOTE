@@ -65,7 +65,7 @@ const Sprint = () => {
   const [, setSelectedSprintId] = useRecoilState(SelectedSprintId);
   const [, setSelectedTaskId] = useRecoilState(SelectedTaskId);
 
-  const data = useQuery<TableData[]>(['sprintList'], () =>
+  const data = useQuery<TableData[]>(['sprintList', id], () =>
     fetcher({
       queryKey: `http://localhost:8080/sprints?projectId=${id}`,
     })
