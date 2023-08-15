@@ -1,4 +1,4 @@
-import { Button, Modal, Checkbox } from 'antd';
+import { Button, Checkbox, Modal } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,7 +7,7 @@ import {
   FooterContainer,
   WithdrawAccountAgreeText,
   WithdrawAccountExplainText,
-} from '@components/MyInfoCard/WithdrawAccountModal/styles.tsx';
+} from '@/components/MyInfoCard/WithdrawAccountModal/styles.tsx';
 
 const WithdrawAccountModal = () => {
   const [open, setOpen] = useState(false);

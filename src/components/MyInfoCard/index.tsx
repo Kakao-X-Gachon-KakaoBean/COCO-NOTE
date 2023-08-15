@@ -8,7 +8,8 @@ import fetcher from '@/utils/fetcher.ts';
 import { modifyMemberName } from '@/Api/Mypage/Mypage.ts';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { EditName } from '@components/MyInfoCard/type.ts';
+import { EditName } from '@/components/MyInfoCard/type.ts';
+
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {
   const [modalVisible, setModalVisible] = useState(false);

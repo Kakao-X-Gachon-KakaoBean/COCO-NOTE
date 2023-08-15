@@ -2,15 +2,15 @@ import { Key, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
-import type { TreeProps, DataNode } from 'antd/es/tree';
-import { CreateReleaseNoteButton, ReleaseTreeDiv } from '@components/ReleaseNote/ReleaseNoteTree/styles.tsx';
-import CreateReleaseNoteModal from '@components/ReleaseNote/CreateReleaseNoteModal';
+import type { DataNode, TreeProps } from 'antd/es/tree';
+import { CreateReleaseNoteButton, ReleaseTreeDiv } from '@/components/ReleaseNote/ReleaseNoteTree/styles.tsx';
+import CreateReleaseNoteModal from '@/components/ReleaseNote/CreateReleaseNoteModal';
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
-import fetcher from '@utils/fetcher.ts';
-import { ManuscriptTree, ReleasedNoteTree } from '@components/ReleaseNote/ReleaseNoteTree/type.ts';
+import fetcher from '@/utils/fetcher.ts';
+import { ManuscriptTree, ReleasedNoteTree } from '@/components/ReleaseNote/ReleaseNoteTree/type.ts';
 import { toast } from 'react-toastify';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 
 const ReleaseNoteTree = () => {
   const navigate = useNavigate();

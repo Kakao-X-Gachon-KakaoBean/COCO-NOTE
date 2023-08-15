@@ -8,7 +8,7 @@ import {
   EditSprintDataType,
   EditTaskDataType,
   WorkStatusType,
-} from '@states/SprintState.ts';
+} from '@/states/SprintState.ts';
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 

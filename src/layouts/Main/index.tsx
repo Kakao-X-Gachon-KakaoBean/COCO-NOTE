@@ -1,16 +1,16 @@
-import HeaderBar from '@components/HeaderBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import HeaderBar from '@/components/HeaderBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import MDEditor from '@uiw/react-md-editor';
 import 'react-toastify/dist/ReactToastify.css';
-import { manual } from '@layouts/Main/manual.tsx';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { manual } from '@/layouts/Main/manual.tsx';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation } from 'react-router';
-import { setCookie } from '@utils/cookie.ts';
-import { memberIdState } from '@states/userState.ts';
+import { memberIdState } from '@/states/userState.ts';
+import { setCookie } from '@/utils/cookie.ts';
 
 const Main = () => {
   const location = useLocation();

@@ -4,8 +4,8 @@ import { AddProjectClickState, projectInfoMenuOpenState, SelectedProjectState } 
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import { useQuery } from 'react-query';
-import fetcher from '@utils/fetcher.ts';
-import { IProjectValue } from '@layouts/Main/type.ts';
+import fetcher from '@/utils/fetcher.ts';
+import { IProjectValue } from '@/layouts/Main/type.ts';
 import { BACKEND_URL } from '@/Api';
 import logoImage from '@/images/logoImage.png';
 

@@ -1,12 +1,13 @@
 import { Button, Input, Modal } from 'antd';
 import React, { useState } from 'react';
-import { CreateManuscript, ModalProps } from '@components/ReleaseNote/CreateReleaseNoteModal/type.ts';
-import { GuideText, ModalDiv } from '@components/ReleaseNote/CreateReleaseNoteModal/styles.tsx';
+import { CreateManuscript, ModalProps } from '@/components/ReleaseNote/CreateReleaseNoteModal/type.ts';
+import { GuideText, ModalDiv } from '@/components/ReleaseNote/CreateReleaseNoteModal/styles.tsx';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { createManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
+
 const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => {
   const queryClient = useQueryClient();
   const headerParam = useParams();

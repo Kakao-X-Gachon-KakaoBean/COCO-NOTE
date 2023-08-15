@@ -6,7 +6,7 @@ import { CenterDiv, ChangeInfoDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } fro
 import { Divider } from 'antd';
 import ChangePasswordModal from '@/components/MyInfoCard/ChangePasswordModal';
 import WithdrawAccountModal from '@/components/MyInfoCard/WithdrawAccountModal';
-import SideDetailBar from '@components/SideDetailBar';
+import SideDetailBar from '@/components/SideDetailBar';
 
 const MyPage = () => {
   return (

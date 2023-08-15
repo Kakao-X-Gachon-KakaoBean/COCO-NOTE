@@ -25,10 +25,10 @@ import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '@/images/defaultAvatar.png';
 import { QueryClient, useMutation, useQueries } from 'react-query';
-import fetcher from '@utils/fetcher.ts';
+import fetcher from '@/utils/fetcher.ts';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import DeleteTaskModal from '@components/DeleteTaskModal';
+import DeleteTaskModal from '@/components/DeleteTaskModal';
 import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 

@@ -1,11 +1,11 @@
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import ReleasedNoteAll from '@components/ReleaseNote/ReleasedNoteAll';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import ReleasedNoteAll from '@/components/ReleaseNote/ReleasedNoteAll';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 
 const ReleaseNotePage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
