@@ -2,7 +2,7 @@ import { DatePicker, DatePickerProps, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddSprintValue, CreateSprintDataType } from '@states/SprintState.ts';
+import { AddSprintValue, CreateSprintDataType } from '@/states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router';

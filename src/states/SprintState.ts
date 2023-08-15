@@ -1,5 +1,5 @@
 import { atom, RecoilState } from 'recoil';
-import { ChildType, TableData } from '@components/Sprint/type.ts';
+import { ChildType, TableData } from '@/components/Sprint/type.ts';
 
 export interface ProjectMember {
   projectMemberId: number;

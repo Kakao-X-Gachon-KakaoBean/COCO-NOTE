@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import AvatarCrop from '@/components/AvatarCrop';
 import { UserOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 
 const Notification: React.FC = () => {
   const navigate = useNavigate();
@@ -20,9 +20,11 @@ const Notification: React.FC = () => {
   const handleDropdownVisibleChange = (flag: boolean) => {
     setVisible(flag);
   };
+
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
   }
+
   return (
     <Dropdown
       overlay={

@@ -1,11 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
-import AddProject from '@components/AddProject';
+import AddProject from '@/components/AddProject';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRecoilValue } from 'recoil';
-import { memberIdState } from '@states/userState.ts';
+import { memberIdState } from '@/states/userState.ts';
 import { Client } from '@stomp/stompjs';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));

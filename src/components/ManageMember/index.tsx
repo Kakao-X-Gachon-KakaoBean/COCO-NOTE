@@ -12,7 +12,7 @@ import {
   ProjectButton,
   ProjectHeader,
   ProjectSection,
-} from '@components/ManageMember/styles.tsx';
+} from '@/components/ManageMember/styles.tsx';
 
 import { Button, Divider, Input, Modal, Select } from 'antd';
 
@@ -32,17 +32,17 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { EditProject, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { EditProject, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { toast } from 'react-toastify';
-import fetcher from '@utils/fetcher.ts';
+import fetcher from '@/utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

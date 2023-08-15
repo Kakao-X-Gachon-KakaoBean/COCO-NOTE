@@ -31,10 +31,10 @@ import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { Input } from '@/components/EditIssue/styles.tsx';
-import { Comment, CreateComment, GetIssueDetail } from '@states/IssueState.ts';
+import { Comment, CreateComment, GetIssueDetail } from '@/states/IssueState.ts';
 import { deleteIssue, postComment } from '@/Api/Issue/Issue.ts';
 import { toast } from 'react-toastify';
-import fetcher from '@utils/fetcher.ts';
+import fetcher from '@/utils/fetcher.ts';
 import { BACKEND_URL } from '@/Api';
 
 const IssueDetail = () => {

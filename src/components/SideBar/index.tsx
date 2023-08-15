@@ -4,8 +4,8 @@ import { AddProjectClickState, projectInfoMenuOpenState, SelectedProjectState } 
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import { useQuery } from 'react-query';
-import fetcher from '@utils/fetcher.ts';
-import { IProjectValue } from '@layouts/Main/type.ts';
+import fetcher from '@/utils/fetcher.ts';
+import { IProjectValue } from '@/layouts/Main/type.ts';
 import { BACKEND_URL } from '@/Api';
 
 const SideBar = () => {
@@ -20,9 +20,11 @@ const SideBar = () => {
       queryKey: `${BACKEND_URL}/projects`,
     })
   );
+
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
   }
+
   return (
     <Wrapper>
       {!isLoading && data && (

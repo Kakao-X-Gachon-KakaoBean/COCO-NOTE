@@ -1,27 +1,28 @@
 import MDEditor from '@uiw/react-md-editor';
 import { useState } from 'react';
 import { Button, Input, Modal } from 'antd';
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import {
   EditManuscriptDiv,
   Editor,
   TemporarySave,
   TitleVersionInput,
   TopHeaderInfo,
-} from '@components/ReleaseNote/ReleaseNoteEdit/styles.tsx';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+} from '@/components/ReleaseNote/ReleaseNoteEdit/styles.tsx';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValueLoadable } from 'recoil';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation, useParams } from 'react-router';
-import { ManuscriptEdit } from '@components/ReleaseNote/ReleaseNoteEdit/type.ts';
+import { ManuscriptEdit } from '@/components/ReleaseNote/ReleaseNoteEdit/type.ts';
 import { deleteManuscript, saveEditedManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { DeleteModalBtnDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+import { DeleteModalBtnDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+
 const ReleaseNoteEdit = () => {
   const location = useLocation();
   const navigate = useNavigate();

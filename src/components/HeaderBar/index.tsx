@@ -1,12 +1,12 @@
-import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@components/HeaderBar/styles.tsx';
-import Notification from '@components/HeaderBar/Notification';
-import MyInfo from '@components/HeaderBar/MyInfo';
+import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@/components/HeaderBar/styles.tsx';
+import Notification from '@/components/HeaderBar/Notification';
+import MyInfo from '@/components/HeaderBar/MyInfo';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
-import { removeCookie } from '@utils/cookie.ts';
-import { memberIdState } from '@states/userState.ts';
+import { removeCookie } from '@/utils/cookie.ts';
+import { memberIdState } from '@/states/userState.ts';
 
 const HeaderBar = () => {
   const [projectInfoMenuOpen, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
@@ -32,9 +32,11 @@ const HeaderBar = () => {
 
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const navigate = useNavigate();
+
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
   }
+
   return (
     <>
       <BarDiv>

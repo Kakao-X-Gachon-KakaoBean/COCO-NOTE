@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
 import { items } from '@/components/HeaderBar/Notification/dummy.tsx';
 import { BellOutlined } from '@ant-design/icons';
-import { MoreBtn } from '@components/HeaderBar/Notification/styles.tsx';
+import { MoreBtn } from '@/components/HeaderBar/Notification/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 
 const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);

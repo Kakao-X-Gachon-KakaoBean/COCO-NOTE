@@ -1,13 +1,13 @@
-import HeaderBar from '@components/HeaderBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import HeaderBar from '@/components/HeaderBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValueLoadable } from 'recoil';
 import MDEditor from '@uiw/react-md-editor';
 import 'react-toastify/dist/ReactToastify.css';
-import { manual } from '@layouts/Main/manual.tsx';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { manual } from '@/layouts/Main/manual.tsx';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 
 const Main = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);

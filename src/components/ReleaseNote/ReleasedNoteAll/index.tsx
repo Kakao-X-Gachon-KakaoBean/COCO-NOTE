@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react';
 import { Divider, Typography } from 'antd';
 import {
+  MarkdownParagraph,
   ReleasedNoteDiv,
   ReleasedNoteParagraph,
-  // ReleasedNoteDate,
   ReleasedNoteTitle,
-  MarkdownParagraph,
-  // ReleasedNoteText,
-  ReleaseNoteTotalText,
   ReleaseNoteTotalDetail,
-} from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+  ReleaseNoteTotalText,
+} from '@/components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
-// import ConvertDate from '@components/ReleaseNote/ConvertDate';
-import { ReleaseNoteHeaderDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+// import ConvertDate from '@/components/ReleaseNote/ConvertDate';
+import { ReleaseNoteHeaderDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { useParams } from 'react-router';
-import { PagedReleaseNotes } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
+import { PagedReleaseNotes } from '@/components/ReleaseNote/ReleasedNoteAll/type.ts';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
-import { ActivityIndicator } from '@components/ActivityIndicator';
-import pagedFetcher from '@utils/pagedFetcher.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
+import pagedFetcher from '@/utils/pagedFetcher.ts';
+
 const ReleasedNoteAll: React.FC = () => {
   const headerParam = useParams();
   const projectId = headerParam.projectId;

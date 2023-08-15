@@ -1,7 +1,7 @@
-import ManageMember from '@components/ManageMember';
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
+import ManageMember from '@/components/ManageMember';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
 
 const ManagePage = () => {
   return (
