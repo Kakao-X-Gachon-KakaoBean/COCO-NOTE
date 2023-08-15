@@ -32,20 +32,20 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useEffect, useState } from 'react';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import { useQuery } from 'react-query';
-import { ProjectData, projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ProjectData, projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
-import { ActivityIndicator } from '@components/ActivityIndicator';
-import fetcher from '@utils/fetcher.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
+import fetcher from '@/utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
 
 interface TablePaginationActionsProps {
   count: number;

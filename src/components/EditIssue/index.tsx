@@ -1,21 +1,21 @@
-import HeaderBar from '@components/HeaderBar';
-import SideBar from '@components/SideBar';
-import SideDetailBar from '@components/SideDetailBar';
-import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import HeaderBar from '@/components/HeaderBar';
+import SideBar from '@/components/SideBar';
+import SideDetailBar from '@/components/SideDetailBar';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from 'antd';
 import { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
-import { EditIssueHeader, Input, EditIssueBox, EditIssueInput, EditIssueText, EditIssueSubmit } from './styles.tsx';
+import { EditIssueBox, EditIssueHeader, EditIssueInput, EditIssueSubmit, EditIssueText, Input } from './styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
-import { ActivityIndicator } from '@components/ActivityIndicator';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { EditIssue } from '@states/IssueState.ts';
+import { EditIssue } from '@/states/IssueState.ts';
 import { editIssue } from '@/Api/Issue/Issue.ts';
 
 const EditIssue = () => {

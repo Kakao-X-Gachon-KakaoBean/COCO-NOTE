@@ -1,4 +1,4 @@
-import { ReleasedNoteAll } from '@components/ReleaseNote/ReleasedNoteAll/type.ts';
+import { ReleasedNoteAll } from '@/components/ReleaseNote/ReleasedNoteAll/type.ts';
 
 export const TestReleasedNote: ReleasedNoteAll[] = [
   {

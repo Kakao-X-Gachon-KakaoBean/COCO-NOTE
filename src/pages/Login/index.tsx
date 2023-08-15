@@ -17,20 +17,20 @@ import {
   SocialLogin,
   Vertical,
   Wrapper,
-} from '@pages/Login/styles.tsx';
+} from '@/pages/Login/styles.tsx';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-import Menu from '@components/Menu';
+import Menu from '@/components/Menu';
 import useInput from '../../hooks/useInput.ts';
-import { LoginResponse, LoginUser, memberIdState } from '@states/userState.ts';
+import { LoginResponse, LoginUser, memberIdState } from '@/states/userState.ts';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
-import SearchPassword from '@components/SearchPassword';
+import SearchPassword from '@/components/SearchPassword';
 import { ToastContainer } from 'react-toastify';
-import { setCookie } from '@utils/cookie.ts';
+import { setCookie } from '@/utils/cookie.ts';
 import { logIn } from '@/Api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { BACKEND_URL } from '@/Api';
 
 const LogIn = () => {

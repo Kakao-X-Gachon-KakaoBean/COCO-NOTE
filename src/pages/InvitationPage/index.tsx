@@ -11,14 +11,14 @@ import {
   ProjectExplain,
   ProjectName,
   Wrapper,
-} from '@pages/InvitationPage/styles.tsx';
+} from '@/pages/InvitationPage/styles.tsx';
 import logoImage from '@/images/logoImage.png';
-import HeaderBar from '@components/HeaderBar';
-import fetcher from '@utils/fetcher.ts';
+import HeaderBar from '@/components/HeaderBar';
+import fetcher from '@/utils/fetcher.ts';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { inviteMember } from '@/Api/Invitation/Invitation.ts';
-import { InvitationState } from '@states/InvitationState.ts';
+import { InvitationState } from '@/states/InvitationState.ts';
 
 const InvitationPage = () => {
   const projectKey: any = useParams().projectkey;

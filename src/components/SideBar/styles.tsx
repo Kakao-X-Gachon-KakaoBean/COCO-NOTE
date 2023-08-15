@@ -13,6 +13,12 @@ export const Wrapper = styled.div`
   align-items: flex-start;
 `;
 
+export const LogoImage = styled.img`
+  width: 6vw;
+  height: 11vh;
+  margin-left: 1vw;
+`;
+
 export const Circle = styled.div`
   background-color: white;
   text-align: center;
@@ -26,10 +32,12 @@ export const Circle = styled.div`
   cursor: pointer;
   display: flex;
   justify-content: center;
+
   &.selected {
     background-color: #23c483;
     color: #ffffff;
   }
+
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;

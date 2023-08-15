@@ -1,4 +1,4 @@
-import { BtnLink, ExplainDiv, LoginBtn, MainSection, ProjectNameDiv, Wrapper } from '@pages/InitialPage/styles.tsx';
+import { BtnLink, ExplainDiv, LoginBtn, MainSection, ProjectNameDiv, Wrapper } from '@/pages/InitialPage/styles.tsx';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import React, { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
-import { CreateIssue } from '@states/IssueState.ts';
+import { CreateIssue } from '@/states/IssueState.ts';
 import {
   CreateIssueBox,
   CreateIssueHeader,

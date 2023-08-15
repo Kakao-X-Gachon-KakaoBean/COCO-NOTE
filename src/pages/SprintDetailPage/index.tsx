@@ -21,8 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import defaultImage from '@/images/defaultAvatar.png';
 import { QueryClient, useMutation, useQueries } from 'react-query';
-import { ChildType, TableData } from '@components/Sprint/type.ts';
-import fetcher from '@utils/fetcher.ts';
+import { ChildType, TableData } from '@/components/Sprint/type.ts';
+import fetcher from '@/utils/fetcher.ts';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   ChangeWorkerType,
@@ -31,7 +31,7 @@ import {
   SelectedSprintId,
   SelectedSprintState,
   WorkStatusType,
-} from '@states/SprintState.ts';
+} from '@/states/SprintState.ts';
 import { AxiosError } from 'axios';
 import DeleteSprintModal from '@/components/DeleteSprintModal';
 import { useParams } from 'react-router';

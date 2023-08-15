@@ -1,6 +1,6 @@
 import { Modal } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeleteSprintValue, SelectedSprintId } from '@states/SprintState.ts';
+import { DeleteSprintValue, SelectedSprintId } from '@/states/SprintState.ts';
 import { useNavigate } from 'react-router-dom';
 import { deleteSprint } from '@/Api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';

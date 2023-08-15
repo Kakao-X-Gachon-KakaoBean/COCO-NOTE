@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
-import { Label, Wrapper } from '@pages/Login/styles.tsx';
+import { Label, Wrapper } from '@/pages/Login/styles.tsx';
 import {
   CheckBtn,
   Correct,
@@ -11,10 +11,10 @@ import {
   Input,
   LoginBtn,
   SubHeader,
-} from '@pages/SignUp/styles';
+} from '@/pages/SignUp/styles';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { SignUpUser } from '@states/userState.ts';
+import { SignUpUser } from '@/states/userState.ts';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
