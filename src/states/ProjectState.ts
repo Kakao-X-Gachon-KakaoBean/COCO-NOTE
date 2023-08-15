@@ -2,6 +2,7 @@ import { atom, RecoilState } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
+
 interface IProjectValue {
   projectId: number;
   projectTitle: string;
@@ -44,6 +45,7 @@ export interface MemberRole {
 export interface ModifyMember {
   modifyProjectMemberRole: MemberRole[];
 }
+
 const initialProjectValue: IProjectValue[] = [
   {
     projectId: 0,
@@ -56,11 +58,6 @@ const initialProjectValue: IProjectValue[] = [
     projectContent: '프로젝트에 대한 설명입니다.',
   },
 ];
-
-export const projectValueState: RecoilState<IProjectValue[]> = atom({
-  key: 'ProjectValueState',
-  default: initialProjectValue,
-});
 
 export const AddProjectClickState: RecoilState<boolean> = atom({
   key: 'AddProject',
