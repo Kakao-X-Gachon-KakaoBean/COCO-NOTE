@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Card, Dropdown, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import AvatarCrop from '@/components/AvatarCrop';
-import { UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { removeCookie } from '@utils/cookie.ts';
+import { memberIdState } from '@states/userState.ts';
 
 const Notification: React.FC = () => {
   const navigate = useNavigate();
@@ -12,6 +14,21 @@ const Notification: React.FC = () => {
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
+  const resetMemberId = useResetRecoilState(memberIdState);
+
+  const onLogout = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      localStorage.removeItem('accessToken');
+      resetMemberId();
+      localStorage.removeItem('memberAtom');
+      removeCookie('refreshToken');
+      setIsLogin(false);
+      document.location.href = '/';
+    },
+    [resetMemberId]
+  );
 
   const closeModal = () => {
     setModalVisible(false);
@@ -48,6 +65,17 @@ const Notification: React.FC = () => {
               }}
             >
               <UserOutlined style={{ fontSize: 15 }} /> &nbsp; 마이 페이지
+            </div>,
+            <div
+              key={'logoutAction'}
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onClick={onLogout}
+            >
+              <LogoutOutlined style={{ fontSize: 15 }} /> &nbsp; 로그아웃
             </div>,
           ]}
         >
