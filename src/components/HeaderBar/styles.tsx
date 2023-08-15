@@ -40,3 +40,5 @@ export const OthersDiv = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const LogInNOutIcon = styled.div``;
