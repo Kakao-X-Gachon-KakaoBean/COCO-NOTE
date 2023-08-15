@@ -9,6 +9,10 @@ export interface EditIssue {
   content: string | undefined;
 }
 
+export interface EditComment {
+  content: string;
+}
+
 export interface CreateComment {
   content: string;
   issueId: string | undefined;
