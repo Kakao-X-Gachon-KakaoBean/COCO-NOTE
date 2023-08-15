@@ -1,5 +1,5 @@
 import { BACKEND_URL, instance } from '@/Api';
-import { CreateComment, CreateIssue, EditIssue } from '@states/IssueState.ts';
+import { CreateComment, CreateIssue, EditComment, EditIssue } from '@states/IssueState.ts';
 import fetcher from '@utils/fetcher.ts';
 
 export const postIssue = async (data: CreateIssue) => {
@@ -40,5 +40,23 @@ export const editIssue = async (issueId: string, data: EditIssue) => {
     return '이슈 수정 성공';
   } catch (err) {
     return '이슈 수정 실패';
+  }
+};
+
+export const editComment = async (commentId: number | undefined, data: EditComment) => {
+  try {
+    await instance.patch(`/comments/${commentId}`, data);
+    return '댓글 수정 성공';
+  } catch (err) {
+    return '댓글 수정 실패';
+  }
+};
+
+export const deleteComment = async (commentId: number) => {
+  try {
+    await instance.delete(`/comments/${commentId}`);
+    return '댓글 삭제 성공';
+  } catch (err) {
+    return '댓글 삭제 실패';
   }
 };
