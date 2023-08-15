@@ -3,13 +3,29 @@ import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import SideBar from '@components/SideBar';
 import SideDetailBar from '@components/SideDetailBar';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
-import { useRecoilValueLoadable } from 'recoil';
+import { useRecoilState, useRecoilValueLoadable } from 'recoil';
 import MDEditor from '@uiw/react-md-editor';
 import 'react-toastify/dist/ReactToastify.css';
 import { manual } from '@layouts/Main/manual.tsx';
 import { ActivityIndicator } from '@components/ActivityIndicator';
+import { useLocation } from 'react-router';
+import { setCookie } from '@utils/cookie.ts';
+import { memberIdState } from '@states/userState.ts';
 
 const Main = () => {
+  const location = useLocation();
+  const [memberId, setMemberId] = useRecoilState(memberIdState);
+  console.log(memberId);
+  const searchParams = new URLSearchParams(location.search);
+  const accessToken: string | null = searchParams.get('accessToken');
+  const refreshToken: string | null = searchParams.get('refreshToken');
+  const Id: string | null = searchParams.get('memberId');
+
+  if (Id && accessToken && refreshToken) {
+    setMemberId(Id.toString());
+    localStorage.setItem('accessToken', accessToken);
+    setCookie('refreshToken', refreshToken, { path: '/' });
+  }
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
   let contents = null;
 
