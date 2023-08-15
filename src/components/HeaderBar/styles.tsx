@@ -34,9 +34,10 @@ export const LogoDiv = styled.div`
 `;
 
 export const OthersDiv = styled.div`
-  width: 5%;
+  width: 5rem;
   display: flex;
   flex-direction: row;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
 `;
