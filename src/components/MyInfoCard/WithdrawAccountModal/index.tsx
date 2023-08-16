@@ -1,6 +1,6 @@
 import { Button, Checkbox, Modal } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from 'react';
 import {
@@ -60,7 +60,6 @@ const WithdrawAccountModal = () => {
           <div>코코노트의 모든 사용자 정보가 삭제됩니다.</div>
         </WithdrawAccountExplainText>
       </Modal>
-      <ToastContainer position="top-center" autoClose={1500} closeOnClick pauseOnFocusLoss theme="light" />
     </div>
   );
 };
