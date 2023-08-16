@@ -2,14 +2,16 @@ import React, { useEffect } from 'react';
 import { Divider, Typography } from 'antd';
 import {
   MarkdownParagraph,
+  ReleasedNoteDate,
   ReleasedNoteDiv,
   ReleasedNoteParagraph,
+  ReleasedNoteText,
   ReleasedNoteTitle,
   ReleaseNoteTotalDetail,
   ReleaseNoteTotalText,
 } from '@/components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
-// import ConvertDate from '@/components/ReleaseNote/ConvertDate';
+import ConvertDate from '@/components/ReleaseNote/ConvertDate';
 import { ReleaseNoteHeaderDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { useParams } from 'react-router';
 import { PagedReleaseNotes } from '@/components/ReleaseNote/ReleasedNoteAll/type.ts';
@@ -71,7 +73,7 @@ const ReleasedNoteAll: React.FC = () => {
                   <div key={note.id}>
                     <ReleaseNoteHeaderDiv>
                       <ReleasedNoteTitle>{note.title}</ReleasedNoteTitle>
-                      {/*<ReleasedNoteText>{ConvertDate(note.date)}</ReleasedNoteText>*/}
+                      <ReleasedNoteDate>{ConvertDate(note.createdAt)}</ReleasedNoteDate>
                     </ReleaseNoteHeaderDiv>
                     <MarkdownParagraph data-color-mode="light">
                       <MDEditor.Markdown source={note.content} style={{ fontFamily: 'SCDream4' }} />

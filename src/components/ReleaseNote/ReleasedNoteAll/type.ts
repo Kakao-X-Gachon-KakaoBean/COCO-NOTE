@@ -10,6 +10,7 @@ export interface ReleaseNote {
   title: string;
   version: string;
   content: string;
+  createdAt: string;
 }
 
 export interface PagedReleaseNotes {
