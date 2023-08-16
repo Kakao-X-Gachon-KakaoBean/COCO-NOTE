@@ -1,12 +1,13 @@
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
 import { NotificationItem } from '@components/Notification/SimpleNotification/type.ts';
+import { BACKEND_URL } from '@/Api';
 
 function useNotifications() {
   return useInfiniteQuery<NotificationItem[]>(
     'notifications',
     async ({ pageParam = null }) => {
-      const { data } = await axios.get(`http://localhost:8080/notifications/page`, {
+      const { data } = await axios.get(`${BACKEND_URL}/notifications/page`, {
         params: {
           lastNotificationId: pageParam,
         },
@@ -22,7 +23,7 @@ function useNotifications() {
       getNextPageParam: lastPage => {
         // 마지막 페이지의 마지막 아이템을 가져옵니다.
         const lastItem = lastPage[lastPage.length - 1];
-        return lastItem ? lastItem.notificationId : undefined;
+        return lastItem ? lastItem.notificationId : null;
       },
     }
   );
