@@ -9,7 +9,6 @@ import {
   ProjectBody,
   ProjectBodyExplain,
   ProjectBodyTitle,
-  ProjectButton,
   ProjectHeader,
   ProjectSection,
 } from '@/components/ManageMember/styles.tsx';
@@ -374,9 +373,6 @@ const ManageMember = () => {
       {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
-            <ProjectButton>
-              <Button shape="circle" icon={<CloseOutlined />} />
-            </ProjectButton>
             <ProjectHeader>
               <div>프로젝트 정보</div>
               <div>

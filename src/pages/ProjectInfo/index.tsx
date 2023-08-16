@@ -14,7 +14,7 @@ import {
 } from '@/pages/ProjectInfo/styles.tsx';
 import defaultImage from '@/images/defaultAvatar.png';
 
-import { Button, Divider } from 'antd';
+import { Divider } from 'antd';
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -33,7 +33,6 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useEffect, useState } from 'react';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
-import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import { useQuery } from 'react-query';
 import { ProjectData, projectInfoMenuOpenState } from '@/states/ProjectState.ts';
@@ -46,7 +45,6 @@ import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
-import { ProjectButton } from '@components/ManageMember/styles.tsx';
 
 interface TablePaginationActionsProps {
   count: number;
