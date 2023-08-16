@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRecoilValue } from 'recoil';
 import { memberIdState } from '@/states/userState.ts';
 import { Client } from '@stomp/stompjs';
+import { useQueryClient } from 'react-query';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -33,12 +34,15 @@ const NotificationPage = loadable(() => import('@pages/NotificationPage'));
 
 function App() {
   const memberId = useRecoilValue(memberIdState);
+  const QueryClient = useQueryClient();
   if (memberId !== '') {
     const client = new Client({
       brokerURL: 'ws://localhost:15674/ws',
       onConnect: () => {
         client.subscribe(`/queue/user-${memberId}`, message => {
-          toast.info(`Received: ${message.body}`);
+          QueryClient.invalidateQueries('simpleNotification');
+          const parsedMessage = JSON.parse(message.body);
+          toast.info(parsedMessage.title);
         });
       },
     });
@@ -63,11 +67,13 @@ function App() {
             <Route path=":issueId/editIssue" element={<EditIssue />} />
           </Route>
           <Route path="/projects/:projectId/projectinfo" element={<ProjectInfo />} />
-          <Route path="/projects/:projectId/releasenotes/*">
+          <Route path="/projects/:projectId/release-notes/*">
             <Route index element={<ReleaseNotePage />} />
-            <Route path="manuscripts/:releaseId" element={<SingleManuscript />} />
-            <Route path="manuscripts/:releaseId/edit" element={<ReleaseNoteEdit />} />
             <Route path=":releaseId" element={<SingleReleaseNote />} />
+          </Route>
+          <Route path="/projects/:projectId/manuscripts/*">
+            <Route path=":releaseId" element={<SingleManuscript />} />
+            <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
           </Route>
           <Route path="/projects/:projectId/sprints/*">
             <Route index element={<SprintPage />} />
