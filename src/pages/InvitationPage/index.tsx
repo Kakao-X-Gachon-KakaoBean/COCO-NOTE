@@ -13,12 +13,12 @@ import {
   Wrapper,
 } from '@/pages/InvitationPage/styles.tsx';
 import logoImage from '@/images/logoImage.png';
-import HeaderBar from '@/components/HeaderBar';
 import fetcher from '@/utils/fetcher.ts';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { inviteMember } from '@/Api/Invitation/Invitation.ts';
 import { InvitationState } from '@/states/InvitationState.ts';
+import InvitationHeader from '@components/InvitationHeader';
 
 const InvitationPage = () => {
   const projectKey: any = useParams().projectkey;
@@ -67,7 +67,7 @@ const InvitationPage = () => {
   return (
     <>
       <Wrapper>
-        <HeaderBar />
+        <InvitationHeader />
         <ImageBox>
           <Img src={logoImage} alt="logo" />
         </ImageBox>
