@@ -12,13 +12,12 @@ import { memberIdState } from '@states/userState.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();
-  const memberId = useRecoilValue(memberIdState);
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
 
-  const { isLoading, data } = useQuery<IProjectValue[]>(['projectList', memberId], () =>
+  const { isLoading, data } = useQuery<IProjectValue[]>(['projectList'], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects`,
     })

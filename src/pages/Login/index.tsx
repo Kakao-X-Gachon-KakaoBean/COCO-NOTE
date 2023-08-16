@@ -56,7 +56,7 @@ const LogIn = () => {
       initialSelectedProject();
       setProjectInfoMenuOpen(false);
       setMemberId(data?.memberId.toString());
-      setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
+      setCookie('refreshToken', data?.refreshToken, { path: '/' });
       navigate('/main');
     },
     onError: () => {
