@@ -31,7 +31,6 @@ const MyInfoCard = () => {
       onSuccess: data => {
         if (data === '멤버 이름 변경 성공') {
           queryClient.invalidateQueries('memberInfo');
-          toast.success('이름을 변경했습니다.');
         } else {
           toast.error('이름 변경에 실패했습니다.');
         }
