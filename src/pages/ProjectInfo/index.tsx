@@ -46,6 +46,7 @@ import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
+import { ProjectButton } from '@components/ManageMember/styles.tsx';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -169,7 +170,6 @@ const ProjectInfo = () => {
       {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
-            <Button type="primary" shape="circle" icon={<CloseOutlined />} />
             <ProjectHeader>
               <div>프로젝트 정보</div>
             </ProjectHeader>
