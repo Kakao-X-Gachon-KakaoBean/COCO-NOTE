@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
-import { MoreBtn } from '@/components/HeaderBar/Notification/styles.tsx';
+import { MenuDiv, MoreBtn } from '@/components/HeaderBar/Notification/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
@@ -16,12 +16,20 @@ const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const [simpleNotifications, setSimpleNotifications] = useState<NotificationItem[]>();
   const navigate = useNavigate();
 
-  const { data, isLoading } = useQuery<NotificationItem[]>(['simpleNotification'], () =>
-    fetcher({
-      queryKey: `${BACKEND_URL}/notifications`,
-    })
+  const { isLoading } = useQuery<NotificationItem[]>(
+    ['simpleNotification'],
+    () =>
+      fetcher({
+        queryKey: `${BACKEND_URL}/notifications`,
+      }),
+    {
+      onSuccess: data => {
+        setSimpleNotifications(data);
+      },
+    }
   );
   const ModifyNotificationStatusMutation = useMutation<string, AxiosError, { notificationId: string; url: string }>(
     modifyNotificationStatus,
@@ -44,6 +52,11 @@ const Notification: React.FC = () => {
   }
   function handleItemClick(url: string, notificationId: number) {
     ModifyNotificationStatusMutation.mutate({ notificationId: notificationId.toString(), url });
+    simpleNotifications?.map(item => {
+      if (item.notificationId === notificationId) {
+        item.hasRead = true;
+      }
+    });
   }
 
   return (
@@ -52,9 +65,11 @@ const Notification: React.FC = () => {
         overlay={
           <Menu onClick={handleClick}>
             {!isLoading &&
-              data?.map(item => (
+              simpleNotifications?.map(item => (
                 <Menu.Item key={item?.notificationId}>
-                  <div onClick={() => handleItemClick(item?.url, item?.notificationId)}>{item?.content}</div>
+                  <MenuDiv hasRead={item?.hasRead} onClick={() => handleItemClick(item?.url, item?.notificationId)}>
+                    {item?.content}
+                  </MenuDiv>
                 </Menu.Item>
               ))}
 

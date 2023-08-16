@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRecoilValue } from 'recoil';
 import { memberIdState } from '@/states/userState.ts';
 import { Client } from '@stomp/stompjs';
+import { useQueryClient } from 'react-query';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -33,11 +34,13 @@ const NotificationPage = loadable(() => import('@pages/NotificationPage'));
 
 function App() {
   const memberId = useRecoilValue(memberIdState);
+  const QueryClient = useQueryClient();
   if (memberId !== '') {
     const client = new Client({
       brokerURL: 'ws://localhost:15674/ws',
       onConnect: () => {
         client.subscribe(`/queue/user-${memberId}`, message => {
+          QueryClient.invalidateQueries('simpleNotification');
           toast.info(`Received: ${message.body}`);
         });
       },
