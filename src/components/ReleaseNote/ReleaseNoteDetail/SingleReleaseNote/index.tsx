@@ -60,7 +60,7 @@ const SingleReleaseNote: React.FC = () => {
                 <ReleasedNoteParagraph>
                   <ReleaseNoteHeaderDiv>
                     <ReleaseNoteHeaderTop>
-                      <ReleasedNoteTitle>{releaseNoteData?.releaseNoteTitle}</ReleasedNoteTitle>
+                      <ReleasedNoteTitle>{releaseNoteData?.releaseNoteTitle ?? 'none'}</ReleasedNoteTitle>
                     </ReleaseNoteHeaderTop>
                     <ReleaseNoteHeaderMiddle>
                       <ReleasedNoteText>{'Version ' + releaseNoteData?.releaseNoteVersion}</ReleasedNoteText>

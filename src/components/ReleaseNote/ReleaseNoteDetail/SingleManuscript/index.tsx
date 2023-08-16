@@ -77,7 +77,7 @@ const SingleManuscript: React.FC = () => {
     onSuccess: data => {
       if (data === '원고 배포 성공') {
         toast.success('해당 릴리즈 노트를 배포하였습니다.');
-        navigate(`/projects/${projectId}/releasenotes`);
+        navigate(`/projects/${projectId}/release-notes`);
       } else {
         toast.error('릴리즈 노트 배포에 실패했습니다. 화면을 새로고침 해주세요.');
       }

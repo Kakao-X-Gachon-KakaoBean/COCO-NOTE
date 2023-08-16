@@ -49,7 +49,7 @@ const SideDetailBar = () => {
           <Text>릴리즈 노트</Text>
           <ViewAll
             onClick={() => {
-              navigate(`/projects/${selectedProject.projectId}/releasenotes`);
+              navigate(`/projects/${selectedProject.projectId}/release-notes`);
             }}
           >
             전체보기
