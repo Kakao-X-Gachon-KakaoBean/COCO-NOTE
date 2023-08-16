@@ -14,7 +14,7 @@ import {
 } from '@/pages/ProjectInfo/styles.tsx';
 import defaultImage from '@/images/defaultAvatar.png';
 
-import { Button, Divider } from 'antd';
+import { Divider } from 'antd';
 
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -33,7 +33,6 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import React, { useEffect, useState } from 'react';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
-import { CloseOutlined } from '@ant-design/icons';
 import { TableHead } from '@mui/material';
 import { useQuery } from 'react-query';
 import { ProjectData, projectInfoMenuOpenState } from '@/states/ProjectState.ts';
@@ -46,6 +45,7 @@ import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
+import { BACKEND_URL } from '@/Api';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -99,8 +99,6 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
     </Box>
   );
 }
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ProjectInfo = () => {
   const [page, setPage] = React.useState(0);
@@ -167,7 +165,6 @@ const ProjectInfo = () => {
       {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
-            <Button type="primary" shape="circle" icon={<CloseOutlined />} />
             <ProjectHeader>
               <div>프로젝트 정보</div>
             </ProjectHeader>

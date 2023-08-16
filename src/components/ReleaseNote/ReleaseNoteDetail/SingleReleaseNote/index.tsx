@@ -27,6 +27,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import fetcher from '@/utils/fetcher.ts';
 import { toast } from 'react-toastify';
+import { BACKEND_URL } from '@/Api';
 
 const SingleReleaseNote: React.FC = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
@@ -38,7 +39,7 @@ const SingleReleaseNote: React.FC = () => {
     ['releasenote', scriptId],
     () =>
       fetcher({
-        queryKey: `http://localhost:8080/release-notes/${scriptId}`,
+        queryKey: `${BACKEND_URL}/release-notes/${scriptId}`,
       }),
     {
       onSuccess: data => {
@@ -60,7 +61,7 @@ const SingleReleaseNote: React.FC = () => {
                 <ReleasedNoteParagraph>
                   <ReleaseNoteHeaderDiv>
                     <ReleaseNoteHeaderTop>
-                      <ReleasedNoteTitle>{releaseNoteData?.releaseNoteTitle}</ReleasedNoteTitle>
+                      <ReleasedNoteTitle>{releaseNoteData?.releaseNoteTitle ?? 'none'}</ReleasedNoteTitle>
                     </ReleaseNoteHeaderTop>
                     <ReleaseNoteHeaderMiddle>
                       <ReleasedNoteText>{'Version ' + releaseNoteData?.releaseNoteVersion}</ReleasedNoteText>

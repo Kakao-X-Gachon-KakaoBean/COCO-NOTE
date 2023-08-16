@@ -37,6 +37,7 @@ import { toast } from 'react-toastify';
 import { distributeManuscript, verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
 import { LastEditedMemberDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
 import { SingleManuscriptInfo } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/type.ts';
+import { BACKEND_URL } from '@/Api';
 
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const SingleManuscript: React.FC = () => {
     ['manuscript', scriptId],
     () =>
       fetcher({
-        queryKey: `http://localhost:8080/manuscripts/${scriptId}`,
+        queryKey: `${BACKEND_URL}/manuscripts/${scriptId}`,
       }),
     {
       onSuccess: data => {
@@ -77,7 +78,7 @@ const SingleManuscript: React.FC = () => {
     onSuccess: data => {
       if (data === '원고 배포 성공') {
         toast.success('해당 릴리즈 노트를 배포하였습니다.');
-        navigate(`/projects/${projectId}/releasenotes`);
+        navigate(`/projects/${projectId}/release-notes`);
       } else {
         toast.error('릴리즈 노트 배포에 실패했습니다. 화면을 새로고침 해주세요.');
       }

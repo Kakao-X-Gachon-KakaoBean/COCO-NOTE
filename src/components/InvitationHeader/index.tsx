@@ -1,11 +1,11 @@
-import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@/components/HeaderBar/styles.tsx';
+import { BarDiv, LogoDiv, OthersDiv, TitleLink } from '@/components/InvitationHeader/styles.tsx';
 import Notification from '@/components/HeaderBar/Notification';
 import MyInfo from '@/components/HeaderBar/MyInfo';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 
-const HeaderBar = () => {
+const InvitationHeader = () => {
   const [projectInfoMenuOpen, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
 
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
@@ -41,4 +41,4 @@ const HeaderBar = () => {
   );
 };
 
-export default HeaderBar;
+export default InvitationHeader;

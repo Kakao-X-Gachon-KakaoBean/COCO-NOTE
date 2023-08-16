@@ -17,6 +17,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import pagedFetcher from '@/utils/pagedFetcher.ts';
+import { BACKEND_URL } from '@/Api';
 
 const ReleasedNoteAll: React.FC = () => {
   const headerParam = useParams();
@@ -25,7 +26,7 @@ const ReleasedNoteAll: React.FC = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery<PagedReleaseNotes>(
     ['pagedReleaseNotes'],
     ({ pageParam = 0 }) =>
-      pagedFetcher({ queryKey: [`http://localhost:8080/release-notes/page?projectId=${projectId}`, pageParam] }),
+      pagedFetcher({ queryKey: [`${BACKEND_URL}/release-notes/page?projectId=${projectId}`, pageParam] }),
     {
       getNextPageParam: (lastPage, pages) => {
         if (lastPage.finalPage) {

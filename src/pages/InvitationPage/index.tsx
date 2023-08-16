@@ -13,18 +13,17 @@ import {
   Wrapper,
 } from '@/pages/InvitationPage/styles.tsx';
 import logoImage from '@/images/logoImage.png';
-import HeaderBar from '@/components/HeaderBar';
 import fetcher from '@/utils/fetcher.ts';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { inviteMember } from '@/Api/Invitation/Invitation.ts';
 import { InvitationState } from '@/states/InvitationState.ts';
+import InvitationHeader from '@components/InvitationHeader';
+import { BACKEND_URL } from '@/Api';
 
 const InvitationPage = () => {
   const projectKey: any = useParams().projectkey;
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate();
-  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
   const { data } = useQuery<InvitationState>(['invitatintitle'], () =>
     fetcher({
@@ -39,11 +38,9 @@ const InvitationPage = () => {
   >('invite project', inviteMember, {
     onSuccess: data => {
       if (data === '참여 완료') {
-        toast(message('참여가 완료되었습니다.'), {
-          type: 'success',
-        });
+        toast.success('참여가 완료되었습니다.');
       } else {
-        toast(message('참여에 실패하였습니다.'), { type: 'error' });
+        toast.error('참여에 실패하였습니다.');
       }
     },
     onError: () => {
@@ -67,7 +64,7 @@ const InvitationPage = () => {
   return (
     <>
       <Wrapper>
-        <HeaderBar />
+        <InvitationHeader />
         <ImageBox>
           <Img src={logoImage} alt="logo" />
         </ImageBox>

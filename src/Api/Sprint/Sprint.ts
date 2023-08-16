@@ -1,6 +1,6 @@
 //스프린트 페이지
 
-import { instance } from '@/Api';
+import { instance, BACKEND_URL } from '@/Api';
 import {
   ChangeWorkerType,
   CreateSprintDataType,
@@ -9,8 +9,6 @@ import {
   EditTaskDataType,
   WorkStatusType,
 } from '@/states/SprintState.ts';
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // 스프린트 생성
 export const createSprint = async (data: CreateSprintDataType) => {

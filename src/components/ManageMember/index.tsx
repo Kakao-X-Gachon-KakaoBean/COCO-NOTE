@@ -9,7 +9,6 @@ import {
   ProjectBody,
   ProjectBodyExplain,
   ProjectBodyTitle,
-  ProjectButton,
   ProjectHeader,
   ProjectSection,
 } from '@/components/ManageMember/styles.tsx';
@@ -49,6 +48,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/Api/Project/ManagePage.ts';
 import defaultImage from '@/images/defaultAvatar.png';
+import { BACKEND_URL } from '@/Api';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -115,7 +115,6 @@ const ManageMember = () => {
   const [modifiedData, setModifiedData] = useState<Array<{ modifyProjectMemberId: number; projectRole: string }>>([]);
 
   const { TextArea } = Input;
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
   const projectId: string | undefined = useParams().projectId;
 
@@ -374,9 +373,6 @@ const ManageMember = () => {
       {isVisible && !isLoading && projectData && projectData.projectMembers ? (
         <Wrapper>
           <ProjectSection>
-            <ProjectButton>
-              <Button shape="circle" icon={<CloseOutlined />} />
-            </ProjectButton>
             <ProjectHeader>
               <div>프로젝트 정보</div>
               <div>
