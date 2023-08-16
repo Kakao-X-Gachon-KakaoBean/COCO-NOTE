@@ -5,10 +5,12 @@ import { MoreBtn } from '@/components/HeaderBar/Notification/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { BACKEND_URL } from '@/Api';
 import fetcher from '@utils/fetcher.ts';
 import { NotificationItem } from '@components/HeaderBar/Notification/type.ts';
+import { modifyNotificationStatus } from '@/Api/Notification/Notification.ts';
+import { AxiosError } from 'axios';
 
 const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -21,6 +23,14 @@ const Notification: React.FC = () => {
       queryKey: `${BACKEND_URL}/notifications`,
     })
   );
+  const ModifyNotificationStatusMutation = useMutation<string, AxiosError, { notificationId: string; url: string }>(
+    modifyNotificationStatus,
+    {
+      onSuccess: redirectUrl => {
+        navigate(redirectUrl);
+      },
+    }
+  );
   const handleDropdownVisibleChange = (flag: boolean) => {
     setVisible(flag);
   };
@@ -32,9 +42,8 @@ const Notification: React.FC = () => {
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
   }
-  function handleItemClick(url: string) {
-    // 여기에 원하는 기능 추가
-    window.location.href = url;
+  function handleItemClick(url: string, notificationId: number) {
+    ModifyNotificationStatusMutation.mutate({ notificationId: notificationId.toString(), url });
   }
 
   return (
@@ -45,7 +54,7 @@ const Notification: React.FC = () => {
             {!isLoading &&
               data?.map(item => (
                 <Menu.Item key={item?.notificationId}>
-                  <div onClick={() => handleItemClick(item?.url)}>{item?.content}</div>
+                  <div onClick={() => handleItemClick(item?.url, item?.notificationId)}>{item?.content}</div>
                 </Menu.Item>
               ))}
 
