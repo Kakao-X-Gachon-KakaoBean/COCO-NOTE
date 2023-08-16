@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
-import { items } from '@/components/HeaderBar/Notification/dummy.tsx';
 import { BellOutlined } from '@ant-design/icons';
 import { MoreBtn } from '@/components/HeaderBar/Notification/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { useQuery } from 'react-query';
+import { BACKEND_URL } from '@/Api';
+import fetcher from '@utils/fetcher.ts';
+import { NotificationItem } from '@components/HeaderBar/Notification/type.ts';
 
 const Notification: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -13,6 +16,11 @@ const Notification: React.FC = () => {
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const navigate = useNavigate();
 
+  const { data, isLoading } = useQuery<NotificationItem[]>(['simpleNotification'], () =>
+    fetcher({
+      queryKey: `${BACKEND_URL}/notifications`,
+    })
+  );
   const handleDropdownVisibleChange = (flag: boolean) => {
     setVisible(flag);
   };
@@ -24,18 +32,23 @@ const Notification: React.FC = () => {
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
   }
+  function handleItemClick(url: string) {
+    // 여기에 원하는 기능 추가
+    window.location.href = url;
+  }
 
   return (
     <div>
       <Dropdown
         overlay={
           <Menu onClick={handleClick}>
-            {items.map(item => (
-              <Menu.Item key={item.key} danger={item.danger} disabled={item.disabled}>
-                {item.icon}
-                {item.label}
-              </Menu.Item>
-            ))}
+            {!isLoading &&
+              data?.map(item => (
+                <Menu.Item key={item?.notificationId}>
+                  <div onClick={() => handleItemClick(item?.url)}>{item?.content}</div>
+                </Menu.Item>
+              ))}
+
             <MoreBtn
               onClick={async () => {
                 setVisible(false);
