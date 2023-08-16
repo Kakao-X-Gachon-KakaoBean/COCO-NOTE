@@ -5,6 +5,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import SideDetailBar from '@/components/SideDetailBar';
+import NotificationAll from '@components/Notification/NotificationAll';
 
 const NotificationPage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
@@ -14,7 +15,7 @@ const NotificationPage = () => {
     case 'hasValue':
       contents = () => {
         if (!projectInfoMenuOpen.contents) {
-          return <div>여기에 알림 리스트 컴포넌트</div>;
+          return <NotificationAll />;
         } else {
           return <ActivityIndicator />;
         }
