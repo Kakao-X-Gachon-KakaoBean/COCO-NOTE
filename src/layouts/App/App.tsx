@@ -41,7 +41,8 @@ function App() {
       onConnect: () => {
         client.subscribe(`/queue/user-${memberId}`, message => {
           QueryClient.invalidateQueries('simpleNotification');
-          toast.info(`Received: ${message.body}`);
+          const parsedMessage = JSON.parse(message.body);
+          toast.info(parsedMessage.title);
         });
       },
     });
