@@ -83,9 +83,9 @@ const ReleaseNoteTree = () => {
     const scriptType = info.node.state ?? 'none';
     setSelectedKeys(selectedKeys);
     if (scriptType === 'edit') {
-      navigate(`/projects/${projectId}/releasenotes/manuscripts/${scriptId}`);
+      navigate(`/projects/${projectId}/manuscripts/${scriptId}`);
     } else if (scriptType === 'released') {
-      navigate(`/projects/${projectId}/releasenotes/${scriptId}`);
+      navigate(`/projects/${projectId}/release-notes/${scriptId}`);
     } else {
       toast.error('오류가 발생했습니다. 새로고침 해주세요.');
     }

@@ -52,7 +52,7 @@ const ReleaseNoteEdit = () => {
       if (data === '원고 삭제 성공') {
         toast.success('해당 릴리즈 노트가 삭제되었습니다.');
         setDeleteModalOpen(false);
-        navigate(`/projects/${projectId}/releasenotes`);
+        navigate(`/projects/${projectId}/release-notes`);
       } else {
         toast.error('릴리즈 노트 삭제에 문제가 발생하였습니다. 새로고침하여 재시작해주세요.');
       }

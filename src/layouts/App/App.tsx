@@ -63,11 +63,13 @@ function App() {
             <Route path=":issueId/editIssue" element={<EditIssue />} />
           </Route>
           <Route path="/projects/:projectId/projectinfo" element={<ProjectInfo />} />
-          <Route path="/projects/:projectId/releasenotes/*">
+          <Route path="/projects/:projectId/release-notes/*">
             <Route index element={<ReleaseNotePage />} />
-            <Route path="manuscripts/:releaseId" element={<SingleManuscript />} />
-            <Route path="manuscripts/:releaseId/edit" element={<ReleaseNoteEdit />} />
             <Route path=":releaseId" element={<SingleReleaseNote />} />
+          </Route>
+          <Route path="/projects/:projectId/manuscripts/*">
+            <Route path=":releaseId" element={<SingleManuscript />} />
+            <Route path=":releaseId/edit" element={<ReleaseNoteEdit />} />
           </Route>
           <Route path="/projects/:projectId/sprints/*">
             <Route index element={<SprintPage />} />

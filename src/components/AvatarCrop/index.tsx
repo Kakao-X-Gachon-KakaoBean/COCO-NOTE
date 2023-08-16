@@ -10,7 +10,6 @@ import { ModalVisibleProps, ProfileImages } from '@/components/AvatarCrop/type.t
 import { IUser, MypageUser } from '@/states/userState.ts';
 import fetcher from '@/utils/fetcher.ts';
 import axios, { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
 
 const { Text, Title } = Typography;
 const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {
@@ -41,7 +40,6 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
     {
       onMutate() {},
       onSuccess() {
-        toast.success('프로필 변경에 성공했습니다.');
         queryClient.invalidateQueries('memberInfo');
       },
       onError(error) {
