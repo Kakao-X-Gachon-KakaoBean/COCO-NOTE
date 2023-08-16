@@ -113,8 +113,6 @@ const ProjectInfo = () => {
     })
   );
 
-  console.log(projectData);
-
   const [memberList, setMemberList] = useState<
     Array<{
       name: string;

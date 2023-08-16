@@ -14,8 +14,7 @@ import { setCookie } from '@/utils/cookie.ts';
 
 const Main = () => {
   const location = useLocation();
-  const [memberId, setMemberId] = useRecoilState(memberIdState);
-  console.log(memberId);
+  const [, setMemberId] = useRecoilState(memberIdState);
   const searchParams = new URLSearchParams(location.search);
   const accessToken: string | null = searchParams.get('accessToken');
   const refreshToken: string | null = searchParams.get('refreshToken');
