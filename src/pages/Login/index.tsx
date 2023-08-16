@@ -132,7 +132,6 @@ const LogIn = () => {
         <Line>또는</Line>
         <SocialLogin>
           <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://coconote.shop`}>
-            http://coconote.shop
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
