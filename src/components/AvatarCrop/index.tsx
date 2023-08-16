@@ -10,6 +10,7 @@ import { ModalVisibleProps, ProfileImages } from '@/components/AvatarCrop/type.t
 import { IUser, MypageUser } from '@/states/userState.ts';
 import fetcher from '@/utils/fetcher.ts';
 import axios, { AxiosError } from 'axios';
+import { BACKEND_URL } from '@/Api';
 
 const { Text, Title } = Typography;
 const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {
@@ -22,14 +23,14 @@ const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible
   const queryClient = useQueryClient();
   const { data } = useQuery<MypageUser>(['memberInfo'], () =>
     fetcher({
-      queryKey: 'http://localhost:8080/members/info',
+      queryKey: `${BACKEND_URL}/members/info`,
     })
   );
   const uploadProfileImageMutation = useMutation<IUser, AxiosError, ProfileImages>(
     'profileImage',
     data =>
       axios
-        .post('http://localhost:8080/members/images', data, {
+        .post(`${BACKEND_URL}/members/images`, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
             'Content-Type': 'multipart/form-data',

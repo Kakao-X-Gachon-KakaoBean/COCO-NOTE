@@ -11,6 +11,7 @@ import fetcher from '@/utils/fetcher.ts';
 import { ManuscriptTree, ReleasedNoteTree } from '@/components/ReleaseNote/ReleaseNoteTree/type.ts';
 import { toast } from 'react-toastify';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
+import { BACKEND_URL } from '@/Api';
 
 const ReleaseNoteTree = () => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const ReleaseNoteTree = () => {
     ['manuscriptAll', projectId],
     () =>
       fetcher({
-        queryKey: 'http://localhost:8080/manuscripts?projectId=' + projectId,
+        queryKey: `${BACKEND_URL}/manuscripts?projectId=${projectId}`,
       }),
     {
       enabled: projectId !== undefined,
@@ -52,7 +53,7 @@ const ReleaseNoteTree = () => {
     ['releasedNoteAll', projectId],
     () =>
       fetcher({
-        queryKey: 'http://localhost:8080/release-notes?projectId=' + projectId,
+        queryKey: `${BACKEND_URL}/release-notes?projectId=${projectId}`,
       }),
     {
       enabled: projectId !== undefined,

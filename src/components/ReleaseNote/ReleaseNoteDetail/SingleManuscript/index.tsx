@@ -37,6 +37,7 @@ import { toast } from 'react-toastify';
 import { distributeManuscript, verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
 import { LastEditedMemberDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
 import { SingleManuscriptInfo } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/type.ts';
+import { BACKEND_URL } from '@/Api';
 
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const SingleManuscript: React.FC = () => {
     ['manuscript', scriptId],
     () =>
       fetcher({
-        queryKey: `http://localhost:8080/manuscripts/${scriptId}`,
+        queryKey: `${BACKEND_URL}/manuscripts/${scriptId}`,
       }),
     {
       onSuccess: data => {

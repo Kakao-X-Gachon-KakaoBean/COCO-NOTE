@@ -31,6 +31,7 @@ import { AxiosError } from 'axios';
 import DeleteTaskModal from '@/components/DeleteTaskModal';
 import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
+import { BACKEND_URL } from '@/Api';
 
 const TaskDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,14 +53,14 @@ const TaskDetailPage = () => {
       queryKey: ['task', taskId],
       queryFn: () =>
         fetcher({
-          queryKey: `http://localhost:8080/tasks/${taskId}`,
+          queryKey: `${BACKEND_URL}/tasks/${taskId}`,
         }),
     },
     {
       queryKey: ['member', selectedTask.sprintId],
       queryFn: () =>
         fetcher({
-          queryKey: `http://localhost:8080/projects/${selectedTask.sprintId}/members`,
+          queryKey: `${BACKEND_URL}/projects/${selectedTask.sprintId}/members`,
         }),
     },
   ]);

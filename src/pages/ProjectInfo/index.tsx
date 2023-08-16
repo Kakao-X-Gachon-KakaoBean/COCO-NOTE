@@ -45,6 +45,7 @@ import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
+import { BACKEND_URL } from '@/Api';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -98,8 +99,6 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
     </Box>
   );
 }
-
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const ProjectInfo = () => {
   const [page, setPage] = React.useState(0);

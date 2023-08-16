@@ -9,6 +9,7 @@ import { modifyMemberName } from '@/Api/Mypage/Mypage.ts';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { EditName } from '@/components/MyInfoCard/type.ts';
+import { BACKEND_URL } from '@/Api';
 
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {
@@ -20,7 +21,7 @@ const MyInfoCard = () => {
 
   const { data } = useQuery<MypageUser>(['memberInfo'], () =>
     fetcher({
-      queryKey: 'http://localhost:8080/members/info',
+      queryKey: `${BACKEND_URL}/members/info`,
     })
   );
   const ModifyMemberNameMutation = useMutation<'멤버 이름 변경 성공' | '멤버 이름 변경 실패', AxiosError, EditName>(

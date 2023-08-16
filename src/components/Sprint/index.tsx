@@ -19,6 +19,7 @@ import { useQuery } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
+import { BACKEND_URL } from '@/Api';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   'data-row-key': string;
@@ -67,7 +68,7 @@ const Sprint = () => {
 
   const data = useQuery<TableData[]>(['sprintList', id], () =>
     fetcher({
-      queryKey: `http://localhost:8080/sprints?projectId=${id}`,
+      queryKey: `${BACKEND_URL}/sprints?projectId=${id}`,
     })
   );
 

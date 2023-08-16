@@ -37,6 +37,7 @@ import DeleteSprintModal from '@/components/DeleteSprintModal';
 import { useParams } from 'react-router';
 import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
+import { BACKEND_URL } from '@/Api';
 
 const SprintDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +61,7 @@ const SprintDetailPage = () => {
       queryKey: ['sprint', sprintId],
       queryFn: () =>
         fetcher({
-          queryKey: `http://localhost:8080/sprints/${sprintId}`,
+          queryKey: `${BACKEND_URL}/sprints/${sprintId}`,
         }),
       onSuccess: (data: TableData) => {
         setSelectedSprint(data);
@@ -70,7 +71,7 @@ const SprintDetailPage = () => {
       queryKey: ['member', projectId],
       queryFn: () =>
         fetcher({
-          queryKey: `http://localhost:8080/projects/${projectId}/members`,
+          queryKey: `${BACKEND_URL}/projects/${projectId}/members`,
         }),
     },
   ]);
