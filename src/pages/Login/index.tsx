@@ -57,6 +57,7 @@ const LogIn = () => {
       setProjectInfoMenuOpen(false);
       setMemberId(data?.memberId.toString());
       setCookie('refreshToken', data?.refreshToken, { path: '/' });
+
       navigate('/main');
     },
     onError: () => {
