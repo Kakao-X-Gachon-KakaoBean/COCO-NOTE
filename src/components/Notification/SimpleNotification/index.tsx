@@ -15,7 +15,7 @@ import { modifyNotificationStatus } from '@/Api/Notification/Notification.ts';
 const SimpleNotification = () => {
   const [visible, setVisible] = useState(false);
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
-  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const [state, setState] = useRecoilState(projectInfoMenuOpenState);
   const [simpleNotifications, setSimpleNotifications] = useState<NotificationItem[]>();
   const navigate = useNavigate();
 
@@ -35,6 +35,9 @@ const SimpleNotification = () => {
     modifyNotificationStatus,
     {
       onSuccess: redirectUrl => {
+        if (!state) {
+          setState(true);
+        }
         navigate(redirectUrl);
       },
     }
@@ -75,7 +78,7 @@ const SimpleNotification = () => {
             onClick={async () => {
               setVisible(false);
               initialSelectedProject();
-              setProjectInfoMenuOpen(false);
+              setState(false);
               await waitForAnimation();
               navigate('/notification');
             }}
