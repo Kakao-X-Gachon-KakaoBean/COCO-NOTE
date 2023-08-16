@@ -131,11 +131,12 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://localhost:3000/main`}>
+          <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://coconote.shop`}>
+            http://coconote.shop
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn href={`${BACKEND_URL}/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main`}>
+          <KakaoBtn href={`${BACKEND_URL}/oauth2/authorization/kakao?redirect_uri=http://coconote.shop`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>
