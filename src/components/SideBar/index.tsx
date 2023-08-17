@@ -1,5 +1,5 @@
 import { AddCircle, Circle, InnerText, LogoImage, Wrapper } from '@/components/SideBar/styles.tsx';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { AddProjectClickState, projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
@@ -8,10 +8,13 @@ import fetcher from '@/utils/fetcher.ts';
 import { IProjectValue } from '@/layouts/Main/type.ts';
 import { BACKEND_URL } from '@/Api';
 import logoImage from '@/images/logoImage.png';
-import { memberIdState } from '@states/userState.ts';
+import { useParams } from 'react-router';
+import { useEffect } from 'react';
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const headerParam = useParams();
+  const projectId = headerParam.projectId;
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
@@ -22,6 +25,16 @@ const SideBar = () => {
       queryKey: `${BACKEND_URL}/projects`,
     })
   );
+
+  useEffect(() => {
+    data?.map(value => {
+      if (projectId && value.projectId === parseInt(projectId)) {
+        setSelectedProject(value);
+        setProjectInfoMenuOpen(true);
+        waitForAnimation();
+      }
+    });
+  }, [data, projectId, setProjectInfoMenuOpen, setSelectedProject]);
 
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
