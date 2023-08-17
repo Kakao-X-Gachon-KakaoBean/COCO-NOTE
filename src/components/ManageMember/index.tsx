@@ -335,6 +335,7 @@ const ManageMember = () => {
           toast(message('초대를 완료했습니다.'), {
             type: 'success',
           });
+          queryClient.invalidateQueries('projectinfo');
           setEmail('');
           setEmails([]);
           SetInvitationModalOpen(false);
@@ -450,7 +451,7 @@ const ManageMember = () => {
                               value: memberList.position,
                               label: memberList.position,
                             }}
-                            style={{ width: 100, marginRight: 10 }}
+                            style={{ width: 150, marginRight: 10 }}
                             onChange={value => handleChange(value, i)}
                             options={SelectOption}
                           />

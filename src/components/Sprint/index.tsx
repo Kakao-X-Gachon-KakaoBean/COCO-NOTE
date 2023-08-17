@@ -66,17 +66,17 @@ const Sprint = () => {
   const [, setSelectedSprintId] = useRecoilState(SelectedSprintId);
   const [, setSelectedTaskId] = useRecoilState(SelectedTaskId);
 
-  const data = useQuery<TableData[]>(['sprintList', id], () =>
+  const data = useQuery<TableData[]>(['sprintList'], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/sprints?projectId=${id}`,
     })
   );
 
-  useEffect(() => {
-    if (isAddSprint || isAddTask) {
-      data.refetch();
-    }
-  }, [data, isAddSprint, isAddTask]);
+  // useEffect(() => {
+  //   if (isAddSprint || isAddTask) {
+  //     data.refetch();
+  //   }
+  // }, [data, isAddSprint, isAddTask]);
 
   useEffect(() => {
     function ProcessingData(data: { sprints: TableData[] }) {

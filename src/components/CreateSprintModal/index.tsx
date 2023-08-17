@@ -28,7 +28,7 @@ const CreateSprintModal = () => {
     onSuccess(data) {
       if (data === '스프린트 생성 완료') {
         setIsAddSprint(false);
-        queryClient.invalidateQueries(`projectList`);
+        queryClient.invalidateQueries('sprintList');
         setTitle('');
         setContents('');
         setStartDate('');
