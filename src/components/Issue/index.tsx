@@ -11,8 +11,8 @@ import { useQuery, useQueryClient } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
 import { IssueDataType, IssueList } from '@/types/IssueType.ts';
 import { useParams } from 'react-router';
-import { fetchPage } from '@/Api/Issue/Issue.ts';
-import { BACKEND_URL } from '@/Api';
+import { fetchPage } from '@/api/Issue/Issue.ts';
+import { BACKEND_URL } from '@/api';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

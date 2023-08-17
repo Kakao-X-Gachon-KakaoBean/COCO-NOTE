@@ -6,7 +6,7 @@ import { AddSprintValue } from '@/states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
-import { createSprint } from '@/Api/Sprint/Sprint.ts';
+import { createSprint } from '@/api/Sprint/Sprint.ts';
 import { CreateSprintDataType } from '@/types/SprintType.ts'; //import moment from 'moment';
 
 const CreateSprintModal = () => {

@@ -22,8 +22,8 @@ import {
 import { PasswordModal } from '@/types/SearchPasswordType.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import useInput from '../../hooks/useInput';
-import { postEmail } from '@/Api/User/SignUp.ts';
-import { modifyPassword } from '@/Api/User/Login.ts';
+import { postEmail } from '@/api/User/SignUp.ts';
+import { modifyPassword } from '@/api/User/Login.ts';
 import { EditPassword } from '@/types/UserType.ts';
 
 const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {

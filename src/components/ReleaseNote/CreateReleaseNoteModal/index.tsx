@@ -4,7 +4,7 @@ import { CreateManuscript, ModalProps } from '@/types/CreateReleaseNoteModalType
 import { GuideText, ModalDiv } from '@/components/ReleaseNote/CreateReleaseNoteModal/styles.tsx';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
-import { createManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
+import { createManuscript } from '@/api/ReleaseNote/ManuScript.ts';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 

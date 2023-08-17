@@ -1,6 +1,6 @@
 //로그인 페이지
 
-import { instance } from '@/Api';
+import { instance } from '@/api';
 import { AxiosResponse } from 'axios';
 import { EditPassword, LoginResponse, LoginUser } from '@/types/UserType.ts';
 

@@ -19,7 +19,7 @@ import { useQuery } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   'data-row-key': string;

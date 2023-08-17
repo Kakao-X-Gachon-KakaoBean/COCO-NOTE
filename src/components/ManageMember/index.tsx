@@ -46,9 +46,9 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
-import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/Api/Project/ManagePage.ts';
+import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/api/Project/ManagePage.ts';
 import defaultImage from '@/images/defaultAvatar.png';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 import { EditProject, ModifyMember, ProjectData } from '@/types/ProjectType.ts';
 
 interface TablePaginationActionsProps {

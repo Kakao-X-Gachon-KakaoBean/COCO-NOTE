@@ -5,8 +5,8 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
-import { addProject } from '@/Api/Project/ProjectList.ts';
 import { ProjectInfo } from '@/types/ProjectType.ts';
+import { addProject } from '@/api/Project/ProjectList.ts';
 
 const AddProject = () => {
   const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);

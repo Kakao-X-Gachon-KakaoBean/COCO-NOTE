@@ -17,7 +17,7 @@ import { useRecoilValueLoadable } from 'recoil';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation, useParams } from 'react-router';
 import { ManuscriptEdit } from '@/types/ReleaseNoteEditType.ts';
-import { deleteManuscript, saveEditedManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
+import { deleteManuscript, saveEditedManuscript } from '@/api/ReleaseNote/ManuScript.ts';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';

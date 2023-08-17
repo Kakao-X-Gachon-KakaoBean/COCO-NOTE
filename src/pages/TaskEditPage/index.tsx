@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
-import { editTask } from '@/Api/Sprint/Sprint.ts';
+import { editTask } from '@/api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 import { EditTaskDataType } from '@/types/SprintType.ts';
 

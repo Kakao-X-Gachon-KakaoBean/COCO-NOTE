@@ -1,6 +1,6 @@
 //스프린트 페이지
 
-import { BACKEND_URL, instance } from '@/Api';
+import { BACKEND_URL, instance } from '@/api';
 import {
   ChangeWorkerType,
   CreateSprintDataType,

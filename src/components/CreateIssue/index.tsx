@@ -23,7 +23,7 @@ import { useParams } from 'react-router';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { postIssue } from '@/Api/Issue/Issue.ts';
+import { postIssue } from '@/api/Issue/Issue.ts';
 
 const CreateIssue = () => {
   const navigate = useNavigate();

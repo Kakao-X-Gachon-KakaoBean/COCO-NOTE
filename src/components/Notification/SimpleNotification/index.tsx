@@ -8,9 +8,9 @@ import { NotificationItem } from '@/types/SimpleNotificationType.ts';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 import { AxiosError } from 'axios';
-import { modifyNotificationStatus } from '@/Api/Notification/Notification.ts';
+import { modifyNotificationStatus } from '@/api/Notification/Notification.ts';
 
 const SimpleNotification = () => {
   const [visible, setVisible] = useState(false);

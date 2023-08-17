@@ -1,4 +1,4 @@
-import { instance } from '@/Api';
+import { instance } from '@/api';
 import { CreateManuscript } from '@/types/CreateReleaseNoteModalType.ts';
 import { SaveEditedManuscript } from '@/types/ReleaseNoteEditType.ts';
 import { DistributeManuscript } from '@/types/SingleManuScriptType.ts';

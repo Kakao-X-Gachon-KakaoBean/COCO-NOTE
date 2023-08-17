@@ -27,10 +27,10 @@ import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import SearchPassword from '@/components/SearchPassword';
 import { setCookie } from '@/utils/cookie.ts';
-import { logIn } from '@/Api/User/Login.ts';
+import { logIn } from '@/api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 import { LoginResponse, LoginUser } from '@/types/UserType.ts';
 
 const LogIn = () => {

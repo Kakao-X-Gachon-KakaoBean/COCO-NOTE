@@ -45,7 +45,7 @@ import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from 'sapi';
 import { ProjectData } from '@/types/ProjectType.ts';
 
 interface TablePaginationActionsProps {

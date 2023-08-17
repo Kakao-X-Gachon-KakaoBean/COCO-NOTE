@@ -1,4 +1,4 @@
-import { instance } from '@/Api';
+import { instance } from '@/api';
 
 export const inviteMember = async ({ projectSecretKey }: { projectSecretKey: string | undefined }) => {
   try {

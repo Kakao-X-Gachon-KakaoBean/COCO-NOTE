@@ -27,7 +27,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import fetcher from '@/utils/fetcher.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 const SingleReleaseNote: React.FC = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);

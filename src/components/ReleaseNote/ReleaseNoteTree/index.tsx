@@ -11,7 +11,7 @@ import fetcher from '@/utils/fetcher.ts';
 import { ManuscriptTree, ReleasedNoteTree } from '@/types/ReleaseNoteTreeType.ts';
 import { toast } from 'react-toastify';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 const ReleaseNoteTree = () => {
   const navigate = useNavigate();

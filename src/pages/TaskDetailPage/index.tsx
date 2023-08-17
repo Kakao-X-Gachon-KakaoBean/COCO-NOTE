@@ -22,9 +22,9 @@ import fetcher from '@/utils/fetcher.ts';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import DeleteTaskModal from '@/components/DeleteTaskModal';
-import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
+import { changeWorker, changeWorkStatus } from '@/api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 import { ChangeWorkerType, ProjectMember, WorkStatusType } from '@/types/SprintType.ts';
 
 const TaskDetailPage = () => {

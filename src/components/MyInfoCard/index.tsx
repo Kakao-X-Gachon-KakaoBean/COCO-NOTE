@@ -4,11 +4,11 @@ import { Space, Typography } from 'antd';
 import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@/components/MyInfoCard/styles.tsx';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
-import { modifyMemberName } from '@/Api/Mypage/Mypage.ts';
+import { modifyMemberName } from '@/api/Mypage/Mypage.ts';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { EditName } from '@/types/WithdrawAccountModalType.ts';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 import { MypageUser } from '@/types/UserType.ts';
 
 const { Text, Paragraph } = Typography;

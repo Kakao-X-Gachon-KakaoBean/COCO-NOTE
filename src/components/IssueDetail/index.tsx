@@ -33,11 +33,11 @@ import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { Input } from '@/components/EditIssue/styles.tsx';
 
 import { Comment, CreateComment, EditComment, GetIssueDetail } from '@/types/IssueType.ts';
-import { deleteComment, deleteIssue, editComment, postComment } from '@/Api/Issue/Issue.ts';
+import { deleteComment, deleteIssue, editComment, postComment } from '@/api/Issue/Issue.ts';
 
 import { toast } from 'react-toastify';
 import fetcher from '@/utils/fetcher.ts';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 import defaultImage from '@/images/defaultAvatar.png';
 import TextArea from 'antd/es/input/TextArea';
 

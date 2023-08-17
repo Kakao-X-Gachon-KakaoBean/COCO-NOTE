@@ -9,7 +9,7 @@ import { CookiesProvider } from 'react-cookie';
 import axios from 'axios';
 import { getCookie } from '@/utils/cookie.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 const queryClient = new QueryClient();
 

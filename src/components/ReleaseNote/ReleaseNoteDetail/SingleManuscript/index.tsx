@@ -34,10 +34,10 @@ import { useMutation, useQuery } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { distributeManuscript, verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
+import { distributeManuscript, verifyEditPermissions } from '@/api/ReleaseNote/ManuScript.ts';
 import { LastEditedMemberDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
 import { SingleManuscriptInfo } from '@/types/SingleManuScriptType.ts';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();

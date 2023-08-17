@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Modal } from 'antd';
 import useInput from '../../hooks/useInput.ts';
-import { postEmail, signUp } from '@/Api/User/SignUp.ts';
+import { postEmail, signUp } from '@/api/User/SignUp.ts';
 import { SignUpUser } from '@/types/UserType.ts';
 
 const SignUp = () => {

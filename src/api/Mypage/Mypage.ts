@@ -1,6 +1,6 @@
 //마이페이지
 
-import { instance } from '@/Api';
+import { instance } from '@/api';
 import { EditName } from '@/types/WithdrawAccountModalType.ts';
 
 export const modifyMemberName = async (data: EditName) => {

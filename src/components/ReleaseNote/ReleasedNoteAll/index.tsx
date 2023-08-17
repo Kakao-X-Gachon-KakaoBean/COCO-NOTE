@@ -18,7 +18,7 @@ import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import pagedFetcher from '@/utils/pagedFetcher.ts';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 const ReleasedNoteAll: React.FC = () => {
   const headerParam = useParams();

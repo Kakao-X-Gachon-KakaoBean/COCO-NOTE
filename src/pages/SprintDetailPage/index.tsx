@@ -28,9 +28,9 @@ import { DeleteSprintValue, SelectedSprintId, SelectedSprintState } from '@/stat
 import { AxiosError } from 'axios';
 import DeleteSprintModal from '@/components/DeleteSprintModal';
 import { useParams } from 'react-router';
-import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
+import { changeWorker, changeWorkStatus } from '@/api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/Api';
+import { BACKEND_URL } from '@/api';
 
 const SprintDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { AddTaskValue, SelectedSprintId } from '@/states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
-import { createTask } from '@/Api/Sprint/Sprint.ts';
+import { createTask } from '@/api/Sprint/Sprint.ts';
 import { CreateTaskDataType } from '@/types/SprintType.ts';
 
 const CreateTaskModal = () => {

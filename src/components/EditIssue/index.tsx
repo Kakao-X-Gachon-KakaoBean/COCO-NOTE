@@ -16,7 +16,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { EditIssue } from '@/types/IssueType.ts';
-import { editIssue } from '@/Api/Issue/Issue.ts';
+import { editIssue } from '@/api/Issue/Issue.ts';
 
 const EditIssue = () => {
   const navigate = useNavigate();
