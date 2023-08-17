@@ -19,9 +19,12 @@ import { useInView } from 'react-intersection-observer';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import pagedFetcher from '@/utils/pagedFetcher.ts';
 import { BACKEND_URL } from '@/api';
+import { useRecoilValue } from 'recoil';
+import { SelectedProjectState } from '@states/ProjectState.ts';
 
 const ReleasedNoteAll: React.FC = () => {
   const headerParam = useParams();
+  const selectedProject = useRecoilValue(SelectedProjectState);
   const projectId = headerParam.projectId;
 
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage } = useInfiniteQuery<PagedReleaseNotes>(
@@ -55,7 +58,7 @@ const ReleasedNoteAll: React.FC = () => {
       <ReleaseNoteTotalText>릴리즈 노트</ReleaseNoteTotalText>
       <ReleasedNoteParagraph>
         <ReleaseNoteTotalDetail>
-          이 페이지는 <strong>&apos;프로젝트 이름&apos;</strong> 프로젝트의 <br />
+          이 페이지는 <strong>&apos;{selectedProject.projectTitle}&apos;</strong> 프로젝트의 <br />
           새로운 기능, 개선 사항, 알려진 문제 및 버그 수정에 대한 정보가 포함되어 있습니다.
         </ReleaseNoteTotalDetail>
       </ReleasedNoteParagraph>

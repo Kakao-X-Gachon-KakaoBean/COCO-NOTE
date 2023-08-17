@@ -24,7 +24,7 @@ const CreateTaskModal = () => {
       onSuccess(data) {
         if (data === '하위작업 생성 완료') {
           setIsAddTask(false);
-          queryClient.invalidateQueries('projectList');
+          queryClient.invalidateQueries('sprintList');
           setTitle('');
           setContents('');
           toast.success('하위작업이 생성 되었습니다.');
