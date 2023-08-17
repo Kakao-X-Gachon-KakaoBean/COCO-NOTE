@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import defaultImage from '@/images/defaultAvatar.png';
 import { QueryClient, useMutation, useQueries } from 'react-query';
-import { ChildType, TableData } from '@/components/Sprint/type.ts';
+import { ChildType, TableData } from '@/types/SprintType.ts';
 import fetcher from '@/utils/fetcher.ts';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {

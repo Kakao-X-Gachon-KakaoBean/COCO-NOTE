@@ -1,8 +1,3 @@
-import { atom } from 'recoil';
-import { recoilPersist } from 'recoil-persist';
-
-const { persistAtom } = recoilPersist();
-
 export interface IUser {
   isLoggingIn: boolean;
   name: string;
@@ -42,22 +37,12 @@ export interface SignUpUser {
   emailAuthKey: string;
 }
 
-const initialState: IUser = {
-  isLoggingIn: false,
-  name: '',
-  email: '',
-  password: '',
-  emailAuthKey: '',
-  checkPassword: '',
-  accessToken: '',
-  refreshToken: '',
-  error: '',
-};
-
-atom({
-  key: 'UserState',
-  default: initialState,
-});
+export interface MypageUser {
+  profileImg: string | undefined;
+  thumbnailImg: string | null;
+  name: string;
+  email: string;
+}
 
 export interface MypageUser {
   profileImg: string | undefined;
@@ -65,19 +50,3 @@ export interface MypageUser {
   name: string;
   email: string;
 }
-const myPageInitialState: MypageUser = {
-  profileImg: undefined,
-  thumbnailImg: null,
-  name: '',
-  email: '',
-};
-export const MyPageUserState = atom({
-  key: 'MyPageUserState',
-  default: myPageInitialState,
-});
-
-export const memberIdState = atom({
-  key: 'memberAtom',
-  default: '',
-  effects_UNSTABLE: [persistAtom],
-});

@@ -22,7 +22,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
-import { SingleReleasedNote } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleReleaseNote/type.ts';
+import { SingleReleasedNote } from '@/types/SingleReleaseNoteType.ts';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import fetcher from '@/utils/fetcher.ts';

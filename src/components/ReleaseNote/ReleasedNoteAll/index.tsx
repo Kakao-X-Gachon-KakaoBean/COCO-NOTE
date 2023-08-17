@@ -12,7 +12,7 @@ import MDEditor from '@uiw/react-md-editor';
 // import ConvertDate from '@/components/ReleaseNote/ConvertDate';
 import { ReleaseNoteHeaderDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { useParams } from 'react-router';
-import { PagedReleaseNotes } from '@/components/ReleaseNote/ReleasedNoteAll/type.ts';
+import { PagedReleaseNotes } from '@/types/ReleasedNoteAllType.ts';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
 import { ActivityIndicator } from '@/components/ActivityIndicator';

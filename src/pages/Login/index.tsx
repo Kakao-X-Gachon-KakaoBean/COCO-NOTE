@@ -22,7 +22,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@/components/Menu';
 import useInput from '../../hooks/useInput.ts';
-import { LoginResponse, LoginUser, memberIdState } from '@/states/userState.ts';
+import { LoginResponse, LoginUser, memberIdState } from '@states/UserState.ts';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import SearchPassword from '@/components/SearchPassword';

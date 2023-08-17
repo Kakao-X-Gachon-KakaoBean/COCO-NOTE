@@ -2,7 +2,7 @@
 
 import { instance } from '@/Api';
 import { AxiosResponse } from 'axios';
-import { EditPassword, LoginResponse, LoginUser } from '@/states/userState.ts';
+import { EditPassword, LoginResponse, LoginUser } from '@states/UserState.ts';
 
 export const logIn = async (data: LoginUser): Promise<LoginResponse> => {
   const res: AxiosResponse<LoginResponse> = await instance.post('/local/login', data);

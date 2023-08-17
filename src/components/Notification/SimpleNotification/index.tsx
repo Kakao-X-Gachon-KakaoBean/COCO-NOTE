@@ -4,7 +4,7 @@ import { MenuDiv, MoreBtn } from '@components/Notification/SimpleNotification/st
 import { BellOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
-import { NotificationItem } from '@components/Notification/SimpleNotification/type.ts';
+import { NotificationItem } from '@/types/SimpleNotificationType.ts';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
@@ -53,6 +53,7 @@ const SimpleNotification = () => {
   function waitForAnimation() {
     return new Promise(resolve => setTimeout(resolve, 550));
   }
+
   function handleItemClick(url: string, notificationId: number) {
     ModifyNotificationStatusMutation.mutate({ notificationId: notificationId.toString(), url });
     simpleNotifications?.map(item => {
@@ -61,6 +62,7 @@ const SimpleNotification = () => {
       }
     });
   }
+
   return (
     <Dropdown
       overlay={

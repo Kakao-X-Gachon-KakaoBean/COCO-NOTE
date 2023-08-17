@@ -19,12 +19,12 @@ import {
   Label,
   Wrapper,
 } from '@/components/SearchPassword/styles';
-import { PasswordModal } from '@/components/SearchPassword/type';
+import { PasswordModal } from '@/types/SearchPasswordType.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import useInput from '../../hooks/useInput';
 import { postEmail } from '@/Api/User/SignUp.ts';
 import { modifyPassword } from '@/Api/User/Login.ts';
-import { EditPassword } from '@/states/userState.ts';
+import { EditPassword } from '@states/UserState.ts';
 
 const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
   const [email, onChangeEmail] = useInput('');

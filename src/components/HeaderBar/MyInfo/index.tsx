@@ -6,7 +6,7 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { removeCookie } from '@utils/cookie.ts';
-import { memberIdState } from '@states/userState.ts';
+import { memberIdState } from '@states/UserState.ts';
 
 const Notification: React.FC = () => {
   const navigate = useNavigate();

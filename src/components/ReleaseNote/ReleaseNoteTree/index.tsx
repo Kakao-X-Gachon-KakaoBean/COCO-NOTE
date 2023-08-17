@@ -8,7 +8,7 @@ import CreateReleaseNoteModal from '@/components/ReleaseNote/CreateReleaseNoteMo
 import { useParams } from 'react-router';
 import { useQuery } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
-import { ManuscriptTree, ReleasedNoteTree } from '@/components/ReleaseNote/ReleaseNoteTree/type.ts';
+import { ManuscriptTree, ReleasedNoteTree } from '@/types/ReleaseNoteTreeType.ts';
 import { toast } from 'react-toastify';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { BACKEND_URL } from '@/Api';

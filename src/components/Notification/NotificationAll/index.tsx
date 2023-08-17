@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
-import { NotificationItem } from '@components/Notification/SimpleNotification/type.ts';
+import { NotificationItem } from '@/types/SimpleNotificationType.ts';
 import { BACKEND_URL } from '@/Api';
 import {
   Content,

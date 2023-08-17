@@ -1,24 +1,22 @@
 import { AddCircle, Circle, InnerText, LogoImage, Wrapper } from '@/components/SideBar/styles.tsx';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { AddProjectClickState, projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import { useQuery } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
-import { IProjectValue } from '@/layouts/Main/type.ts';
+import { IProjectValue } from '@/types/MainType.ts';
 import { BACKEND_URL } from '@/Api';
 import logoImage from '@/images/logoImage.png';
-import { memberIdState } from '@states/userState.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();
-  const memberId = useRecoilValue(memberIdState);
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
 
-  const { isLoading, data } = useQuery<IProjectValue[]>(['projectList', memberId], () =>
+  const { isLoading, data } = useQuery<IProjectValue[]>(['projectList'], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects`,
     })

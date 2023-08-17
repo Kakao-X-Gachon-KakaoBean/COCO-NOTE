@@ -15,7 +15,7 @@ import { useLocation } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { EditIssue } from '@/states/IssueState.ts';
+import { EditIssue } from '@/types/IssueType.ts';
 import { editIssue } from '@/Api/Issue/Issue.ts';
 
 const EditIssue = () => {

@@ -16,7 +16,7 @@ import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValueLoadable } from 'recoil';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation, useParams } from 'react-router';
-import { ManuscriptEdit } from '@/components/ReleaseNote/ReleaseNoteEdit/type.ts';
+import { ManuscriptEdit } from '@/types/ReleaseNoteEditType.ts';
 import { deleteManuscript, saveEditedManuscript } from '@/Api/ReleaseNote/ManuScript.ts';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';

@@ -5,7 +5,7 @@ import AddProject from '@/components/AddProject';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRecoilValue } from 'recoil';
-import { memberIdState } from '@/states/userState.ts';
+import { memberIdState } from '@states/UserState.ts';
 import { Client } from '@stomp/stompjs';
 import { useQueryClient } from 'react-query';
 

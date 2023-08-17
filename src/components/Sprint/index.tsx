@@ -1,6 +1,6 @@
 import { ColumnsType } from 'antd/es/table';
 import { Button, Table } from 'antd';
-import { ChildType, TableData } from '@/components/Sprint/type.ts';
+import { ChildType, TableData } from '@/types/SprintType.ts';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';

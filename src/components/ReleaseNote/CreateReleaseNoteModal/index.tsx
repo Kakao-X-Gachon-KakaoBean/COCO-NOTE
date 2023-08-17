@@ -1,6 +1,6 @@
 import { Button, Input, Modal } from 'antd';
 import React, { useState } from 'react';
-import { CreateManuscript, ModalProps } from '@/components/ReleaseNote/CreateReleaseNoteModal/type.ts';
+import { CreateManuscript, ModalProps } from '@/types/CreateReleaseNoteModalType.ts';
 import { GuideText, ModalDiv } from '@/components/ReleaseNote/CreateReleaseNoteModal/styles.tsx';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';

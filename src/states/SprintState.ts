@@ -1,13 +1,5 @@
 import { atom, RecoilState } from 'recoil';
-import { ChildType, TableData } from '@/components/Sprint/type.ts';
-
-export interface ProjectMember {
-  projectMemberId: number;
-  projectMemberName: string;
-  projectMemberEmail: string;
-  projectMemberRole: 'ADMIN' | 'MEMBER' | 'VIEWER' | 'INVITED_PERSON';
-  memberThumbnailImg: string;
-}
+import { ChildType, TableData } from '@/types/SprintType.ts';
 
 const initialSprintValue: TableData[] = [
   {
@@ -75,40 +67,3 @@ export const SelectedTaskId: RecoilState<number> = atom({
   key: 'SelectedTaskId',
   default: 0,
 });
-
-export interface WorkStatusType {
-  workStatus: string;
-  taskId: number;
-}
-
-export interface ChangeWorkerType {
-  taskId: number;
-  memberId: number;
-}
-
-export interface EditTaskDataType {
-  taskTitle: string;
-  taskDesc: string;
-  sprintId: number;
-}
-
-export interface EditSprintDataType {
-  sprintTitle: string;
-  sprintDesc: string;
-  startDate: string;
-  dueDate: string;
-}
-
-export interface CreateSprintDataType {
-  sprintTitle: string;
-  sprintDesc: string;
-  projectId: number;
-  startDate: string;
-  dueDate: string;
-}
-
-export interface CreateTaskDataType {
-  taskTitle: string;
-  taskDesc: string;
-  sprintId: number;
-}

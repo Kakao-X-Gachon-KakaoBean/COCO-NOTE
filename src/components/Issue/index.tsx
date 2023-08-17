@@ -9,7 +9,7 @@ import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useQuery, useQueryClient } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
-import { IssueDataType, IssueList } from '@/states/IssueState.ts';
+import { IssueDataType, IssueList } from '@/types/IssueType.ts';
 import { useParams } from 'react-router';
 import { fetchPage } from '@/Api/Issue/Issue.ts';
 import { BACKEND_URL } from '@/Api';

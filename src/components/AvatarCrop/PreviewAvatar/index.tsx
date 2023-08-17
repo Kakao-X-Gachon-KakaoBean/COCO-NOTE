@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'antd';
 import defaultImage from '../../../images/defaultAvatar.png';
 import { ProfileViewDiv } from '@/components/AvatarCrop/PreviewAvatar/styles.tsx';
-import { PreviewProps } from '@/components/HeaderBar/type.ts';
+import { PreviewProps } from '@/types/HeaderBarType.ts';
 
 const PreviewAvatar: React.FC<PreviewProps> = ({ preview }) => {
   return (

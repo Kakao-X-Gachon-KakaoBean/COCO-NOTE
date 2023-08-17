@@ -32,7 +32,7 @@ import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { Input } from '@/components/EditIssue/styles.tsx';
 
-import { Comment, CreateComment, EditComment, GetIssueDetail } from '@states/IssueState.ts';
+import { Comment, CreateComment, EditComment, GetIssueDetail } from '@/types/IssueType.ts';
 import { deleteComment, deleteIssue, editComment, postComment } from '@/Api/Issue/Issue.ts';
 
 import { toast } from 'react-toastify';

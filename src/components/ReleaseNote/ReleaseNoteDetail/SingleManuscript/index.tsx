@@ -36,7 +36,7 @@ import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { distributeManuscript, verifyEditPermissions } from '@/Api/ReleaseNote/ManuScript.ts';
 import { LastEditedMemberDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
-import { SingleManuscriptInfo } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/type.ts';
+import { SingleManuscriptInfo } from '@/types/SingleManuScriptType.ts';
 import { BACKEND_URL } from '@/Api';
 
 const SingleManuscript: React.FC = () => {
