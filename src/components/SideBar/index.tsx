@@ -6,10 +6,10 @@ import { Tooltip } from 'antd';
 import { useQuery } from 'react-query';
 import fetcher from '@/utils/fetcher.ts';
 import { IProjectValue } from '@/types/MainType.ts';
-import { BACKEND_URL } from '@/Api';
 import logoImage from '@/images/logoImage.png';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
+import { BACKEND_URL } from '@/api';
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -20,10 +20,10 @@ const SideBar = () => {
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
 
-  const { isLoading, data } = useQuery<IProjectValue[]>(['projectList'], () =>
+  const { isLoading, data } = useQuery<IProjectValue[]>('projectList', () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects`,
-    })
+    }).then(res => res.projects)
   );
 
   useEffect(() => {
