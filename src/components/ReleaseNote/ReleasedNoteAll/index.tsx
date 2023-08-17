@@ -36,7 +36,7 @@ const ReleasedNoteAll: React.FC = () => {
         if (lastPage.finalPage) {
           return undefined;
         }
-        return pages.length + 1;
+        return pages.length;
       },
     }
   );
