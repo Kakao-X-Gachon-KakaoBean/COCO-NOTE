@@ -31,7 +31,7 @@ axios.interceptors.response.use(
           requestApi.headers['Authorization'] = `Bearer ${accessToken}`;
           return axios(requestApi);
         } catch (refreshError) {
-          toast.error('에러에러에러');
+          toast.error('사용자 계정 인증 오류입니다. 다시 로그인 해주세요.');
         }
       }
     }

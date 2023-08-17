@@ -56,7 +56,8 @@ const LogIn = () => {
       initialSelectedProject();
       setProjectInfoMenuOpen(false);
       setMemberId(data?.memberId.toString());
-      setCookie('refreshToken', data?.refreshToken, { path: '/', secure: true });
+      setCookie('refreshToken', data?.refreshToken, { path: '/' });
+
       navigate('/main');
     },
     onError: () => {
@@ -117,11 +118,11 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://coconote.shop`}>
+          <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://coconote.shop/main`}>
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn href={`${BACKEND_URL}/oauth2/authorization/kakao?redirect_uri=http://coconote.shop`}>
+          <KakaoBtn href={`${BACKEND_URL}/oauth2/authorization/kakao?redirect_uri=http://coconote.shop/main`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>

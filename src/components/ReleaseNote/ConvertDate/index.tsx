@@ -1,5 +1,5 @@
 const ConvertDate = (input: string): string => {
-  if (input === '') {
+  if (!input) {
     return '배포되지 않은 릴리즈노트';
   } else {
     let datePart, timePart;

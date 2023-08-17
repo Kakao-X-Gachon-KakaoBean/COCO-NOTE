@@ -1,4 +1,4 @@
-import { Key, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DownOutlined } from '@ant-design/icons';
 import { Tree } from 'antd';
@@ -17,6 +17,7 @@ const ReleaseNoteTree = () => {
   const navigate = useNavigate();
   const headerParam = useParams();
   const projectId = headerParam.projectId;
+  const releaseId = headerParam.releaseId;
   const [selectedKeys, setSelectedKeys] = useState<Key[]>([]);
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [editReleaseNoteTreeData, setEditReleaseNoteTreeData] = useState<DataNode[] | undefined>();
@@ -75,6 +76,32 @@ const ReleaseNoteTree = () => {
     }
   );
 
+  useEffect(() => {
+    if (
+      editReleaseNoteTreeData &&
+      editReleaseNoteTreeData[0] &&
+      editReleaseNoteTreeData[0].children &&
+      releasedNoteTreeData &&
+      releasedNoteTreeData[0] &&
+      releasedNoteTreeData[0].children
+    ) {
+      editReleaseNoteTreeData[0].children.map(value => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (value && value?.id === parseInt(releaseId)) {
+          setSelectedKeys([value.key]);
+        }
+      });
+      releasedNoteTreeData[0].children.map(value => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        if (value && value?.id === parseInt(releaseId)) {
+          setSelectedKeys([value.key]);
+        }
+      });
+    }
+  }, [editReleaseNoteTreeData, releasedNoteTreeData, releaseId]);
+
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -87,8 +114,6 @@ const ReleaseNoteTree = () => {
       navigate(`/projects/${projectId}/manuscripts/${scriptId}`);
     } else if (scriptType === 'released') {
       navigate(`/projects/${projectId}/release-notes/${scriptId}`);
-    } else {
-      toast.error('오류가 발생했습니다. 새로고침 해주세요.');
     }
   };
 
