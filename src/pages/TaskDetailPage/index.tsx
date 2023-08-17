@@ -26,10 +26,12 @@ import { changeWorker, changeWorkStatus } from '@/api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 import { BACKEND_URL } from '@/api';
 import { ChangeWorkerType, ProjectMember, WorkStatusType } from '@/types/SprintType.ts';
+import { useParams } from 'react-router';
 
 const TaskDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const projectId = useParams().projectId;
   const [selectedTask, setSelectedTask] = useRecoilState(SelectedTaskState);
   const taskId = useRecoilValue(SelectedTaskId);
   const [, setIsDeleteTask] = useRecoilState(DeleteTaskValue);
@@ -51,10 +53,10 @@ const TaskDetailPage = () => {
         }),
     },
     {
-      queryKey: ['member', selectedTask.sprintId],
+      queryKey: ['member', projectId],
       queryFn: () =>
         fetcher({
-          queryKey: `${BACKEND_URL}/projects/${selectedTask.sprintId}/members`,
+          queryKey: `${BACKEND_URL}/projects/${projectId}/members`,
         }),
     },
   ]);
