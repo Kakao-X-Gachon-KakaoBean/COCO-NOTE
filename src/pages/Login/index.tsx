@@ -22,7 +22,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@/components/Menu';
 import useInput from '../../hooks/useInput.ts';
-import { LoginResponse, LoginUser, memberIdState } from '@states/UserState.ts';
+import { memberIdState } from '@states/UserState.ts';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import SearchPassword from '@/components/SearchPassword';
@@ -31,6 +31,7 @@ import { logIn } from '@/Api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { BACKEND_URL } from '@/Api';
+import { LoginResponse, LoginUser } from '@/types/UserType.ts';
 
 const LogIn = () => {
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
@@ -45,6 +46,7 @@ const LogIn = () => {
     setCheckPasswordModal(prev => !prev);
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const logInData: LoginUser = {
     email,
     password,

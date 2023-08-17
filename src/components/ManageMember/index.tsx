@@ -37,7 +37,7 @@ import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { EditProject, ModifyMember, ProjectData, projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { toast } from 'react-toastify';
@@ -49,6 +49,7 @@ import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@/Api/Project/ManagePage.ts';
 import defaultImage from '@/images/defaultAvatar.png';
 import { BACKEND_URL } from '@/Api';
+import { EditProject, ModifyMember, ProjectData } from '@/types/ProjectType.ts';
 
 interface TablePaginationActionsProps {
   count: number;

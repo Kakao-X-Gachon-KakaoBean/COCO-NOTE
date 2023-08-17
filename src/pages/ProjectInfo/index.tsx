@@ -35,7 +35,7 @@ import React, { useEffect, useState } from 'react';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { TableHead } from '@mui/material';
 import { useQuery } from 'react-query';
-import { ProjectData, projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import fetcher from '@/utils/fetcher.ts';
@@ -46,6 +46,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { BACKEND_URL } from '@/Api';
+import { ProjectData } from '@/types/ProjectType.ts';
 
 interface TablePaginationActionsProps {
   count: number;

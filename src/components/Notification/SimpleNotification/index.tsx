@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
 import { BACKEND_URL } from '@/Api';
-import { AxiosError } from 'axios/index';
+import { AxiosError } from 'axios';
 import { modifyNotificationStatus } from '@/Api/Notification/Notification.ts';
 
 const SimpleNotification = () => {

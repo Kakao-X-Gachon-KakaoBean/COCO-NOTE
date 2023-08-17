@@ -14,13 +14,13 @@ import {
 } from '@/pages/SignUp/styles';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
-import { SignUpUser } from '@states/UserState.ts';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Modal } from 'antd';
 import useInput from '../../hooks/useInput.ts';
 import { postEmail, signUp } from '@/Api/User/SignUp.ts';
+import { SignUpUser } from '@/types/UserType.ts';
 
 const SignUp = () => {
   const [name, onChangeName] = useInput('');
@@ -50,6 +50,7 @@ const SignUp = () => {
     [password, setCheckPassword]
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const signUpUser: SignUpUser = {
     name,
     email,

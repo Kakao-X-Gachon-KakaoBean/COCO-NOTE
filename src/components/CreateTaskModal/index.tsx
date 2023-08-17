@@ -2,10 +2,11 @@ import { Input, Modal } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddTaskValue, CreateTaskDataType, SelectedSprintId } from '@/states/SprintState.ts';
+import { AddTaskValue, SelectedSprintId } from '@/states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { createTask } from '@/Api/Sprint/Sprint.ts';
+import { CreateTaskDataType } from '@/types/SprintType.ts';
 
 const CreateTaskModal = () => {
   const [isAddTask, setIsAddTask] = useRecoilState(AddTaskValue);

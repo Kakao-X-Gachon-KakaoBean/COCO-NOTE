@@ -5,7 +5,6 @@ import {
   ReleasedNoteDate,
   ReleasedNoteDiv,
   ReleasedNoteParagraph,
-  ReleasedNoteText,
   ReleasedNoteTitle,
   ReleaseNoteTotalDetail,
   ReleaseNoteTotalText,

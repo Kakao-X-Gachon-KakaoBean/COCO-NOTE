@@ -24,7 +24,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import useInput from '../../hooks/useInput';
 import { postEmail } from '@/Api/User/SignUp.ts';
 import { modifyPassword } from '@/Api/User/Login.ts';
-import { EditPassword } from '@states/UserState.ts';
+import { EditPassword } from '@/types/UserType.ts';
 
 const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
   const [email, onChangeEmail] = useInput('');

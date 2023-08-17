@@ -7,10 +7,10 @@ import defaultImage from '../../images/defaultAvatar.png';
 import PreviewAvatar from '@/components/AvatarCrop/PreviewAvatar';
 import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@/components/AvatarCrop/styles.tsx';
 import { ModalVisibleProps, ProfileImages } from '@/types/AvatarType.ts';
-import { IUser, MypageUser } from '@states/UserState.ts';
 import fetcher from '@/utils/fetcher.ts';
 import axios, { AxiosError } from 'axios';
 import { BACKEND_URL } from '@/Api';
+import { IUser, MypageUser } from '@/types/UserType.ts';
 
 const { Text, Title } = Typography;
 const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {

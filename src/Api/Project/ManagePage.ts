@@ -1,7 +1,7 @@
 //프로젝트 관리 페이지
 
 import { instance } from '@/Api';
-import { EditProject, ModifyMember } from '@/states/ProjectState.ts';
+import { EditProject, ModifyMember } from '@/types/ProjectType.ts';
 
 export const editProjectInfo = async (projectId: string | undefined, data: EditProject) => {
   try {

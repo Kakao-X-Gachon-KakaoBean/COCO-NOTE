@@ -2,7 +2,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { useRecoilValue } from 'recoil';
-import { EditSprintDataType, SelectedSprintId, SelectedSprintState } from '@/states/SprintState.ts';
+import { SelectedSprintId, SelectedSprintState } from '@/states/SprintState.ts';
 import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/SprintDetailPage/styles.tsx';
 import { Button, DatePicker, DatePickerProps, Input } from 'antd';
 import { useCallback, useState } from 'react';
@@ -11,6 +11,7 @@ import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { editSprint } from '@/Api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
+import { EditSprintDataType } from '@/types/SprintType.ts';
 
 const SprintEditPage = () => {
   const selectedSprint = useRecoilValue(SelectedSprintState);

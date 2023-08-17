@@ -2,14 +2,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import {
-  ChangeWorkerType,
-  DeleteTaskValue,
-  ProjectMember,
-  SelectedTaskId,
-  SelectedTaskState,
-  WorkStatusType,
-} from '@/states/SprintState.ts';
+import { DeleteTaskValue, SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
 import {
   ButtonDiv,
   ComponentWrapper,
@@ -32,6 +25,7 @@ import DeleteTaskModal from '@/components/DeleteTaskModal';
 import { changeWorker, changeWorkStatus } from '@/Api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 import { BACKEND_URL } from '@/Api';
+import { ChangeWorkerType, ProjectMember, WorkStatusType } from '@/types/SprintType.ts';
 
 const TaskDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);

@@ -1,7 +1,7 @@
 //회원가입 페이지
 
 import { instance } from '@/Api';
-import { SignUpUser } from '@states/UserState.ts';
+import { SignUpUser } from '@/types/UserType.ts';
 
 export const signUp = async (data: SignUpUser) => {
   try {
