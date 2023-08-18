@@ -369,6 +369,7 @@ const ManageMember = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  //멤버 정보 수정 시 멤버 정보 제대로 수정되지않는 버그 발견
 
   return (
     <>
