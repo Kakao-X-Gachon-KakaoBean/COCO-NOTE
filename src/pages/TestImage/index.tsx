@@ -1,6 +1,7 @@
 import MDEditor from '@uiw/react-md-editor';
 import React, { useState } from 'react';
 import { Editor } from '@toast-ui/react-editor';
+import '@toast-ui/editor/dist/toastui-editor.css';
 
 const TestImage = () => {
   const [content, setContent] = useState<string | undefined>('**내용을 입력해주세요.**');
@@ -11,11 +12,11 @@ const TestImage = () => {
       </div>
       <div>
         <Editor
-          height={'100%'}
+          initialValue="hello react editor world!"
+          previewStyle="vertical"
+          height="600px"
           initialEditType="wysiwyg"
-          hideModeSwitch={true}
           useCommandShortcut={false}
-          language="ko-KR"
         />
       </div>
     </>
