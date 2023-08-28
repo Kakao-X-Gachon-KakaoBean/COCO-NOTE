@@ -1,5 +1,5 @@
 import MDEditor from '@uiw/react-md-editor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Input, Modal } from 'antd';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
@@ -21,10 +21,12 @@ import { deleteManuscript, saveEditedManuscript } from '@/api/ReleaseNote/ManuSc
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import { DeleteModalBtnDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 
 const ReleaseNoteEdit = () => {
   const location = useLocation();
+  const history = createBrowserHistory();
   const navigate = useNavigate();
   const headerParam = useParams();
   const scriptId = headerParam.releaseId;
@@ -47,6 +49,13 @@ const ReleaseNoteEdit = () => {
       }
     },
   });
+
+  window.addEventListener('beforeunload', function (e) {
+    const confirmationMessage = '변경사항을 저장하시겠습니까?';
+    e.returnValue = confirmationMessage;
+    return confirmationMessage;
+  });
+
   const deleteManuscriptMutation = useMutation(deleteManuscript, {
     onSuccess: data => {
       if (data === '원고 삭제 성공') {
