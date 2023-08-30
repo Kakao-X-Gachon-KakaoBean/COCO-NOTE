@@ -14,8 +14,8 @@ const TestImage = () => {
         <Editor
           initialValue="hello react editor world!"
           previewStyle="vertical"
-          height="600px"
-          initialEditType="wysiwyg"
+          height="700px"
+          initialEditType="markdown"
           useCommandShortcut={false}
         />
       </div>
