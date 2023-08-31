@@ -46,6 +46,7 @@ const LogIn = () => {
     setCheckPasswordModal(prev => !prev);
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const logInData: LoginUser = {
     email,
     password,
