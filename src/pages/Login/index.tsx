@@ -30,7 +30,7 @@ import { setCookie } from '@/utils/cookie.ts';
 import { logIn } from '@/api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL, GOOGLE_URL, KAKAO_URL } from '@/api';
 import { LoginResponse, LoginUser } from '@/types/UserType.ts';
 
 const LogIn = () => {
@@ -120,11 +120,11 @@ const LogIn = () => {
         </Form>
         <Line>또는</Line>
         <SocialLogin>
-          <GoogleBtn href={`${BACKEND_URL}/oauth2/authorization/google?redirect_uri=http://coconote.shop/main`}>
+          <GoogleBtn href={`${GOOGLE_URL}`}>
             <Img src={GoogleImg} alt="Google" />
             <div>Google로 계속</div>
           </GoogleBtn>
-          <KakaoBtn href={`${BACKEND_URL}/oauth2/authorization/kakao?redirect_uri=http://coconote.shop/main`}>
+          <KakaoBtn href={`${KAKAO_URL}`}>
             <Img src={KakaoImg} alt="Google" />
             <div>KaKao로 계속</div>
           </KakaoBtn>

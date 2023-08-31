@@ -11,9 +11,11 @@ import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation } from 'react-router';
 import { memberIdState } from '@states/UserState.ts';
 import { setCookie } from '@/utils/cookie.ts';
+import { useNavigate } from 'react-router-dom';
 
 const Main = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [, setMemberId] = useRecoilState(memberIdState);
   const searchParams = new URLSearchParams(location.search);
   const accessToken: string | null = searchParams.get('accessToken');
@@ -24,6 +26,7 @@ const Main = () => {
     setMemberId(Id.toString());
     localStorage.setItem('accessToken', accessToken);
     setCookie('refreshToken', refreshToken, { path: '/' });
+    navigate('/main');
   }
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
   let contents = null;
