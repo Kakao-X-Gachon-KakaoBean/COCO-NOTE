@@ -22,7 +22,7 @@ export const AddProjectClickState: RecoilState<boolean> = atom({
   default: false,
 });
 
-export const projectInfoMenuOpenState = atom({
+export const projectInfoMenuOpenState: RecoilState<boolean> = atom({
   key: 'projectInfoMenuOpen',
   default: false,
   effects_UNSTABLE: [persistAtom],
