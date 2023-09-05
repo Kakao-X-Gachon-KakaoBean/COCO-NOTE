@@ -15,7 +15,7 @@ const MyPage = () => {
   switch (projectInfoMenuOpen.state) {
     case 'hasValue':
       contents = () => {
-        if (projectInfoMenuOpen.contents) {
+        if (!projectInfoMenuOpen.contents) {
           return <MyInfo />;
         } else {
           return <ActivityIndicator />;

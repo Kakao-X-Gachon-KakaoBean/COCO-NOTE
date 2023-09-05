@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
 
-export const Img = styled.img`
-  left: 1.5rem;
-  width: 5rem;
-  height: 5rem;
+export const Wrapper = styled.div`
+  padding: 3.5% 3% 3.5% 5.5%;
 `;

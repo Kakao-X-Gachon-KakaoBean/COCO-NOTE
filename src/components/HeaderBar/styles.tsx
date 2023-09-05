@@ -6,8 +6,8 @@ export const BarDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  width: 86%;
-  height: 10%;
+  width: 86vw;
+  height: 10vh;
   position: fixed;
   top: 0;
   z-index: 10;
