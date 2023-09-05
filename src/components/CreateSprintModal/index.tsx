@@ -7,7 +7,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { createSprint } from '@/api/Sprint/Sprint.ts';
-import { CreateSprintDataType } from '@/types/SprintType.ts'; //import moment from 'moment';
+import { CreateSprintDataType } from '@/types/SprintType.ts';
+import moment from 'moment';
 
 const CreateSprintModal = () => {
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
@@ -18,6 +19,8 @@ const CreateSprintModal = () => {
   const { TextArea } = Input;
   const id = useParams().projectId;
   const queryClient = useQueryClient();
+  const [startDateValue, setStartDateValue] = useState<string | null>(null);
+  const [dueDateValue, setDueDateValue] = useState<string | null>(null);
 
   const CreateSprintMutation = useMutation<
     '스프린트 생성 완료' | '스프린트 생성 실패',
@@ -63,12 +66,16 @@ const CreateSprintModal = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setStartDate(dateString);
+    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : null;
+    setStartDateValue(formattedDate);
   };
 
   const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setDueDate(dateString);
+    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : null;
+    setDueDateValue(formattedDate);
   };
 
   const handleCancel = () => {
@@ -96,10 +103,22 @@ const CreateSprintModal = () => {
         style={{ marginBottom: '2rem' }}
       />
       <div>
-        시작일 <DatePicker onChange={onChangeStartDate} />
+        시작일
+        <DatePicker
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          value={startDateValue ? moment(startDateValue) : null}
+          onChange={onChangeStartDate}
+        />
       </div>
       <div>
-        종료일 <DatePicker onChange={onChangeDueDate} />
+        종료일
+        <DatePicker
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          value={dueDateValue ? moment(dueDateValue) : null}
+          onChange={onChangeDueDate}
+        />
       </div>
     </Modal>
   );

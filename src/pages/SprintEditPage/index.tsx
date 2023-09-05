@@ -12,6 +12,7 @@ import { AxiosError } from 'axios';
 import { editSprint } from '@/api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 import { EditSprintDataType } from '@/types/SprintType.ts';
+import moment from 'moment/moment';
 
 const SprintEditPage = () => {
   const selectedSprint = useRecoilValue(SelectedSprintState);
@@ -22,6 +23,8 @@ const SprintEditPage = () => {
   const [dueDate, setDueDate] = useState('');
   const { TextArea } = Input;
   const navigate = useNavigate();
+  const [startDateValue, setStartDateValue] = useState<string>(selectedSprint.startDate);
+  const [dueDateValue, setDueDateValue] = useState<string>(selectedSprint.dueDate);
 
   const editSprintMutation = useMutation<
     '스프린트 수정 완료' | '스프린트 수정 실패',
@@ -64,12 +67,16 @@ const SprintEditPage = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setStartDate(dateString);
+    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : '';
+    setStartDateValue(formattedDate);
   };
 
   const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setDueDate(dateString);
+    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : '';
+    setDueDateValue(formattedDate);
   };
 
   return (
@@ -97,10 +104,22 @@ const SprintEditPage = () => {
             style={{ fontSize: 'large', color: 'Black', marginBottom: '3vh', width: '50vw' }}
           />
           <div>
-            시작일 <DatePicker onChange={onChangeStartDate} />
+            시작일
+            <DatePicker
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              value={moment(startDateValue)}
+              onChange={onChangeStartDate}
+            />
           </div>
           <div>
-            종료일 <DatePicker onChange={onChangeDueDate} />
+            종료일
+            <DatePicker
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              value={moment(dueDateValue)}
+              onChange={onChangeDueDate}
+            />
           </div>
         </ComponentWrapper>
       </Wrapper>

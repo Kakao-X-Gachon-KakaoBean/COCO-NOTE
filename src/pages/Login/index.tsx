@@ -32,6 +32,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { BACKEND_URL } from '@/api';
 import { LoginResponse, LoginUser } from '@/types/UserType.ts';
+import { toast } from 'react-toastify';
 
 const LogIn = () => {
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
@@ -63,7 +64,7 @@ const LogIn = () => {
       navigate('/main');
     },
     onError: () => {
-      alert('이메일과 비밀번호가 일치하지 않습니다.');
+      toast.error('이메일과 비밀번호가 일치하지 않습니다.');
     },
   });
 
