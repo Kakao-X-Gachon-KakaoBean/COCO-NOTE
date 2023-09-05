@@ -1,39 +1,48 @@
 import HeaderBar from '@/components/HeaderBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import SideBar from '@/components/SideBar';
-import MyInfoCard from '@/components/MyInfoCard';
-import { CenterDiv, ChangeInfoDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } from '@/pages/MyPage/styles.tsx';
-import { Divider } from 'antd';
-import ChangePasswordModal from '@/components/MyInfoCard/ChangePasswordModal';
-import WithdrawAccountModal from '@/components/MyInfoCard/WithdrawAccountModal';
 import SideDetailBar from '@/components/SideDetailBar';
+import { useRecoilValueLoadable } from 'recoil';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import MyInfo from '@components/MyInfo';
 
 const MyPage = () => {
+  const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
+
+  let contents = null;
+
+  switch (projectInfoMenuOpen.state) {
+    case 'hasValue':
+      contents = () => {
+        if (projectInfoMenuOpen.contents) {
+          return <MyInfo />;
+        } else {
+          return <ActivityIndicator />;
+        }
+      };
+      break;
+    case 'hasError':
+      contents = () => {
+        return <div>데이터를 서버에서 불러올 수 없습니다.</div>;
+      };
+      break;
+    case 'loading':
+      contents = () => {
+        return <ActivityIndicator />;
+      };
+      break;
+    default:
+      contents = () => {
+        return <div>에러가 발생했습니다. 페이지를 새로고침해주세요.</div>;
+      };
+  }
   return (
     <>
       <HeaderBar />
       <SideBar />
       <SideDetailBar />
-      <Wrapper>
-        <CenterDiv>
-          <MyPageDiv>
-            <MyPageTextDiv>내 정보</MyPageTextDiv>
-            <MyInfoCardDiv>
-              <MyInfoCard />
-            </MyInfoCardDiv>
-            <Divider />
-            <MyPageTextDiv>비밀번호 변경</MyPageTextDiv>
-            <ChangeInfoDiv>
-              <ChangePasswordModal />
-            </ChangeInfoDiv>
-            <Divider />
-            <MyPageTextDiv>계정 탈퇴</MyPageTextDiv>
-            <ChangeInfoDiv>
-              <WithdrawAccountModal />
-            </ChangeInfoDiv>
-          </MyPageDiv>
-        </CenterDiv>
-      </Wrapper>
+      <Wrapper>{contents()}</Wrapper>
     </>
   );
 };
