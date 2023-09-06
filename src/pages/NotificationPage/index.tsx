@@ -3,7 +3,7 @@ import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
-import { Wrapper } from '@/styles/DefaultSide/styles.tsx';
+import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import SideDetailBar from '@/components/SideDetailBar';
 import NotificationAll from '@components/Notification/NotificationAll';
 

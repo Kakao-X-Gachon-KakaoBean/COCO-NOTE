@@ -1,5 +1,5 @@
 import HeaderBar from '@/components/HeaderBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import { Wrapper } from '@/layouts/Main/styles.tsx';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
@@ -35,7 +35,11 @@ const Main = () => {
     case 'hasValue':
       contents = () => {
         if (!projectInfoMenuOpen.contents) {
-          return <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />;
+          return (
+            <Wrapper>
+              <MDEditor.Markdown source={manual} style={{ fontFamily: 'SCDream4' }} />
+            </Wrapper>
+          );
         } else {
           return <ActivityIndicator />;
         }
