@@ -1,5 +1,5 @@
 # COCONOTE Web Page v1.0
-> **카카오 소프트웨어 아케데미 실무 프로젝트** <br/> **개발기간: 2023.07 ~ 2023.08** <br/>
+> **카카오 소프트웨어 아케데미 실무 프로젝트** <br/> **개발기간: 2023.07 ~ 2023.08** <br/> **리팩토링 기간: 2023.08 ~ 진행 중** <br/>
 </br>
 
 ## 문서화
@@ -31,10 +31,25 @@ For building and running the application you need:
 
 
 #### Frontend
-```
-$ yarn install 
-$ yarn run dev
-```
+- 루트 디렉토리에서 .env 파일 생성 후 내용 아래와 같이 작성
+  ```
+  VITE_BACKEND_URL=http://localhost:8080
+  VITE_GOOGLELOGIN_URL=http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/main
+  VITE_KAKAOLOGIN_URL=http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/main
+  ```
+- 루트 디렉토리에서 .env.d.ts 파일 생성 후 내용 아래와 같이 작성
+  ```
+  interface ImportMeta {
+  env: {
+    VITE_BACKEND_URL?: string;
+  };
+  }
+  ```
+- Terminal
+  ```
+  $ yarn install 
+  $ yarn run dev
+  ```
 
 ---
 
