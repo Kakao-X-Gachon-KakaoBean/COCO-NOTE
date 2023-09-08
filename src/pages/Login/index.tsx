@@ -30,7 +30,7 @@ import { setCookie } from '@/utils/cookie.ts';
 import { logIn } from '@/api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { BACKEND_URL, GOOGLE_URL, KAKAO_URL } from '@/api';
+import { GOOGLE_URL, KAKAO_URL } from '@/api';
 import { LoginResponse, LoginUser } from '@/types/UserType.ts';
 
 const LogIn = () => {
