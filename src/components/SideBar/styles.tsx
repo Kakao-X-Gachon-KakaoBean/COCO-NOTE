@@ -11,6 +11,8 @@ export const Wrapper = styled.div`
   flex-wrap: wrap;
   z-index: 20;
   align-items: flex-start;
+  max-height: 100%;
+  overflow-y: auto;
 `;
 
 export const LogoImage = styled.img`
