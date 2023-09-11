@@ -12,15 +12,15 @@ import { AxiosError } from 'axios';
 import { editSprint } from '@/api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 import { EditSprintDataType } from '@/types/SprintType.ts';
-import moment from 'moment/moment';
+import dayjs from 'dayjs';
 
 const SprintEditPage = () => {
   const selectedSprint = useRecoilValue(SelectedSprintState);
   const sprintId = useRecoilValue(SelectedSprintId);
   const [title, setTitle] = useState(selectedSprint.sprintTitle);
   const [contents, setContents] = useState(selectedSprint.sprintDesc);
-  const [startDate, setStartDate] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [startDate, setStartDate] = useState(selectedSprint.startDate);
+  const [dueDate, setDueDate] = useState(selectedSprint.dueDate);
   const { TextArea } = Input;
   const navigate = useNavigate();
   const [startDateValue, setStartDateValue] = useState<string>(selectedSprint.startDate);
@@ -64,19 +64,27 @@ const SprintEditPage = () => {
   }, [title, contents, startDate, dueDate, editSprintMutation, sprintId]);
 
   const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setStartDate(dateString);
-    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : '';
-    setStartDateValue(formattedDate);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setStartDate(formattedDate);
+      setStartDateValue(formattedDate);
+    } else {
+      setStartDate('');
+      setStartDateValue('');
+    }
   };
 
   const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setDueDate(dateString);
-    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : '';
-    setDueDateValue(formattedDate);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setDueDate(formattedDate);
+      setDueDateValue(formattedDate);
+    } else {
+      setDueDate('');
+      setDueDateValue('');
+    }
   };
 
   return (
@@ -105,21 +113,11 @@ const SprintEditPage = () => {
           />
           <div>
             시작일
-            <DatePicker
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              value={moment(startDateValue)}
-              onChange={onChangeStartDate}
-            />
+            <DatePicker value={startDateValue ? dayjs(startDateValue) : null} onChange={onChangeStartDate} />
           </div>
           <div>
             종료일
-            <DatePicker
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              value={moment(dueDateValue)}
-              onChange={onChangeDueDate}
-            />
+            <DatePicker value={dueDateValue ? dayjs(dueDateValue) : null} onChange={onChangeDueDate} />
           </div>
         </ComponentWrapper>
       </Wrapper>

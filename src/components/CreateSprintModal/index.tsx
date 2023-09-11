@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { createSprint } from '@/api/Sprint/Sprint.ts';
 import { CreateSprintDataType } from '@/types/SprintType.ts';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const CreateSprintModal = () => {
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
@@ -63,19 +63,27 @@ const CreateSprintModal = () => {
   );
 
   const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setStartDate(dateString);
-    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : null;
-    setStartDateValue(formattedDate);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setStartDate(formattedDate); // -를 포함한 문자열로 설정
+      setStartDateValue(formattedDate);
+    } else {
+      setStartDate(''); // dateString이 없을 경우 초기화
+      setStartDateValue('');
+    }
   };
 
   const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setDueDate(dateString);
-    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : null;
-    setDueDateValue(formattedDate);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setDueDate(formattedDate); // -를 포함한 문자열로 설정
+      setDueDateValue(formattedDate);
+    } else {
+      setDueDate(''); // dateString이 없을 경우 초기화
+      setDueDateValue('');
+    }
   };
 
   const handleCancel = () => {
@@ -104,21 +112,11 @@ const CreateSprintModal = () => {
       />
       <div>
         시작일
-        <DatePicker
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          value={startDateValue ? moment(startDateValue) : null}
-          onChange={onChangeStartDate}
-        />
+        <DatePicker value={startDateValue ? dayjs(startDateValue) : null} onChange={onChangeStartDate} />
       </div>
       <div>
         종료일
-        <DatePicker
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          value={dueDateValue ? moment(dueDateValue) : null}
-          onChange={onChangeDueDate}
-        />
+        <DatePicker value={dueDateValue ? dayjs(dueDateValue) : null} onChange={onChangeDueDate} />
       </div>
     </Modal>
   );
