@@ -26,7 +26,7 @@ const HeaderBar = () => {
               navigate('/main');
             }}
           >
-            COCONOTE
+            COCONOTE 테스트 테스트
           </TitleLink>
         </LogoDiv>
         <OthersDiv>
