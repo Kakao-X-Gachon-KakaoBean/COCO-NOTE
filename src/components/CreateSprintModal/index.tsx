@@ -36,6 +36,8 @@ const CreateSprintModal = () => {
         setContents('');
         setStartDate('');
         setDueDate('');
+        setStartDateValue(null);
+        setDueDateValue(null);
         toast.success('스프린트가 생성 되었습니다.');
       } else {
         toast.warning('스프린트 생성에 실패했습니다.');
@@ -83,6 +85,8 @@ const CreateSprintModal = () => {
     setContents('');
     setStartDate('');
     setDueDate('');
+    setStartDateValue(null);
+    setDueDateValue(null);
     setIsAddSprint(false);
   };
 
