@@ -8,6 +8,8 @@ import { useRecoilValue } from 'recoil';
 import { memberIdState } from '@states/UserState.ts';
 import { Client } from '@stomp/stompjs';
 import { useQueryClient } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
+import SmallScreenPage from '@pages/SmallScreenPage';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -49,6 +51,15 @@ function App() {
     });
     client.activate();
   }
+
+  const isSmallWidth = useMediaQuery({ maxWidth: 800 });
+  const isSmallHeight = useMediaQuery({ maxHeight: 700 });
+
+  const isSmallScreen = isSmallWidth || isSmallHeight;
+  if (isSmallScreen) {
+    return <SmallScreenPage />;
+  }
+
   return (
     <>
       <BrowserRouter>
