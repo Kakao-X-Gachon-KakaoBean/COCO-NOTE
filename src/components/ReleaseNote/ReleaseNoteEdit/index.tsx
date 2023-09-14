@@ -40,10 +40,16 @@ const ReleaseNoteEdit = () => {
   const saveEditedManuscriptMutation = useMutation(saveEditedManuscript, {
     onSuccess: data => {
       if (data === '원고 수정 성공') {
-        toast.success('수정하신 릴리즈 노트가 반영되었습니다.');
+        toast.success('릴리즈 노트가 저장되었습니다.');
         navigate(-1);
       } else {
-        toast.error('릴리즈 노트 저장에 문제가 발생하였습니다. 새로고침하여 재시작해주세요.');
+        toast.error(
+          <div>
+            릴리즈 노트 저장에 문제가 발생하였습니다.
+            <br />
+            새로고침하여 재시작해주세요.
+          </div>
+        );
       }
     },
   });
@@ -61,7 +67,13 @@ const ReleaseNoteEdit = () => {
         setDeleteModalOpen(false);
         navigate(`/projects/${projectId}/release-notes`);
       } else {
-        toast.error('릴리즈 노트 삭제에 문제가 발생하였습니다. 새로고침하여 재시작해주세요.');
+        toast.error(
+          <div>
+            릴리즈 노트 삭제에 문제가 발생하였습니다.
+            <br />
+            새로고침하여 재시작해주세요.
+          </div>
+        );
       }
     },
   });
