@@ -7,6 +7,7 @@ export const MoreBtn = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
   :hover {
     background-color: rgba(0, 0, 0, 0.05);
     transition: background-color 0.5s ease;
@@ -18,4 +19,10 @@ export const MenuDiv = styled.div<{ hasRead: boolean }>`
   overflow: hidden;
   text-overflow: ellipsis;
   color: ${props => (props.hasRead ? 'grey' : 'black')};
+`;
+
+export const NoAlarmDiv = styled.div`
+  width: 10vw;
+  display: flex;
+  justify-content: center;
 `;

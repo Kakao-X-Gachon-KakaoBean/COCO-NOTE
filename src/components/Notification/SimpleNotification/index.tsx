@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Dropdown, Menu, Space } from 'antd';
-import { MenuDiv, MoreBtn } from '@components/Notification/SimpleNotification/styles.tsx';
+import { MenuDiv, MoreBtn, NoAlarmDiv } from '@components/Notification/SimpleNotification/styles.tsx';
 import { BellOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
@@ -67,14 +67,17 @@ const SimpleNotification = () => {
     <Dropdown
       overlay={
         <Menu onClick={handleClick}>
-          {!isLoading &&
+          {simpleNotifications && simpleNotifications.length === 0 ? (
+            <NoAlarmDiv>알림이 없습니다</NoAlarmDiv>
+          ) : (
             simpleNotifications?.map(item => (
               <Menu.Item key={item?.notificationId}>
                 <MenuDiv hasRead={item?.hasRead} onClick={() => handleItemClick(item?.url, item?.notificationId)}>
                   {item?.content}
                 </MenuDiv>
               </Menu.Item>
-            ))}
+            ))
+          )}
 
           <MoreBtn
             onClick={async () => {
