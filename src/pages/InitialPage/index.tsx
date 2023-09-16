@@ -15,7 +15,7 @@ const InitialPage = () => {
         </ProjectNameDiv>
         <ExplainDiv data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
           프로젝트의 성장을 <br />
-          효과적으로 공유하세요 되는지 확인
+          효과적으로 공유하세요
         </ExplainDiv>
         <BtnLink to="/login">
           <LoginBtn data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
