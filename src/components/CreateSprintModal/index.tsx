@@ -36,6 +36,8 @@ const CreateSprintModal = () => {
         setContents('');
         setStartDate('');
         setDueDate('');
+        setStartDateValue('');
+        setDueDateValue('');
         toast.success('스프린트가 생성 되었습니다.');
       } else {
         toast.warning('스프린트 생성에 실패했습니다.');
@@ -66,10 +68,10 @@ const CreateSprintModal = () => {
     if (dateString) {
       const parsedDate = dayjs(dateString);
       const formattedDate = parsedDate.format('YYYY-MM-DD');
-      setStartDate(formattedDate); // -를 포함한 문자열로 설정
+      setStartDate(formattedDate);
       setStartDateValue(formattedDate);
     } else {
-      setStartDate(''); // dateString이 없을 경우 초기화
+      setStartDate('');
       setStartDateValue('');
     }
   };
@@ -78,10 +80,10 @@ const CreateSprintModal = () => {
     if (dateString) {
       const parsedDate = dayjs(dateString);
       const formattedDate = parsedDate.format('YYYY-MM-DD');
-      setDueDate(formattedDate); // -를 포함한 문자열로 설정
+      setDueDate(formattedDate);
       setDueDateValue(formattedDate);
     } else {
-      setDueDate(''); // dateString이 없을 경우 초기화
+      setDueDate('');
       setDueDateValue('');
     }
   };
