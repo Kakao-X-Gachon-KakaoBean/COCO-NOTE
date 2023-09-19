@@ -93,6 +93,8 @@ const CreateSprintModal = () => {
     setContents('');
     setStartDate('');
     setDueDate('');
+    setStartDateValue(null);
+    setDueDateValue(null);
     setIsAddSprint(false);
   };
 

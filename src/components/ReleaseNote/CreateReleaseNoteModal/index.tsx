@@ -25,7 +25,7 @@ const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => 
           toast.success('릴리즈 노트 생성에 성공했습니다.');
           handleOk({ title: title, version: version, status: 'success' });
         } else {
-          toast.error('제목과 버전을 다시 확인해주시기 바랍니다.');
+          toast.error('정보를 다시 확인해주시기 바랍니다.');
         }
       },
       onError: () => {

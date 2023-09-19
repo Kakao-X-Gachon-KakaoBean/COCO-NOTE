@@ -11,6 +11,7 @@ import fetcher from '@utils/fetcher.ts';
 import { BACKEND_URL } from '@/api';
 import { AxiosError } from 'axios';
 import { modifyNotificationStatus } from '@/api/Notification/Notification.ts';
+import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
 
 const SimpleNotification = () => {
   const [visible, setVisible] = useState(false);
@@ -49,10 +50,6 @@ const SimpleNotification = () => {
   const handleClick = () => {
     setVisible(!visible);
   };
-
-  function waitForAnimation() {
-    return new Promise(resolve => setTimeout(resolve, 550));
-  }
 
   function handleItemClick(url: string, notificationId: number) {
     ModifyNotificationStatusMutation.mutate({ notificationId: notificationId.toString(), url });

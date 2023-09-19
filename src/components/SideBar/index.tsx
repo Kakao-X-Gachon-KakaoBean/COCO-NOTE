@@ -10,6 +10,7 @@ import logoImage from '@/images/logoImage.png';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { BACKEND_URL } from '@/api';
+import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -35,10 +36,6 @@ const SideBar = () => {
       }
     });
   }, [data, projectId, setProjectInfoMenuOpen, setSelectedProject]);
-
-  function waitForAnimation() {
-    return new Promise(resolve => setTimeout(resolve, 550));
-  }
 
   return (
     <Wrapper>

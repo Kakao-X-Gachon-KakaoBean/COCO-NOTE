@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const Wrapper = styled.div<{ open: boolean }>`
   background-color: white;
-  width: 20%;
-  height: 89.7%;
+  width: ${open => (open ? '20vw' : '0')};
+  height: 89.7vh;
   position: fixed;
   top: 10.3%;
   left: 8.3%;

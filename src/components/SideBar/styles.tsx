@@ -1,16 +1,17 @@
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
-  box-sizing: border-box;
   background-color: white;
-  width: 8%;
-  height: 100%;
+  width: 8vw;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
   flex-wrap: wrap;
   z-index: 20;
   align-items: flex-start;
+  max-height: 100%;
+  overflow-y: auto;
 `;
 
 export const LogoImage = styled.img`

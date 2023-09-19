@@ -8,6 +8,9 @@ import { useRecoilValue } from 'recoil';
 import { memberIdState } from '@states/UserState.ts';
 import { Client } from '@stomp/stompjs';
 import { useQueryClient } from 'react-query';
+import { useMediaQuery } from 'react-responsive';
+import SmallScreenPage from '@pages/SmallScreenPage';
+import { AlertToastDiv } from '@styles/AlertToastify/styles.tsx';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -31,6 +34,7 @@ const TaskEditPage = loadable(() => import('@pages/TaskEditPage'));
 const ReleaseNoteEdit = loadable(() => import('@components/ReleaseNote/ReleaseNoteEdit'));
 const InvitationPage = loadable(() => import('@pages/InvitationPage'));
 const NotificationPage = loadable(() => import('@pages/NotificationPage'));
+const TestImagePage = loadable(() => import('@pages/TestImage'));
 
 function App() {
   const memberId = useRecoilValue(memberIdState);
@@ -42,11 +46,19 @@ function App() {
         client.subscribe(`/queue/user-${memberId}`, message => {
           QueryClient.invalidateQueries('simpleNotification');
           const parsedMessage = JSON.parse(message.body);
-          toast.info(parsedMessage.title);
+          toast.info(<AlertToastDiv>{parsedMessage.title}</AlertToastDiv>);
         });
       },
     });
     client.activate();
+  }
+
+  const isSmallWidth = useMediaQuery({ maxWidth: 800 });
+  const isSmallHeight = useMediaQuery({ maxHeight: 700 });
+
+  const isSmallScreen = isSmallWidth || isSmallHeight;
+  if (isSmallScreen) {
+    return <SmallScreenPage />;
   }
   return (
     <>
@@ -56,6 +68,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/initial" element={<InitialPage />} />
           <Route path="/notification" element={<NotificationPage />} />
+          <Route path="/testimage" element={<TestImagePage />} />
           <Route path={'/projects/:projectId/manage'} element={<ManagePage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/login" element={<Login />} />
