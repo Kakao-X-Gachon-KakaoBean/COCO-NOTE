@@ -10,6 +10,7 @@ import { Client } from '@stomp/stompjs';
 import { useQueryClient } from 'react-query';
 import { useMediaQuery } from 'react-responsive';
 import SmallScreenPage from '@pages/SmallScreenPage';
+import { AlertToastDiv } from '@styles/AlertToastify/styles.tsx';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -45,7 +46,7 @@ function App() {
         client.subscribe(`/queue/user-${memberId}`, message => {
           QueryClient.invalidateQueries('simpleNotification');
           const parsedMessage = JSON.parse(message.body);
-          toast.info(parsedMessage.title);
+          toast.info(<AlertToastDiv>{parsedMessage.title}</AlertToastDiv>);
         });
       },
     });
@@ -59,7 +60,6 @@ function App() {
   if (isSmallScreen) {
     return <SmallScreenPage />;
   }
-
   return (
     <>
       <BrowserRouter>

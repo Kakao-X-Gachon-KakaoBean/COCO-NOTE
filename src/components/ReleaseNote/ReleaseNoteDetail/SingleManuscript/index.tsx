@@ -58,20 +58,26 @@ const SingleManuscript: React.FC = () => {
         setManuscriptData(data);
       },
       onError: () => {
-        toast.error('오류가 발생했습니다. 화면을 새로고침 해주세요.');
+        toast.error(
+          <div>
+            오류가 발생했습니다.
+            <br />
+            화면을 새로고침 해주세요.
+          </div>
+        );
       },
     }
   );
   const verifyEditManuscriptMutation = useMutation(verifyEditPermissions, {
     onSuccess: data => {
       if (data === '원고 수정 권한 확인 실패') {
-        toast.error('현재 다른 사용자가 이 릴리즈노트를 수정 중이거나, 서버에 오류가 있습니다.');
+        toast.error('현재 이 릴리즈노트는 수정 중입니다.');
       } else {
         navigate('edit', { state: data });
       }
     },
     onError: () => {
-      toast.error('권한을 받아오는데 문제가 있습니다.');
+      toast.error('권한을 받아오는데 문제가 발생했습니다.');
     },
   });
   const distributeManuscriptMutation = useMutation(distributeManuscript, {
@@ -80,7 +86,7 @@ const SingleManuscript: React.FC = () => {
         toast.success('해당 릴리즈 노트를 배포하였습니다.');
         navigate(`/projects/${projectId}/release-notes`);
       } else {
-        toast.error('릴리즈 노트 배포에 실패했습니다. 화면을 새로고침 해주세요.');
+        toast.error('릴리즈 노트 배포에 실패했습니다.');
       }
     },
   });

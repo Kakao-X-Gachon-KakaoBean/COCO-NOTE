@@ -34,7 +34,7 @@ const AddProject = () => {
           setContent('');
           setIsAddProject(false);
         } else {
-          toast.error('프로젝트 명과 프로젝트 설명을 정확히 입력해주세요');
+          toast.error('프로젝트 정보를 정확히 입력해주세요');
         }
       },
       onError: () => {
