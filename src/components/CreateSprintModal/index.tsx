@@ -8,7 +8,7 @@ import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { createSprint } from '@/api/Sprint/Sprint.ts';
 import { CreateSprintDataType } from '@/types/SprintType.ts';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const CreateSprintModal = () => {
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
@@ -36,8 +36,8 @@ const CreateSprintModal = () => {
         setContents('');
         setStartDate('');
         setDueDate('');
-        setStartDateValue(null);
-        setDueDateValue(null);
+        setStartDateValue('');
+        setDueDateValue('');
         toast.success('스프린트가 생성 되었습니다.');
       } else {
         toast.warning('스프린트 생성에 실패했습니다.');
@@ -65,19 +65,27 @@ const CreateSprintModal = () => {
   );
 
   const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setStartDate(dateString);
-    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : null;
-    setStartDateValue(formattedDate);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setStartDate(formattedDate);
+      setStartDateValue(formattedDate);
+    } else {
+      setStartDate('');
+      setStartDateValue('');
+    }
   };
 
   const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setDueDate(dateString);
-    const formattedDate = dateString ? dateString.format('YYYY-MM-DD') : null;
-    setDueDateValue(formattedDate);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setDueDate(formattedDate);
+      setDueDateValue(formattedDate);
+    } else {
+      setDueDate('');
+      setDueDateValue('');
+    }
   };
 
   const handleCancel = () => {
@@ -108,21 +116,11 @@ const CreateSprintModal = () => {
       />
       <div>
         시작일
-        <DatePicker
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          value={startDateValue ? moment(startDateValue) : null}
-          onChange={onChangeStartDate}
-        />
+        <DatePicker value={startDateValue ? dayjs(startDateValue) : null} onChange={onChangeStartDate} />
       </div>
       <div>
         종료일
-        <DatePicker
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          value={dueDateValue ? moment(dueDateValue) : null}
-          onChange={onChangeDueDate}
-        />
+        <DatePicker value={dueDateValue ? dayjs(dueDateValue) : null} onChange={onChangeDueDate} />
       </div>
     </Modal>
   );
