@@ -28,7 +28,13 @@ const AddProject = () => {
     {
       onSuccess: data => {
         if (data === '프로젝트 생성 성공') {
-          toast.success('프로젝트가 생성되었습니다.');
+          toast.success(
+            <div>
+              프로젝트가 생성되었습니다.프로젝트가 생성되었습니다.프로젝트가 생성되었습니다.프로젝트가
+              생성되었습니다.프로젝트가 생성되었습니다.프로젝트가 생성되었습니다.프로젝트가 생성되었습니다. <br />{' '}
+              ㅋㅋㅋㅋ
+            </div>
+          );
           queryClient.invalidateQueries('projectList');
           setTitle('');
           setContent('');
@@ -38,7 +44,7 @@ const AddProject = () => {
         }
       },
       onError: () => {
-        alert('서버와 연결이 되어있지 않습니다.');
+        toast.error('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
