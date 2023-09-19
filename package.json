@@ -56,6 +56,7 @@
     "react-icons": "^4.10.1",
     "react-intersection-observer": "^9.5.2",
     "react-query": "^3.39.3",
+    "react-responsive": "^9.0.2",
     "react-router": "^6.14.0",
     "react-router-dom": "^6.14.0",
     "react-scripts": "^5.0.1",
@@ -76,6 +77,10 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
+    "@toast-ui/editor": "^3.1.8",
+    "@toast-ui/editor-plugin-code-syntax-highlight": "^3.1.0",
+    "@toast-ui/editor-plugin-color-syntax": "^3.1.0",
+    "@toast-ui/react-editor": "^3.1.1",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.3.2",
     "@types/react": "^18.0.37",
@@ -101,6 +106,9 @@
     "ts-jest": "^29.1.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.9"
+  },
+  "resolutions": {
+    "@toast-ui/editor": "3.1.8"
   },
   "jest": {
     "moduleNameMapper": {

@@ -37,8 +37,8 @@ import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { useRecoilValue } from 'recoil';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { toast } from 'react-toastify';
 import fetcher from '@/utils/fetcher.ts';
@@ -114,6 +114,8 @@ const ManageMember = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [modifiedData, setModifiedData] = useState<Array<{ modifyProjectMemberId: number; projectRole: string }>>([]);
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const resetSelectedProject = useResetRecoilState(SelectedProjectState);
 
   const { TextArea } = Input;
 
@@ -287,14 +289,21 @@ const ManageMember = () => {
     [title, content, EditProjectInfoMutation]
   );
 
+  function waitForAnimation() {
+    return new Promise(resolve => setTimeout(resolve, 550));
+  }
+
   const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
     'deleteMember',
-    () => deleteMember(projectId), // 함수를 반환하도록 수정
+    () => deleteMember(projectId),
     {
-      onSuccess: data => {
+      onSuccess: async data => {
         if (data === '삭제 성공') {
           toast.success('삭제되었습니다.');
           queryClient.invalidateQueries('projectinfo');
+          resetSelectedProject();
+          setProjectInfoMenuOpen(false);
+          await waitForAnimation();
           navigate('/main');
         } else {
           toast.error('삭제 실패하였습니다.');
