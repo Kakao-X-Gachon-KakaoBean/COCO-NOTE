@@ -121,11 +121,11 @@ const LogIn = () => {
         <Line>또는</Line>
         <SocialLogin>
           <GoogleBtn href={`${GOOGLE_URL}`}>
-            <Img src={GoogleImg} alt="Google" />
+            <Img src={'googleLogo.svg'} alt={'googleLogo'} />
             <div>Google로 계속</div>
           </GoogleBtn>
           <KakaoBtn href={`${KAKAO_URL}`}>
-            <Img src={KakaoImg} alt="Google" />
+            <Img src={'kakaoLogo.svg'} alt={'kakaoLogo'} />
             <div>KaKao로 계속</div>
           </KakaoBtn>
         </SocialLogin>
