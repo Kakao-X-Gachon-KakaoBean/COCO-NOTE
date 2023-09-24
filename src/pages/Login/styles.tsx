@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -146,7 +146,19 @@ const buttonAnimation = keyframes`
     border: none;
   }
 `;
-export const LoginBtn = styled.button`
+
+const buttonRollbackAnimation = keyframes`
+  from {
+    background-color: #039ba1;
+    color: white;
+    border: none;
+  }
+
+  to {
+    background-color: #f1f3f5;
+  }
+`;
+export const LoginBtn = styled.button<{ isLoginBtnActivate: boolean }>`
   color: #b8c0c5;
   display: flex;
   justify-content: center;
@@ -162,6 +174,16 @@ export const LoginBtn = styled.button`
   cursor: pointer;
   margin-top: 1rem;
   border: none;
+  ${props =>
+    props.isLoginBtnActivate &&
+    css`
+      animation: ${buttonAnimation} 0.2s ease-in-out forwards;
+    `}
+  ${props =>
+    !props.isLoginBtnActivate &&
+    css`
+      animation: ${buttonRollbackAnimation} 0.2s ease-in-out forwards;
+    `}
   &:hover {
     animation: ${buttonAnimation} 0.2s ease-in-out forwards;
   }

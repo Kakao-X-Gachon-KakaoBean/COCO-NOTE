@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import GoogleImg from '../../images/google-logo.png';
 import KakaoImg from '../../images/kakao-logo.png';
 
@@ -45,6 +45,14 @@ const LogIn = () => {
   const onClosePasswordModal = useCallback(() => {
     setCheckPasswordModal(prev => !prev);
   }, []);
+  const [isLoginBtnActivate, setIsLoginBtnActivate] = useState(false);
+  useEffect(() => {
+    if (email.length > 0 || password.length > 0) {
+      setIsLoginBtnActivate(true);
+    } else {
+      setIsLoginBtnActivate(false);
+    }
+  }, [email, password]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const logInData: LoginUser = {
@@ -99,7 +107,9 @@ const LogIn = () => {
               placeholder="비밀번호"
             />
           </Label>
-          <LoginBtn type="submit">로그인</LoginBtn>
+          <LoginBtn type="submit" isLoginBtnActivate={isLoginBtnActivate}>
+            로그인
+          </LoginBtn>
           <SearchBox>
             <span
               style={{
