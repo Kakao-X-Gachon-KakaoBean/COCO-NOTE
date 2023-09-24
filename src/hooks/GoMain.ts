@@ -8,12 +8,12 @@ export const GoMain = () => {
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const navigate = useNavigate();
 
-  const handleLogoClick = async () => {
+  const GotoMain = async () => {
     initialSelectedProject();
     setProjectInfoMenuOpen(false);
     await waitForAnimation();
     navigate('/main');
   };
 
-  return handleLogoClick;
+  return GotoMain;
 };
