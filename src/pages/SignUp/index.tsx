@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { Label, Wrapper } from '@/pages/Login/styles.tsx';
 import {
   CheckBtn,
@@ -33,6 +33,15 @@ const SignUp = () => {
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   const [mismatchError, setMismatchError] = useState(false);
+
+  const [isSignupBtnActivate, setIsSignupBtnActivate] = useState(false);
+  useEffect(() => {
+    if (name.length > 0 || email.length > 0 || password.length > 0 || checkPassword.length > 0) {
+      setIsSignupBtnActivate(true);
+    } else {
+      setIsSignupBtnActivate(false);
+    }
+  }, [name, email, password, checkPassword]);
 
   const onChangePassword = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +193,9 @@ const SignUp = () => {
             {!mismatchError && checkPassword.length >= 1 && <Error>비밀번호가 일치하지 않습니다!</Error>}
             {mismatchError && checkPassword.length >= 1 && <Correct>비밀번호가 일치합니다!</Correct>}
           </Label>
-          <LoginBtn type="submit">가입하기</LoginBtn>
+          <LoginBtn type="submit" isSignupBtnActivate={isSignupBtnActivate}>
+            가입하기
+          </LoginBtn>
         </Form>
       </Wrapper>
       <Modal
