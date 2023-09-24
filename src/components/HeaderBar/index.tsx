@@ -5,29 +5,16 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
+import { GoMain } from '@/hooks/GoMain.ts';
 
 const HeaderBar = () => {
-  const [projectInfoMenuOpen, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
-
-  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
-  const navigate = useNavigate();
+  const handleTitleClick = GoMain();
 
   return (
     <>
       <BarDiv>
         <LogoDiv>
-          <TitleLink
-            onClick={async () => {
-              initialSelectedProject();
-              setProjectInfoMenuOpen(false);
-              if (projectInfoMenuOpen) {
-                await waitForAnimation();
-              }
-              navigate('/main');
-            }}
-          >
-            COCONOTE
-          </TitleLink>
+          <TitleLink onClick={handleTitleClick}>COCONOTE</TitleLink>
         </LogoDiv>
         <OthersDiv>
           <Notification />
