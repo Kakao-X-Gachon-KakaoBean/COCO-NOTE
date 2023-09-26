@@ -28,13 +28,7 @@ const AddProject = () => {
     {
       onSuccess: data => {
         if (data === '프로젝트 생성 성공') {
-          toast.success(
-            <div>
-              프로젝트가 생성되었습니다.프로젝트가 생성되었습니다.프로젝트가 생성되었습니다.프로젝트가
-              생성되었습니다.프로젝트가 생성되었습니다.프로젝트가 생성되었습니다.프로젝트가 생성되었습니다. <br />{' '}
-              ㅋㅋㅋㅋ
-            </div>
-          );
+          toast.success('프로젝트가 생성되었습니다.');
           queryClient.invalidateQueries('projectList');
           setTitle('');
           setContent('');
