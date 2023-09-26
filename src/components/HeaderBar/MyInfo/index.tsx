@@ -8,15 +8,19 @@ import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/Project
 import { removeCookie } from '@utils/cookie.ts';
 import { memberIdState } from '@states/UserState.ts';
 import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
+import { useQueryClient } from 'react-query';
 
 const Notification: React.FC = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [, setIsLogin] = useState(localStorage.getItem('accessToken') !== null);
   const resetMemberId = useResetRecoilState(memberIdState);
+  const resetSelectedProject = useResetRecoilState(SelectedProjectState);
 
   const onLogout = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
@@ -26,9 +30,13 @@ const Notification: React.FC = () => {
       localStorage.removeItem('memberAtom');
       removeCookie('refreshToken');
       setIsLogin(false);
+      queryClient.invalidateQueries('projectinfo');
+      resetSelectedProject();
+      setProjectInfoMenuOpen(false);
+      waitForAnimation();
       document.location.href = '/';
     },
-    [resetMemberId]
+    [queryClient, resetMemberId, resetSelectedProject, setProjectInfoMenuOpen]
   );
 
   const closeModal = () => {
