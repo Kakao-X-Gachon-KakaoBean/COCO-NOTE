@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export const Wrapper = styled.div`
   background-color: white;
@@ -145,20 +145,44 @@ const buttonAnimation = keyframes`
   }
 `;
 
-export const Button = styled.button`
+const buttonRollbackAnimation = keyframes`
+  from {
+    background-color: #039ba1;
+    color: white;
+    border: none;
+  }
+
+  to {
+    background-color: #f1f3f5;
+  }
+`;
+
+export const Button = styled.button<{ isChangePasswordBtnActivate: boolean }>`
   color: #b8c0c5;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 7rem;
-  height: 2.3rem;
-  box-shadow: 0 4px 4px 0 #00000040;
-  border-radius: 10px;
-  font-size: 0.8rem;
+  vertical-align: middle;
+  text-align: center;
+  width: 10rem;
+  height: 3rem;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+  margin-top: 1rem;
   border: none;
-  margin-top: 1.5rem;
+  ${props =>
+    props.isChangePasswordBtnActivate &&
+    css`
+      animation: ${buttonAnimation} 0.2s ease-in-out forwards;
+    `}
+  ${props =>
+    !props.isChangePasswordBtnActivate &&
+    css`
+      animation: ${buttonRollbackAnimation} 0.2s ease-in-out forwards;
+    `}
   &:hover {
     animation: ${buttonAnimation} 0.2s ease-in-out forwards;
   }
@@ -181,7 +205,7 @@ export const Input = styled.input`
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(194, 194, 194);
   width: 25vw;
   height: 5vh;
   outline: none;

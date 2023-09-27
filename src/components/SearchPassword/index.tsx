@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useCallback, useState } from 'react';
+import React, { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -33,8 +33,22 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
   const [emailAuthKey, onChangeEmailAuthKey] = useInput('');
   const [, setFailUseEmail] = useState(false);
   const [mismatchError, setMismatchError] = useState(false);
+  const [isChangePasswordBtnActivate, setIsChangePasswordBtnActivate] = useState(false);
 
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (
+      email.length > 0 ||
+      passwordToChange.length > 0 ||
+      checkPasswordToChange.length > 0 ||
+      emailAuthKey.length > 0
+    ) {
+      setIsChangePasswordBtnActivate(true);
+    } else {
+      setIsChangePasswordBtnActivate(false);
+    }
+  }, [email, passwordToChange, checkPasswordToChange, emailAuthKey]);
 
   const postEmailMutation = useMutation<'이메일 발송 성공' | '이메일 발송 실패', AxiosError, string>(
     'post email',
@@ -178,7 +192,9 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
               onSubmit(e);
             }}
           >
-            <Button type="submit">비밀번호 변경</Button>
+            <Button type="submit" isChangePasswordBtnActivate={isChangePasswordBtnActivate}>
+              비밀번호 변경
+            </Button>
           </Form>
         </InputKeyWithText>
       ) : (
@@ -188,7 +204,9 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
               onSubmit(e);
             }}
           >
-            <Button type="submit">비밀번호 변경</Button>
+            <Button type="submit" isChangePasswordBtnActivate={isChangePasswordBtnActivate}>
+              비밀번호 변경
+            </Button>
           </Form>
         </InputKey>
       )}

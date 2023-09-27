@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 export const Header = styled.div`
   font-size: 2.5rem;
@@ -23,7 +23,18 @@ const submitButtonAnimation = keyframes`
   }
 `;
 
-export const LoginBtn = styled.button`
+const submitButtonRollbackAnimation = keyframes`
+  from {
+    background-color: #039ba1;
+    color: white;
+    border: none;
+  }
+  to {
+    background-color: #b8c0c5;
+  }
+`;
+
+export const LoginBtn = styled.button<{ isSignupBtnActivate: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,13 +43,23 @@ export const LoginBtn = styled.button`
   width: 29rem;
   height: 3rem;
   border-radius: 8px;
-  color: #b8c0c5;
+  color: white;
   outline: none;
   font-size: 1.3rem;
   font-weight: 700;
   cursor: pointer;
   margin-top: 1rem;
   border: none;
+  ${props =>
+    props.isSignupBtnActivate &&
+    css`
+      animation: ${submitButtonAnimation} 0.2s ease-in-out forwards;
+    `}
+  ${props =>
+    !props.isSignupBtnActivate &&
+    css`
+      animation: ${submitButtonRollbackAnimation} 0.2s ease-in-out forwards;
+    `}
   &:hover {
     animation: ${submitButtonAnimation} 0.2s ease-in-out forwards;
   }
