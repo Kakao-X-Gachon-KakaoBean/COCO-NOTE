@@ -52,6 +52,10 @@ const IssueDetail = () => {
   const [clickCommentId, setClickCommentId] = useState<number>();
   const [newComment, setNewComment] = useState<string>('');
 
+  const detailIssueInvalidate = (): void => {
+    queryClient.invalidateQueries('detatilIssue');
+  };
+
   const { isLoading, data: detailIssue } = useQuery<GetIssueDetail>(['detatilIssue'], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/issues/${issueId}`,
@@ -96,7 +100,7 @@ const IssueDetail = () => {
       onSuccess: data => {
         if (data === '댓글 달기 완료') {
           toast.success('댓글을 달았습니다.');
-          queryClient.invalidateQueries('detatilIssue');
+          detailIssueInvalidate();
           setContent('');
         } else {
           toast.error('댓글 달기에 실패하였습니다.');
@@ -131,7 +135,7 @@ const IssueDetail = () => {
     onSuccess: data => {
       if (data === '댓글 삭제 성공') {
         toast.success('댓글이 삭제되었습니다.');
-        queryClient.invalidateQueries('detatilIssue');
+        detailIssueInvalidate();
       } else {
         toast.error('에러가 발생하였습니다.');
       }
@@ -147,7 +151,7 @@ const IssueDetail = () => {
           toast.success('수정 완료하였습니다.');
           setNewComment('');
           setCommentModalOpen(false);
-          queryClient.invalidateQueries('detatilIssue');
+          detailIssueInvalidate();
         } else {
           toast.error('양식을 제대로 입력해주세요.');
         }
