@@ -124,6 +124,14 @@ const ManageMember = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const projectInfoInvalidate = (): void => {
+    queryClient.invalidateQueries('projectinfo');
+  };
+
+  const projectListInvalidate = (): void => {
+    queryClient.invalidateQueries('projectList');
+  };
+
   const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects/${projectId}`,
@@ -237,8 +245,8 @@ const ManageMember = () => {
           toast(message('정보를 수정하였습니다.'), {
             type: 'success',
           });
-          queryClient.invalidateQueries('projectinfo');
-          queryClient.invalidateQueries('projectList');
+          projectInfoInvalidate();
+          projectListInvalidate();
           setTitle('');
           setContent('');
           SetProjectModalOpen(false);
@@ -262,7 +270,7 @@ const ManageMember = () => {
             type: 'success',
           });
           setModifiedData([]);
-          queryClient.invalidateQueries('projectinfo');
+          projectInfoInvalidate();
         } else {
           toast(message('권한 수정에 실패하였습니다.'), { type: 'error' });
         }
@@ -300,7 +308,7 @@ const ManageMember = () => {
       onSuccess: async data => {
         if (data === '삭제 성공') {
           toast.success('삭제되었습니다.');
-          queryClient.invalidateQueries('projectinfo');
+          projectInfoInvalidate();
           resetSelectedProject();
           setProjectInfoMenuOpen(false);
           await waitForAnimation();
@@ -344,7 +352,7 @@ const ManageMember = () => {
           toast(message('초대를 완료했습니다.'), {
             type: 'success',
           });
-          queryClient.invalidateQueries('projectinfo');
+          projectInfoInvalidate();
           setEmail('');
           setEmails([]);
           SetInvitationModalOpen(false);
@@ -358,7 +366,6 @@ const ManageMember = () => {
     }
   );
 
-  //이메일로 초대 보내기
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();
