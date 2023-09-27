@@ -38,7 +38,7 @@ const AddProject = () => {
         }
       },
       onError: () => {
-        alert('서버와 연결이 되어있지 않습니다.');
+        toast.error('서버와 연결이 되어있지 않습니다.');
       },
     }
   );

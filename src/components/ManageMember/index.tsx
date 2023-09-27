@@ -37,8 +37,8 @@ import { TableHead } from '@mui/material';
 import useInput from '../../hooks/useInput.ts';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { useRecoilValue } from 'recoil';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { toast } from 'react-toastify';
 import fetcher from '@/utils/fetcher.ts';
@@ -115,6 +115,8 @@ const ManageMember = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [modifiedData, setModifiedData] = useState<Array<{ modifyProjectMemberId: number; projectRole: string }>>([]);
+  const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
+  const resetSelectedProject = useResetRecoilState(SelectedProjectState);
 
   const { TextArea } = Input;
 
@@ -122,6 +124,14 @@ const ManageMember = () => {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+
+  const projectInfoInvalidate = (): void => {
+    queryClient.invalidateQueries('projectinfo');
+  };
+
+  const projectListInvalidate = (): void => {
+    queryClient.invalidateQueries('projectList');
+  };
 
   const { isLoading, data: projectData } = useQuery<ProjectData>(['projectinfo'], () =>
     fetcher({
@@ -236,8 +246,8 @@ const ManageMember = () => {
           toast(message('정보를 수정하였습니다.'), {
             type: 'success',
           });
-          queryClient.invalidateQueries('projectinfo');
-          queryClient.invalidateQueries('projectList');
+          projectInfoInvalidate();
+          projectListInvalidate();
           setTitle('');
           setContent('');
           SetProjectModalOpen(false);
@@ -246,7 +256,7 @@ const ManageMember = () => {
         }
       },
       onError: () => {
-        alert('서버와 연결이 되어있지 않습니다.');
+        toast.error('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
@@ -261,13 +271,13 @@ const ManageMember = () => {
             type: 'success',
           });
           setModifiedData([]);
-          queryClient.invalidateQueries('projectinfo');
+          projectInfoInvalidate();
         } else {
           toast(message('권한 수정에 실패하였습니다.'), { type: 'error' });
         }
       },
       onError: () => {
-        alert('서버와 연결이 되어있지 않습니다.');
+        toast.error('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
@@ -290,9 +300,9 @@ const ManageMember = () => {
   const GotoMain = GoMain();
   const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
     'deleteMember',
-    () => deleteMember(projectId), // 함수를 반환하도록 수정
+    () => deleteMember(projectId),
     {
-      onSuccess: data => {
+      onSuccess: async data => {
         if (data === '삭제 성공') {
           toast.success('삭제되었습니다.');
           queryClient.invalidateQueries('projectinfo');
@@ -302,7 +312,7 @@ const ManageMember = () => {
         }
       },
       onError: () => {
-        alert('서버와 연결이 되어있지 않습니다.');
+        toast.error('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
@@ -336,7 +346,7 @@ const ManageMember = () => {
           toast(message('초대를 완료했습니다.'), {
             type: 'success',
           });
-          queryClient.invalidateQueries('projectinfo');
+          projectInfoInvalidate();
           setEmail('');
           setEmails([]);
           SetInvitationModalOpen(false);
@@ -345,12 +355,11 @@ const ManageMember = () => {
         }
       },
       onError: () => {
-        alert('서버와 연결이 되어있지 않습니다.');
+        toast.error('서버와 연결이 되어있지 않습니다.');
       },
     }
   );
 
-  //이메일로 초대 보내기
   const onSubmitEmail = useCallback(
     (e: any) => {
       e.preventDefault();

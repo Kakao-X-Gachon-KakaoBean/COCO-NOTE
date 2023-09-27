@@ -44,7 +44,7 @@ const InvitationPage = () => {
       }
     },
     onError: () => {
-      alert('서버와 연결이 되어있지 않습니다.');
+      toast.error('서버와 연결이 되어있지 않습니다.');
     },
   });
 
@@ -66,7 +66,7 @@ const InvitationPage = () => {
       <Wrapper>
         <InvitationHeader />
         <ImageBox>
-          <Img src={logoImage} alt="logo" />
+          <Img src={'logoImage.svg'} alt={'logoImage'} />
         </ImageBox>
         <ProjectName>{data?.projectTitle}</ProjectName>
         <ProjectExplain>{data?.projectTitle}에서 초대를 하였습니다.</ProjectExplain>

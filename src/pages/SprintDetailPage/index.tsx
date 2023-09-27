@@ -42,6 +42,12 @@ const SprintDetailPage = () => {
     Array<{ label: string; options: Array<{ label: string; value: number }> }>
   >([]);
   const queryClient = new QueryClient();
+  const taskInvalidate = (): void => {
+    queryClient.invalidateQueries('task');
+  };
+  const sprintListInvalidate = (): void => {
+    queryClient.invalidateQueries('sprintList');
+  };
   const WorkStatusOption = [
     { value: 'NOT_ASSIGNED', label: '할 일' },
     { value: 'WORKING', label: '진행 중' },
@@ -115,8 +121,8 @@ const SprintDetailPage = () => {
       if (data === '작업 상태 변경 완료') {
         res[0].refetch();
         res[1].refetch();
-        queryClient.invalidateQueries('sprintList');
-        queryClient.invalidateQueries('task');
+        sprintListInvalidate();
+        taskInvalidate();
         toast.success('작업 상태를 변경하였습니다.');
       } else {
         toast.warning('작업 상태를 변경하지 못했습니다.');
@@ -137,8 +143,8 @@ const SprintDetailPage = () => {
         if (data === '작업자 할당 완료') {
           res[0].refetch();
           res[1].refetch();
-          queryClient.invalidateQueries('sprintList');
-          queryClient.invalidateQueries('task');
+          sprintListInvalidate();
+          taskInvalidate();
           toast.success('작업자를 할당하였습니다.');
         } else {
           toast.success('작업자 할당에 실패하였습니다.');

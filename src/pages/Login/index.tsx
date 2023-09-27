@@ -30,8 +30,9 @@ import { setCookie } from '@/utils/cookie.ts';
 import { logIn } from '@/api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { BACKEND_URL, GOOGLE_URL, KAKAO_URL } from '@/api';
+import { GOOGLE_URL, KAKAO_URL } from '@/api';
 import { LoginResponse, LoginUser } from '@/types/UserType.ts';
+import { toast } from 'react-toastify';
 
 const LogIn = () => {
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);
@@ -71,7 +72,7 @@ const LogIn = () => {
       navigate('/main');
     },
     onError: () => {
-      alert('이메일과 비밀번호가 일치하지 않습니다.');
+      toast.error('이메일과 비밀번호가 일치하지 않습니다.');
     },
   });
 
@@ -131,11 +132,11 @@ const LogIn = () => {
         <Line>또는</Line>
         <SocialLogin>
           <GoogleBtn href={`${GOOGLE_URL}`}>
-            <Img src={GoogleImg} alt="Google" />
+            <Img src={'googleLogo.svg'} alt={'googleLogo'} />
             <div>Google로 계속</div>
           </GoogleBtn>
           <KakaoBtn href={`${KAKAO_URL}`}>
-            <Img src={KakaoImg} alt="Google" />
+            <Img src={'kakaoLogo.svg'} alt={'kakaoLogo'} />
             <div>KaKao로 계속</div>
           </KakaoBtn>
         </SocialLogin>

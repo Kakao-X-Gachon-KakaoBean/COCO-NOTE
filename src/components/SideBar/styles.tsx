@@ -7,7 +7,23 @@ export const Wrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  align-items: flex-start;
+  overflow: hidden;
+`;
+
+export const ProjectWrapper = styled.div`
+  background-color: white;
+  width: 8vw;
+  max-height: calc(100vh - 11vh);
+  overflow-y: auto;
+  position: fixed;
+  top: 11vh; /* Height of logo */
+  left: 0;
+  display: flex;
+  flex-direction: column;
   z-index: 20;
   align-items: flex-start;
 `;

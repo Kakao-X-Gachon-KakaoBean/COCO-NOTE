@@ -7,7 +7,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { createSprint } from '@/api/Sprint/Sprint.ts';
-import { CreateSprintDataType } from '@/types/SprintType.ts'; //import moment from 'moment';
+import { CreateSprintDataType } from '@/types/SprintType.ts';
+import dayjs from 'dayjs';
 
 const CreateSprintModal = () => {
   const [isAddSprint, setIsAddSprint] = useRecoilState(AddSprintValue);
@@ -18,6 +19,8 @@ const CreateSprintModal = () => {
   const { TextArea } = Input;
   const id = useParams().projectId;
   const queryClient = useQueryClient();
+  const [startDateValue, setStartDateValue] = useState<string | null>(null);
+  const [dueDateValue, setDueDateValue] = useState<string | null>(null);
 
   const CreateSprintMutation = useMutation<
     '스프린트 생성 완료' | '스프린트 생성 실패',
@@ -33,6 +36,8 @@ const CreateSprintModal = () => {
         setContents('');
         setStartDate('');
         setDueDate('');
+        setStartDateValue('');
+        setDueDateValue('');
         toast.success('스프린트가 생성 되었습니다.');
       } else {
         toast.warning('스프린트 생성에 실패했습니다.');
@@ -60,15 +65,27 @@ const CreateSprintModal = () => {
   );
 
   const onChangeStartDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setStartDate(dateString);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setStartDate(formattedDate);
+      setStartDateValue(formattedDate);
+    } else {
+      setStartDate('');
+      setStartDateValue('');
+    }
   };
 
   const onChangeDueDate: DatePickerProps['onChange'] = dateString => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    setDueDate(dateString);
+    if (dateString) {
+      const parsedDate = dayjs(dateString);
+      const formattedDate = parsedDate.format('YYYY-MM-DD');
+      setDueDate(formattedDate);
+      setDueDateValue(formattedDate);
+    } else {
+      setDueDate('');
+      setDueDateValue('');
+    }
   };
 
   const handleCancel = () => {
@@ -76,6 +93,8 @@ const CreateSprintModal = () => {
     setContents('');
     setStartDate('');
     setDueDate('');
+    setStartDateValue(null);
+    setDueDateValue(null);
     setIsAddSprint(false);
   };
 
@@ -96,10 +115,12 @@ const CreateSprintModal = () => {
         style={{ marginBottom: '2rem' }}
       />
       <div>
-        시작일 <DatePicker onChange={onChangeStartDate} />
+        시작일
+        <DatePicker value={startDateValue ? dayjs(startDateValue) : null} onChange={onChangeStartDate} />
       </div>
       <div>
-        종료일 <DatePicker onChange={onChangeDueDate} />
+        종료일
+        <DatePicker value={dueDateValue ? dayjs(dueDateValue) : null} onChange={onChangeDueDate} />
       </div>
     </Modal>
   );
