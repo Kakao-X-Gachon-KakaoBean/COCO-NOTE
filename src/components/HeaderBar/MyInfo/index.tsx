@@ -33,7 +33,6 @@ const Notification: React.FC = () => {
       queryClient.invalidateQueries('projectinfo');
       resetSelectedProject();
       setProjectInfoMenuOpen(false);
-      waitForAnimation();
       document.location.href = '/';
     },
     [queryClient, resetMemberId, resetSelectedProject, setProjectInfoMenuOpen]
