@@ -42,6 +42,7 @@ const SideBar = () => {
       {!isLoading && data && (
         <div>
           <Tooltip placement={'right'} title={'메인으로'}>
+            {/*svg로 바꾸면 다른 페이지에서 엑스박스가 뜸*/}
             <LogoImage
               src={logoImage}
               className={selectedProject.projectId === 0 ? 'selected' : 'notSelected'}
