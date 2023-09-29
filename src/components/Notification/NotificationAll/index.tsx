@@ -23,7 +23,7 @@ import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 
 function useNotifications() {
   return useInfiniteQuery<NotificationItem[]>(
-    'notifications',
+    ['notifications'],
     async ({ pageParam = null }) => {
       const { data } = await axios.get(`${BACKEND_URL}/notifications/page`, {
         params: {
