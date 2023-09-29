@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import { NotificationItem } from '@/types/SimpleNotificationType.ts';
 import { BACKEND_URL } from '@/api';
