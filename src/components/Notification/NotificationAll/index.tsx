@@ -53,6 +53,8 @@ const NotificationAll = () => {
   const { data, error, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useNotifications();
   const [notifications, setNotifications] = useState<NotificationItem[][]>();
 
+  const regex = /\[\s*(.*?)\s*\](.*)/;
+
   useEffect(() => {
     if (data) {
       setNotifications(data.pages);
@@ -95,7 +97,6 @@ const NotificationAll = () => {
         {data?.pages.map((page, index) => (
           <div key={index}>
             {page.map(notification => {
-              const regex = /\[\s*(.*?)\s*\](.*)/;
               const match = notification.content.match(regex);
               return (
                 <Menu key={notification.notificationId}>
