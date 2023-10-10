@@ -7,6 +7,7 @@ export const NotificationTitle = styled.div`
   font-family: SCDream5;
   font-size: 1.8vw;
   margin-bottom: 2vh;
+  margin-top: 1rem;
 `;
 export const NotificationList = styled.div`
   display: flex;
