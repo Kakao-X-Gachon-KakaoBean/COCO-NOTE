@@ -45,6 +45,7 @@
     "dayjs": "^1.11.9",
     "emotion": "^11.0.0",
     "emotion-utils": "^9.1.0",
+    "eslint-plugin-jest-dom": "^5.1.0",
     "feather-icons": "^4.29.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
