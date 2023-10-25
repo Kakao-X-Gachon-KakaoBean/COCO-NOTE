@@ -32,6 +32,11 @@ export const LogoImage = styled.img`
   width: 6vw;
   height: 11vh;
   margin-left: 1vw;
+  transition: transform 0.2s, filter 0.2s;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
 `;
 
 export const Circle = styled.div`
