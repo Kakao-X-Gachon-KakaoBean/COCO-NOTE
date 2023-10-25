@@ -27,9 +27,9 @@ describe('로그인 페이지 테스트', () => {
 
     it('로그인에 성공 할 경우', () => {
       cy.get('input[name="id"]').type('j949854@gmail.com');
-      cy.get('input[name="password"]').type('1234');
+      cy.get('input[name="password"]').type('1111');
       cy.get('button[type="submit"]').click();
-      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '이메일과 비밀번호가 일치하지 않습니다.');
+      cy.url().should('include', '/main');
     });
 
     it('구글 로그인을 할 경우', () => {});
