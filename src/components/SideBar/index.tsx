@@ -11,6 +11,7 @@ import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { BACKEND_URL } from '@/api';
 import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
+import { GoMain } from '@/hooks/GoMain.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -18,9 +19,8 @@ const SideBar = () => {
   const projectId = headerParam.projectId;
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
-  const initialSelectedProject = useResetRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
-
+  const handleLogoClick = GoMain();
   const { isLoading, data } = useQuery<IProjectValue[]>('projectList', () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects`,
@@ -46,12 +46,7 @@ const SideBar = () => {
             <LogoImage
               src={logoImage}
               className={selectedProject.projectId === 0 ? 'selected' : 'notSelected'}
-              onClick={async () => {
-                initialSelectedProject();
-                setProjectInfoMenuOpen(false);
-                await waitForAnimation();
-                navigate('/main');
-              }}
+              onClick={handleLogoClick}
               alt={'logoImage'}
             ></LogoImage>
           </Tooltip>

@@ -50,6 +50,7 @@ import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@
 import defaultImage from '@/images/defaultAvatar.png';
 import { BACKEND_URL } from '@/api';
 import { EditProject, ModifyMember, ProjectData } from '@/types/ProjectType.ts';
+import { GoMain } from '@/hooks/GoMain.ts';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -296,11 +297,7 @@ const ManageMember = () => {
     },
     [title, content, EditProjectInfoMutation]
   );
-
-  function waitForAnimation() {
-    return new Promise(resolve => setTimeout(resolve, 550));
-  }
-
+  const GotoMain = GoMain();
   const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
     'deleteMember',
     () => deleteMember(projectId),
@@ -308,11 +305,8 @@ const ManageMember = () => {
       onSuccess: async data => {
         if (data === '삭제 성공') {
           toast.success('삭제되었습니다.');
-          projectInfoInvalidate();
-          resetSelectedProject();
-          setProjectInfoMenuOpen(false);
-          await waitForAnimation();
-          navigate('/main');
+          queryClient.invalidateQueries('projectinfo');
+          GotoMain().catch(error => console.error('Error navigating:', error));
         } else {
           toast.error('삭제 실패하였습니다.');
         }
@@ -504,7 +498,12 @@ const ManageMember = () => {
                 </Table>
               </TableContainer>
             </MemberList>
-            <Button key="submit" onClick={deleteProject}>
+            <Button
+              key="submit"
+              onClick={() => {
+                deleteProject();
+              }}
+            >
               프로젝트 삭제
             </Button>
           </MemberSection>
