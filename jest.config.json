@@ -22,5 +22,5 @@
     "!src/index.tsx",
     "!src/serviceWorker.ts"
   ],
-  "coverageReporters": ["json", "lcov", "text", "clover"]
+  "coverageReporters": ["json", "lcov", "text", "clover"],
 }
