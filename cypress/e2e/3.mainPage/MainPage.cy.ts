@@ -45,7 +45,18 @@ describe('메인 페이지 테스트', () => {
 
   context('사이드바', () => {
     it('사이드바에 존재 하는 문구들이 있어야 한다.', () => {
-      //사이드바 안나와서 더 봐야됨.
+      cy.get('.selected').should('be.visible');
+      cy.get(':nth-child(1) > .notSelected > .css-1a1tdkp').should('have.text', 'Awesome project');
+      cy.get(':nth-child(2) > .notSelected > .css-1a1tdkp').should('have.text', 'kakaoBean Project');
+      cy.get('.css-gkszvj > .css-1a1tdkp').should('have.text', '+');
+    });
+
+    it('+버튼을 눌렀을 때에는 프로젝트 생성 모달이 보여야 한다.', () => {
+      cy.get('.css-gkszvj > .css-1a1tdkp').click();
+      cy.get('.ant-modal-content').should('be.visible');
+      cy.get('[placeholder="프로젝트 명"]').should('be.visible');
+      cy.get('[placeholder="프로젝트 설명"]').should('be.visible');
+      cy.get('.ant-modal-footer > .ant-btn').should('have.text', '전송');
     });
   });
 
