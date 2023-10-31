@@ -1,4 +1,4 @@
-import SimpleNotification from '@components/Notification/SimpleNotification';
+import SimpleNotification from '@/components/Notification/SimpleNotification';
 
 const Notification = () => {
   return (

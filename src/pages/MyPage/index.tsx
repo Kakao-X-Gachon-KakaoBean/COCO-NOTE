@@ -3,9 +3,9 @@ import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import SideBar from '@/components/SideBar';
 import SideDetailBar from '@/components/SideDetailBar';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
-import { ActivityIndicator } from '@components/ActivityIndicator';
-import MyInfo from '@components/MyInfo';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
+import MyInfo from '@/components/MyInfo';
 
 const MyPage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);

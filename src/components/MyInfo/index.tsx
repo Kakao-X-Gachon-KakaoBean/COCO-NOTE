@@ -1,8 +1,8 @@
-import { CenterDiv, ChangeInfoDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } from '@components/MyInfo/styles.tsx';
-import MyInfoCard from '@components/MyInfoCard';
+import { CenterDiv, ChangeInfoDiv, MyInfoCardDiv, MyPageDiv, MyPageTextDiv } from '@/components/MyInfo/styles.tsx';
+import MyInfoCard from '@/components/MyInfoCard';
 import { Divider } from 'antd';
-import ChangePasswordModal from '@components/MyInfoCard/ChangePasswordModal';
-import WithdrawAccountModal from '@components/MyInfoCard/WithdrawAccountModal';
+import ChangePasswordModal from '@/components/MyInfoCard/ChangePasswordModal';
+import WithdrawAccountModal from '@/components/MyInfoCard/WithdrawAccountModal';
 
 const MyInfo = () => {
   return (

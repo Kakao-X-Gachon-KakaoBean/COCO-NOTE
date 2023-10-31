@@ -5,8 +5,8 @@ import AvatarCrop from '@/components/AvatarCrop';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { removeCookie } from '@utils/cookie.ts';
-import { memberIdState } from '@states/UserState.ts';
+import { removeCookie } from '@/utils/cookie.ts';
+import { memberIdState } from '@/states/UserState.ts';
 import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
 import { useQueryClient } from 'react-query';
 
