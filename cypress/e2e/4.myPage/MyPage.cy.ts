@@ -50,6 +50,14 @@ describe('마이 페이지 테스트', () => {
       cy.get(':nth-child(2) > .notSelected > .css-1a1tdkp').should('have.text', 'kakaoBean Project');
       cy.get('.css-gkszvj > .css-1a1tdkp').should('have.text', '+');
     });
+
+    it('+버튼을 눌렀을 때에는 프로젝트 생성 모달이 보여야 한다.', () => {
+      cy.get('.css-gkszvj > .css-1a1tdkp').click();
+      cy.get('.ant-modal-content').should('be.visible');
+      cy.get('[placeholder="프로젝트 명"]').should('be.visible');
+      cy.get('[placeholder="프로젝트 설명"]').should('be.visible');
+      cy.get('.ant-modal-footer > .ant-btn').should('have.text', '전송');
+    });
   });
 
   context('마이페이지', () => {
