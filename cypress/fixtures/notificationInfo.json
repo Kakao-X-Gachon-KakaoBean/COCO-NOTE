@@ -1,0 +1,16 @@
+[
+  {
+    "notificationId": 1,
+    "createdAt": "23. 8. 16. 오전 3:07",
+    "content": "[ 권한 변경 테스트입니다. ] 권한 변경 알림 테스트.",
+    "url": "/projects/1",
+    "hasRead": false
+  },
+  {
+    "notificationId": 2,
+    "createdAt": "23. 8. 16. 오전 3:07",
+    "content": "[ 스프린트 알림 테스트입니다. ] 스프린트 알림 테스트.",
+    "url": "/projects/1/sprints/1/1",
+    "hasRead": false
+  }
+]

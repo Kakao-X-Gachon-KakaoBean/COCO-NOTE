@@ -1,0 +1,14 @@
+{
+  "projects": [
+    {
+      "projectId": 5,
+      "projectTitle": "Awesome project",
+      "projectContent": "으썸한 프로젝트 설명"
+    },
+    {
+      "projectId": 6,
+      "projectTitle": "kakaoBean Project",
+      "projectContent": "카카오빈 프로젝트에 대한 설명"
+    }
+  ]
+}
