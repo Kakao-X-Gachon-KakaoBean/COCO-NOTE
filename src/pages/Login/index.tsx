@@ -92,7 +92,7 @@ const LogIn = () => {
     <>
       <Wrapper>
         <Header>
-          <Link to="/main">COCO:NOTE</Link>
+          <Link to="/initial">COCONOTE</Link>
         </Header>
         <Form onSubmit={onSubmit}>
           <Label>
