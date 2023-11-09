@@ -11,6 +11,7 @@ import { useQueryClient } from 'react-query';
 import { useMediaQuery } from 'react-responsive';
 import SmallScreenPage from '@/pages/SmallScreenPage';
 import { AlertToastDiv } from '@/styles/AlertToastify/styles.tsx';
+import { BROKER_URL } from '@/api';
 
 const InitialPage = loadable(() => import('@/pages/InitialPage'));
 const Main = loadable(() => import('@/layouts/Main'));
@@ -41,7 +42,7 @@ function App() {
   const QueryClient = useQueryClient();
   if (memberId !== '') {
     const client = new Client({
-      brokerURL: 'ws://localhost:15674/ws',
+      brokerURL: BROKER_URL,
       onConnect: () => {
         client.subscribe(`/queue/user-${memberId}`, message => {
           QueryClient.invalidateQueries('simpleNotification');
