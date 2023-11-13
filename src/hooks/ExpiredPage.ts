@@ -12,7 +12,7 @@ export const ExpiredPage = () => {
     initialSelectedProject();
     setProjectInfoMenuOpen(false);
     await waitForAnimation();
-    navigate('/notification');
+    navigate(-1);
   };
 
   return GoNotification;

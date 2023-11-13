@@ -22,15 +22,15 @@ const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const navigate = useNavigate();
-  const handleTitleClick = ExpiredPage();
+  const handleNotificationClick = ExpiredPage();
   useEffect(() => {
     console.warn = function (message) {
       if (message.startsWith('Matched leaf route at location')) {
         toast.warn('선택하신 항목은 이미 처리되었습니다.');
-        handleTitleClick();
+        handleNotificationClick();
       }
     };
-  }, [handleTitleClick]);
+  }, [handleNotificationClick]);
 
   const items: MenuProps['items'] = [
     {
