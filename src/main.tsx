@@ -41,14 +41,12 @@ axios.interceptors.response.use(
 );
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <CookiesProvider>
-      <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <App />
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </RecoilRoot>
-    </CookiesProvider>
-  </React.StrictMode>
+  <CookiesProvider>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </RecoilRoot>
+  </CookiesProvider>
 );
