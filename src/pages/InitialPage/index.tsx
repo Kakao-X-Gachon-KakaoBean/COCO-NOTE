@@ -11,7 +11,7 @@ const InitialPage = () => {
     <Wrapper>
       <MainSection>
         <ProjectNameDiv data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
-          COCO:NOTE
+          COCONOTE
         </ProjectNameDiv>
         <ExplainDiv data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
           프로젝트의 성장을 <br />

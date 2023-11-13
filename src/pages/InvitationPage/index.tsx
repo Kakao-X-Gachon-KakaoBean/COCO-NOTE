@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { inviteMember } from '@/api/Invitation/Invitation.ts';
 import { InvitationType } from '@/types/InvitationType.ts';
-import InvitationHeader from '@components/InvitationHeader';
+import InvitationHeader from '@/components/InvitationHeader';
 import { BACKEND_URL } from '@/api';
 
 const InvitationPage = () => {

@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { manual } from '@/layouts/Main/manual.tsx';
 import { ActivityIndicator } from '@/components/ActivityIndicator';
 import { useLocation } from 'react-router';
-import { memberIdState } from '@states/UserState.ts';
+import { memberIdState } from '@/states/UserState.ts';
 import { setCookie } from '@/utils/cookie.ts';
 import { useNavigate } from 'react-router-dom';
 

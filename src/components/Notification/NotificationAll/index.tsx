@@ -11,15 +11,15 @@ import {
   NotificationTitle,
   ProjectContent,
   ProjectName,
-} from '@components/Notification/NotificationAll/styles.tsx';
+} from '@/components/Notification/NotificationAll/styles.tsx';
 import { Button, Menu } from 'antd';
-import { ActivityIndicator } from '@components/ActivityIndicator';
-import convertDate from '@components/ReleaseNote/ConvertDate';
+import { ActivityIndicator } from '@/components/ActivityIndicator';
+import convertDate from '@/components/ReleaseNote/ConvertDate';
 import { useEffect, useState } from 'react';
 import { modifyNotificationStatus } from '@/api/Notification/Notification.ts';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
 
 function useNotifications() {
   return useInfiniteQuery<NotificationItem[]>(

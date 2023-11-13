@@ -1,6 +1,6 @@
 import { useResetRecoilState, useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
 import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
 
 export const GoMain = () => {

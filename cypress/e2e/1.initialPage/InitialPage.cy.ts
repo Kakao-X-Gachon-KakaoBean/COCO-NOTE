@@ -8,7 +8,7 @@ describe('이니셜 테스트', () => {
       cy.get('.ant-btn > span').should('be.visible');
     });
     it('화면에 문구가 보여야 한다.', () => {
-      cy.get('.css-9tw42w').should('have.text', 'COCO:NOTE');
+      cy.get('.css-9tw42w').should('have.text', 'COCONOTE');
       cy.get('.css-1d0ucni').should('have.text', '프로젝트의 성장을 효과적으로 공유하세요');
       cy.get('.ant-btn').should('have.text', '로그인하여 시작하기');
     });

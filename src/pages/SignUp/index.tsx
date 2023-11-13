@@ -127,8 +127,8 @@ const SignUp = () => {
         <SubHeader>
           <div>
             이미{' '}
-            <Link to={'/main'} style={{ color: '#039ba1', fontWeight: 'bold' }}>
-              COCO:NOTE
+            <Link to={'/initial'} style={{ color: '#039ba1', fontWeight: 'bold' }}>
+              COCONOTE
             </Link>{' '}
             회원이신가요?
           </div>

@@ -5,7 +5,7 @@ import HeaderBar from '@/components/HeaderBar';
 import SideBar from '@/components/SideBar';
 import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import SideDetailBar from '@/components/SideDetailBar';
-import NotificationAll from '@components/Notification/NotificationAll';
+import NotificationAll from '@/components/Notification/NotificationAll';
 
 const NotificationPage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);

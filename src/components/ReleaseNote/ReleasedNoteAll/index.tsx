@@ -20,7 +20,7 @@ import { ActivityIndicator } from '@/components/ActivityIndicator';
 import pagedFetcher from '@/utils/pagedFetcher.ts';
 import { BACKEND_URL } from '@/api';
 import { useRecoilValue } from 'recoil';
-import { SelectedProjectState } from '@states/ProjectState.ts';
+import { SelectedProjectState } from '@/states/ProjectState.ts';
 
 const ReleasedNoteAll: React.FC = () => {
   const headerParam = useParams();

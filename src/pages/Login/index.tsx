@@ -22,7 +22,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 import Menu from '@/components/Menu';
 import useInput from '../../hooks/useInput.ts';
-import { memberIdState } from '@states/UserState.ts';
+import { memberIdState } from '@/states/UserState.ts';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import SearchPassword from '@/components/SearchPassword';
@@ -92,7 +92,7 @@ const LogIn = () => {
     <>
       <Wrapper>
         <Header>
-          <Link to="/main">COCO:NOTE</Link>
+          <Link to="/initial">COCONOTE</Link>
         </Header>
         <Form onSubmit={onSubmit}>
           <Label>
