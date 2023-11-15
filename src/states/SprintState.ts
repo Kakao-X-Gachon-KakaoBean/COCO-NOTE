@@ -1,5 +1,5 @@
 import { atom, RecoilState } from 'recoil';
-import { ChildType, TableData } from '@/types/SprintType.ts';
+import { ChildType, TableData } from '@type/SprintType.ts';
 
 const initialSprintValue: TableData[] = [
   {

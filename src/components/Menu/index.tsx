@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
-import { CreateModal } from '@/components/Menu/styles';
-import { Props } from '@/types/MenuType.ts';
+import { CreateModal } from '@components/Menu/styles';
+import { Props } from '@type/MenuType.ts';
 
 const Menu: FC<Props> = ({ children }) => {
   const stopPropagation = useCallback((e: any) => {

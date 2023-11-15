@@ -111,13 +111,5 @@
   "resolutions": {
     "@toast-ui/editor": "3.1.8"
   },
-  "jest": {
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!axios)"
-    ]
-  },
   "packageManager": "yarn@3.6.1"
 }

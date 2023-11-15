@@ -2,12 +2,12 @@ import { DatePicker, DatePickerProps, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { AddSprintValue } from '@/states/SprintState.ts';
+import { AddSprintValue } from '@states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
-import { createSprint } from '@/api/Sprint/Sprint.ts';
-import { CreateSprintDataType } from '@/types/SprintType.ts';
+import { createSprint } from '@api/Sprint/Sprint.ts';
+import { CreateSprintDataType } from '@type/SprintType.ts';
 import dayjs from 'dayjs';
 
 const CreateSprintModal = () => {

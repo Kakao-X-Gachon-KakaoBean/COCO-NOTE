@@ -1,14 +1,14 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
-import Sprint from '@/components/Sprint';
-import { ComponentWrapper, HeaderText } from '@/pages/SprintPage/styles.tsx';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
+import Sprint from '@components/Sprint';
+import { ComponentWrapper, HeaderText } from '@pages/SprintPage/styles.tsx';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
-import CreateSprintModal from '@/components/CreateSprintModal';
-import CreateTaskModal from '@/components/CreateTaskModal';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import CreateSprintModal from '@components/CreateSprintModal';
+import CreateTaskModal from '@components/CreateTaskModal';
 
 const SprintPage = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);

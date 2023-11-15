@@ -1,7 +1,7 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from 'antd';
@@ -9,14 +9,14 @@ import { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
 import { EditIssueBox, EditIssueHeader, EditIssueInput, EditIssueSubmit, EditIssueText, Input } from './styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
 import { useLocation } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { EditIssue } from '@/types/IssueType.ts';
-import { editIssue } from '@/api/Issue/Issue.ts';
+import { EditIssue } from '@type/IssueType.ts';
+import { editIssue } from '@api/Issue/Issue.ts';
 
 const EditIssue = () => {
   const navigate = useNavigate();

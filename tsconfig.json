@@ -32,14 +32,17 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/components/*": ["src/components/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/layouts/*": ["src/layouts/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/states/*": ["src/states/*"],
+      "@*": ["src/*"],
+      "@hooks/*": ["hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@components/*": ["src/components/*"],
+      "@utils/*": ["src/utils/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@styles/*": ["src/styles/*"],
+      "@states/*": ["src/states/*"],
+      "@api/*": ["src/api/*"],
+      "@type/*": ["src/type/*"],
+      "@images/*": ["src/images/*"]
     },
 
   },

@@ -1,17 +1,17 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 import { useRecoilValue } from 'recoil';
-import { SelectedSprintId, SelectedSprintState } from '@/states/SprintState.ts';
-import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/SprintDetailPage/styles.tsx';
+import { SelectedSprintId, SelectedSprintState } from '@states/SprintState.ts';
+import { ComponentWrapper, TitleNEdit, Wrapper } from '@pages/SprintDetailPage/styles.tsx';
 import { Button, DatePicker, DatePickerProps, Input } from 'antd';
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
-import { editSprint } from '@/api/Sprint/Sprint.ts';
+import { editSprint } from '@api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
-import { EditSprintDataType } from '@/types/SprintType.ts';
+import { EditSprintDataType } from '@type/SprintType.ts';
 import dayjs from 'dayjs';
 
 const SprintEditPage = () => {

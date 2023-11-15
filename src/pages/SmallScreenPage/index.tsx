@@ -1,7 +1,7 @@
-import { FooterDiv, LogoImg, RowDiv, TextRowDiv, Wrapper } from '@/pages/SmallScreenPage/styles.tsx';
+import { FooterDiv, LogoImg, RowDiv, TextRowDiv, Wrapper } from '@pages/SmallScreenPage/styles.tsx';
 import { Typography } from 'antd';
 const { Paragraph, Text, Link, Title } = Typography;
-import logoImage from '@/images/logoImage.png';
+import logoImage from '@images/logoImage.png';
 
 const SmallScreenPage = () => {
   return (

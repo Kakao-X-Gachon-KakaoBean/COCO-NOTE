@@ -8,19 +8,19 @@ import {
   ReleasedNoteTitle,
   ReleaseNoteTotalDetail,
   ReleaseNoteTotalText,
-} from '@/components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+} from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import MDEditor from '@uiw/react-md-editor';
-import ConvertDate from '@/components/ReleaseNote/ConvertDate';
-import { ReleaseNoteHeaderDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+import ConvertDate from '@components/ReleaseNote/ConvertDate';
+import { ReleaseNoteHeaderDiv } from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { useParams } from 'react-router';
-import { PagedReleaseNotes } from '@/types/ReleasedNoteAllType.ts';
+import { PagedReleaseNotes } from '@type/ReleasedNoteAllType.ts';
 import { useInfiniteQuery } from 'react-query';
 import { useInView } from 'react-intersection-observer';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
-import pagedFetcher from '@/utils/pagedFetcher.ts';
-import { BACKEND_URL } from '@/api';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import pagedFetcher from '@utils/pagedFetcher.ts';
+import { BACKEND_URL } from '@api';
 import { useRecoilValue } from 'recoil';
-import { SelectedProjectState } from '@/states/ProjectState.ts';
+import { SelectedProjectState } from '@states/ProjectState.ts';
 
 const ReleasedNoteAll: React.FC = () => {
   const headerParam = useParams();

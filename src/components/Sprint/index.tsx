@@ -1,6 +1,6 @@
 import { ColumnsType } from 'antd/es/table';
 import { Button, Table } from 'antd';
-import { ChildType, TableData } from '@/types/SprintType.ts';
+import { ChildType, TableData } from '@type/SprintType.ts';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
@@ -13,13 +13,13 @@ import {
   SelectedSprintId,
   SelectedTaskId,
   SprintValueState,
-} from '@/states/SprintState.ts';
+} from '@states/SprintState.ts';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import fetcher from '@/utils/fetcher.ts';
+import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL } from '@api';
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   'data-row-key': string;

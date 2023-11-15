@@ -1,7 +1,7 @@
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
-import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
+import { waitForAnimation } from '@hooks/waitForAnimation.ts';
 
 export const ExpiredPage = () => {
   const initialSelectedProject = useResetRecoilState(SelectedProjectState);

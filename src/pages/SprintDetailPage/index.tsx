@@ -1,6 +1,6 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 import {
   ButtonDiv,
   ComponentWrapper,
@@ -15,22 +15,22 @@ import {
   WorkerName,
   WorkerNStatus,
   Wrapper,
-} from '@/pages/SprintDetailPage/styles.tsx';
+} from '@pages/SprintDetailPage/styles.tsx';
 import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import defaultImage from '@/images/defaultAvatar.png';
+import defaultImage from '@images/defaultAvatar.png';
 import { QueryClient, useMutation, useQueries } from 'react-query';
-import { ChangeWorkerType, ChildType, ProjectMember, TableData, WorkStatusType } from '@/types/SprintType.ts';
-import fetcher from '@/utils/fetcher.ts';
+import { ChangeWorkerType, ChildType, ProjectMember, TableData, WorkStatusType } from '@type/SprintType.ts';
+import fetcher from '@utils/fetcher.ts';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeleteSprintValue, SelectedSprintId, SelectedSprintState } from '@/states/SprintState.ts';
+import { DeleteSprintValue, SelectedSprintId, SelectedSprintState } from '@states/SprintState.ts';
 import { AxiosError } from 'axios';
-import DeleteSprintModal from '@/components/DeleteSprintModal';
+import DeleteSprintModal from '@components/DeleteSprintModal';
 import { useParams } from 'react-router';
-import { changeWorker, changeWorkStatus } from '@/api/Sprint/Sprint.ts';
+import { changeWorker, changeWorkStatus } from '@api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL } from '@api';
 
 const SprintDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true);

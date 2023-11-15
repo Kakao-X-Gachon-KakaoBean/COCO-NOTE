@@ -1,8 +1,8 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeleteTaskValue, SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
+import { DeleteTaskValue, SelectedTaskId, SelectedTaskState } from '@states/SprintState.ts';
 import {
   ButtonDiv,
   ComponentWrapper,
@@ -13,19 +13,19 @@ import {
   WorkerName,
   WorkerNStatus,
   Wrapper,
-} from '@/pages/TaskDetailPage/styles.tsx';
+} from '@pages/TaskDetailPage/styles.tsx';
 import { Button, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import defaultImage from '@/images/defaultAvatar.png';
+import defaultImage from '@images/defaultAvatar.png';
 import { QueryClient, useMutation, useQueries } from 'react-query';
-import fetcher from '@/utils/fetcher.ts';
+import fetcher from '@utils/fetcher.ts';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
-import DeleteTaskModal from '@/components/DeleteTaskModal';
-import { changeWorker, changeWorkStatus } from '@/api/Sprint/Sprint.ts';
+import DeleteTaskModal from '@components/DeleteTaskModal';
+import { changeWorker, changeWorkStatus } from '@api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/api';
-import { ChangeWorkerType, ProjectMember, WorkStatusType } from '@/types/SprintType.ts';
+import { BACKEND_URL } from '@api';
+import { ChangeWorkerType, ProjectMember, WorkStatusType } from '@type/SprintType.ts';
 import { useParams } from 'react-router';
 
 const TaskDetailPage = () => {

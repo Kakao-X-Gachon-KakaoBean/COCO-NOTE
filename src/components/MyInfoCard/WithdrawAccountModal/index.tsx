@@ -7,7 +7,7 @@ import {
   FooterContainer,
   WithdrawAccountAgreeText,
   WithdrawAccountExplainText,
-} from '@/components/MyInfoCard/WithdrawAccountModal/styles.tsx';
+} from '@components/MyInfoCard/WithdrawAccountModal/styles.tsx';
 
 const WithdrawAccountModal = () => {
   const [open, setOpen] = useState(false);

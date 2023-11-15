@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
 import { Typography } from 'antd';
 import MDEditor from '@uiw/react-md-editor';
-import ConvertDate from '@/components/ReleaseNote/ConvertDate';
+import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import {
   MarkdownParagraph,
   ReleasedNoteDate,
   ReleasedNoteParagraph,
   ReleasedNoteText,
   ReleasedNoteTitle,
-} from '@/components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+} from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
 import {
   ReleaseNoteHeaderBottom,
   ReleaseNoteHeaderDiv,
   ReleaseNoteHeaderMiddle,
   ReleaseNoteHeaderTop,
-} from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+} from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
-import { SingleReleasedNote } from '@/types/SingleReleaseNoteType.ts';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import { SingleReleasedNote } from '@type/SingleReleaseNoteType.ts';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
-import fetcher from '@/utils/fetcher.ts';
+import fetcher from '@utils/fetcher.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL } from '@api';
 
 const SingleReleaseNote: React.FC = () => {
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);

@@ -1,10 +1,10 @@
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { Button, Modal } from 'antd';
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -26,19 +26,19 @@ import {
   IssueDetailHeaderButtonSection,
   IssueDetailTop,
   ProfileImg,
-} from '@/components/IssueDetail/styles.tsx';
+} from '@components/IssueDetail/styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
-import { Input } from '@/components/EditIssue/styles.tsx';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import { Input } from '@components/EditIssue/styles.tsx';
 
-import { Comment, CreateComment, EditComment, GetIssueDetail } from '@/types/IssueType.ts';
-import { deleteComment, deleteIssue, editComment, postComment } from '@/api/Issue/Issue.ts';
+import { Comment, CreateComment, EditComment, GetIssueDetail } from '@type/IssueType.ts';
+import { deleteComment, deleteIssue, editComment, postComment } from '@api/Issue/Issue.ts';
 
 import { toast } from 'react-toastify';
-import fetcher from '@/utils/fetcher.ts';
-import { BACKEND_URL } from '@/api';
-import defaultImage from '@/images/defaultAvatar.png';
+import fetcher from '@utils/fetcher.ts';
+import { BACKEND_URL } from '@api';
+import defaultImage from '@images/defaultAvatar.png';
 import TextArea from 'antd/es/input/TextArea';
 
 const IssueDetail = () => {
