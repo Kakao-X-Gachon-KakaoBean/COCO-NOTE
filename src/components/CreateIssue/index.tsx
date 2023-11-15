@@ -36,7 +36,6 @@ const CreateIssue = () => {
   };
 
   const projectId: string | undefined = useParams().projectId;
-  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
   const postIssueMutation = useMutation<'이슈 생성 완료' | '이슈 생성 실패', AxiosError, CreateIssue>(
     'post issue',
@@ -44,18 +43,14 @@ const CreateIssue = () => {
     {
       onSuccess: data => {
         if (data === '이슈 생성 완료') {
-          toast(message('이슈를 생성하였습니다.'), {
-            type: 'success',
-          });
+          toast.success('이슈를 생성하였습니다.');
           navigate(-1);
         } else {
-          toast(message('이슈 생성에 실패하였습니다.'), {
-            type: 'success',
-          });
+          toast.success('이슈 생성에 실패하였습니다.');
         }
       },
       onError: () => {
-        toast.error('서버와 연결이 되어있지 않습니다.');
+        toast.error('이슈 생성에 실패하였습니다.');
       },
     }
   );
@@ -64,22 +59,16 @@ const CreateIssue = () => {
     (e: React.MouseEvent) => {
       e.preventDefault();
       if (!title && !content) {
-        toast(message('모든 정보를 입력해주세요.'), {
-          type: 'error',
-        });
+        toast.error('모든 정보를 입력해주세요.');
         return;
       }
       if (!title) {
-        toast(message('생성할 이슈 제목을 입력해주세요.'), {
-          type: 'error',
-        });
+        toast.error('생성할 이슈 제목을 입력해주세요.');
         return;
       }
 
       if (!content) {
-        toast(message('생성할 이슈 내용을 입력해주세요.'), {
-          type: 'error',
-        });
+        toast.error('생성할 이슈 내용을 입력해주세요.');
         return;
       }
       postIssueMutation.mutate({ title, content, projectId });

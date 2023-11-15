@@ -28,7 +28,6 @@ const EditIssue = () => {
   const [title, onChangeTitle] = useInput<string>(IssueData.issue.title);
   const [content, setContent] = useState<string | undefined>(IssueData.issue.content);
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
-  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
   const editIssueMutation = useMutation<'이슈 수정 성공' | '이슈 수정 실패', AxiosError, EditIssue>(
     'editIssue',
@@ -54,22 +53,16 @@ const EditIssue = () => {
       e.preventDefault();
 
       if (!title && !content) {
-        toast(message('모든 정보를 입력해주세요.'), {
-          type: 'error',
-        });
+        toast.error('모든 정보를 입력해주세요.');
         return;
       }
       if (!title) {
-        toast(message('수정할 이슈 제목을 입력해주세요.'), {
-          type: 'error',
-        });
+        toast.error('수정할 이슈 제목을 입력해주세요.');
         return;
       }
 
       if (!content) {
-        toast(message('수정할 이슈 내용을 입력해주세요.'), {
-          type: 'error',
-        });
+        toast.error('수정할 이슈 내용을 입력해주세요.');
         return;
       }
 
