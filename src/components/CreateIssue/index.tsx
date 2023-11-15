@@ -29,6 +29,7 @@ const CreateIssue = () => {
   const navigate = useNavigate();
   const [title, onChangeTitle] = useInput('');
   const [content, setContent] = useState<string | undefined>('**내용을 입력해주세요.**');
+
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
   const getBack = () => {
     navigate(-1);
@@ -62,6 +63,25 @@ const CreateIssue = () => {
   const submitNewIssue = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+      if (!title && !content) {
+        toast(message('모든 정보를 입력해주세요.'), {
+          type: 'error',
+        });
+        return;
+      }
+      if (!title) {
+        toast(message('생성할 이슈 제목을 입력해주세요.'), {
+          type: 'error',
+        });
+        return;
+      }
+
+      if (!content) {
+        toast(message('생성할 이슈 내용을 입력해주세요.'), {
+          type: 'error',
+        });
+        return;
+      }
       postIssueMutation.mutate({ title, content, projectId });
     },
     [postIssueMutation, title, content, projectId]

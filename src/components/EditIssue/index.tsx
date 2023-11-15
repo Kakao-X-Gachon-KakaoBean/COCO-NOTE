@@ -5,7 +5,7 @@ import { Wrapper } from '@/styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from 'antd';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
 import { EditIssueBox, EditIssueHeader, EditIssueInput, EditIssueSubmit, EditIssueText, Input } from './styles.tsx';
 import { useRecoilValueLoadable } from 'recoil';
@@ -26,8 +26,9 @@ const EditIssue = () => {
   const queryClient = useQueryClient();
 
   const [title, onChangeTitle] = useInput<string>(IssueData.issue.title);
-  const [value, setValue] = useState<string | undefined>(IssueData.issue.content);
+  const [content, setContent] = useState<string | undefined>(IssueData.issue.content);
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
+  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
   const editIssueMutation = useMutation<'이슈 수정 성공' | '이슈 수정 실패', AxiosError, EditIssue>(
     'editIssue',
@@ -51,9 +52,30 @@ const EditIssue = () => {
   const submitIssue = useCallback(
     (e: any) => {
       e.preventDefault();
-      editIssueMutation.mutate({ title: title, content: value });
+
+      if (!title && !content) {
+        toast(message('모든 정보를 입력해주세요.'), {
+          type: 'error',
+        });
+        return;
+      }
+      if (!title) {
+        toast(message('수정할 이슈 제목을 입력해주세요.'), {
+          type: 'error',
+        });
+        return;
+      }
+
+      if (!content) {
+        toast(message('수정할 이슈 내용을 입력해주세요.'), {
+          type: 'error',
+        });
+        return;
+      }
+
+      editIssueMutation.mutate({ title: title, content: content });
     },
-    [title, value, editIssueMutation]
+    [title, content, editIssueMutation]
   );
 
   const getBack = () => {
@@ -76,7 +98,7 @@ const EditIssue = () => {
                 <Input type="text" id="title" name="title" value={title} onChange={onChangeTitle} placeholder="제목" />
               </EditIssueInput>
               <EditIssueText data-color-mode="light">
-                <MDEditor height={500} value={value} onChange={setValue} />
+                <MDEditor height={500} value={content} onChange={setContent} />
               </EditIssueText>
               <EditIssueSubmit>
                 <Button onClick={submitIssue}>수정하기</Button>
