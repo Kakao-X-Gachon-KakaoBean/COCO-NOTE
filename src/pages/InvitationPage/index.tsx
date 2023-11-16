@@ -66,7 +66,7 @@ const InvitationPage = () => {
       <Wrapper>
         <InvitationHeader />
         <ImageBox>
-          <Img src={'logoImage.svg'} alt={'logoImage'} />
+          <Img src={logoImage} alt={'logoImage'} />
         </ImageBox>
         <ProjectName>{data?.projectTitle}</ProjectName>
         <ProjectExplain>{data?.projectTitle}에서 초대를 하였습니다.</ProjectExplain>
