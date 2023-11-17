@@ -14,7 +14,6 @@ import {
 } from '@components/ManageMember/styles.tsx';
 
 import { Button, Divider, Input, Modal, Select } from 'antd';
-
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
@@ -43,7 +42,6 @@ import { ActivityIndicator } from '@components/ActivityIndicator';
 import { toast } from 'react-toastify';
 import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
-import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@api/Project/ManagePage.ts';
@@ -122,7 +120,6 @@ const ManageMember = () => {
 
   const projectId: string | undefined = useParams().projectId;
 
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const projectInfoInvalidate = (): void => {
@@ -166,23 +163,23 @@ const ManageMember = () => {
   const SelectOption = [
     {
       value: 'ADMIN',
-      label: 'ADMIN',
+      label: '관리자',
     },
     {
       value: 'MEMBER',
-      label: 'MEMBER',
+      label: '멤버',
     },
     {
       value: 'VIEWER',
-      label: 'VIEWER',
+      label: '방문자',
     },
     {
       value: 'INVITED_PERSON',
-      label: 'INVITED_PERSON',
+      label: '초대된 사람',
     },
     {
       value: 'LEFT_MEMBER',
-      label: 'LEFT_MEMBER',
+      label: '추방된 사람',
     },
   ];
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
@@ -460,7 +457,7 @@ const ManageMember = () => {
                             labelInValue
                             defaultValue={{
                               value: memberList.position,
-                              label: memberList.position,
+                              label: memberList.position?.label,
                             }}
                             style={{ width: 150, marginRight: 10 }}
                             onChange={value => handleChange(value, i)}
@@ -558,14 +555,15 @@ const ManageMember = () => {
               value={title}
               autoSize={{ minRows: 1, maxRows: 10 }}
               onChange={e => setTitle(e.target.value)}
-              placeholder="프로젝트 명"
+              placeholder={projectData?.projectTitle}
               style={{ marginBottom: '2rem', marginTop: '3rem' }}
             />
+
             <TextArea
               value={content}
               autoSize={{ minRows: 3, maxRows: 10 }}
               onChange={e => setContent(e.target.value)}
-              placeholder="프로젝트 설명"
+              placeholder={projectData?.projectContent}
               style={{ marginBottom: '2rem' }}
             />
           </Modal>
