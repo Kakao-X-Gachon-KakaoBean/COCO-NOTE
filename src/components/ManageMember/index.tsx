@@ -457,7 +457,9 @@ const ManageMember = () => {
                             labelInValue
                             defaultValue={{
                               value: memberList.position,
-                              label: memberList.position?.label,
+                              label:
+                                SelectOption.find(option => option.value === memberList.position)?.label ||
+                                memberList.position,
                             }}
                             style={{ width: 150, marginRight: 10 }}
                             onChange={value => handleChange(value, i)}
