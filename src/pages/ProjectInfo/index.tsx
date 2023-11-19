@@ -158,6 +158,22 @@ const ProjectInfo = () => {
     setPage(0);
   };
 
+  const getPositionLabel = (position: string) => {
+    switch (position) {
+      case 'ADMIN':
+        return '관리자';
+      case 'MEMBER':
+        return '멤버';
+      case 'VIEWER':
+        return '방문자';
+      case 'INVITED_PERSON':
+        return '초대된 사람';
+      case 'LEFT_MEMBER':
+        return '추방된 사람';
+      default:
+        return '';
+    }
+  };
   return (
     <>
       <HeaderBar />
@@ -219,7 +235,7 @@ const ProjectInfo = () => {
                           {memberList.email}
                         </TableCell>
                         <TableCell style={{ width: 160, paddingRight: 16 }} align="center">
-                          {memberList.position}
+                          {getPositionLabel(memberList.position)}
                         </TableCell>
                       </TableRow>
                     ))}
