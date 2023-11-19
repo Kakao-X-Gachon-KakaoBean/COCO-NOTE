@@ -169,7 +169,7 @@ const Sprint = () => {
                     navigate(`${record.sprintId}/`);
                   }}
                 >
-                  {text}{' '}
+                  {text}
                 </div>
                 <Button
                   onClick={() => {
@@ -189,7 +189,7 @@ const Sprint = () => {
                   navigate(`tasks/${record.taskId}`);
                 }}
               >
-                {text}{' '}
+                {text}
               </div>
             ) : (
               <div>{text}</div>
