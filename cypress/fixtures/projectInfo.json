@@ -29,6 +29,13 @@
       "projectMemberEmail": "example4@gmail.com",
       "projectMemberRole": "INVITED_PERSON",
       "memberThumbnailImg": "memberThumbnailImg"
+    },
+    {
+      "projectMemberId": 9,
+      "projectMemberName": "exLeft",
+      "projectMemberEmail": "example5@gmail.com",
+      "projectMemberRole": "LEFT_MEMBER",
+      "memberThumbnailImg": "memberThumbnailImg"
     }
   ]
 }

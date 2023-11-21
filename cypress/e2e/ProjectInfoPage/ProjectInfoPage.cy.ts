@@ -56,9 +56,9 @@ describe('프로젝트 정보 페이지 테스트', () => {
       cy.get(':nth-child(4) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exInvited');
       cy.get(':nth-child(4) > [style="width: 300px;"]').should('have.text', 'example4@gmail.com');
       cy.get(':nth-child(4) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '초대된 사람');
-      cy.get(':nth-child(4) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exInvited');
-      cy.get(':nth-child(4) > [style="width: 300px;"]').should('have.text', 'example4@gmail.com');
-      cy.get(':nth-child(4) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '추방된 사람');
+      cy.get(':nth-child(5) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exLeft');
+      cy.get(':nth-child(5) > [style="width: 300px;"]').should('have.text', 'example5@gmail.com');
+      cy.get(':nth-child(5) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '추방된 사람');
     });
   });
 });
