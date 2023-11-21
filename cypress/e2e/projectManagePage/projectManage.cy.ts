@@ -99,6 +99,15 @@ describe('프로젝트 관리 페이지 테스트', () => {
         'have.text',
         'example6@gmail.com'
       );
+    });
+
+    it('추가 완료 후 전송 버튼을 누르면 전송이 되어야 한다.', () => {
+      cy.get('.ant-input').type('example6@gmail.com').should('have.value', 'example6@gmail.com');
+      cy.get('[style="display: flex; flex-direction: column; gap: 1rem;"] > .ant-btn').click();
+      cy.get('[style="display: flex; justify-content: space-between; align-items: center;"]').should(
+        'have.text',
+        'example6@gmail.com'
+      );
       cy.get('.ant-modal-footer > .ant-btn').click();
       // cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '초대에 성공하였습니다.');
     });
@@ -107,7 +116,12 @@ describe('프로젝트 관리 페이지 테스트', () => {
   context('프로젝트를 삭제 할 경우', () => {
     it('프로젝트 삭제 버튼을 누르면 삭제가 되어야한다.', () => {
       cy.get(':nth-child(3) > .ant-btn-default').click();
-      // cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '삭제되었습니다.');
+      // cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '삭제되었습니다.');
+    });
+
+    it('프로젝트 삭제 버튼을 누른 후 오류가 발생하면 오류 메시지가 화면에 출력 되어야한다.', () => {
+      cy.get(':nth-child(3) > .ant-btn-default').click();
+      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '삭제 실패하였습니다.');
     });
   });
 });
