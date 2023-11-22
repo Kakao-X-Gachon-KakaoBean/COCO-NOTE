@@ -39,10 +39,6 @@ describe('이슈 생성 페이지 테스트', () => {
       cy.get('.w-md-editor-text-input').type('이슈 내용입니다');
       //여기서 제출안됨 ㅜ
       cy.get(':nth-child(4) > .ant-btn').click();
-      // cy.intercept({
-      //   method: 'post',
-      //   url: 'http://localhost:8080/issues',
-      // }).as('createIssue');
       cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '이슈를 생성하였습니다.');
     });
   });
