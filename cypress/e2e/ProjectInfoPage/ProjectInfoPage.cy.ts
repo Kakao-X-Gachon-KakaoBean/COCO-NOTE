@@ -46,16 +46,19 @@ describe('프로젝트 정보 페이지 테스트', () => {
     it('프로젝트 정보 페이지에 구성원들의 정보가 들어가야한다.', () => {
       cy.get(':nth-child(1) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exAdmin');
       cy.get(':nth-child(1) > [style="width: 300px;"]').should('have.text', 'example1@gmail.com');
-      cy.get(':nth-child(1) > [style="width: 160px; padding-right: 16px;"]').should('have.text', 'ADMIN');
+      cy.get(':nth-child(1) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '관리자');
       cy.get(':nth-child(2) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exMem');
       cy.get(':nth-child(2) > [style="width: 300px;"]').should('have.text', 'example2@gmail.com');
-      cy.get(':nth-child(2) > [style="width: 160px; padding-right: 16px;"]').should('have.text', 'MEMBER');
+      cy.get(':nth-child(2) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '멤버');
       cy.get(':nth-child(3) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exViewer');
       cy.get(':nth-child(3) > [style="width: 300px;"]').should('have.text', 'example3@gmail.com');
-      cy.get(':nth-child(3) > [style="width: 160px; padding-right: 16px;"]').should('have.text', 'VIEWER');
+      cy.get(':nth-child(3) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '방문자');
       cy.get(':nth-child(4) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exInvited');
       cy.get(':nth-child(4) > [style="width: 300px;"]').should('have.text', 'example4@gmail.com');
-      cy.get(':nth-child(4) > [style="width: 160px; padding-right: 16px;"]').should('have.text', 'INVITED_PERSON');
+      cy.get(':nth-child(4) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '초대된 사람');
+      cy.get(':nth-child(5) > .css-1ex1afd-MuiTableCell-root').should('have.text', 'exLeft');
+      cy.get(':nth-child(5) > [style="width: 300px;"]').should('have.text', 'example5@gmail.com');
+      cy.get(':nth-child(5) > [style="width: 160px; padding-right: 16px;"]').should('have.text', '추방된 사람');
     });
   });
 });
