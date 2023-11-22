@@ -1,7 +1,7 @@
-import HeaderBar from '@/components/HeaderBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
+import HeaderBar from '@components/HeaderBar';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 import { useRecoilValueLoadable } from 'recoil';
 import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { ActivityIndicator } from '@components/ActivityIndicator';

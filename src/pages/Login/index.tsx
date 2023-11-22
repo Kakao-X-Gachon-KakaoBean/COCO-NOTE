@@ -17,21 +17,21 @@ import {
   SocialLogin,
   Vertical,
   Wrapper,
-} from '@/pages/Login/styles.tsx';
+} from '@pages/Login/styles.tsx';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-import Menu from '@/components/Menu';
+import Menu from '@components/Menu';
 import useInput from '../../hooks/useInput.ts';
 import { memberIdState } from '@states/UserState.ts';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
-import SearchPassword from '@/components/SearchPassword';
-import { setCookie } from '@/utils/cookie.ts';
-import { logIn } from '@/api/User/Login.ts';
+import SearchPassword from '@components/SearchPassword';
+import { setCookie } from '@utils/cookie.ts';
+import { logIn } from '@api/User/Login.ts';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
-import { GOOGLE_URL, KAKAO_URL } from '@/api';
-import { LoginResponse, LoginUser } from '@/types/UserType.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
+import { GOOGLE_URL, KAKAO_URL } from '@api';
+import { LoginResponse, LoginUser } from '@type/UserType.ts';
 import { toast } from 'react-toastify';
 
 const LogIn = () => {
@@ -92,7 +92,7 @@ const LogIn = () => {
     <>
       <Wrapper>
         <Header>
-          <Link to="/main">COCO:NOTE</Link>
+          <Link to="/initial">COCONOTE</Link>
         </Header>
         <Form onSubmit={onSubmit}>
           <Label>

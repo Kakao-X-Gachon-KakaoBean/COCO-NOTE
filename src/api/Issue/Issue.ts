@@ -1,6 +1,6 @@
-import { BACKEND_URL, instance } from '@/api';
+import { BACKEND_URL, instance } from '@api';
 
-import { CreateComment, CreateIssue, EditComment, EditIssue } from '@/types/IssueType.ts';
+import { CreateComment, CreateIssue, EditComment, EditIssue } from '@type/IssueType.ts';
 import fetcher from '@utils/fetcher.ts';
 
 export const postIssue = async (data: CreateIssue) => {

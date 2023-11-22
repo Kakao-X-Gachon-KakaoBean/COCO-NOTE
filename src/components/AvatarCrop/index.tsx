@@ -3,14 +3,14 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Avatar from 'react-avatar-edit';
 import { Modal, Typography } from 'antd';
 
-import defaultImage from '../../images/defaultAvatar.png';
-import PreviewAvatar from '@/components/AvatarCrop/PreviewAvatar';
-import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@/components/AvatarCrop/styles.tsx';
-import { ModalVisibleProps, ProfileImages } from '@/types/AvatarType.ts';
-import fetcher from '@/utils/fetcher.ts';
+import defaultImage from '@images/defaultAvatar.png';
+import PreviewAvatar from '@components/AvatarCrop/PreviewAvatar';
+import { MetaDiv, PreviewAvatarDiv, ProfileTextDiv } from '@components/AvatarCrop/styles.tsx';
+import { ModalVisibleProps, ProfileImages } from '@type/AvatarType.ts';
+import fetcher from '@utils/fetcher.ts';
 import axios, { AxiosError } from 'axios';
-import { BACKEND_URL } from '@/api';
-import { IUser, MypageUser } from '@/types/UserType.ts';
+import { BACKEND_URL } from '@api';
+import { IUser, MypageUser } from '@type/UserType.ts';
 
 const { Text, Title } = Typography;
 const AvatarCrop: React.FC<ModalVisibleProps> = ({ showProfileText, modalVisible, closeModal }) => {

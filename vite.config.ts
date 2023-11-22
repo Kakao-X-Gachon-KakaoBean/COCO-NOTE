@@ -21,6 +21,9 @@ export default defineConfig({
       { find: '@utils', replacement: path.resolve(__dirname, 'src/utils') },
       { find: '@styles', replacement: path.resolve(__dirname, 'src/styles') },
       { find: '@states', replacement: path.resolve(__dirname, 'src/states') },
+      { find: '@api', replacement: path.resolve(__dirname, 'src/api') },
+      { find: '@type', replacement: path.resolve(__dirname, 'src/type') },
+      { find: '@images', replacement: path.resolve(__dirname, 'src/images') },
     ],
   },
 });

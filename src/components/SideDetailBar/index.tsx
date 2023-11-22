@@ -6,19 +6,31 @@ import {
   Text,
   ViewAll,
   Wrapper,
-} from '@/components/SideDetailBar/styles.tsx';
+} from '@components/SideDetailBar/styles.tsx';
 import { DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useRecoilValue } from 'recoil';
-import ReleaseNoteTree from '@/components/ReleaseNote/ReleaseNoteTree';
+import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
+import { useEffect } from 'react';
+import { ExpiredPage } from '@hooks/ExpiredPage.ts';
+import { toast } from 'react-toastify';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const navigate = useNavigate();
+  const handleNotificationClick = ExpiredPage();
+  useEffect(() => {
+    console.warn = function (message) {
+      if (message.startsWith('Matched leaf route at location')) {
+        toast.warn('선택하신 항목은 이미 처리되었습니다.');
+        handleNotificationClick();
+      }
+    };
+  }, [handleNotificationClick]);
 
   const items: MenuProps['items'] = [
     {

@@ -1,6 +1,6 @@
 import { atom, RecoilState } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import { IProjectValue } from '@/types/ProjectType.ts';
+import { IProjectValue } from '@type/ProjectType.ts';
 
 const { persistAtom } = recoilPersist();
 

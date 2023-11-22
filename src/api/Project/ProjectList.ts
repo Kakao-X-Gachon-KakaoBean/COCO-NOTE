@@ -1,5 +1,5 @@
-import { instance } from '@/api';
-import { ProjectInfo } from '@/types/ProjectType.ts';
+import { instance } from '@api';
+import { ProjectInfo } from '@type/ProjectType.ts';
 
 export const addProject = async (data: ProjectInfo) => {
   try {

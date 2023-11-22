@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { Card, Dropdown, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import AvatarCrop from '@/components/AvatarCrop';
+import AvatarCrop from '@components/AvatarCrop';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { removeCookie } from '@utils/cookie.ts';
 import { memberIdState } from '@states/UserState.ts';
-import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
+import { waitForAnimation } from '@hooks/waitForAnimation.ts';
 import { useQueryClient } from 'react-query';
 
 const Notification: React.FC = () => {

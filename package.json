@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 3000",
-    "test": "react-scripts test --watchAll",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "coverage": "yarn test --coverage --watchAll",
     "cypress": "cypress open",
     "build": "tsc && vite build",
@@ -45,6 +45,7 @@
     "dayjs": "^1.11.9",
     "emotion": "^11.0.0",
     "emotion-utils": "^9.1.0",
+    "eslint-plugin-jest-dom": "^5.1.0",
     "feather-icons": "^4.29.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -109,14 +110,6 @@
   },
   "resolutions": {
     "@toast-ui/editor": "3.1.8"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    },
-    "transformIgnorePatterns": [
-      "node_modules/(?!axios)"
-    ]
   },
   "packageManager": "yarn@3.6.1"
 }

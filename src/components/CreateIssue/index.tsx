@@ -1,41 +1,41 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useNavigate } from 'react-router-dom';
 import MDEditor from '@uiw/react-md-editor';
 import React, { useCallback, useState } from 'react';
 import useInput from '../../hooks/useInput.ts';
-import { CreateIssue } from '@/types/IssueType.ts';
+import { CreateIssue } from '@type/IssueType.ts';
 import {
   CreateIssueBox,
   CreateIssueHeader,
   CreateIssueInput,
   CreateIssueSubmit,
   CreateIssueTitle,
-} from '@/components/CreateIssue/styles.tsx';
+} from '@components/CreateIssue/styles.tsx';
 import { Button } from 'antd';
 import { useRecoilValueLoadable } from 'recoil';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
-import { Input } from '@/components/EditIssue/styles.tsx';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import { Input } from '@components/EditIssue/styles.tsx';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
 import { useParams } from 'react-router';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
-import { postIssue } from '@/api/Issue/Issue.ts';
+import { postIssue } from '@api/Issue/Issue.ts';
 
 const CreateIssue = () => {
   const navigate = useNavigate();
   const [title, onChangeTitle] = useInput('');
   const [content, setContent] = useState<string | undefined>('**내용을 입력해주세요.**');
+
   const projectInfoMenuOpen = useRecoilValueLoadable(projectInfoMenuOpenState);
   const getBack = () => {
     navigate(-1);
   };
 
   const projectId: string | undefined = useParams().projectId;
-  const message = (message: string) => <div style={{ fontSize: '1rem' }}>{message}</div>;
 
   const postIssueMutation = useMutation<'이슈 생성 완료' | '이슈 생성 실패', AxiosError, CreateIssue>(
     'post issue',
@@ -43,18 +43,14 @@ const CreateIssue = () => {
     {
       onSuccess: data => {
         if (data === '이슈 생성 완료') {
-          toast(message('이슈를 생성하였습니다.'), {
-            type: 'success',
-          });
+          toast.success('이슈를 생성하였습니다.');
           navigate(-1);
         } else {
-          toast(message('이슈 생성에 실패하였습니다.'), {
-            type: 'success',
-          });
+          toast.success('이슈 생성에 실패하였습니다.');
         }
       },
       onError: () => {
-        toast.error('서버와 연결이 되어있지 않습니다.');
+        toast.error('이슈 생성에 실패하였습니다.');
       },
     }
   );
@@ -62,6 +58,19 @@ const CreateIssue = () => {
   const submitNewIssue = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
+      if (!title && !content) {
+        toast.error('모든 정보를 입력해주세요.');
+        return;
+      }
+      if (!title) {
+        toast.error('생성할 이슈 제목을 입력해주세요.');
+        return;
+      }
+
+      if (!content) {
+        toast.error('생성할 이슈 내용을 입력해주세요.');
+        return;
+      }
       postIssueMutation.mutate({ title, content, projectId });
     },
     [postIssueMutation, title, content, projectId]

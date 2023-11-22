@@ -1,15 +1,15 @@
-import AvatarCrop from '@/components/AvatarCrop';
+import AvatarCrop from '@components/AvatarCrop';
 import { useState } from 'react';
 import { Space, Typography } from 'antd';
-import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@/components/MyInfoCard/styles.tsx';
+import { EditProfileBtn, InfoCardDiv, ProfileDiv, UserInfoDiv } from '@components/MyInfoCard/styles.tsx';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import fetcher from '@/utils/fetcher.ts';
-import { modifyMemberName } from '@/api/Mypage/Mypage.ts';
+import fetcher from '@utils/fetcher.ts';
+import { modifyMemberName } from '@api/Mypage/Mypage.ts';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
-import { EditName } from '@/types/WithdrawAccountModalType.ts';
-import { BACKEND_URL } from '@/api';
-import { MypageUser } from '@/types/UserType.ts';
+import { EditName } from '@type/WithdrawAccountModalType.ts';
+import { BACKEND_URL } from '@api';
+import { MypageUser } from '@type/UserType.ts';
 
 const { Text, Paragraph } = Typography;
 const MyInfoCard = () => {

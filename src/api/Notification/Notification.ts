@@ -1,4 +1,4 @@
-import { instance } from '@/api';
+import { instance } from '@api';
 
 //알림 열람 상태 변경
 export const modifyNotificationStatus = async ({ notificationId, url }: { notificationId: string; url: string }) => {

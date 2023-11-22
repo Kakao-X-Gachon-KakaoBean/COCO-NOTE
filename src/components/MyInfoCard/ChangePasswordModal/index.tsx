@@ -1,8 +1,8 @@
 import { Button } from 'antd';
 import 'react-toastify/dist/ReactToastify.css';
-import SearchPassword from '@/components/SearchPassword';
+import SearchPassword from '@components/SearchPassword';
 import { useCallback, useState } from 'react';
-import Menu from '@/components/Menu';
+import Menu from '@components/Menu';
 
 const ChangePasswordModal = () => {
   const [checkPasswordModal, setCheckPasswordModal] = useState(false);

@@ -1,17 +1,17 @@
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
 import { useRecoilValue } from 'recoil';
-import { SelectedTaskId, SelectedTaskState } from '@/states/SprintState.ts';
-import { ComponentWrapper, TitleNEdit, Wrapper } from '@/pages/TaskEditPage/styles.tsx';
+import { SelectedTaskId, SelectedTaskState } from '@states/SprintState.ts';
+import { ComponentWrapper, TitleNEdit, Wrapper } from '@pages/TaskEditPage/styles.tsx';
 import { Button, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
-import { editTask } from '@/api/Sprint/Sprint.ts';
+import { editTask } from '@api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
-import { EditTaskDataType } from '@/types/SprintType.ts';
+import { EditTaskDataType } from '@type/SprintType.ts';
 
 const TaskEditPage = () => {
   const navigate = useNavigate();

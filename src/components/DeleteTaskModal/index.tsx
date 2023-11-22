@@ -1,8 +1,8 @@
 import { Modal } from 'antd';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { DeleteTaskValue, SelectedTaskId } from '@/states/SprintState.ts';
+import { DeleteTaskValue, SelectedTaskId } from '@states/SprintState.ts';
 import { useNavigate } from 'react-router-dom';
-import { deleteTask } from '@/api/Sprint/Sprint.ts';
+import { deleteTask } from '@api/Sprint/Sprint.ts';
 import { toast } from 'react-toastify';
 
 const DeleteTaskModal = () => {

@@ -1,12 +1,12 @@
 import { Button, Input, Modal } from 'antd';
 import { useRecoilState } from 'recoil';
-import { AddProjectClickState } from '@/states/ProjectState.ts';
+import { AddProjectClickState } from '@states/ProjectState.ts';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
-import { ProjectInfo } from '@/types/ProjectType.ts';
-import { addProject } from '@/api/Project/ProjectList.ts';
+import { ProjectInfo } from '@type/ProjectType.ts';
+import { addProject } from '@api/Project/ProjectList.ts';
 
 const AddProject = () => {
   const [isAddProject, setIsAddProject] = useRecoilState(AddProjectClickState);

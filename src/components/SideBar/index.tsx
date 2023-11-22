@@ -1,17 +1,17 @@
-import { AddCircle, Circle, InnerText, LogoImage, ProjectWrapper, Wrapper } from '@/components/SideBar/styles.tsx';
+import { AddCircle, Circle, InnerText, LogoImage, ProjectWrapper, Wrapper } from '@components/SideBar/styles.tsx';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { AddProjectClickState, projectInfoMenuOpenState, SelectedProjectState } from '@/states/ProjectState.ts';
+import { AddProjectClickState, projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd';
 import { useQuery } from 'react-query';
-import fetcher from '@/utils/fetcher.ts';
-import { IProjectValue } from '@/types/MainType.ts';
-import logoImage from '@/images/logoImage.png';
+import fetcher from '@utils/fetcher.ts';
+import { IProjectValue } from '@type/MainType.ts';
+import logoImage from '@images/logoImage.png';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
-import { BACKEND_URL } from '@/api';
-import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
-import { GoMain } from '@/hooks/GoMain.ts';
+import { BACKEND_URL } from '@api';
+import { waitForAnimation } from '@hooks/waitForAnimation.ts';
+import { GoMain } from '@hooks/GoMain.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -42,7 +42,6 @@ const SideBar = () => {
       {!isLoading && data && (
         <div>
           <Tooltip placement={'right'} title={'메인으로'}>
-            {/*svg로 바꾸면 다른 페이지에서 엑스박스가 뜸*/}
             <LogoImage
               src={logoImage}
               className={selectedProject.projectId === 0 ? 'selected' : 'notSelected'}

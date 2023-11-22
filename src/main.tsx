@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from '@/layouts/App/App.tsx';
+import App from '@layouts/App/App.tsx';
 import './index.css';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { CookiesProvider } from 'react-cookie';
 import axios from 'axios';
-import { getCookie } from '@/utils/cookie.ts';
+import { getCookie } from '@utils/cookie.ts';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL } from '@api/index.ts';
 
 const queryClient = new QueryClient();
 
@@ -41,14 +41,12 @@ axios.interceptors.response.use(
 );
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <CookiesProvider>
-      <RecoilRoot>
-        <QueryClientProvider client={queryClient}>
-          <App />
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </RecoilRoot>
-    </CookiesProvider>
-  </React.StrictMode>
+  <CookiesProvider>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </RecoilRoot>
+  </CookiesProvider>
 );

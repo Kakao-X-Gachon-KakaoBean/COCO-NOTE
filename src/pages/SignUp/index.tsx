@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
-import { Label, Wrapper } from '@/pages/Login/styles.tsx';
+import { Label, Wrapper } from '@pages/Login/styles.tsx';
 import {
   CheckBtn,
   Correct,
@@ -11,7 +11,7 @@ import {
   Input,
   LoginBtn,
   SubHeader,
-} from '@/pages/SignUp/styles';
+} from '@pages/SignUp/styles';
 import { Link } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { AxiosError } from 'axios';
@@ -19,8 +19,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Modal } from 'antd';
 import useInput from '../../hooks/useInput.ts';
-import { postEmail, signUp } from '@/api/User/SignUp.ts';
-import { SignUpUser } from '@/types/UserType.ts';
+import { postEmail, signUp } from '@api/User/SignUp.ts';
+import { SignUpUser } from '@type/UserType.ts';
 
 const SignUp = () => {
   const [name, onChangeName] = useInput('');
@@ -127,8 +127,8 @@ const SignUp = () => {
         <SubHeader>
           <div>
             이미{' '}
-            <Link to={'/main'} style={{ color: '#039ba1', fontWeight: 'bold' }}>
-              COCO:NOTE
+            <Link to={'/initial'} style={{ color: '#039ba1', fontWeight: 'bold' }}>
+              COCONOTE
             </Link>{' '}
             회원이신가요?
           </div>

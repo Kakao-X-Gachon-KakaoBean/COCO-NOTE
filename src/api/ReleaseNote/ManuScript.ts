@@ -1,7 +1,7 @@
-import { instance } from '@/api';
-import { CreateManuscript } from '@/types/CreateReleaseNoteModalType.ts';
-import { SaveEditedManuscript } from '@/types/ReleaseNoteEditType.ts';
-import { DistributeManuscript } from '@/types/SingleManuScriptType.ts';
+import { instance } from '@api';
+import { CreateManuscript } from '@type/CreateReleaseNoteModalType.ts';
+import { SaveEditedManuscript } from '@type/ReleaseNoteEditType.ts';
+import { DistributeManuscript } from '@type/SingleManuScriptType.ts';
 
 // 원고 생성
 export const createManuscript = async (data: CreateManuscript) => {

@@ -4,14 +4,14 @@ import { MenuDiv, MoreBtn, NoAlarmDiv } from '@components/Notification/SimpleNot
 import { BellOutlined } from '@ant-design/icons';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
-import { NotificationItem } from '@/types/SimpleNotificationType.ts';
+import { NotificationItem } from '@type/SimpleNotificationType.ts';
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQuery } from 'react-query';
 import fetcher from '@utils/fetcher.ts';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL } from '@api';
 import { AxiosError } from 'axios';
-import { modifyNotificationStatus } from '@/api/Notification/Notification.ts';
-import { waitForAnimation } from '@/hooks/waitForAnimation.ts';
+import { modifyNotificationStatus } from '@api/Notification/Notification.ts';
+import { waitForAnimation } from '@hooks/waitForAnimation.ts';
 
 const SimpleNotification = () => {
   const [visible, setVisible] = useState(false);

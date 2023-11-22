@@ -1,0 +1,41 @@
+{
+  "projectTitle": "Awesome project",
+  "projectContent": "으썸한 프로젝트 설명",
+  "projectMembers": [
+    {
+      "projectMemberId": 5,
+      "projectMemberName": "exAdmin",
+      "projectMemberEmail": "example1@gmail.com",
+      "projectMemberRole": "ADMIN",
+      "memberThumbnailImg": "memberThumbnailImg"
+    },
+    {
+      "projectMemberId": 6,
+      "projectMemberName": "exMem",
+      "projectMemberEmail": "example2@gmail.com",
+      "projectMemberRole": "MEMBER",
+      "memberThumbnailImg": "memberThumbnailImg"
+    },
+    {
+      "projectMemberId": 7,
+      "projectMemberName": "exViewer",
+      "projectMemberEmail": "example3@gmail.com",
+      "projectMemberRole": "VIEWER",
+      "memberThumbnailImg": "memberThumbnailImg"
+    },
+    {
+      "projectMemberId": 8,
+      "projectMemberName": "exInvited",
+      "projectMemberEmail": "example4@gmail.com",
+      "projectMemberRole": "INVITED_PERSON",
+      "memberThumbnailImg": "memberThumbnailImg"
+    },
+    {
+      "projectMemberId": 9,
+      "projectMemberName": "exLeft",
+      "projectMemberEmail": "example5@gmail.com",
+      "projectMemberRole": "LEFT_MEMBER",
+      "memberThumbnailImg": "memberThumbnailImg"
+    }
+  ]
+}

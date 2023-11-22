@@ -1,8 +1,8 @@
 //로그인 페이지
 
-import { instance } from '@/api';
+import { instance } from '@api';
 import { AxiosResponse } from 'axios';
-import { EditPassword, LoginResponse, LoginUser } from '@/types/UserType.ts';
+import { EditPassword, LoginResponse, LoginUser } from '@type/UserType.ts';
 
 export const logIn = async (data: LoginUser): Promise<LoginResponse> => {
   const res: AxiosResponse<LoginResponse> = await instance.post('/local/login', data);

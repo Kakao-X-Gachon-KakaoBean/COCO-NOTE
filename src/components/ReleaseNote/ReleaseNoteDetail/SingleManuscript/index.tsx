@@ -11,33 +11,33 @@ import {
   ReleaseNoteHeaderTop,
   ReleaseNoteHeaderTopLeft,
   ReleaseNoteHeaderTopRight,
-} from '@/components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
+} from '@components/ReleaseNote/ReleaseNoteDetail/styles.tsx';
 import {
   MarkdownParagraph,
   ReleasedNoteDate,
   ReleasedNoteParagraph,
   ReleasedNoteText,
   ReleasedNoteTitle,
-} from '@/components/ReleaseNote/ReleasedNoteAll/styles.tsx';
-import ConvertDate from '@/components/ReleaseNote/ConvertDate';
+} from '@components/ReleaseNote/ReleasedNoteAll/styles.tsx';
+import ConvertDate from '@components/ReleaseNote/ConvertDate';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { useRecoilValueLoadable } from 'recoil';
-import { projectInfoMenuOpenState } from '@/states/ProjectState.ts';
-import { ActivityIndicator } from '@/components/ActivityIndicator';
-import HeaderBar from '@/components/HeaderBar';
-import SideBar from '@/components/SideBar';
-import SideDetailBar from '@/components/SideDetailBar';
-import { Wrapper } from '@/styles/DetailSide/styles.tsx';
+import { projectInfoMenuOpenState } from '@states/ProjectState.ts';
+import { ActivityIndicator } from '@components/ActivityIndicator';
+import HeaderBar from '@components/HeaderBar';
+import SideBar from '@components/SideBar';
+import SideDetailBar from '@components/SideDetailBar';
+import { Wrapper } from '@styles/DetailSide/styles.tsx';
 import { useMutation, useQuery } from 'react-query';
-import fetcher from '@/utils/fetcher.ts';
+import fetcher from '@utils/fetcher.ts';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
-import { distributeManuscript, verifyEditPermissions } from '@/api/ReleaseNote/ManuScript.ts';
-import { LastEditedMemberDiv } from '@/components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
-import { SingleManuscriptInfo } from '@/types/SingleManuScriptType.ts';
-import { BACKEND_URL } from '@/api';
+import { distributeManuscript, verifyEditPermissions } from '@api/ReleaseNote/ManuScript.ts';
+import { LastEditedMemberDiv } from '@components/ReleaseNote/ReleaseNoteDetail/SingleManuscript/styles.tsx';
+import { SingleManuscriptInfo } from '@type/SingleManuScriptType.ts';
+import { BACKEND_URL } from '@api';
 
 const SingleManuscript: React.FC = () => {
   const navigate = useNavigate();

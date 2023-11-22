@@ -1,7 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import '@layouts/App/App.css';
 import loadable from '@loadable/component';
-import AddProject from '@/components/AddProject';
+import AddProject from '@components/AddProject';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRecoilValue } from 'recoil';
@@ -11,6 +11,7 @@ import { useQueryClient } from 'react-query';
 import { useMediaQuery } from 'react-responsive';
 import SmallScreenPage from '@pages/SmallScreenPage';
 import { AlertToastDiv } from '@styles/AlertToastify/styles.tsx';
+import { BROKER_URL } from '@api/index.ts';
 
 const InitialPage = loadable(() => import('@pages/InitialPage'));
 const Main = loadable(() => import('@layouts/Main'));
@@ -41,7 +42,7 @@ function App() {
   const QueryClient = useQueryClient();
   if (memberId !== '') {
     const client = new Client({
-      brokerURL: 'ws://localhost:15674/ws',
+      brokerURL: BROKER_URL,
       onConnect: () => {
         client.subscribe(`/queue/user-${memberId}`, message => {
           QueryClient.invalidateQueries('simpleNotification');

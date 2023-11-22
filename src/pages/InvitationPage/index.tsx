@@ -11,15 +11,15 @@ import {
   ProjectExplain,
   ProjectName,
   Wrapper,
-} from '@/pages/InvitationPage/styles.tsx';
-import logoImage from '@/images/logoImage.png';
-import fetcher from '@/utils/fetcher.ts';
+} from '@pages/InvitationPage/styles.tsx';
+import logoImage from '@images/logoImage.png';
+import fetcher from '@utils/fetcher.ts';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { inviteMember } from '@/api/Invitation/Invitation.ts';
-import { InvitationType } from '@/types/InvitationType.ts';
+import { inviteMember } from '@api/Invitation/Invitation.ts';
+import { InvitationType } from '@type/InvitationType.ts';
 import InvitationHeader from '@components/InvitationHeader';
-import { BACKEND_URL } from '@/api';
+import { BACKEND_URL } from '@api';
 
 const InvitationPage = () => {
   const projectKey: any = useParams().projectkey;
@@ -66,7 +66,7 @@ const InvitationPage = () => {
       <Wrapper>
         <InvitationHeader />
         <ImageBox>
-          <Img src={'logoImage.svg'} alt={'logoImage'} />
+          <Img src={logoImage} alt={'logoImage'} />
         </ImageBox>
         <ProjectName>{data?.projectTitle}</ProjectName>
         <ProjectExplain>{data?.projectTitle}에서 초대를 하였습니다.</ProjectExplain>
