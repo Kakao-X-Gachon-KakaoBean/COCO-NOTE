@@ -48,7 +48,7 @@ describe('작업관리 페이지 테스트', () => {
       cy.get('.css-k6p0i0 > :nth-child(3)').should('have.text', '2023-08-01 ~ 2023-08-10');
     });
 
-    it('작업 관리 페이지에 서버에서 가져온 데이터가 있어야 한다.', () => {
+    it('하위 작업 들의 데이터가 있어야 한다.', () => {
       cy.get('.css-16l35ku').should('have.text', '하위작업');
       cy.get(':nth-child(1) > .css-0').should('have.text', '회원가입');
       cy.get(':nth-child(2) > .css-0').should('have.text', '로그인');
