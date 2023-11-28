@@ -1,0 +1,24 @@
+{
+  "sprintTitle": "멤버",
+  "sprintDesc": "멤버 스프린트",
+  "startDate": "2023-08-01",
+  "dueDate": "2023-08-10",
+  "children": [
+    {
+      "taskId": 1,
+      "taskTitle": "회원가입",
+      "workStatus": "WORKING",
+      "workerId": 1,
+      "workerName": "조연겸",
+      "workerThumbnailImg": "https://bucket.s3.ap-northeast-5.amazonaws.com/8d78cf624c99-%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%851%85%AE%206.23.05.png"
+    },
+    {
+      "taskId": 2,
+      "taskTitle": "로그인",
+      "workStatus": "COMPLETE",
+      "workerId": 2,
+      "workerName": "추성준",
+      "workerThumbnailImg": "https://bucket.s3.ap-northeast-5.amazonaws.com/8d78cf624c99-%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%851%85%AE%206.23.05.png"
+    }
+  ]
+}

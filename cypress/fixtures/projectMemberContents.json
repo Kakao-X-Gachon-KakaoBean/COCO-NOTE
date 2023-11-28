@@ -1,0 +1,30 @@
+[
+  {
+    "projectMemberId": 5,
+    "projectMemberName": "exAdmin",
+    "projectMemberEmail": "example1@gmail.com",
+    "projectMemberRole": "ADMIN",
+    "memberThumbnailImg": "memberThumbnailImg"
+  },
+  {
+    "projectMemberId": 6,
+    "projectMemberName": "exMem1",
+    "projectMemberEmail": "example2@gmail.com",
+    "projectMemberRole": "MEMBER",
+    "memberThumbnailImg": "memberThumbnailImg"
+  },
+  {
+    "projectMemberId": 7,
+    "projectMemberName": "exMem2",
+    "projectMemberEmail": "example3@gmail.com",
+    "projectMemberRole": "VIEWER",
+    "memberThumbnailImg": "memberThumbnailImg"
+  },
+  {
+    "projectMemberId": 8,
+    "projectMemberName": "exViewer",
+    "projectMemberEmail": "example4@gmail.com",
+    "projectMemberRole": "INVITED_PERSON",
+    "memberThumbnailImg": "memberThumbnailImg"
+  }
+]
