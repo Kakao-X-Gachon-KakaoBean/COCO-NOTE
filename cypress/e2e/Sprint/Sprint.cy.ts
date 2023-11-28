@@ -66,8 +66,11 @@ describe('작업관리 페이지 테스트', () => {
   });
 
   context('스프린트 추가하기 버튼을 누를경우', () => {
-    it('스프린트 추가하기 모달이 표시되어야 한다.', () => {
+    beforeEach(() => {
       cy.get('.css-k6p0i0 > :nth-child(3)').click();
+    });
+
+    it('스프린트 추가하기 모달이 표시되어야 한다.', () => {
       cy.get('.ant-modal-content').should('be.visible');
       cy.get('[placeholder="스프린트 명"]').should('be.visible');
       cy.get('[placeholder="스프린트 설명"]').should('be.visible');
@@ -76,7 +79,6 @@ describe('작업관리 페이지 테스트', () => {
     });
 
     it('생성에 실패할 경우 에러 메시지가 상단에 보여야 한다.', () => {
-      cy.get('.css-k6p0i0 > :nth-child(3)').click();
       cy.get('.ant-btn-primary').click();
       cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '스프린트 생성에 실패했습니다.');
     });
@@ -84,7 +86,6 @@ describe('작업관리 페이지 테스트', () => {
     it('생성에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
       const today = dayjs().format('YYYY-MM-DD');
 
-      cy.get('.css-k6p0i0 > :nth-child(3)').click();
       cy.get('[placeholder="스프린트 명"]').type('테스트');
       cy.get('[placeholder="스프린트 설명"]').type('테스트 입니다.');
       cy.get(':nth-child(3) > .ant-picker').type(`${today}{enter}`);
@@ -110,10 +111,13 @@ describe('작업관리 페이지 테스트', () => {
   });
 
   context('할일 추가 버튼을 누를경우', () => {
-    it('새 하위 작업 생성 모달이 표시되어야 한다.', () => {
+    beforeEach(() => {
       cy.get(
         '[data-row-key="0"] > .ant-table-cell-fix-left > [style="display: flex; justify-content: space-between; align-items: center;"] > .ant-btn'
       ).click();
+    });
+
+    it('새 하위 작업 생성 모달이 표시되어야 한다.', () => {
       cy.get('.ant-modal-content').should('be.visible');
       cy.get('[placeholder="하위 작업 명"]').should('be.visible');
       cy.get('[placeholder="하위 작업 설명"]').should('be.visible');
@@ -122,26 +126,14 @@ describe('작업관리 페이지 테스트', () => {
     });
 
     it('생성에 실패할 경우 에러 메시지가 상단에 보여야 한다.', () => {
-      cy.get(
-        '[data-row-key="0"] > .ant-table-cell-fix-left > [style="display: flex; justify-content: space-between; align-items: center;"] > .ant-btn'
-      ).click();
       cy.get('.ant-btn-primary').click();
       cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업 생성에 실패했습니다.');
     });
 
     it('생성에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
-      cy.get(
-        '[data-row-key="0"] > .ant-table-cell-fix-left > [style="display: flex; justify-content: space-between; align-items: center;"] > .ant-btn'
-      ).click();
       cy.get('[placeholder="하위 작업 명"]').type('테스트');
       cy.get('[placeholder="하위 작업 설명"]').type('테스트 입니다.');
       cy.get('.ant-btn-primary').click();
-      cy.intercept({
-        method: 'post',
-        url: 'http://localhost:8080/tasks',
-      }).as('createTask');
-      //하위작업 생성 미완성
-      //cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업 생성에 성공했습니다.');
     });
   });
 });
