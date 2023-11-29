@@ -43,5 +43,3 @@ describe('이슈 생성 페이지 테스트', () => {
     });
   });
 });
-
-// cy.get(':nth-child(1) > .ant-btn').should('have.text', '뒤로 가기');
