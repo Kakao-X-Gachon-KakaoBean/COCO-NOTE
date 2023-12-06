@@ -71,8 +71,12 @@ const LogIn = () => {
 
       navigate('/main');
     },
-    onError: () => {
-      toast.error('이메일과 비밀번호가 일치하지 않습니다.');
+    onError: error => {
+      if (error.response && error.response.status === 401) {
+        toast.error('이메일과 비밀번호가 일치하지 않습니다.');
+      } else if (error.response && error.response.status === 500) {
+        toast.error('서버 오류입니다. 잠시 후에 다시 시도해주세요');
+      }
     },
   });
 

@@ -50,24 +50,22 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
     }
   }, [email, passwordToChange, checkPasswordToChange, emailAuthKey]);
 
-  const postEmailMutation = useMutation<'이메일 발송 성공' | '이메일 발송 실패', AxiosError, string>(
-    'post email',
-    postEmail,
-    {
-      onSuccess: data => {
-        if (data === '이메일 발송 성공') {
-          setFailUseEmail(true);
-          toast.success('메일로 인증 번호가 발송되었습니다.');
-        } else {
-          toast.error('인증 번호 발송에 실패하였습니다.');
-          setFailUseEmail(false);
-        }
-      },
-      onError: () => {
-        toast.error('서버와 연결이 되어있지 않습니다.');
-      },
-    }
-  );
+  const postEmailMutation = useMutation<any, AxiosError, string>('post email', postEmail, {
+    onSuccess: data => {
+      if (data === '이메일 발송 성공') {
+        setFailUseEmail(true);
+        toast.success('메일로 인증 번호가 발송되었습니다.');
+      }
+    },
+    onError: error => {
+      if (error.response && error.response.status === 400) {
+        toast.error('이메일을 정확히 입력해주세요');
+        setFailUseEmail(false);
+      } else if (error.response && error.response.status === 500) {
+        toast.error('서버 오류입니다. 잠시 후에 다시 시도해주세요');
+      }
+    },
+  });
 
   const onSubmitEmail = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -100,7 +98,7 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
     e.stopPropagation();
   }, []);
 
-  const modifyPasswordMutation = useMutation<'비밀번호 변경 성공' | '비밀번호 변경 실패', AxiosError, EditPassword>(
+  const modifyPasswordMutation = useMutation<any, AxiosError, EditPassword>(
     'modifyPassword',
     (data: EditPassword) => modifyPassword(data),
     {
@@ -108,8 +106,13 @@ const SearchPassword: FC<PasswordModal> = ({ onClosePasswordModal }) => {
         if (data === '비밀번호 변경 성공') {
           queryClient.invalidateQueries('memberInfo');
           toast.success('비밀번호를 변경했습니다.');
-        } else {
-          toast.error('변경 실패하였습니다.');
+        }
+      },
+      onError: error => {
+        if (error.response && error.response.status === 400) {
+          toast.error('정보를 잘못 입력하셨습니다.');
+        } else if (error.response && error.response.status === 500) {
+          toast.error('서버와 연결이 되어있지 않습니다.');
         }
       },
     }
