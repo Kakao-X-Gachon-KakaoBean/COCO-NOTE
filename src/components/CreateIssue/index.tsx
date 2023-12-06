@@ -46,11 +46,13 @@ const CreateIssue = () => {
           toast.success('이슈를 생성하였습니다.');
           navigate(-1);
         } else {
-          toast.success('이슈 생성에 실패하였습니다.');
+          toast.error('이슈 생성에 실패하였습니다.');
         }
       },
-      onError: () => {
-        toast.error('이슈 생성에 실패하였습니다.');
+      onError: error => {
+        if (error.message === '공백일 수 없습니다') {
+          toast.error('제목을 입력해주세요');
+        }
       },
     }
   );

@@ -42,8 +42,10 @@ const EditIssue = () => {
           toast.error('양식을 제대로 입력해주세요.');
         }
       },
-      onError: () => {
-        toast.error('서버와 연결이 되어있지 않습니다.');
+      onError: error => {
+        if (error.message === '공백일 수 없습니다') {
+          toast.error('제목을 입력해주세요');
+        }
       },
     }
   );

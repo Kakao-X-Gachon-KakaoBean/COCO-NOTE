@@ -115,6 +115,10 @@ const IssueDetail = () => {
   const submitComment: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = useCallback(
     e => {
       e.preventDefault();
+      if (!content) {
+        toast.error('댓글을 입력해주세요.');
+        return;
+      }
       postCommentMutation.mutate({ content, issueId });
     },
     [postCommentMutation, content, issueId]
@@ -165,6 +169,10 @@ const IssueDetail = () => {
   const editProject = useCallback(
     (e: any) => {
       e.preventDefault();
+      if (!newComment) {
+        toast.error('수정할 내용을 입력해주세요.');
+        return;
+      }
       editCommentMutation.mutate({ content: newComment });
     },
     [newComment, editCommentMutation]
