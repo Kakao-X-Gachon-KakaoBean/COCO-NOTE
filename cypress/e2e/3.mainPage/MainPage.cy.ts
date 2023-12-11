@@ -7,7 +7,7 @@ describe('메인 페이지 테스트', () => {
     cy.intercept('GET', '**/members/info', {
       fixture: 'memberInfo.json',
     }).as('MemberInfo');
-    cy.intercept('GET', '**/notification', {
+    cy.intercept('GET', '**/notifications', {
       fixture: 'notificationInfo.json',
     }).as('NotificationInfo');
   });
@@ -30,7 +30,8 @@ describe('메인 페이지 테스트', () => {
     it('알림 아이콘을 눌렀을 때에는 하위 항목이 보여야 한다.', () => {
       cy.get('.css-bb44lz > :nth-child(1) > .ant-dropdown-trigger').click();
       cy.get('.ant-dropdown-menu').should('be.visible');
-      // 알림 가져오는거  봐야함
+      cy.contains('[ 권한 변경 테스트입니다. ] 권한 변경 알림 테스트.').should('be.visible');
+      cy.contains('[ 스프린트 알림 테스트입니다. ] 스프린트 알림 테스트.').should('be.visible');
     });
 
     it('내정보 아이콘을 눌렀을 때에는 하위 항목이 보여야 한다.', () => {
