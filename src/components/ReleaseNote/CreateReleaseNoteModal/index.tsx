@@ -15,24 +15,20 @@ const CreateReleaseNoteModal: React.FC<ModalProps> = ({ visible, handleOk }) => 
   const [title, setTitle] = useState('');
   const [version, setVersion] = useState('');
 
-  const postCreateManuscriptMutation = useMutation<'원고 생성 성공' | '원고 생성 실패', AxiosError, CreateManuscript>(
-    'manuscripts',
-    createManuscript,
-    {
-      onSuccess: data => {
-        if (data === '원고 생성 성공') {
-          queryClient.invalidateQueries('manuscriptAll');
-          toast.success('릴리즈 노트 생성에 성공했습니다.');
-          handleOk({ title: title, version: version, status: 'success' });
-        } else {
-          toast.error('정보를 다시 확인해주시기 바랍니다.');
-        }
-      },
-      onError: () => {
-        toast.error('서버와 연결이 되어있지 않습니다.');
-      },
-    }
-  );
+  const postCreateManuscriptMutation = useMutation('manuscripts', createManuscript, {
+    onSuccess: data => {
+      if (data.message === '릴리즈 노트 원고 등록에 성공했습니다.') {
+        queryClient.invalidateQueries('manuscriptAll');
+        toast.success('릴리즈 노트 생성에 성공했습니다.');
+        handleOk({ title: title, version: version, status: 'success' });
+      } else {
+        toast.error('정보를 다시 확인해주시기 바랍니다.');
+      }
+    },
+    onError: () => {
+      toast.error('서버와 연결이 되어있지 않습니다.');
+    },
+  });
   const createReleaseNote = () => {
     postCreateManuscriptMutation.mutate({
       title: title,
