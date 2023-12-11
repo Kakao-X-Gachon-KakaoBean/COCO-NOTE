@@ -19,6 +19,11 @@ describe('릴리즈 노트 원고 생성 테스트', () => {
       fixture: 'createManuscript.json',
     }).as('createManuscript');
     cy.visit(`/projects/5/release-notes`);
+    return cy.fixture('manuscriptTree.json').then(manuscripts => {
+      // 생성된 원고를 추가하기 전 초기화
+      manuscripts.manuscripts = manuscripts.manuscripts.slice(0, 2);
+      cy.writeFile('cypress/fixtures/manuscriptTree.json', manuscripts);
+    });
   });
 
   context('릴리즈 노트 전체 페이지에 들어온 경우', () => {
@@ -59,7 +64,7 @@ describe('릴리즈 노트 원고 생성 테스트', () => {
     });
   });
   context('새 릴리즈 노트를 생성 성공할 경우', () => {
-    it('생성된 릴리즈 노트 원고를 확인할 수 있어야 한다.', () => {
+    it('릴리즈 노트 원고 생성 메시지를 확인할 수 있어야 한다.', () => {
       cy.get('.ant-btn > span').click();
       cy.get(':nth-child(1) > .ant-input').type('새로운 릴리즈 노트');
       cy.get(':nth-child(2) > .ant-input').type('2.8V');
@@ -68,9 +73,6 @@ describe('릴리즈 노트 원고 생성 테스트', () => {
       cy.wait('@createManuscript').then(() => {
         cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '릴리즈 노트 생성에 성공했습니다.');
         cy.fixture('manuscriptTree.json').then(manuscripts => {
-          // 생성된 원고를 추가하기 전 초기화
-          manuscripts.manuscripts = manuscripts.manuscripts.slice(0, 2);
-
           const newManuscript = {
             id: 18,
             title: '새로운 릴리즈 노트',
@@ -79,13 +81,14 @@ describe('릴리즈 노트 원고 생성 테스트', () => {
           manuscripts.manuscripts.push(newManuscript);
           cy.writeFile('cypress/fixtures/manuscriptTree.json', manuscripts);
         });
-        // manuscriptTree api 재실행해서 Tree 업데이트 확인
-        cy.wait('@manuscriptTree').then(() => {
-          cy.get(
-            ':nth-child(1) > .ant-tree-list > .ant-tree-list-holder > :nth-child(1) > .ant-tree-list-holder-inner > :nth-child(4) > .ant-tree-node-content-wrapper > .ant-tree-title'
-          ).should('have.text', '2.8V');
-        });
+        cy.wait('@manuscriptTree');
       });
+    });
+    it('생성된 릴리즈 노트 원고를 확인할 수 있어야 한다.', () => {
+      // manuscriptTree api 재실행해서 Tree 업데이트 확인
+      cy.get(
+        ':nth-child(1) > .ant-tree-list > .ant-tree-list-holder > :nth-child(1) > .ant-tree-list-holder-inner > :nth-child(4) > .ant-tree-node-content-wrapper > .ant-tree-title'
+      ).should('have.text', '2.8V');
     });
   });
 });
