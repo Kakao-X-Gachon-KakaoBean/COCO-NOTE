@@ -65,13 +65,15 @@ describe('작업관리 페이지 테스트', () => {
     });
 
     it('삭제에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
-      cy.get('.ant-modal-footer > .ant-btn-primary').should('have.text', 'OK').click();
-      cy.intercept({
-        method: 'DELETE',
-        url: 'http://localhost:8080/tasks/1',
+      cy.intercept('DELETE', '/tasks/1', {
+        fixture: 'deleteTask.json',
       }).as('deleteTask');
-      //스프린트 삭제 미완성
-      //cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '스프린트가 삭제 되었습니다.');
+
+      cy.get('.ant-modal-footer > .ant-btn-primary').should('have.text', 'OK').click();
+      cy.wait('@deleteTask').then(() => {
+        cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업이 삭제 되었습니다.');
+      });
+      cy.url().should('include', '/projects/5/sprints');
     });
 
     it('삭제에 실패한 경우 실패 메시지가 상단에 보여야 한다.', () => {
@@ -81,41 +83,43 @@ describe('작업관리 페이지 테스트', () => {
   });
 
   context('담당자를 변경하는 경우', () => {
-    beforeEach(() => {
+    it('변경에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
+      cy.intercept('PATCH', '/tasks/1/assignment/5', {
+        fixture: 'assignmentTask.json',
+      }).as('assignmentTask');
+
       cy.get('.css-19w7i6i > .ant-select > .ant-select-selector').should('have.text', '임인범').click();
       cy.contains('exAdmin').click();
-    });
 
-    it('변경에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
-      cy.intercept({
-        method: 'patch',
-        url: 'http://localhost:8080/tasks/1/assignment/1',
-      }).as('assignTaskToMember');
-      //담당자 변경 미완성
-      //cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '스프린트가 삭제 되었습니다.');
+      cy.wait('@assignmentTask').then(() => {
+        cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '작업자를 할당하였습니다.');
+      });
     });
 
     it('변경에 실패한 경우 실패 메시지가 상단에 보여야 한다.', () => {
+      cy.get('.css-19w7i6i > .ant-select > .ant-select-selector').should('have.text', '임인범').click();
+      cy.contains('exAdmin').click();
       cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '작업자 할당에 실패하였습니다.');
     });
   });
 
   context('진행 상태를 변경하는 경우', () => {
-    beforeEach(() => {
+    it('변경에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
+      cy.intercept('PATCH', '/tasks/1/work-status', {
+        fixture: 'changeWorkStatus.json',
+      }).as('changeWorkStatus');
+
       cy.get('[style="width: 7vw;"] > .ant-select-selector').should('have.text', '진행 중').click();
       cy.contains('할 일').click();
-    });
 
-    it('변경에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
-      cy.intercept({
-        method: 'PATCH',
-        url: 'http://localhost:8080/tasks/1/work-status',
-      }).as('changeWorkStatus');
-      //작업 상태 변경 미완성
-      //cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '스프린트가 삭제 되었습니다.');
+      cy.wait('@changeWorkStatus').then(() => {
+        cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '작업 상태를 변경하였습니다.');
+      });
     });
 
     it('변경에 실패한 경우 실패 메시지가 상단에 보여야 한다.', () => {
+      cy.get('[style="width: 7vw;"] > .ant-select-selector').should('have.text', '진행 중').click();
+      cy.contains('할 일').click();
       cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '작업 상태를 변경하지 못했습니다.');
     });
   });
