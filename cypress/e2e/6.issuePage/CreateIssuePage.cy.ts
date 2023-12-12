@@ -13,6 +13,9 @@ describe('이슈 생성 페이지 테스트', () => {
       'accessToken',
       'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk5NDQyNjQwLCJleHAiOjE2OTk0NDM1NDB9.WVj3PdtRj8SBg2xOSTvM1ZK8hJRheMxiiAR3bFir6w3v4IDe-MmMgQx1BdSPqAXQIeGDiAjyP-_YPrX1MK4hUA'
     );
+    cy.intercept('POST', '/manuscripts', {
+      fixture: 'createIssueContent.json',
+    }).as('CreateIssueContent');
     cy.visit(`http://localhost:3000/projects/5/issues/createissue`);
   });
 
