@@ -62,21 +62,21 @@ describe('하위 작업 수정 페이지 테스트', () => {
   });
 
   context('완료하기 버튼을 누르는 경우', () => {
-    beforeEach(() => {
+    it('수정에 실패한 경우 실패 메시지가 상단에 보여야 한다.', () => {
       cy.get('.ant-btn').should('have.text', '완료하기').click();
+      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업 수정에 실패하였습니다.');
     });
 
     it('수정에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
-      cy.intercept({
-        method: 'patch',
-        url: 'http://localhost:8080/tasks/1',
+      cy.intercept('PATCH', '/tasks/1', {
+        fixture: 'editTask.json',
       }).as('editTask');
-      //스프린트 삭제 미완성
-      //cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업이 수정 되었습니다.');
-    });
 
-    it('수정에 실패한 경우 실패 메시지가 상단에 보여야 한다.', () => {
-      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업 수정에 실패하였습니다.');
+      cy.get('.ant-btn').should('have.text', '완료하기').click();
+      cy.wait('@editTask').then(() => {
+        cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업 수정이 완료되었습니다.');
+      });
+      cy.url().should('include', '/projects/5/sprints/tasks/1');
     });
   });
 });
