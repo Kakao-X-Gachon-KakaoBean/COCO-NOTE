@@ -9,6 +9,12 @@ describe('세부 이슈 페이지 테스트', () => {
     cy.intercept('GET', '/issues/1', {
       fixture: 'eachIssueContent.json',
     }).as('eachIssueContent');
+    cy.intercept('POST', '/comments', {
+      fixture: 'createComment.json',
+    }).as('CreateComment');
+    cy.intercept('DELETE', '/comments/1', {
+      fixture: 'deleteComment.json',
+    }).as('DeleteComment');
     cy.visit(`/projects/5/issues/1`);
   });
 
@@ -55,7 +61,7 @@ describe('세부 이슈 페이지 테스트', () => {
     // it('아무것도 입력하지 않고 Submit 버튼을 누르면 댓글이 달리지않는다.', () => {
     //   cy.get('.css-1rj44r4').type('').should('have.value', '');
     //   cy.get('.css-jqvg2j > .ant-btn').click();
-    //   cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '댓글 달기에 실패하였습니다.');
+    //   cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '댓글을 입력해주세요.');
     // });
 
     it('댓글 수정 버튼을 누르면 댓글 수정 모달이 나와야 한다.', () => {

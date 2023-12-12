@@ -1,23 +1,5 @@
 {
-  "issue" : {
-    "issueId" : 1,
-    "title" : "이슈 제목",
-    "content" : "이슈 내용",
-    "writtenTime" : "23. 8. 7. ?? 9:49",
-    "writerName" : "추성준",
-    "thumbnailImg" : "https://bucket.s3.ap-northeast-5.amazonaws.com/8d78cf624c99-%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%851%85%AE%206.23.05.png"
-  },
-  "comments" : [ {
-    "commentId" : 33,
-    "content" : "1번 댓글",
-    "writtenTime" : "23. 8. 7. ?? 9:49",
-    "writerName" : "안수빈",
-    "thumbnailImg" : "https://bucket.s3.ap-northeast-5.amazonaws.com/8d78cf624c99-%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%851%85%AE%206.23.05.png"
-  }, {
-    "commentId" : 44,
-    "content" : "2번 댓글",
-    "writtenTime" : "23. 8. 7. ?? 9:49",
-    "writerName" : "귀여운인범",
-    "thumbnailImg" : "https://bucket.s3.ap-northeast-5.amazonaws.com/8d78cf624c99-%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%851%85%AE%206.23.05.png"
-  } ]
+  "title" : "포스트되는 이슈 제목",
+  "content" : "포스트되는 이슈 컨텐츠 내용",
+  "projectId" : 5
 }
