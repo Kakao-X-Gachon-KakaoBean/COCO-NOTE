@@ -4,7 +4,6 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AddSprintValue } from '@states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
-import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { createSprint } from '@api/Sprint/Sprint.ts';
 import { CreateSprintDataType } from '@type/SprintType.ts';
@@ -22,11 +21,7 @@ const CreateSprintModal = () => {
   const [startDateValue, setStartDateValue] = useState<string | null>(null);
   const [dueDateValue, setDueDateValue] = useState<string | null>(null);
 
-  const CreateSprintMutation = useMutation<
-    '스프린트 생성 완료' | '스프린트 생성 실패',
-    AxiosError,
-    CreateSprintDataType
-  >('createSprint', createSprint, {
+  const CreateSprintMutation = useMutation<string, string, CreateSprintDataType>('createSprint', createSprint, {
     onMutate() {},
     onSuccess(data) {
       if (data === '스프린트 생성 완료') {
@@ -44,8 +39,7 @@ const CreateSprintModal = () => {
       }
     },
     onError(error) {
-      console.log(error);
-      toast.error('서버와 연결 되어있지 않습니다.');
+      toast.error(error);
     },
   });
 
