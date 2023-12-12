@@ -8,10 +8,6 @@ describe('작업관리 페이지 테스트', () => {
     cy.intercept('GET', '/sprints?projectId=5', {
       fixture: 'sprintContents.json',
     }).as('sprintContents');
-    cy.setCookie(
-      'accessToken',
-      'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk5NDQyNjQwLCJleHAiOjE2OTk0NDM1NDB9.WVj3PdtRj8SBg2xOSTvM1ZK8hJRheMxiiAR3bFir6w3v4IDe-MmMgQx1BdSPqAXQIeGDiAjyP-_YPrX1MK4hUA'
-    );
     cy.visit(`/projects/5/sprints`);
   });
 
@@ -84,6 +80,10 @@ describe('작업관리 페이지 테스트', () => {
     });
 
     it('생성에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
+      cy.intercept('POST', '/sprints', {
+        fixture: 'createSprint.json',
+      }).as('createSprint');
+
       const today = dayjs().format('YYYY-MM-DD');
 
       cy.get('[placeholder="스프린트 명"]').type('테스트');
@@ -91,22 +91,9 @@ describe('작업관리 페이지 테스트', () => {
       cy.get(':nth-child(3) > .ant-picker').type(`${today}{enter}`);
       cy.get(':nth-child(4) > .ant-picker').type(`${today}{enter}`);
       cy.get('.ant-btn-primary').should('have.text', 'OK').click();
-      cy.intercept({
-        method: 'post',
-        url: 'http://localhost:8080/sprints',
-      }).as('createSprint');
-      // cy.intercept('POST', 'http://localhost:8080/sprints', req => {
-      //   const { body } = req;
-      //   req.continue(res => {
-      //     res.body.data.listBankAccount = [
-      //       {
-      //         message: '테스크가 생성되었습니다.',
-      //       },
-      //     ];
-      //   });
-      // });
-      //스프린트 생성 미완성
-      //cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '스프린트 생성에 성공했습니다.');
+      cy.wait('@createSprint').then(() => {
+        cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '스프린트가 생성 되었습니다.');
+      });
     });
   });
 
@@ -131,9 +118,16 @@ describe('작업관리 페이지 테스트', () => {
     });
 
     it('생성에 성공한 경우 성공 메시지가 상단에 보여야 한다.', () => {
+      cy.intercept('POST', '/tasks', {
+        fixture: 'createTask.json',
+      }).as('createTask');
+
       cy.get('[placeholder="하위 작업 명"]').type('테스트');
       cy.get('[placeholder="하위 작업 설명"]').type('테스트 입니다.');
       cy.get('.ant-btn-primary').click();
+      cy.wait('@createTask').then(() => {
+        cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '하위작업이 생성 되었습니다.');
+      });
     });
   });
 });
