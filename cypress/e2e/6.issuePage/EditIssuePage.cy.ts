@@ -9,6 +9,12 @@ describe('이슈 수정 페이지 테스트', () => {
     cy.intercept('GET', '/issues/1', {
       fixture: 'eachIssueContent.json',
     }).as('eachIssueContent');
+    cy.intercept('PATCH', '/issues/1', {
+      fixture: 'editIssueContent.json',
+    }).as('EditIssueContent');
+    cy.intercept('DELETE', '/issues/1', {
+      fixture: 'deleteComment.json',
+    }).as('DeleteComment');
     cy.visit(`/projects/5/issues/1`);
   });
 
@@ -31,7 +37,7 @@ describe('이슈 수정 페이지 테스트', () => {
       cy.get('#title').clear().type('');
       cy.get('.w-md-editor-text-input').clear().type('');
       cy.get('.css-1vczc1y > .ant-btn').click();
-      // cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '제목과 본문을 입력해주세요.');
+      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '제목과 본문을 입력해주세요.');
     });
 
     it('수정 할 부분을 입력 후 수정하기 버튼을 누르면 이슈가 수정되어야 한다.', () => {
@@ -40,13 +46,13 @@ describe('이슈 수정 페이지 테스트', () => {
       cy.get('#title').clear().type('수정 될 제목');
       cy.get('.w-md-editor-text-input').clear().type('수정 될 내용');
       cy.get('.css-1vczc1y > .ant-btn').click();
-      // cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '수정 완료하였습니다.');
+      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '수정 완료하였습니다.');
       cy.url().should('include', '/issues');
     });
 
     it('삭제 버튼을 누르면 이슈가 삭제되어야 한다.', () => {
       cy.get('.css-1rg5wmd > :nth-child(1)').click();
-      // cy.get('.Toastify__toast-body > :nth-child(2) > div').should('have.text', '이슈가 삭제되었습니다.');
+      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '이슈가 삭제되었습니다.');
       cy.url().should('include', '/issues');
     });
   });
