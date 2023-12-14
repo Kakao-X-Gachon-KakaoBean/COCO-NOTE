@@ -6,7 +6,7 @@ import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { CookiesProvider } from 'react-cookie';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { getCookie } from '@utils/cookie.ts';
 import { toast } from 'react-toastify';
 import { BACKEND_URL } from '@api/index.ts';
@@ -23,7 +23,7 @@ axios.interceptors.response.use(
       const refreshToken = getCookie('refreshToken');
       if (refreshToken) {
         try {
-          const response = await axios.post(`${BACKEND_URL}/access-tokens`, { refreshToken });
+          const response: AxiosResponse = await axios.post(`${BACKEND_URL}/access-tokens`, { refreshToken });
 
           const accessToken = response.data.accessToken;
           localStorage.setItem('accessToken', accessToken);
