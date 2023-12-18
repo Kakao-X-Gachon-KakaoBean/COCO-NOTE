@@ -14,8 +14,8 @@ describe('릴리즈 노트 원고 단건 조회 페이지 테스트', () => {
     }).as('getSingleManuscript');
     cy.visit(`/projects/5/manuscripts/16`);
     return cy.fixture('singleManuscript.json').then(singleManuscript => {
-      // 수정 중인 상태를 수정 완료 상태로 초기화
-      singleManuscript.manuscriptStatus = 'Modified';
+      // 수정 완료 상태를 수정 중 상태로 초기화
+      singleManuscript.manuscriptStatus = 'Modifying';
       cy.writeFile('cypress/fixtures/singleManuscript.json', singleManuscript);
     });
   });
@@ -51,13 +51,14 @@ describe('릴리즈 노트 원고 단건 조회 페이지 테스트', () => {
       cy.get(':nth-child(4) > .css-1eid011 > .css-1m0b3tt').should('have.text', '이슈');
     });
 
-    it('릴리즈 노트 원고 단건의 제목과 버전, 날짜, 내용, 버튼이 정상적으로 표시되어야 한다.', () => {
+    it('수정 중인 릴리즈 노트 원고 단건의 제목과 버전, 날짜, 내용, 버튼이 정상적으로 표시되어야 한다.', () => {
       cy.get('.css-140rbgv > .ant-typography').should('have.text', '2.6V 릴리즈 노트');
       cy.get(':nth-child(2) > .ant-typography').should('have.text', 'Version 2.6V');
       cy.get(':nth-child(3) > .ant-typography').should('have.text', '23-08-03 12:17');
       cy.get('p').should('have.text', '새로운 릴리즈 노트 원고 내용입니다.');
 
-      cy.get('.css-8d1r9y').should('have.text', '가장 마지막에 수정한 멤버: 김윤호');
+      cy.get('.css-1cr3nir > :nth-child(3)').should('have.text', '가장 마지막에 수정한 멤버: 김윤호');
+      cy.get('.css-140rbgv > .css-8d1r9y').should('contain', '현재 다른 사용자가 작성 중입니다');
 
       // 수정하기 버튼 확인
       cy.get('.css-yx8f8q > .ant-btn-default').should('exist');
@@ -70,17 +71,16 @@ describe('릴리즈 노트 원고 단건 조회 페이지 테스트', () => {
       cy.get('.ant-btn-primary').should('contain', '릴리즈 노트 배포');
     });
 
-    it('릴리즈 노트 원고를 수정 중인 상태로 변경한다.', () => {
+    it('릴리즈 노트 원고를 수정 완료 상태로 변경한다.', () => {
       cy.fixture('singleManuscript.json').then(singleManuscript => {
-        singleManuscript.manuscriptStatus = 'Modifying';
+        singleManuscript.manuscriptStatus = 'Modified';
         cy.writeFile('cypress/fixtures/singleManuscript.json', singleManuscript);
       });
       cy.wait('@getSingleManuscript');
     });
 
-    it('릴리즈 노트 원고가 수정 중일 시, 경고 안내 문구가 있어야 한다.', () => {
-      cy.reload(); // 두 번째 테스트에서 페이지를 다시 로드
-      cy.get('.css-140rbgv > .css-8d1r9y').should('contain', '현재 다른 사용자가 작성 중입니다');
+    it('릴리즈 노트 원고가 수정 완료 되었을 시, 경고 안내 문구가 사라져야 한다.', () => {
+      cy.get('.css-140rbgv > .css-8d1r9y').should('not.exist');
     });
   });
 });
