@@ -34,8 +34,14 @@ const CreateSprintModal = () => {
         setStartDateValue('');
         setDueDateValue('');
         toast.success('스프린트가 생성 되었습니다.');
+      } else if (data === '스프린트 생성 실패: 잘못된 요청') {
+        toast.warning('모든칸을 정확하게 입력해주세요.');
+      } else if (data === '스프린트 생성 실패: 서버 오류') {
+        toast.warning('서버 오류로 인해 스프린트 생성에 실패했습니다.');
+      } else if (data === '스프린트 생성 실패: 알 수 없는 오류') {
+        toast.warning('서버와 연결이 되어있지 않습니다.');
       } else {
-        toast.warning('스프린트 생성에 실패했습니다.');
+        toast.warning('알수없는 오류입니다. 고객센터로 문의바랍니다.');
       }
     },
     onError(error) {

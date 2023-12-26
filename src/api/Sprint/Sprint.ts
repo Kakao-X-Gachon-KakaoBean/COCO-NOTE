@@ -10,20 +10,19 @@ import {
   WorkStatusType,
 } from '@type/SprintType.ts';
 // 스프린트 생성
-import { AxiosError } from 'axios';
 
 export const createSprint = async (data: CreateSprintDataType): Promise<string> => {
   try {
     const response = await instance.post('/sprints', data);
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       return '스프린트 생성 완료';
     } else {
       return '스프린트 생성 실패';
     }
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-  } catch (error: AxiosError) {
+  } catch (error: any) {
     if (error.response && error.response.status === 400) {
       return '스프린트 생성 실패: 잘못된 요청';
     } else if (error.response && error.response.status === 500) {
