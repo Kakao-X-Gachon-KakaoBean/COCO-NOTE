@@ -25,6 +25,12 @@ export const createSprint = async (data: CreateSprintDataType): Promise<string> 
   } catch (error: any) {
     if (error.response && error.response.status === 400) {
       return '스프린트 생성 실패: 잘못된 요청';
+    } else if (error.response && error.response.status === 401) {
+      return '스프린트 생성 실패: 비인증 상태';
+    } else if (error.response && error.response.status === 403) {
+      return '스프린트 생성 실패: 권한 거부';
+    } else if (error.response && error.response.status === 404) {
+      return '스프린트 생성 실패: 존재하지 않는 요청';
     } else if (error.response && error.response.status === 500) {
       return '스프린트 생성 실패: 서버 오류';
     } else {

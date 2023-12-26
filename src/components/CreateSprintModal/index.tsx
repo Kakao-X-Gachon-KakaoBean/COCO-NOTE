@@ -36,6 +36,12 @@ const CreateSprintModal = () => {
         toast.success('스프린트가 생성 되었습니다.');
       } else if (data === '스프린트 생성 실패: 잘못된 요청') {
         toast.warning('모든칸을 정확하게 입력해주세요.');
+      } else if (data === '스프린트 생성 실패: 비인증 상태') {
+        toast.warning('로그아웃되었습니다. 재로그인 해주십시오.');
+      } else if (data === '스프린트 생성 실패: 권한 거부') {
+        toast.warning('권한이 거부되어 스프린트 생성에 실패했습니다.');
+      } else if (data === '스프린트 생성 실패: 존재하지 않는 요청') {
+        toast.warning('존재하지 않는 요청이므로 스프린트 생성에 실패했습니다.');
       } else if (data === '스프린트 생성 실패: 서버 오류') {
         toast.warning('서버 오류로 인해 스프린트 생성에 실패했습니다.');
       } else if (data === '스프린트 생성 실패: 알 수 없는 오류') {
