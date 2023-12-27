@@ -18,11 +18,10 @@ describe('릴리즈 노트 원고 단건 조회 페이지 테스트', () => {
     cy.intercept('PATCH', '/manuscripts/16', {
       fixture: 'saveEditedManuscript.json',
     }).as('saveEditedManuscript.json');
+    cy.intercept('POST', '/release-notes', {
+      fixture: 'releaseManuscript.json',
+    }).as('releaseManuscript.json');
     cy.visit(`/projects/5/manuscripts/16`);
-    return cy.fixture('singleManuscript.json').then(singleManuscript => {
-      singleManuscript.manuscriptStatus = 'Modified';
-      cy.writeFile('cypress/fixtures/singleManuscript.json', singleManuscript);
-    });
   });
 
   context('릴리즈 노트 원고 단건 페이지에 들어온 경우', () => {
@@ -75,20 +74,19 @@ describe('릴리즈 노트 원고 단건 조회 페이지 테스트', () => {
       cy.get('.ant-btn-primary').should('contain', '릴리즈 노트 배포');
     });
   });
-  context('릴리즈 노트 원고의 수정 버튼을 클릭했을 경우', () => {
-    it('릴리즈 노트 원고 수정 페이지로 이동 후 수정 및 저장이 가능해야 한다.', () => {
-      cy.get('.css-yx8f8q > .ant-btn-default').click();
-      cy.url().should('include', '/manuscripts/16/edit');
-      cy.get('.w-md-editor-text-input').type('내용을 추가하겠습니다.');
 
-      // 저장하기 버튼
+  context('릴리즈 노트 원고 배포하기 버튼을 클릭했을 때', () => {
+    it('배포가 성공적으로 이루어지고, 릴리즈 노트 단건 조회 페이지로 이동', () => {
       cy.get('.ant-btn-primary').should('exist');
       cy.get('.ant-btn-primary').should('have.attr', 'type', 'button');
-      cy.get('.ant-btn-primary').should('contain', '저장하기');
-      cy.get('.ant-btn-primary').click();
-
-      cy.url().should('include', '/manuscripts/16');
-      cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '릴리즈 노트가 저장되었습니다.');
+      cy.get('.ant-btn-primary').should('contain', '릴리즈 노트 배포').click();
+      cy.get('.css-1edbqdp > .ant-btn').should('contain', '배포하기');
+      cy.get('.css-1edbqdp > .ant-btn')
+        .click()
+        .then(() => {
+          cy.url().should('include', '/projects/5/release-notes');
+          cy.get('.Toastify__toast-body > :nth-child(2)').should('have.text', '해당 릴리즈 노트를 배포하였습니다.');
+        });
     });
   });
 });

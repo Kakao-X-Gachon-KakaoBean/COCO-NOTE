@@ -103,7 +103,7 @@ const SingleManuscript: React.FC = () => {
             <>
               <Modal
                 centered
-                title={'릴리즈 노트 삭제'}
+                title={'릴리즈 노트 배포'}
                 open={distributeModalOpen}
                 onCancel={() => setDistributeModalOpen(false)}
                 onOk={() => setDistributeModalOpen(false)}
