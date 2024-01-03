@@ -67,17 +67,20 @@ const SignUp = () => {
     checkPassword,
     emailAuthKey,
   };
-  const signUpMutation = useMutation<'회원가입 성공' | '회원가입 실패', AxiosError, SignUpUser>('signup', signUp, {
+  const signUpMutation = useMutation<any, AxiosError, SignUpUser>('signup', signUp, {
     onSuccess: data => {
       if (data === '회원가입 성공') {
         setSignUpSuccess(true);
-      } else {
-        setSignUpSuccess(false);
-        toast.error('양식을 알맞게 작성해주세요');
       }
     },
-    onError: () => {
-      toast.error('서버와 연결이 되어있지 않습니다.');
+    onError: error => {
+      if (error.response && error.response.status === 400) {
+        setSignUpSuccess(false);
+        toast.error('모든 값들을 입력해주세요');
+      } else if (error.response && error.response.status === 500) {
+        setSignUpSuccess(false);
+        toast.error('서버 오류입니다. 잠시 후에 다시 시도해주세요');
+      }
     },
   });
 
@@ -89,24 +92,23 @@ const SignUp = () => {
     [signUpMutation, signUpUser]
   );
 
-  const postEmailMutation = useMutation<'이메일 발송 성공' | '이메일 발송 실패', AxiosError, string>(
-    'post email',
-    postEmail,
-    {
-      onSuccess: data => {
-        if (data === '이메일 발송 성공') {
-          setFailUseEmail(true);
-          toast.success('메일로 인증 번호가 발송되었습니다.');
-        } else {
-          toast.error('인증 번호 발송에 실패하였습니다.');
-          setFailUseEmail(false);
-        }
-      },
-      onError: () => {
-        toast.error('서버와 연결이 되어있지 않습니다.');
-      },
-    }
-  );
+  const postEmailMutation = useMutation<any, AxiosError, string>('post email', postEmail, {
+    onSuccess: data => {
+      if (data === '이메일 발송 성공') {
+        setFailUseEmail(true);
+        toast.success('메일로 인증 번호가 발송되었습니다.');
+      }
+    },
+    onError: error => {
+      if (error.response && error.response.status === 400) {
+        setFailUseEmail(false);
+        toast.error('이메일을 정확히 입력해주세요');
+      } else if (error.response && error.response.status === 500) {
+        setFailUseEmail(false);
+        toast.error('서버 오류입니다. 잠시 후에 다시 시도해주세요');
+      }
+    },
+  });
 
   const onSubmitEmail = useCallback(
     (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
