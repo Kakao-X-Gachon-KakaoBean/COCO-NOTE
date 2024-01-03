@@ -15,14 +15,14 @@ import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectS
 import { useRecoilValue } from 'recoil';
 import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
 import { useEffect } from 'react';
-import { ExpiredPage } from '@hooks/ExpiredPage.ts';
+import { useExpiredPage } from '@hooks/useExpiredPage.ts';
 import { toast } from 'react-toastify';
 
 const SideDetailBar = () => {
   const selectedProject = useRecoilValue(SelectedProjectState);
   const projectInfoMenuOpen = useRecoilValue(projectInfoMenuOpenState);
   const navigate = useNavigate();
-  const handleNotificationClick = ExpiredPage();
+  const handleNotificationClick = useExpiredPage();
   useEffect(() => {
     console.warn = function (message) {
       if (message.startsWith('Matched leaf route at location')) {

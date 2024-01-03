@@ -48,7 +48,7 @@ import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@
 import defaultImage from '@images/defaultAvatar.png';
 import { BACKEND_URL } from '@api';
 import { EditProject, ModifyMember, ProjectData } from '@type/ProjectType.ts';
-import { GoMain } from '@hooks/GoMain.ts';
+import { useRouteMain } from '@hooks/useRouteMain.ts';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -294,7 +294,7 @@ const ManageMember = () => {
     },
     [title, content, EditProjectInfoMutation]
   );
-  const GotoMain = GoMain();
+  const GotoMain = useRouteMain();
   const deleteMutation = useMutation<'삭제 성공' | '삭제 실패', AxiosError>(
     'deleteMember',
     () => deleteMember(projectId),
