@@ -6,8 +6,8 @@ import { DistributeManuscript } from '@type/SingleManuScriptType.ts';
 // 원고 생성
 export const createManuscript = async (data: CreateManuscript) => {
   try {
-    await instance.post('/manuscripts', data);
-    return '원고 생성 성공';
+    const response = await instance.post('/manuscripts', data);
+    return response.data;
   } catch (err) {
     return '원고 생성 실패';
   }

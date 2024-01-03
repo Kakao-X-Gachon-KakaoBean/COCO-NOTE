@@ -1,0 +1,14 @@
+{
+  "manuscripts": [
+    {
+      "id": 16,
+      "title": "2.6V 릴리즈 노트",
+      "version": "2.6V"
+    },
+    {
+      "id": 17,
+      "title": "2.7V 릴리즈 노트",
+      "version": "2.7V"
+    }
+  ]
+}
