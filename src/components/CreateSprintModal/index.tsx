@@ -4,7 +4,6 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AddSprintValue } from '@states/SprintState.ts';
 import { useMutation, useQueryClient } from 'react-query';
-import { AxiosError } from 'axios';
 import { useParams } from 'react-router';
 import { createSprint } from '@api/Sprint/Sprint.ts';
 import { CreateSprintDataType } from '@type/SprintType.ts';
@@ -22,11 +21,7 @@ const CreateSprintModal = () => {
   const [startDateValue, setStartDateValue] = useState<string | null>(null);
   const [dueDateValue, setDueDateValue] = useState<string | null>(null);
 
-  const CreateSprintMutation = useMutation<
-    '스프린트 생성 완료' | '스프린트 생성 실패',
-    AxiosError,
-    CreateSprintDataType
-  >('createSprint', createSprint, {
+  const CreateSprintMutation = useMutation<string, string, CreateSprintDataType>('createSprint', createSprint, {
     onMutate() {},
     onSuccess(data) {
       if (data === '스프린트 생성 완료') {
@@ -39,13 +34,24 @@ const CreateSprintModal = () => {
         setStartDateValue('');
         setDueDateValue('');
         toast.success('스프린트가 생성 되었습니다.');
+      } else if (data === '스프린트 생성 실패: 잘못된 요청') {
+        toast.warning('모든칸을 정확하게 입력해주세요.');
+      } else if (data === '스프린트 생성 실패: 비인증 상태') {
+        toast.warning('로그아웃되었습니다. 재로그인 해주십시오.');
+      } else if (data === '스프린트 생성 실패: 권한 거부') {
+        toast.warning('권한이 거부되어 스프린트 생성에 실패했습니다.');
+      } else if (data === '스프린트 생성 실패: 존재하지 않는 요청') {
+        toast.warning('존재하지 않는 요청이므로 스프린트 생성에 실패했습니다.');
+      } else if (data === '스프린트 생성 실패: 서버 오류') {
+        toast.warning('서버 오류로 인해 스프린트 생성에 실패했습니다.');
+      } else if (data === '스프린트 생성 실패: 알 수 없는 오류') {
+        toast.warning('서버와 연결이 되어있지 않습니다.');
       } else {
-        toast.warning('스프린트 생성에 실패했습니다.');
+        toast.warning('알수없는 오류입니다. 고객센터로 문의바랍니다.');
       }
     },
     onError(error) {
-      console.log(error);
-      toast.error('서버와 연결 되어있지 않습니다.');
+      toast.error(error);
     },
   });
 

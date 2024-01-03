@@ -1,3 +1,32 @@
 {
-  "sprints": []
+  "sprints": [
+    {
+      "sprintId": 1,
+      "sprintTitle": "멤버",
+      "startDate": "2023-08-01",
+      "dueDate": "2023-08-10",
+      "children": [
+        {
+          "taskId": 1,
+          "taskTitle": "회원가입"
+        },
+        {
+          "taskId": 2,
+          "taskTitle": "로그인"
+        }
+      ]
+    },
+    {
+      "sprintId": 2,
+      "sprintTitle": "상품",
+      "startDate": "2023-08-03",
+      "dueDate": "2023-08-08",
+      "children": [
+        {
+          "taskId": 3,
+          "taskTitle": "상품 조회"
+        }
+      ]
+    }
+  ]
 }
