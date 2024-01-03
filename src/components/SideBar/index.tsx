@@ -10,8 +10,8 @@ import logoImage from '@images/logoImage.png';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { BACKEND_URL } from '@api';
-import { waitForAnimation } from '@hooks/waitForAnimation.ts';
-import { GoMain } from '@hooks/GoMain.ts';
+import { waitForAnimation } from '@utils/waitForAnimation.ts';
+import { useRouteMain } from '@hooks/UseRouteMain.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const SideBar = () => {
   const [, setIsAddProject] = useRecoilState(AddProjectClickState);
   const [selectedProject, setSelectedProject] = useRecoilState(SelectedProjectState);
   const [, setProjectInfoMenuOpen] = useRecoilState(projectInfoMenuOpenState);
-  const handleLogoClick = GoMain();
+  const handleLogoClick = useRouteMain();
   const { isLoading, data } = useQuery<IProjectValue[]>('projectList', () =>
     fetcher({
       queryKey: `${BACKEND_URL}/projects`,

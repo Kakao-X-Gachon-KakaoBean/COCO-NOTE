@@ -11,7 +11,7 @@ import fetcher from '@utils/fetcher.ts';
 import { BACKEND_URL } from '@api';
 import { AxiosError } from 'axios';
 import { modifyNotificationStatus } from '@api/Notification/Notification.ts';
-import { waitForAnimation } from '@hooks/waitForAnimation.ts';
+import { waitForAnimation } from '@utils/waitForAnimation.ts';
 
 const SimpleNotification = () => {
   const [visible, setVisible] = useState(false);
