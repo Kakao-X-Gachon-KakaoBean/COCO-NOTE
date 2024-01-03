@@ -11,7 +11,7 @@ import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import { BACKEND_URL } from '@api';
 import { waitForAnimation } from '@utils/waitForAnimation.ts';
-import { useRouteMain } from '@hooks/UseRouteMain.ts';
+import { useRouteMain } from '@hooks/useRouteMain.ts';
 
 const SideBar = () => {
   const navigate = useNavigate();

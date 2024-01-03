@@ -48,7 +48,7 @@ import { deleteMember, editProjectInfo, inviteMember, modifyMemberRole } from '@
 import defaultImage from '@images/defaultAvatar.png';
 import { BACKEND_URL } from '@api';
 import { EditProject, ModifyMember, ProjectData } from '@type/ProjectType.ts';
-import { useRouteMain } from '@hooks/UseRouteMain.ts';
+import { useRouteMain } from '@hooks/useRouteMain.ts';
 
 interface TablePaginationActionsProps {
   count: number;

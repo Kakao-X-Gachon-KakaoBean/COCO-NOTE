@@ -15,7 +15,7 @@ import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectS
 import { useRecoilValue } from 'recoil';
 import ReleaseNoteTree from '@components/ReleaseNote/ReleaseNoteTree';
 import { useEffect } from 'react';
-import { useExpiredPage } from '@hooks/UseExpiredPage.ts';
+import { useExpiredPage } from '@hooks/useExpiredPage.ts';
 import { toast } from 'react-toastify';
 
 const SideDetailBar = () => {

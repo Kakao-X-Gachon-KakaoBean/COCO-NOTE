@@ -5,7 +5,7 @@ import { useRecoilState, useResetRecoilState } from 'recoil';
 import { projectInfoMenuOpenState, SelectedProjectState } from '@states/ProjectState.ts';
 import { useNavigate } from 'react-router-dom';
 import { waitForAnimation } from '@utils/waitForAnimation.ts';
-import { useRouteMain } from '@hooks/UseRouteMain.ts';
+import { useRouteMain } from '@hooks/useRouteMain.ts';
 
 const HeaderBar = () => {
   const handleTitleClick = useRouteMain();
